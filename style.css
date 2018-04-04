@@ -1,0 +1,304 @@
+/*
+    Created on : 21-Jan-2018, 12:59:28
+    Author     : Carl Nielsen
+
+    colours:
+    #FFF0CC (pale orange)
+    #FFEECC (pale orange)
+    #FFFFFF (white)
+    #CCCCCC
+    #FFFFC1
+
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'TrebuchetMS','Arial','Helvetica',sans-serif;
+    border: 3px solid #773322;
+
+    /* display: flex;
+    flex-direction: column;
+    min-height: 100vh; */
+}
+
+h1{
+    margin-top: 7px;
+    font-size: 21pt;
+    text-align: center;
+    color: #773322;
+}
+
+h2{
+    margin-top: 7px;
+    font-size: 14pt;
+}
+
+h3{
+    margin-top: 6px;
+    font-size: 12pt;
+}
+
+p {
+    margin-top: 7px;
+/*    margin-top: 6pt;*/
+    font-size: 12pt;
+}
+
+/* a {
+    text-decoration: none;
+    color: #773322;
+    font-weight: bold;
+}
+
+a:hover{
+    color: goldenrod;
+} */
+
+table, th, td{
+  padding: 3px;
+  vertical-align: top;
+}
+
+/*tr:nth-child(odd){
+  background-color: Tan;
+}
+
+tr:nth-child(even){
+  background-color: Wheat;
+}
+
+tr:hover {
+  background-color: #ddd;
+}*/
+
+.banner-image  {
+    width: 100%;
+    display: block;
+    padding:  0;
+   /* background-size: cover; */
+}
+
+.menu {
+    width: 100%;
+    display: block;
+    padding: 0;
+}
+
+.logo {
+    color: goldenrod; /* #FFF0CC; */
+    float: left;
+    padding: 17px 0 0 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.logo a {
+    text-decoration: none;
+    font-weight: normal;
+    color: burlywood; /* #FFF0CC; */
+}
+
+.nav  {
+    background-color: #773322;
+    color:            silver;
+    list-style: none;
+    text-align: right;
+    padding: 14px 7px 14px 3px;
+}
+
+.footNav {
+    text-align: center;
+}
+
+.nav li {
+    display: inline-block;
+    padding: 3px 3px 3px 3px;
+    font-size: 14px;
+    border: 1px solid #773322;
+}
+
+.nav li a {
+    text-decoration: none;
+    font-weight: normal;
+    color: silver;
+    padding: 3px;
+    border: 1px solid #773322;
+}
+
+.nav li a:hover {
+    color: #FFF0CC;
+    padding: 3px;
+    border: 1px solid #FFF0CC;
+}
+
+/*
+.nav li a .s1 {
+    color: plum;
+    border: 1px solid purple;
+}
+
+.nav li a:hover .s1 {
+    color: plum;
+    border: 1px solid magenta;
+}
+*/
+
+.content {
+  /* flex: 1; /* 0 auto; */
+}
+
+.mugshot {
+    margin: 3px;
+    padding: 3px;
+    float: left;
+    display: block;
+    width: 21%;
+    height: 21%;
+}
+
+.intro {
+    margin: 7px;
+    overflow: hidden;
+}
+
+.signature {
+    text-align: right;
+    margin-right: 14px;
+}
+
+.main {
+    margin: 1%;
+    padding: 1%;
+    float: none;
+    clear: both;
+    overflow: hidden;
+}
+
+.home {
+    border: 3px solid #773322;
+    background-color: bisque;
+}
+
+.home > a {
+  color: black;
+  text-decoration: none;
+  transition: background-color .3s ease-in-out;
+}
+
+.plan {
+    border: 3px solid purple;
+    background-color: thistle;
+}
+
+.readings {
+    border: 3px solid darkturquoise;
+    background-color: lightcyan;
+
+}
+
+.teaching {
+    border: 3px solid lime;
+    background-color: #DDFFDD;
+}
+
+.NEWEB {
+    border: 3px solid gold;
+    background-color: lemonchiffon;
+}
+
+.subMain {
+    margin: 1%;
+    padding: 1%;
+    width: 84%;
+    background-color: white;
+    box-shadow: 3px 3px 7px grey;
+}
+
+.sectGeneral {
+    width: 96%;
+    border: 3px solid #773322;
+    overflow: auto;
+}
+
+.sectPlan {
+    float: left;
+    border: 3px solid purple;
+    overflow: auto;
+}
+
+a.sectPlan:hover {
+   background-color: thistle;
+}
+
+.sectRead {
+    float: right;
+    border: 3px solid darkturquoise;
+    overflow: auto;
+}
+
+a.sectRead:hover {
+  background-color: LightCyan;
+}
+
+.sectTeach {
+  float: left;
+  border: 3px solid lime;
+  overflow: auto;
+}
+
+a.sectTeach:hover {
+  background-color: #DDFFDD;
+}
+
+.sectNEWEB {
+  float: right;
+  border: 3px solid gold;
+  overflow: auto;
+}
+
+a.sectNEWEB:hover {
+  background-color: lemonchiffon;
+}
+
+.readmore{
+  text-align: center;
+}
+
+.searchTable td{
+  font-size: smaller;
+}
+
+.footer  {
+  background-color: #773322;
+  color:            silver;
+  list-style: none;
+  text-align: center;
+  padding: 14px 0 14px 0;
+
+  /* flex-shrink: 0; */
+
+  /* height: 100px;
+  margin-top: -100px; */
+
+  /* position: fixed;
+  width: 100%;
+  bottom: 0; */
+}
+
+.footer a {
+  text-decoration: none;
+  font-weight: normal;
+  color: silver;
+}
+
+.footer a:hover {
+    color: #FFF0CC;
+}
+
+.bibleText {
+  line-height: 1.4;
+}
