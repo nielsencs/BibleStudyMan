@@ -44,10 +44,14 @@ function planTable($bAllColumns){
     $tOutput .= '<tr>';
     $tOutput .= '<th>Date</th>';
     if($bAllColumns){
-      $tOutput .= '<th colspan="3">Torah</th>';
-      $tOutput .= '<th colspan="3">Nevi&rsquo;im</th>';
-      $tOutput .= '<th colspan="3">K&rsquo;tuvim</th>';
-      $tOutput .= '<th colspan="3">New Covenant</th>';
+      // $tOutput .= '<th colspan="3">Torah</th>';
+      // $tOutput .= '<th colspan="3">Nevi&rsquo;im</th>';
+      // $tOutput .= '<th colspan="3">K&rsquo;tuvim</th>';
+      // $tOutput .= '<th colspan="3">New Covenant</th>';
+      $tOutput .= '<th colspan="3">Section 1</th>';
+      $tOutput .= '<th colspan="3">Section 2</th>';
+      $tOutput .= '<th colspan="3">Section 3</th>';
+      $tOutput .= '<th colspan="3">Section 4</th>';
     }
     while($row = mysqli_fetch_assoc($result)) {
       if ($row['planDateFormatted'] != 'Feb 29'){
