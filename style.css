@@ -12,43 +12,42 @@
 */
 
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: 'TrebuchetMS','Arial','Helvetica',sans-serif;
-    border: 3px solid #773322;
-
-    /* display: flex;
+  font-family: 'TrebuchetMS', 'Arial', 'Helvetica', sans-serif;
+  border: 3px solid #773322;
+  /* display: flex;
     flex-direction: column;
     min-height: 100vh; */
 }
 
-h1{
-    margin-top: 7px;
-    font-size: 21pt;
-    text-align: center;
-    color: #773322;
+h1 {
+  margin-top: 7px;
+  font-size: 21pt;
+  text-align: center;
+  color: #773322;
 }
 
-h2{
-    margin-top: 7px;
-    font-size: 14pt;
+h2 {
+  margin-top: 7px;
+  font-size: 14pt;
 }
 
-h3{
-    margin-top: 6px;
-    font-size: 12pt;
+h3 {
+  margin-top: 6px;
+  font-size: 12pt;
 }
 
 p {
-    margin-top: 7px;
-/*    margin-top: 6pt;*/
-    font-size: 12pt;
+  margin-top: 7px;
+  /*    margin-top: 6pt;*/
+  font-size: 12pt;
 }
 
-/* a {
+a {
     text-decoration: none;
     color: #773322;
     font-weight: bold;
@@ -56,83 +55,138 @@ p {
 
 a:hover{
     color: goldenrod;
-} */
+}
 
-table, th, td{
+table, th, td {
   padding: 3px;
   vertical-align: top;
 }
 
-/*tr:nth-child(odd){
+.planTable table, th, tr, td {
+  padding: 3px;
+  vertical-align: top;
+  font-size: 10pt;
+
+  /* background-color: PaleGoldenrod; */
+}
+
+.planTable tr:nth-child(even) td:nth-child(odd),
+tr:nth-child(odd) td:nth-child(even){
+
+}
+
+.planTable tr:nth-child(odd) {
   background-color: Tan;
+  /* td:nth-child(3) {
+    background-color: purple;
+  } */
 }
 
-tr:nth-child(even){
-  background-color: Wheat;
+.planTable tr:nth-child(even) {
+  background-color: Khaki;
 }
 
-tr:hover {
-  background-color: #ddd;
-}*/
+.planTable th:nth-child(1),
+td:nth-child(1) {
+  background-color: rgba(255, 0, 255, 0.3);
+}
 
-.banner-image  {
-    width: 100%;
-    display: block;
-    padding:  0;
-   /* background-size: cover; */
+.planTable th:nth-child(2),
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4) {
+  /* background-color: red; */
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.planTable th:nth-child(3),
+td:nth-child(5),
+td:nth-child(6),
+td:nth-child(7) {
+  /* background-color: orange; */
+  background-color: rgba(255, 128, 0, 0.3);
+}
+
+.planTable th:nth-child(4),
+td:nth-child(8),
+td:nth-child(9),
+td:nth-child(10) {
+  /* background-color: yellow; */
+  background-color: rgba(255, 255, 0, 0.3);
+}
+
+.planTable th:nth-child(5),
+td:nth-child(11),
+td:nth-child(12),
+td:nth-child(13){
+  /* background-color: lime; */
+  background-color: rgba(0, 256, 0, 0.3);
+}
+
+.planTable tr:hover {
+  background-color: Gainsboro;
+}
+
+.banner-image {
+  width: 100%;
+  display: block;
+  padding: 0;
+  /* background-size: cover; */
 }
 
 .menu {
-    width: 100%;
-    display: block;
-    padding: 0;
+  width: 100%;
+  display: block;
+  padding: 0;
 }
 
 .logo {
-    color: goldenrod; /* #FFF0CC; */
-    float: left;
-    padding: 17px 0 0 10px;
-    font-size: 16px;
-    font-weight: bold;
+  color: goldenrod;
+  /* #FFF0CC; */
+  float: left;
+  padding: 17px 0 0 10px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .logo a {
-    text-decoration: none;
-    font-weight: normal;
-    color: burlywood; /* #FFF0CC; */
+  text-decoration: none;
+  font-weight: normal;
+  color: burlywood;
+  /* #FFF0CC; */
 }
 
-.nav  {
-    background-color: #773322;
-    color:            silver;
-    list-style: none;
-    text-align: right;
-    padding: 14px 7px 14px 3px;
+.nav {
+  background-color: #773322;
+  color: silver;
+  list-style: none;
+  text-align: right;
+  padding: 14px 7px 14px 3px;
 }
 
 .footNav {
-    text-align: center;
+  text-align: center;
 }
 
 .nav li {
-    display: inline-block;
-    padding: 3px 3px 3px 3px;
-    font-size: 14px;
-    border: 1px solid #773322;
+  display: inline-block;
+  padding: 3px 3px 3px 3px;
+  font-size: 14px;
+  border: 1px solid #773322;
 }
 
 .nav li a {
-    text-decoration: none;
-    font-weight: normal;
-    color: silver;
-    padding: 3px;
-    border: 1px solid #773322;
+  text-decoration: none;
+  font-weight: normal;
+  color: silver;
+  padding: 3px;
+  border: 1px solid #773322;
 }
 
 .nav li a:hover {
-    color: #FFF0CC;
-    padding: 3px;
-    border: 1px solid #FFF0CC;
+  color: #FFF0CC;
+  padding: 3px;
+  border: 1px solid #FFF0CC;
 }
 
 /*
@@ -152,92 +206,92 @@ tr:hover {
 }
 
 .mugshot {
-    margin: 3px;
-    padding: 3px;
-    float: left;
-    display: block;
-    width: 21%;
-    height: 21%;
+  margin: 3px;
+  padding: 3px;
+  float: left;
+  display: block;
+  width: 21%;
+  height: 21%;
 }
 
 .intro {
-    margin: 7px;
-    overflow: hidden;
+  margin: 7px;
+  overflow: hidden;
 }
 
 .signature {
-    text-align: right;
-    margin-right: 14px;
+  text-align: right;
+  margin-right: 14px;
 }
 
 .main {
-    margin: 1%;
-    padding: 1%;
-    float: none;
-    clear: both;
-    overflow: hidden;
+  margin: 1%;
+  padding: 1%;
+  float: none;
+  clear: both;
+  overflow: hidden;
 }
 
 .home {
-    border: 3px solid #773322;
-    background-color: bisque;
+  border: 3px solid #773322;
+  background-color: bisque;
 }
 
-.home > a {
+.home>a {
   color: black;
   text-decoration: none;
+  font-weight: normal;
   transition: background-color .3s ease-in-out;
 }
 
 .plan {
-    border: 3px solid purple;
-    background-color: thistle;
+  border: 3px solid purple;
+  background-color: thistle;
 }
 
 .readings {
-    border: 3px solid darkturquoise;
-    background-color: lightcyan;
-
+  border: 3px solid darkturquoise;
+  background-color: lightcyan;
 }
 
 .teaching {
-    border: 3px solid lime;
-    background-color: #DDFFDD;
+  border: 3px solid lime;
+  background-color: #CCFFDD;
 }
 
 .NEWEB {
-    border: 3px solid gold;
-    background-color: lemonchiffon;
+  border: 3px solid gold;
+  background-color: lemonchiffon;
 }
 
 .subMain {
-    margin: 1%;
-    padding: 1%;
-    width: 84%;
-    background-color: white;
-    box-shadow: 3px 3px 7px grey;
+  margin: 1%;
+  padding: 1%;
+  width: 84%;
+  background-color: white;
+  box-shadow: 3px 3px 7px grey;
 }
 
 .sectGeneral {
-    width: 96%;
-    border: 3px solid #773322;
-    overflow: auto;
+  width: 96%;
+  border: 3px solid #773322;
+  overflow: auto;
 }
 
 .sectPlan {
-    float: left;
-    border: 3px solid purple;
-    overflow: auto;
+  float: left;
+  border: 3px solid purple;
+  overflow: auto;
 }
 
 a.sectPlan:hover {
-   background-color: thistle;
+  background-color: thistle;
 }
 
 .sectRead {
-    float: right;
-    border: 3px solid darkturquoise;
-    overflow: auto;
+  float: right;
+  border: 3px solid darkturquoise;
+  overflow: auto;
 }
 
 a.sectRead:hover {
@@ -264,26 +318,23 @@ a.sectNEWEB:hover {
   background-color: lemonchiffon;
 }
 
-.readmore{
+.readmore {
   text-align: center;
 }
 
-.searchTable td{
+.searchTable td {
   font-size: smaller;
 }
 
-.footer  {
+.footer {
   background-color: #773322;
-  color:            silver;
+  color: silver;
   list-style: none;
   text-align: center;
   padding: 14px 0 14px 0;
-
   /* flex-shrink: 0; */
-
   /* height: 100px;
   margin-top: -100px; */
-
   /* position: fixed;
   width: 100%;
   bottom: 0; */
@@ -296,7 +347,7 @@ a.sectNEWEB:hover {
 }
 
 .footer a:hover {
-    color: #FFF0CC;
+  color: #FFF0CC;
 }
 
 .bibleText {

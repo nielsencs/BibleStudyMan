@@ -40,7 +40,7 @@ function planTable($bAllColumns){
   if (mysqli_num_rows($result) == 0) {
     $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
   } else {
-    $tOutput .= '<table>';
+    $tOutput .= '<table class="planTable">';
     $tOutput .= '<tr>';
     $tOutput .= '<th>Date</th>';
     if($bAllColumns){
