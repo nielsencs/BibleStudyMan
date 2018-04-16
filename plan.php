@@ -39,7 +39,7 @@
             The Prophets (Neviim); The Writings or Poetry (Ktuviim) and The
             New Testament.</p>
 <?php
-  echo dayReadingSentence($month, $day);
+  echo daysReadingsAsSentence($month, $day);
 ?>
         </div>
         <div class="main plan">
@@ -53,12 +53,12 @@
                     <li>Any other requests?</li>
                 </ul>
 <?php
-  echo dayReadingVerses($month, $day);
+  echo daysReadingsAsVerses($month, $day);
 ?>
             </div>
         </div>
 <?php
-function dayReadingSentence($month, $day){
+function daysReadingsAsSentence($month, $day){
   global $link;
   $tOutput = '';
   $tQuery = '';
@@ -103,7 +103,7 @@ function dayReadingSentence($month, $day){
   return $tOutput;
 }
 
-function dayReadingVerses($month, $day){
+function daysReadingsAsVerses($month, $day){
   global $link;
   $tOutput = '';
   $tQuery = '';
