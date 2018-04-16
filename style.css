@@ -57,6 +57,16 @@ a:hover{
     color: goldenrod;
 }
 
+/* centering tables */
+/* html, body {
+    width: 100%;
+} */
+
+table {
+    margin: 0 auto;
+}
+/* centering tables */
+
 table, th, td {
   padding: 3px;
   vertical-align: top;
@@ -70,16 +80,13 @@ table, th, td {
   /* background-color: PaleGoldenrod; */
 }
 
-.planTable tr:nth-child(even) td:nth-child(odd),
+/* .planTable tr:nth-child(even) td:nth-child(odd),
 tr:nth-child(odd) td:nth-child(even){
 
-}
+} */
 
 .planTable tr:nth-child(odd) {
   background-color: Tan;
-  /* td:nth-child(3) {
-    background-color: purple;
-  } */
 }
 
 .planTable tr:nth-child(even) {
@@ -87,44 +94,55 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .planTable th:nth-child(1),
-td:nth-child(1) {
-  background-color: rgba(255, 0, 255, 0.3);
-}
-
-.planTable th:nth-child(2),
-td:nth-child(2),
-td:nth-child(3),
-td:nth-child(4) {
-  /* background-color: red; */
+.planTable td:nth-child(1) {
   background-color: rgba(255, 0, 0, 0.3);
 }
 
-.planTable th:nth-child(3),
-td:nth-child(5),
-td:nth-child(6),
-td:nth-child(7) {
-  /* background-color: orange; */
+.planTable th:nth-child(2),
+.planTable td:nth-child(2),
+.planTable td:nth-child(3),
+.planTable td:nth-child(4) {
   background-color: rgba(255, 128, 0, 0.3);
 }
 
-.planTable th:nth-child(4),
-td:nth-child(8),
-td:nth-child(9),
-td:nth-child(10) {
-  /* background-color: yellow; */
+.planTable th:nth-child(3),
+.planTable td:nth-child(5),
+.planTable td:nth-child(6),
+.planTable td:nth-child(7) {
   background-color: rgba(255, 255, 0, 0.3);
 }
 
-.planTable th:nth-child(5),
-td:nth-child(11),
-td:nth-child(12),
-td:nth-child(13){
-  /* background-color: lime; */
-  background-color: rgba(0, 256, 0, 0.3);
+.planTable th:nth-child(4),
+.planTable td:nth-child(8),
+.planTable td:nth-child(9),
+.planTable td:nth-child(10) {
+  /* background-color: yellow; */
+  background-color: rgba(0, 255, 0, 0.3);
 }
 
+.planTable th:nth-child(5),
+.planTable td:nth-child(11),
+.planTable td:nth-child(12),
+.planTable td:nth-child(13){
+  /* background-color: lime; */
+  background-color: rgba(0, 255, 255, 0.3);
+}
+
+/*
+.planTable th:nth-child(14),
+.planTable td:nth-child(14) {
+  background-color: rgba(0, 0, 255, 0.3);
+}
+
+.planTable th:nth-child(15),
+.planTable td:nth-child(15) {
+  background-color: rgba(255, 0, 255, 0.3);
+}
+ */
+
 .planTable tr:hover {
-  background-color: Gainsboro;
+  /* background-color: Gainsboro; */
+  background-color: plum;
 }
 
 .banner-image {
