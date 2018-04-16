@@ -1,0 +1,38 @@
+SELECT plan2.ID, books.bookName, plan2.startChapter, plan2.startVerse, plan2.endChapter, plan2.endVerse
+FROM 
+plan2 INNER JOIN books ON plan2.bookCode=books.bookCode ORDER BY books.sectionCode, books.orderChron2, ID
+
+SELECT @rowid:=@rowid+1 as rowid, *
+FROM plan2, (SELECT @rowid:=0) as init
+
+
+SELECT sectionCode, books.bookName, plan2.startChapter, plan2.startVerse, plan2.endChapter, plan2.endVerse
+FROM 
+sections INNER JOIN plan2 ON plan2.sectionCode = sections.sectionCode  plan2 INNER JOIN books ON plan2.bookCode=books.bookCode ORDER BY books.orderChron2, ID
+
+
+SELECT * FROM sections.sectionCode
+sectionCode
+sectionName
+sectionEnglish
+
+
+DROP FUNCTION IF EXISTS rownum;
+DELIMITER $$
+CREATE FUNCTION rownum()
+  RETURNS int(11)
+BEGIN
+  set @prvrownum=if(@ranklastrun=CURTIME(6),@prvrownum+1,1);
+  set @ranklastrun=CURTIME(6);
+  RETURN @prvrownum;
+END $$
+$$
+DELIMITER ;
+
+SELECT rownum(), plan2.ID, books.bookName, plan2.startChapter, plan2.startVerse, plan2.endChapter, plan2.endVerse
+FROM 
+plan2 INNER JOIN books ON plan2.bookCode=books.bookCode ORDER BY books.orderChron2, ID
+
+
+
+ 
