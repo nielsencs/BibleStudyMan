@@ -8,7 +8,7 @@
         <!-- li><a href="https://www.youtube.com/user/nielsencs">YouTube</a></li -->
         <li><a href="https://www.twitter.com/nielsencs">Twitter</a></li>
         <li><a href="https://www.facebook.com/BibleStudyCarl/">Facebook</a></li>
-        <!--li><a href="carl at nielsen dot uk dot net"></a>Email</li-->
+        <!-- <li><a href="mailto:something@somewhere.co.uk">Email</a></li> -->
       </ul>
     </div>
   </div>

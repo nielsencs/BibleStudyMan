@@ -58,10 +58,14 @@ function buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd){
         $tVerseB = '0';
     }
 
-    if ($tChapterA == $tChapterB){
+    if ($tChapterA == $tChapterB || $tChapterB == ''){ // one chapter
+      if($tVerseA > ''){
+        $tQuery .= ' AND verses.chapter = ' . $tChapterA;
+      }else {
         $tQuery .= ' AND verses.chapter = ' . $tChapterA;
         $tQuery .= ' AND verses.verseNumber >=' . $tVerseA;
         $tQuery .= ' AND verses.verseNumber <=' . $tVerseB;
+      }
     } else {
         $tQuery .= ' AND (';
         $tQuery .= '(verses.chapter = ' . $tChapterA;
