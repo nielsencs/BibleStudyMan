@@ -2,7 +2,7 @@
   require_once 'header.php';
 ?>
   <div class='intro'>
-    <img class="mugshot" src="images/Carl-SmileMedium.png" alt="mugshot of Carl"/>
+    <img class="mugshot" src="images/Carl-SmileSmall.png" alt="mugshot of Carl"/>
     <p>Welcome to the <strong>Bible Study Man</strong> website where I
       hope we can learn together what The Bible has to teach us. My aim
       is to bring this <strong>amazing book alive</strong> in a
