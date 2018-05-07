@@ -4,10 +4,10 @@
       </div>
 
       <ul class="nav footNav">
-        <li><a href="https://www.youtube.com/playlist?list=PL1B0eP9nzz5Kj-z1NIpF3RKrqhlY4MxEK">YouTube</a></li>
-        <!-- li><a href="https://www.youtube.com/user/nielsencs">YouTube</a></li -->
+        <li><a href="https://www.youtube.com/playlist?list=PL1B0eP9nzz5JMhtD4xnyWh4MAtlNlQxPU">YouTube</a></li>
         <li><a href="https://www.twitter.com/nielsencs">Twitter</a></li>
         <li><a href="https://www.facebook.com/BibleStudyCarl/">Facebook</a></li>
+        <li><a href="https://www.patreon.com/BibleStudyMan/">Patreon</a></li>
         <!-- <li><a href="mailto:something@somewhere.co.uk">Email</a></li> -->
       </ul>
     </div>
