@@ -6,7 +6,10 @@
         <div class='intro'>
             <p>These are available as mp3s and videos and are intended to bring
             a more dynamic realisation of the scriptures by a full-on
-            'snot-and-tears' reading.</p>
+            'snot-and-tears' reading. I do not pretend that my delivery
+            accurately reflects the mood or emotional tone of the original, but
+            merely offer it as an alternative to the more traditional formal
+            reading style as an aid to discussion.</p>
         </div>
         <div class="main readings">
             <h1>The Dramatic Bible Readings</h1>
@@ -30,20 +33,34 @@
                         $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
                     } else {
                         while ($row = mysqli_fetch_assoc($result)) {
+                          $tOutput .= '<div class="media">';
                           $tOutput .= $row["mediaName"];
-                          $tOutput .= ' <a href="';
+                          $tOutput .= '<br />';
+                          $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
                           $tOutput .= $row["audioURL"];
-                          $tOutput .= '">audio';
-                          $tOutput .= '</a>';
+                          $tOutput .= '">Play on SoundCloud.com';
+                          $tOutput .= '</a> ';
+                          $tOutput .= '<br />';
+
+                          // $tOutput .= '<iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/
+                          // $tOutput .= $row["audioTrack"];
+                          // $tOutput .= '&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"></iframe>';
+                          $tOutput .= '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
+                          $tOutput .= $row["audioTrack"];
+                          $tOutput .= '&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>';
+                          $tOutput .= '<br />';
 
                           $tOutput .= '<a href="https://youtu.be/';
                           $tOutput .= $row["videoURL"];
-                          $tOutput .= '">video';
+                          $tOutput .= '">Play on YouTube.com';
                           $tOutput .= '</a>';
+                          $tOutput .= '<br />';
+
 
                           $tOutput .= '<iframe src="https://www.youtube.com/embed/';
                           $tOutput .= $row["videoURL"];
                           $tOutput .= '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+                          $tOutput .= '</div>';
                         }
                         mysqli_free_result($result);
                         return $tOutput;
