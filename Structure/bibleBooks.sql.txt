@@ -1,0 +1,105 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.4
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 04, 2015 at 10:04 PM
+-- Server version: 5.6.15-log
+-- PHP Version: 5.5.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `bible`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `books`
+--
+
+DROP TABLE IF EXISTS `books`;
+CREATE TABLE IF NOT EXISTS `books` (
+  `bookCode` varchar(3) NOT NULL,
+  `bookName` varchar(25) NOT NULL,
+  `orderChristian` tinyint(4) NOT NULL,
+  `orderJewish` tinyint(4) NOT NULL,
+  `orderChron1` tinyint(4) NOT NULL,
+  `orderChron2` tinyint(4) NOT NULL,
+  `testament` varchar(1) NOT NULL,
+  `sectionCode` varchar(4) NOT NULL,
+  PRIMARY KEY (`bookCode`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `books`
+--
+
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('GEN', 'Genesis',          1,  1,  1,  2, 'O', '1TOR');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('EXO', 'Exodus',           2,  2,  2,  3, 'O', '1TOR');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('LEV', 'Leviticus',        3,  3,  3,  4, 'O', '1TOR');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('NUM', 'Numbers',          4,  4,  4,  5, 'O', '1TOR');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('DEU', 'Deuteronomy',      5,  5,  5,  6, 'O', '1TOR');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JOS', 'Joshua',           6,  6,  6,  8, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JDG', 'Judges',           7,  7,  7,  9, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('RUT', 'Ruth',             8, 31,  9, 10, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1SM', '1 Samuel',         9,  8, 10, 14, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2SM', '2 Samuel',        10,  9, 11, 15, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1KI', '1 Kings',         11, 10, 26, 29, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2KI', '2 Kings',         12, 11, 27, 30, 'O', '2NV1');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1CH', '1 Chronicles',    13, 38, 28, 35, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2CH', '2 Chronicles',    14, 39, 29, 36, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('EZR', 'Ezra',            15, 36, 34, 34, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('NEH', 'Nehemiah',        16, 37, 35, 39, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('EST', 'Esther',          17, 34, 36, 37, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JOB', 'Job',             18, 29, 12,  1, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('PSA', 'Psalms',          19, 27,  8,  7, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('PRO', 'Proverbs',        20, 28, 13, 12, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('ECC', 'Ecclesiastes',    21, 33, 14, 13, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('SON', 'Song of Songs',   22, 30, 15, 11, 'O', '3KTV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('ISA', 'Isaiah',          23, 12, 16, 22, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JER', 'Jeremiah',        24, 13, 30, 28, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('LAM', 'Lamentations',    25, 32, 31, 27, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('EZE', 'Ezekiel',         26, 14, 32, 26, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('DAN', 'Daniel',          27, 35, 33, 31, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('HOS', 'Hosea',           28, 15, 17, 20, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JOE', 'Joel',            29, 16, 18, 17, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('AMO', 'Amos',            30, 17, 19, 19, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('OBA', 'Obadiah',         31, 18, 20, 16, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JON', 'Jonah',           32, 19, 21, 18, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('MIC', 'Micah',           33, 20, 22, 21, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('NAH', 'Nahum',           34, 21, 23, 23, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('HAB', 'Habakkuk',        35, 22, 24, 25, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('ZEP', 'Zephaniah',       36, 23, 25, 24, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('HAG', 'Haggai',          37, 24, 37, 32, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('ZEC', 'Zechariah',       38, 25, 38, 33, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('MAL', 'Malachi',         39, 26, 39, 38, 'O', '4NV2');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('MAT', 'Matthew',         40, 99, 40, 43, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('MAR', 'Mark',            41, 99, 61, 42, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('LUK', 'Luke',            42, 99, 46, 49, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JOH', 'John',            43, 99, 62, 62, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('ACT', 'Acts',            44, 99, 52, 54, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('ROM', 'Romans',          45, 99, 45, 48, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1CO', '1 Corinthians',   46, 99, 43, 46, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2CO', '2 Corinthians',   47, 99, 44, 47, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('GAL', 'Galatians',       48, 99, 47, 41, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('EPH', 'Ephesians',       49, 99, 48, 50, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('PHP', 'Philippians',     50, 99, 49, 51, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('COL', 'Colossians',      51, 99, 50, 53, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1TH', '1 Thessalonians', 52, 99, 41, 44, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2TH', '2 Thessalonians', 53, 99, 42, 45, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1TI', '1 Timothy',       54, 99, 53, 55, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2TI', '2 Timothy',       55, 99, 54, 58, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('TIT', 'Titus',           56, 99, 55, 56, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('PHM', 'Philemon',        57, 99, 51, 52, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('HEB', 'Hebrews',         58, 99, 56, 60, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JAM', 'James',           59, 99, 57, 40, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1PE', '1 Peter',         60, 99, 59, 57, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2PE', '2 Peter',         61, 99, 60, 59, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('1JO', '1 John',          62, 99, 63, 63, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('2JO', '2 John',          63, 99, 64, 64, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('3JO', '3 John',          64, 99, 65, 65, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('JDE', 'Jude',            65, 99, 58, 61, 'N', '5NCV');
+INSERT INTO `books` (`bookCode`, `bookName`, `orderChristian`, `orderJewish`, `orderChron1`, `orderChron2`, `testament`, `sectionCode`) VALUES ('REV', 'Revelation',      66, 99, 66, 66, 'N', '5NCV');

@@ -1,0 +1,39 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.4
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: Dec 04, 2015 at 11:43 PM
+-- Server version: 5.6.15-log
+-- PHP Version: 5.5.8
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `bible`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sections`
+--
+
+DROP TABLE IF EXISTS `sections`;
+CREATE TABLE IF NOT EXISTS `sections` (
+  `sectionCode` varchar(4) NOT NULL,
+  `sectionName` varchar(25) NOT NULL,
+  `sectionEnglish` varchar(25) NOT NULL,
+  PRIMARY KEY (`sectionCode`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sections`
+--
+
+INSERT INTO `sections` (`sectionCode`, `sectionName`, `sectionEnglish`) VALUES
+('1TOR', 'Torah', 'Law'),
+('2NV1', 'Nevi''im', 'Prophets'),
+('3KTV', 'K''Tuvim', 'Writings'),
+('5NCV', 'New Covenant', 'New Testament');

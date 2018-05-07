@@ -1,0 +1,58 @@
+-- phpMyAdmin SQL Dump
+-- version 4.7.0
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Feb 27, 2018 at 04:57 PM
+-- Server version: 5.7.17
+-- PHP Version: 5.6.30
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+--
+-- Database: `biblestu_dy`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `strongs`
+--
+
+DROP TABLE IF EXISTS `strongs`;
+CREATE TABLE `strongs` (
+  `strongsNumber` varchar(6) NOT NULL,
+  `strongsDefinition` text NOT NULL,
+  `strongsOriginal` varchar(25) NOT NULL,
+  `strongsEnglish` varchar(25) NOT NULL,
+  PRIMARY KEY (`strongsNumber`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `strongs`
+--
+
+INSERT INTO `strongs` (`strongsNumber`, `strongsDefinition`, `strongsOriginal`, `strongsEnglish`) VALUES
+('H430', 'Elohim - the plural of eloah, literally \'gods\' often used for the true God', 'Elohim', 'God'),
+('H3068', 'Yud-Heh-Vav-Heh (Yahweh) - The proper name for God. In Jewish circles never spoken; normally spoken as Adonai ([H136])', 'Yud-Heh-Vav-Heh', 'IAM'),
+('H7307', 'Ruach - wind, breath, spirit', 'Ruach', 'Spirit/Breath'),
+('H136', 'Adonai - My Lord\r\n\r\nmy Lord\r\nAm emphatic form of \'adon[H113]\'; the Lord (used as a proper name of God only) -- (my) Lord.\r\n\r\nsee HEBREW \'adon[H113]\'', 'Adonai', 'Lord');
+
+-- --------------------------------------------------------
+
+--
+-- Cherubs
+--
+-- place names:
+--
+-- You vs You-all
+--
+-- Angels (messengers)
+--
+-- Adam vs Ish
+--
+--
+--
