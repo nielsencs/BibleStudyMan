@@ -22,6 +22,7 @@ body {
   /* display: flex;
     flex-direction: column;
     min-height: 100vh; */
+    background-color: linen;
 }
 
 h1 {
@@ -57,6 +58,10 @@ a:hover{
     color: goldenrod;
 }
 
+input[type="text"] {
+    width: 140px;
+}
+
 /* centering tables */
 /* html, body {
     width: 100%;
@@ -69,7 +74,8 @@ table {
 
 table, th, td {
   padding: 3px;
-  vertical-align: top;
+  vertical-align: middle;
+  text-align: center;
 }
 
 .planTable table, th, tr, td {
@@ -141,7 +147,7 @@ tr:nth-child(odd) td:nth-child(even){
  */
 
 .planTable tr:hover {
-  /* background-color: Gainsboro; */
+  background-color: Gainsboro;
   background-color: plum;
 }
 
@@ -228,13 +234,33 @@ tr:nth-child(odd) td:nth-child(even){
   padding: 3px;
   float: left;
   display: block;
+
   width: 21%;
-  height: 21%;
+  height: auto;
+
+  max-width:280px;
+  max-height:280px;
+  min-width: 140px;
+  min-width: 140px;
 }
 
+/* img.mugshot {
+  max-width:280px;
+  max-height:280px;
+  min-width: 140px;
+  min-width: 140px;
+} */
+
 .intro {
+  border: 1px solid burlywood;
   margin: 7px;
+  padding: 7px;
   overflow: hidden;
+  width: 91%;
+  height: auto;
+  max-width:1000px;
+  background-color: white;
+  box-shadow: 3px 3px 7px grey;
 }
 
 .signature {
@@ -262,7 +288,7 @@ tr:nth-child(odd) td:nth-child(even){
   transition: background-color .3s ease-in-out;
 }
 
-.plan {
+.teaching {
   border: 3px solid purple;
   background-color: thistle;
 }
@@ -272,7 +298,7 @@ tr:nth-child(odd) td:nth-child(even){
   background-color: lightcyan;
 }
 
-.teaching {
+.plan {
   border: 3px solid lime;
   background-color: #CCFFDD;
 }
@@ -296,13 +322,13 @@ tr:nth-child(odd) td:nth-child(even){
   overflow: auto;
 }
 
-.sectPlan {
+.sectTeach {
   float: left;
   border: 3px solid purple;
   overflow: auto;
 }
 
-a.sectPlan:hover {
+a.sectTeach:hover {
   background-color: thistle;
 }
 
@@ -316,13 +342,13 @@ a.sectRead:hover {
   background-color: LightCyan;
 }
 
-.sectTeach {
+.sectPlan {
   float: left;
   border: 3px solid lime;
   overflow: auto;
 }
 
-a.sectTeach:hover {
+a.sectPlan:hover {
   background-color: #DDFFDD;
 }
 
@@ -342,6 +368,12 @@ a.sectNEWEB:hover {
 
 .searchTable td {
   font-size: smaller;
+}
+
+.media {
+  float: left;
+  border: 3px solid darkturquoise;
+  margin: 1px;
 }
 
 .footer {

@@ -21,9 +21,9 @@
 
       <ul class="nav">
         <li><a href="index.php">Home</a></li>
-        <li><a href="plan.php">Plan</a></li>
-        <li><a href="readings.php">Readings</a></li>
         <li><a href="teaching.php">Teaching</a></li>
+        <li><a href="readings.php">Readings</a></li>
+        <li><a href="plan.php">Plan</a></li>
         <li><a href="neweb.php">NEWEB</a></li>
         <li><a href="pricing.php">Pricing</a></li>
         <li><a href="support.php">Support This Ministry</a></li>

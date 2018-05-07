@@ -15,9 +15,9 @@
   </div>
   <div class="main home">
     <h1>The 4 Sections</h1>
-    <a href="plan.php" class="subMain sectPlan">
-      <h2>1. Bible Reading Plan</h2>
-      <p>The day-by-day plan I devised to read the entire bible in one year.</p>
+    <a href="teaching.php" class="subMain sectTeach">
+      <h2>1. Online Teaching Sessions</h2>
+      <p>These are both live and recorded. On the live sessions interaction is encouraged.</p>
       <p class="readmore">Read more...</p>
     </a>
     <a href="readings.php" class="subMain sectRead">
@@ -25,9 +25,9 @@
       <p>Bringing a more dynamic realisation of the scriptures.</p>
       <p class="readmore">Read more...</p>
     </a>
-    <a href="teaching.php" class="subMain sectTeach">
-      <h2>3. Online Teaching Sessions</h2>
-      <p>These are both live and recorded. On the live sessions interaction is encouraged.</p>
+    <a href="plan.php" class="subMain sectPlan">
+      <h2>3. Bible Reading Plan</h2>
+      <p>The day-by-day plan I devised to read the entire bible in one year.</p>
       <p class="readmore">Read more...</p>
     </a>
     <a href="neweb.php" class="subMain sectNEWEB">
