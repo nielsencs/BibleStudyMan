@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>BibleStudyMan.co.uk</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+
+<body>
+  <div class="content">
+    <img class="banner-image" src="images/BibleBanner.jpg" alt="pic of open bible on desk">
+
+    <div class="menu">
+      <div class="logo">
+        <a href="https://www.BibleStudyMan.co.uk">BibleStudyMan</a>
+      </div>
+
+      <ul class="nav">
+        <li><a href="index.php">Home</a></li>
+        <li><a href="plan.php">Plan</a></li>
+        <li><a href="readings.php">Readings</a></li>
+        <li><a href="teaching.php">Teaching</a></li>
+        <li><a href="neweb.php">NEWEB</a></li>
+        <li><a href="pricing.php">Pricing</a></li>
+        <li><a href="support.php">Support This Ministry</a></li>
+      </ul>
+    </div>
+    <script>
+      function loadBooks() {
+        var atBooks = new array();
+        atBooks.push("Genesis");
+        atBooks.push("Exodus");
+        atBooks.push("Leviticus");
+        atBooks.push("Numbers");
+        atBooks.push("Deuteronomy");
+        atBooks.push("Joshua");
+        atBooks.push("Judges");
+        atBooks.push("Ruth");
+        atBooks.push("1 Samuel");
+        atBooks.push("2 Samuel");
+        atBooks.push("1 Kings");
+        atBooks.push("2 Kings");
+        atBooks.push("1 Chronicles");
+        atBooks.push("2 Chronicles");
+        atBooks.push("Ezra");
+        atBooks.push("Nehemiah");
+        atBooks.push("Esther");
+        atBooks.push("Job");
+        atBooks.push("Psalms");
+        atBooks.push("Proverbs");
+        atBooks.push("Ecclesiastes");
+        atBooks.push("Song of Songs");
+        atBooks.push("Isaiah");
+        atBooks.push("Jeremiah");
+        atBooks.push("Lamentations");
+        atBooks.push("Ezekiel");
+        atBooks.push("Daniel");
+        atBooks.push("Hosea");
+        atBooks.push("Joel");
+        atBooks.push("Amos");
+        atBooks.push("Obadiah");
+        atBooks.push("Jonah");
+        atBooks.push("Micah");
+        atBooks.push("Nahum");
+        atBooks.push("Habakkuk");
+        atBooks.push("Zephaniah");
+        atBooks.push("Haggai");
+        atBooks.push("Zechariah");
+        atBooks.push("Malachi");
+        atBooks.push("Matthew");
+        atBooks.push("Mark");
+        atBooks.push("Luke");
+        atBooks.push("John");
+        atBooks.push("Acts");
+        atBooks.push("Romans");
+        atBooks.push("1 Corinthians");
+        atBooks.push("2 Corinthians");
+        atBooks.push("Galatians");
+        atBooks.push("Ephesians");
+        atBooks.push("Philippians");
+        atBooks.push("Colossians");
+        atBooks.push("1 Thessalonians");
+        atBooks.push("2 Thessalonians");
+        atBooks.push("1 Timothy");
+        atBooks.push("2 Timothy");
+        atBooks.push("Titus");
+        atBooks.push("Philemon");
+        atBooks.push("Hebrews");
+        atBooks.push("James");
+        atBooks.push("1 Peter");
+        atBooks.push("2 Peter");
+        atBooks.push("1 John");
+        atBooks.push("2 John");
+        atBooks.push("3 John");
+        atBooks.push("Jude");
+        atBooks.push("Revelation");
+      }
+
+      function doDirection(tDirection) {
+        alert(tDirection)
+        if (tDirection == "pb") {
+          //prev book
+        }
+        if (tDirection == "nb") {
+          //next book
+        }
+        if (tDirection == "pc") {
+          //prev chapter
+        }
+        if (tDirection == "nc") {
+          //next chapter
+        }
+      }
+
+      // function doDirection(tValue) {
+      //   alert(tValue);
+      //   //document.getElementById("direction").value = tValue;
+      //   document.getElementById("direction").setAttribute('value', tValue);
+      //   alert(document.getElementById("direction").value);
+      // }
+    </script>
+    <div class='intro'>
+      <p>This is a minor adaptation of the
+        <a href="https://worldenglishbible.org">WEB</a> to include the ancient words for placenames, for God and other words of special interest.</p>
+    </div>
+    <div class="main NEWEB">
+      <h1>The Nielsen Edition of the World English Bible</h1>
+      <div class="subMain sectGeneral">
+        <!-- p>This doesn't look like much yet...<br>
+                I need to develop the code to:</p>
+                <ul>
+                    <li>complete the compilation of this edition</li>
+                    <li>provide a lookup for certain words</li>
+                    <li>Any other requests?</li>
+                </ul -->
+
+        <table class="searchTable">
+          <tr>
+            <td>&nbsp;</td>
+            <td>Book</td>
+            <td>Chapter</td>
+            </td>&nbsp;
+            <td>
+              <td>Verse</td>
+              <td>&nbsp;</td>
+          </tr>
+
+          <form name="bibleSearch" action="/neweb2.php" method="get">
+            <tr>
+              <td>Passage:</td>
+              <td><input type="text" list="books" size="7" name="book" value="Genesis">
+                <datalist name="books">
+<!-- SELECT bookName FROM books; -->
+<option value="Genesis">
+<option value="Exodus">
+<option value="Leviticus">
+<option value="Numbers">
+<option value="Deuteronomy">
+<option value="Joshua">
+<option value="Judges">
+<option value="Ruth">
+<option value="1 Samuel">
+<option value="2 Samuel">
+<option value="1 Kings">
+<option value="2 Kings">
+<option value="1 Chronicles">
+<option value="2 Chronicles">
+<option value="Ezra">
+<option value="Nehemiah">
+<option value="Esther">
+<option value="Job">
+<option value="Psalms">
+<option value="Proverbs">
+<option value="Ecclesiastes">
+<option value="Song of Songs">
+<option value="Isaiah">
+<option value="Jeremiah">
+<option value="Lamentations">
+<option value="Ezekiel">
+<option value="Daniel">
+<option value="Hosea">
+<option value="Joel">
+<option value="Amos">
+<option value="Obadiah">
+<option value="Jonah">
+<option value="Micah">
+<option value="Nahum">
+<option value="Habakkuk">
+<option value="Zephaniah">
+<option value="Haggai">
+<option value="Zechariah">
+<option value="Malachi">
+<option value="Matthew">
+<option value="Mark">
+<option value="Luke">
+<option value="John">
+<option value="Acts">
+<option value="Romans">
+<option value="1 Corinthians">
+<option value="2 Corinthians">
+<option value="Galatians">
+<option value="Ephesians">
+<option value="Philippians">
+<option value="Colossians">
+<option value="1 Thessalonians">
+<option value="2 Thessalonians">
+<option value="1 Timothy">
+<option value="2 Timothy">
+<option value="Titus">
+<option value="Philemon">
+<option value="Hebrews">
+<option value="James">
+<option value="1 Peter">
+<option value="2 Peter">
+<option value="1 John">
+<option value="2 John">
+<option value="3 John">
+<option value="Jude">
+<option value="Revelation">
+                  </datalist></td>
+              <td><input type="text" size="2" name="chapter" value="1"></td>
+              <td>:</td>
+              <td><input type="text" size="2" name="verse" value="1"></td>
+              <td>
+                <!-- <input type="submit" value="Go"> -->
+              </td>
+            </tr>
+            <!-- </form> -->
+
+            <!-- <form action="/neweb2.php" method="get"> -->
+            <tr>
+              <td>Search:</td>
+              <td colspan="4"><input type="text" size="21" name="search" value=""></td>
+              <td><input type="submit" value="Go"></td>
+            </tr>
+            <tr>
+              <td><input type="button" value="&lt;prev" onclick="doDirection('p')"></td>
+              <td colspan="4">
+                <input type="radio" size="21" name="jump" value="b">book
+                <input type="radio" size="21" name="jump" value="c" checked="true">chapter
+                <input type="radio" size="21" name="jump" value="v">verse
+                <input type="text" name="direction">
+                <!-- value=""> -->
+              </td>
+              <td><input type="button" value="next&gt;" onclick="doDirection('n')"></td>
+            </tr>
+          </form>
+        </table>
+        <!-- SELECT books.bookName, verses.chapter, verses.verseNumber, REPLACE(REPLACE(verses.verseText, "[H430]", ""), "[H3068]", "") AS vt, books.bookName FROM verses INNER JOIN books ON verses.bookCode=books.bookCode  WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber=1; -->
+        <h3>Genesis Chapter 1</h3><sup>1</sup>In the beginning God created the heavens and the earth.
+
+        <p id="para">Some text here</p>
+        <button onclick="changeColor('blue');">blue</button>
+        <button onclick="changeColor('red');">red</button>
+        <script>
+          function changeColor(newColor) {
+            var elem = document.getElementById('para');
+            elem.style.color = newColor;
+        </script>
+      </div>
+    </div>
+    <div class="footer">
+      <div>
+        <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png"/></a><br/>This work is licensed under a <a rel="license"
+          href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+      </div>
+
+      <ul class="nav footNav">
+        <li><a href="https://www.youtube.com/playlist?list=PL1B0eP9nzz5JMhtD4xnyWh4MAtlNlQxPU">YouTube</a></li>
+        <li><a href="https://www.twitter.com/nielsencs">Twitter</a></li>
+        <li><a href="https://www.facebook.com/BibleStudyCarl/">Facebook</a></li>
+        <li><a href="https://www.patreon.com/BibleStudyMan/">Patreon</a></li>
+        <!-- <li><a href="mailto:something@somewhere.co.uk">Email</a></li> -->
+      </ul>
+    </div>
+  </div>
+  <!-- Drip -->
+  <script type="text/javascript">
+    var _dcq = _dcq || [];
+    var _dcs = _dcs || {};
+    _dcs.account = '3777310';
+
+    (function() {
+      var dc = document.createElement('script');
+      dc.type = 'text/javascript';
+      dc.async = true;
+      dc.src = '//tag.getdrip.com/3777310.js';
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(dc, s);
+    })();
+  </script>
+  <!-- end Drip -->
+</body>
+
+</html>

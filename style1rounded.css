@@ -1,14 +1,6 @@
 /*
     Created on : 21-Jan-2018, 12:59:28
     Author     : Carl Nielsen
-
-    colours:
-    #FFF0CC (pale orange)
-    #FFEECC (pale orange)
-    #FFFFFF (white)
-    #CCCCCC
-    #FFFFC1
-
 */
 
 * {
@@ -21,8 +13,7 @@ body {
   /* font-family: 'Averia Sans Libre', cursive; */
   font-family: 'Lato', sans-serif;
 
-  /* border: 3px solid #773322; */
-  border: 3px solid DarkRed;
+  border: 3px solid #773322;
 }
 
 h1 {
@@ -30,8 +21,7 @@ h1 {
   margin-top: 7px;
   font-size: 21pt;
   text-align: center;
-  /* color: #773322; */
-  color: DarkRed;
+  color: #773322;
 }
 
 h2 {
@@ -54,8 +44,7 @@ p {
 
 a {
     text-decoration: none;
-    /* color: #773322; */
-    color: DarkRed;
+    color: #773322;
     font-weight: bold;
 }
 
@@ -188,8 +177,7 @@ tr:nth-child(odd) td:nth-child(even){
 
 .nav {
   font-family: 'Overlock', cursive;
-  /* background-color: #773322; */
-  background-color: DarkRed;
+  background-color: #773322;
   color: silver;
   list-style: none;
   text-align: right;
@@ -205,8 +193,7 @@ tr:nth-child(odd) td:nth-child(even){
   display: inline-block;
   padding: 3px 3px 3px 3px;
   font-size: 14px;
-  /* border: 1px solid #773322; */
-  border: 1px solid DarkRed;
+  border: 1px solid #773322;
 }
 
 .nav li a {
@@ -214,8 +201,7 @@ tr:nth-child(odd) td:nth-child(even){
   font-weight: normal;
   color: silver;
   padding: 3px;
-  /* border: 1px solid #773322; */
-  border: 1px solid DarkRed;
+  border: 1px solid #773322;
 }
 
 .nav li a:hover {
@@ -288,7 +274,7 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .home {
-  /* border: 3px solid #773322; */
+  border: 3px solid #773322;
   border-radius: 21px;
   -webkit-border-radius: 21px;
   -moz-border-radius: 21px;
@@ -296,7 +282,6 @@ tr:nth-child(odd) td:nth-child(even){
   -ms-border-radius: 21px;
   -khtml-border-radius: 21px;
 
-  border: 3px solid DarkRed;
   background-color: bisque;
 }
 
@@ -372,8 +357,7 @@ tr:nth-child(odd) td:nth-child(even){
 
 .sectGeneral {
   width: 96%;
-  /* border: 3px solid #773322; */
-  border: 3px solid DarkRed;
+  border: 3px solid #773322;
   overflow: auto;
 }
 
@@ -460,8 +444,7 @@ a.sectNEWEB:hover {
 }
 
 .footer {
-  /* background-color: #773322; */
-  background-color: DarkRed;
+  background-color: #773322;
   color: silver;
   list-style: none;
   text-align: center;

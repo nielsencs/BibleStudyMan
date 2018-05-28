@@ -1,10 +1,6 @@
 <?php
     require_once 'header.php';
 ?>
-        <div class='intro'>
-            <p>These are both live and recorded. On the live sessions interaction
-                is encouraged. These are available as mp3s and videos.</p>
-        </div>
         <div class="main teaching">
             <h1>Online Teaching Sessions</h1>
             <div class="subMain sectGeneral">

@@ -1,14 +1,6 @@
 /*
     Created on : 21-Jan-2018, 12:59:28
     Author     : Carl Nielsen
-
-    colours:
-    #FFF0CC (pale orange)
-    #FFEECC (pale orange)
-    #FFFFFF (white)
-    #CCCCCC
-    #FFFFC1
-
 */
 
 * {
@@ -22,7 +14,18 @@ body {
   font-family: 'Lato', sans-serif;
 
   /* border: 3px solid #773322; */
-  border: 3px solid DarkRed;
+  /* border: 3px solid DarkRed; */
+  border: #0d5485; /* dark blue */
+  background-color: #a9dcff; /* light blue */
+}
+
+.temp{
+  color: #f5c947; /* yellow */
+  color: #f5ad47; /* gold */
+  color: #0d5485; /* dark blue */
+  color: #2e83bf; /* mid blue */
+  color: #a9dcff; /* light blue */
+  color: #931818; /* dark red */
 }
 
 h1 {
@@ -31,7 +34,8 @@ h1 {
   font-size: 21pt;
   text-align: center;
   /* color: #773322; */
-  color: DarkRed;
+  color: #0d5485; /* dark blue */
+  font-weight: 900;
 }
 
 h2 {
@@ -55,12 +59,13 @@ p {
 a {
     text-decoration: none;
     /* color: #773322; */
-    color: DarkRed;
+    color: #f5c947; /* yellow */
     font-weight: bold;
 }
 
 a:hover{
-    color: goldenrod;
+    /* color: goldenrod; */
+  color: #f5ad47; /* gold */
 }
 
 input[type="text"] {
@@ -171,26 +176,29 @@ tr:nth-child(odd) td:nth-child(even){
 
 .logo {
   font-family: 'Overlock', cursive;
-  color: goldenrod;
-  /* #FFF0CC; */
+  /* color: goldenrod; */
+  color: #f5c947; /* yellow */
   float: left;
   padding: 17px 0 0 10px;
   font-size: 21px;
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .logo a {
   text-decoration: none;
-  font-weight: normal;
-  color: burlywood;
-  /* #FFF0CC; */
+  /* font-weight: normal; */
+  /* color: burlywood; */
+  color: #f5c947; /* yellow */
 }
 
 .nav {
   font-family: 'Overlock', cursive;
   /* background-color: #773322; */
-  background-color: DarkRed;
-  color: silver;
+  /* background-color: DarkRed; */
+  background-color: #0d5485; /* dark blue */
+
+  /* color: silver; */
+  color: #a9dcff; /* light blue */
   list-style: none;
   text-align: right;
   padding: 14px 7px 14px 3px;
@@ -206,22 +214,26 @@ tr:nth-child(odd) td:nth-child(even){
   padding: 3px 3px 3px 3px;
   font-size: 14px;
   /* border: 1px solid #773322; */
-  border: 1px solid DarkRed;
+  /* border: 1px solid DarkRed; */
 }
 
 .nav li a {
   text-decoration: none;
   font-weight: normal;
-  color: silver;
+  /* color: silver; */
+  color: #a9dcff; /* light blue */
   padding: 3px;
   /* border: 1px solid #773322; */
-  border: 1px solid DarkRed;
+  /* border: 1px solid DarkRed; */
+  border: 1px solid #0d5485; /* dark blue */
 }
 
 .nav li a:hover {
-  color: #FFF0CC;
+  /* color: #FFF0CC; */
+  color: #f5c947; /* yellow */
   padding: 3px;
-  border: 1px solid #FFF0CC;
+  /* border: 1px solid #FFF0CC; */
+  border: 1px solid #f5c947; /* yellow */
 }
 
 /*
@@ -264,13 +276,21 @@ tr:nth-child(odd) td:nth-child(even){
 
 .intro {
   /* border: 1px solid burlywood; */
-  margin: 7px;
+  margin: 49px 149px 49px 149px;
   padding: 7px;
   overflow: hidden;
-  width: 91%;
+  /* width: 91%; */
   height: auto;
-  max-width:1000px;
-  /* background-color: white; */
+  /* max-width:1000px; */
+  background-color: white;
+
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -o-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -khtml-border-radius: 7px;
+
   /* box-shadow: 3px 3px 7px grey; */
 }
 
@@ -280,8 +300,8 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .main {
-  margin: 1%;
-  padding: 1%;
+  margin: 49px 149px 49px 149px;
+  padding: 7px;
   float: none;
   clear: both;
   overflow: hidden;
@@ -289,15 +309,16 @@ tr:nth-child(odd) td:nth-child(even){
 
 .home {
   /* border: 3px solid #773322; */
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
+  border-radius: 7px;
+  -webkit-border-radius: 7px;
+  -moz-border-radius: 7px;
+  -o-border-radius: 7px;
+  -ms-border-radius: 7px;
+  -khtml-border-radius: 7px;
 
-  border: 3px solid DarkRed;
-  background-color: bisque;
+  /* border: 3px solid DarkRed; */
+  /* background-color: bisque; */
+  background-color: white;
 }
 
 .home>a {
@@ -363,23 +384,31 @@ tr:nth-child(odd) td:nth-child(even){
   -ms-border-radius: 14px;
   -khtml-border-radius: 14px;
 
+  text-align: center;
+
   margin: 1%;
   padding: 1%;
-  width: 84%;
-  background-color: white;
+  width: 96%;
+  /* background-color: white; */
+  background-color: #2e83bf; /* mid blue */
+
   /* box-shadow: 3px 3px 7px grey; */
+}
+
+.subMain h2 {
+  color: white;
 }
 
 .sectGeneral {
   width: 96%;
   /* border: 3px solid #773322; */
-  border: 3px solid DarkRed;
+  /* border: 3px solid DarkRed; */
   overflow: auto;
 }
 
 .sectTeach {
   float: left;
-  border: 3px solid purple;
+  /* border: 3px solid purple; */
   overflow: auto;
 
   /* border-radius: 14px;
@@ -391,12 +420,13 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 a.sectTeach:hover {
-  background-color: thistle;
+  /* background-color: thistle; */
+  background-color: #f5ad47; /* gold */
 }
 
 .sectRead {
   float: right;
-  border: 3px solid darkturquoise;
+  /* border: 3px solid darkturquoise; */
   overflow: auto;
 
   /* border-radius: 14px;
@@ -408,12 +438,13 @@ a.sectTeach:hover {
 }
 
 a.sectRead:hover {
-  background-color: LightCyan;
+  /* background-color: LightCyan; */
+  background-color: #f5ad47; /* gold */
 }
 
 .sectPlan {
   float: left;
-  border: 3px solid lime;
+  /* border: 3px solid lime; */
   overflow: auto;
 
   /* border-radius: 14px;
@@ -425,12 +456,13 @@ a.sectRead:hover {
 }
 
 a.sectPlan:hover {
-  background-color: #DDFFDD;
+  /* background-color: #DDFFDD; */
+  background-color: #f5ad47; /* gold */
 }
 
 .sectNEWEB {
   float: right;
-  border: 3px solid gold;
+  /* border: 3px solid gold; */
   overflow: auto;
 
   /* border-radius: 14px;
@@ -442,7 +474,8 @@ a.sectPlan:hover {
 }
 
 a.sectNEWEB:hover {
-  background-color: lemonchiffon;
+  /* background-color: lemonchiffon; */
+  background-color: #f5ad47; /* gold */
 }
 
 .readmore {
@@ -461,8 +494,12 @@ a.sectNEWEB:hover {
 
 .footer {
   /* background-color: #773322; */
-  background-color: DarkRed;
-  color: silver;
+  /* background-color: DarkRed; */
+  background-color: #0d5485; /* dark blue */
+
+  /* color: silver; */
+  color: #a9dcff; /* light blue */
+
   list-style: none;
   text-align: center;
   padding: 14px 0 14px 0;
@@ -477,11 +514,14 @@ a.sectNEWEB:hover {
 .footer a {
   text-decoration: none;
   font-weight: normal;
-  color: silver;
+  /* color: silver; */
+  color: #f5c947; /* yellow */
 }
 
 .footer a:hover {
-  color: #FFF0CC;
+  /* color: #FFF0CC; */
+  background-color: #f5ad47; /* gold */
+    color: #f5ad47; /* gold */
 }
 
 .bibleText {

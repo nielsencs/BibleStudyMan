@@ -3,14 +3,6 @@
     require_once '../sqlCon.php';
     require_once 'dbFunctions.php';
 ?>
-        <div class='intro'>
-            <p>These are available as mp3s and videos and are intended to bring
-            a more dynamic realisation of the scriptures by a full-on
-            'snot-and-tears' reading. I do not pretend that my delivery
-            accurately reflects the mood or emotional tone of the original, but
-            merely offer it as an alternative to the more traditional formal
-            reading style as an aid to discussion.</p>
-        </div>
         <div class="main readings">
             <h1>The Dramatic Bible Readings</h1>
             <div class="subMain sectGeneral">

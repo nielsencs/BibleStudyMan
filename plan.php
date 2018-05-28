@@ -32,26 +32,24 @@
       $day = $tDay;
       }
     }
+    echo '<!-- ';
+    echo '$tMonth:' . $tMonth;
+    echo '$tDay:' . $tDay;
+    echo '$month:' . $month;
+    echo '$day:' . $day;
+    echo '-->';
 ?>
-        <div class='intro'>
-          <p>The day-by-day plan I devised for reading the entire Bible in one
-          year based on four traditional sections - The Law (Torah or Pentateuch);
-          The Prophets (Neviim); The Writings or Poetry (Ktuviim) and The
-          New Testament.</p>
-<?php
-  echo daysReadingsAsSentence($month, $day);
-?>
-          <p><a href="planTable.php">The entire year's readings as a list.</a></p>
-        </div>
         <div class="main plan">
             <h1>The Bible Reading Plan</h1>
             <div class="subMain sectGeneral">
+          <p>Click here for <a href="planTable.php">the entire year's readings as a list.</a></p>
                 <p>I need to develop the code to:</p>
                 <ul>
                     <li>Enable a checklist for the user to 'mark as read'</li>
                     <li>provide alternative arrangements of the readings for variety</li>
                     <li>Any other requests?</li>
                 </ul>
+                <p>Today's readings:</p>
 <?php
   echo daysReadingsAsVerses($month, $day);
 ?>

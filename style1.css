@@ -21,8 +21,7 @@ body {
   /* font-family: 'Averia Sans Libre', cursive; */
   font-family: 'Lato', sans-serif;
 
-  /* border: 3px solid #773322; */
-  border: 3px solid DarkRed;
+  border: 3px solid #773322;
 }
 
 h1 {
@@ -30,8 +29,7 @@ h1 {
   margin-top: 7px;
   font-size: 21pt;
   text-align: center;
-  /* color: #773322; */
-  color: DarkRed;
+  color: #773322;
 }
 
 h2 {
@@ -54,8 +52,7 @@ p {
 
 a {
     text-decoration: none;
-    /* color: #773322; */
-    color: DarkRed;
+    color: #773322;
     font-weight: bold;
 }
 
@@ -188,8 +185,7 @@ tr:nth-child(odd) td:nth-child(even){
 
 .nav {
   font-family: 'Overlock', cursive;
-  /* background-color: #773322; */
-  background-color: DarkRed;
+  background-color: #773322;
   color: silver;
   list-style: none;
   text-align: right;
@@ -205,8 +201,7 @@ tr:nth-child(odd) td:nth-child(even){
   display: inline-block;
   padding: 3px 3px 3px 3px;
   font-size: 14px;
-  /* border: 1px solid #773322; */
-  border: 1px solid DarkRed;
+  border: 1px solid #773322;
 }
 
 .nav li a {
@@ -214,8 +209,7 @@ tr:nth-child(odd) td:nth-child(even){
   font-weight: normal;
   color: silver;
   padding: 3px;
-  /* border: 1px solid #773322; */
-  border: 1px solid DarkRed;
+  border: 1px solid #773322;
 }
 
 .nav li a:hover {
@@ -288,15 +282,7 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .home {
-  /* border: 3px solid #773322; */
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
-
-  border: 3px solid DarkRed;
+  border: 3px solid #773322;
   background-color: bisque;
 }
 
@@ -308,72 +294,36 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .teaching {
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
-
   border: 3px solid purple;
   background-color: thistle;
 }
 
 .readings {
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
-
   border: 3px solid darkturquoise;
   background-color: lightcyan;
 }
 
 .plan {
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
-
   border: 3px solid lime;
   background-color: #CCFFDD;
 }
 
 .NEWEB {
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
-
   border: 3px solid gold;
   background-color: lemonchiffon;
 }
 
 .subMain {
-  border-radius: 14px;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -o-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -khtml-border-radius: 14px;
-
   margin: 1%;
   padding: 1%;
   width: 84%;
   background-color: white;
-  /* box-shadow: 3px 3px 7px grey; */
+  box-shadow: 3px 3px 7px grey;
 }
 
 .sectGeneral {
   width: 96%;
-  /* border: 3px solid #773322; */
-  border: 3px solid DarkRed;
+  border: 3px solid #773322;
   overflow: auto;
 }
 
@@ -381,13 +331,6 @@ tr:nth-child(odd) td:nth-child(even){
   float: left;
   border: 3px solid purple;
   overflow: auto;
-
-  /* border-radius: 14px;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -o-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -khtml-border-radius: 14px; */
 }
 
 a.sectTeach:hover {
@@ -398,13 +341,6 @@ a.sectTeach:hover {
   float: right;
   border: 3px solid darkturquoise;
   overflow: auto;
-
-  /* border-radius: 14px;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -o-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -khtml-border-radius: 14px; */
 }
 
 a.sectRead:hover {
@@ -415,13 +351,6 @@ a.sectRead:hover {
   float: left;
   border: 3px solid lime;
   overflow: auto;
-
-  /* border-radius: 14px;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -o-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -khtml-border-radius: 14px; */
 }
 
 a.sectPlan:hover {
@@ -432,13 +361,6 @@ a.sectPlan:hover {
   float: right;
   border: 3px solid gold;
   overflow: auto;
-
-  /* border-radius: 14px;
-  -webkit-border-radius: 14px;
-  -moz-border-radius: 14px;
-  -o-border-radius: 14px;
-  -ms-border-radius: 14px;
-  -khtml-border-radius: 14px; */
 }
 
 a.sectNEWEB:hover {
@@ -460,8 +382,7 @@ a.sectNEWEB:hover {
 }
 
 .footer {
-  /* background-color: #773322; */
-  background-color: DarkRed;
+  background-color: #773322;
   color: silver;
   list-style: none;
   text-align: center;
