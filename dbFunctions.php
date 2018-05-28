@@ -24,7 +24,7 @@ return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 2
 
 function basicPassageQuery(){
   $tBaseQuery = '';
-  $tBaseQuery .= 'SELECT books.bookName, verses.chapter, verses.verseNumber, ';
+  $tBaseQuery .= 'SELECT DISTINCT books.bookName, verses.chapter, verses.verseNumber, ';
   $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "[H430]", ""), "[H3068]", "") AS vt';
   $tBaseQuery .= ', books.bookName ';
   $tBaseQuery .= 'FROM verses INNER JOIN books ON verses.bookCode=books.bookCode ';
