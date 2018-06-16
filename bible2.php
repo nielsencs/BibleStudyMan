@@ -11,7 +11,7 @@
   if($tJump == ''){$tJump = 'c';}
   $tDirection = filter_input(INPUT_GET, 'direction');
 
-  $bProcessRequest = (strlen($tBook . $tChapter. $tVerse . $tSearch) > 0);
+  $bProcessRequest = (strlen($tBook . $tChapter . $tVerse . $tSearch) > 0);
 ?>
 
 <?php
@@ -43,6 +43,7 @@
 <script type="text/javascript">
   function doDirection(tDirection) {
     // alert(iBook);
+    var iChapter = parseInt("0" + document.searchForm.chapter.value);
     var iChapter = parseInt("0" + document.searchForm.chapter.value);
 
     if(tDirection=="pb"){ //prev book
@@ -95,6 +96,9 @@
         <div class="main Bible">
             <h1>The Nielsen Edition of the World English Bible</h1>
             <div class="subMain sectGeneral">
+        <p>This is a minor adaptation of the <a href="https://worldenglishbible.org">WEB</a>
+          to include nuanced meanings of particular ancient words for placenames,
+          God and others of special interest.</p>
                 <!-- p>This doesn't look like much yet...<br>
                 I need to develop the code to:</p>
                 <ul>
@@ -122,14 +126,21 @@
 
                     <tr>
                     <td><input type="text" name="book" value="<?php echo $tBook; ?>" list="books">
-                  <datalist name="books">
+                    <datalist name="books">
+                    <!-- <td><select name="book"> -->
+                        <!-- <option value="">Pick a book</option>'; -->
 <?php
   $tQuery = 'SELECT bookName FROM books;';
   $result = doQuery($link, $tQuery);
 
   if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
-      echo '<option value="' . $row["bookName"] . '">';
+      // echo '<option value="' . $row["bookName"] . '">';
+      echo '<option value="' . $row["bookName"] . '"';
+      // if ($row["bookName"] == $tBook) {
+        // echo ' selected';
+      // }
+      echo '>' . $row["bookName"] . '</option>';
     }
   } else {
     echo "Tell Carl something went wrong with the BibleStudyMan database :(";
@@ -137,6 +148,7 @@
   mysqli_free_result($result);
 ?>
                   </datalist></td>
+                  <!-- </select></td> -->
                   <td>
                       <input type="text" name="chapter" value="<?php echo $tChapter; ?>">
                   </td>
@@ -145,6 +157,7 @@
                     <td colspan="2">Words</td>
                 </tr>
                 <tr>
+                    <!-- <td colspan="2"><input type="text" name="search" value="<?php echo $tSearch . ' ' . soundex($tSearch); ?>"></td> -->
                     <td colspan="2"><input type="text" name="search" value="<?php echo $tSearch; ?>"></td>
                 </tr>
                 <tr>
@@ -171,19 +184,30 @@ echo $tDirection;
                 $tQuery = $tBaseQuery . ' WHERE verses.verseText LIKE "%' . $tSearch . '%";';
             }
         } else {
-            $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '";';
+            $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '"';
             if (empty($tChapter))
             {
-                $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '";';
+              if (empty($tSearch)) {
+                $tQuery = $tQuery . ';';
+              }else{
+                $tQuery = $tQuery . ' AND verses.verseText LIKE "%' . $tSearch . '%";';
+              }
             }else{
-                if (empty($tVerse))
-                {
-                    $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '" AND verses.chapter=' . $tChapter . ';';
-                }else{
-                    $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '" AND verses.chapter=' . $tChapter . ' AND verses.verseNumber=' . $tVerse . ';';
-                }
+                // if (empty($tVerse))
+                // {
+                    $tQuery = $tQuery . ' AND verses.chapter=' . $tChapter;
+                // }else{
+                //     $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '" AND verses.chapter=' . $tChapter . ' AND verses.verseNumber=' . $tVerse . ';';
+                // }
+              if (empty($tSearch)) {
+                $tQuery = $tQuery . ';';
+              }else{
+                $tQuery = $tQuery . ' AND verses.verseText LIKE "%' . $tSearch . '%";';
+              }
             }
         }
+
+// ------------------- display Bible passage -------------------------------
         $result = doQuery($link, $tQuery);
 
         if (mysqli_num_rows($result) > 0) {
@@ -209,9 +233,10 @@ echo $tDirection;
                 $iLastChapter = $row["chapter"];
             }
         } else {
-            echo "Tell Carl something went wrong with the BibleStudyMan database :(";
+            echo "It could be me... but there doesn't seem to be a match for that!";
         }
         mysqli_free_result($result);
+// ------------------- display Bible passage -------------------------------
     }
 ?>
 

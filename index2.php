@@ -2,6 +2,22 @@
   require_once 'header.php';
 ?>
 <script type="text/javascript">
+  var bFullHover = ! window.matchMedia("(hover:none), (hover:on-demand)").matches; //returns true or false
+
+  window.onload = function(){
+    if (bFullHoover){
+      showHide('teachBlock', false);
+      showHide('readBlock', false);
+      showHide('planBlock', false);
+      showHide('bibleBlock', false);
+    } else {
+      showHide('teachBlock', true);
+      showHide('readBlock', true);
+      showHide('planBlock', true);
+      showHide('bibleBlock', true);
+    }
+  }
+
   function showHide(tElemName, bShow){
     elem = document.getElementById(tElemName);
     // elem2 = document.getElementByClass('readmore');
@@ -11,7 +27,7 @@
       // elem2.style.display = "none";
     } else {
       elem.style.display = "none";
-      elem.style.height = 0;
+      // elem.style.height = 0;
       // elem2.style.display = "block";
     }
   }
@@ -34,7 +50,7 @@
     <h1>The Four Main Sections</h1>
     <a href="teaching.php" class="subMain teaching floatLeft"
        onmouseover="showHide('teachBlock', true);"
-       onmouseout="showHide('teachBlock', false);">
+       onmouseout="alert('teachBlock');">
       <h2>1. Online Teaching Sessions</h2>
       <p>Have I learnt anything by reading The Bible from-cover-to-cover?</p>
       <p class="centerText">Read more...</p>
@@ -89,11 +105,14 @@
        onmouseover="showHide('bibleBlock', true);"
        onmouseout="showHide('bibleBlock', false);">
       <h2>4. The Nielsen Edition of the World English Bible</h2>
-      <p>Do you know the difference between &rsquo;God&rsquo;, &rsquo;The Lord&rsquo; & &rsquo;God Almighty&rsquo;?</p>
+      <p>Do you know the difference between &rsquo;God&rsquo;, &rsquo;
+        <span class="small-caps">The Lord</span>&rsquo; (as opposed to &rsquo;The
+        Lord&rsquo;) & &rsquo;God Almighty&rsquo;?</p>
       <p class="centerText">Read more...</p>
       <div id="bibleBlock" class="collapse">
-        <p>No? neither do I! However I&rsquo;m more clued up about elohim - god(s)
-          Adonai - The Lord YAHWEH - The name of God.</p>
+        <p>No? neither do I! However I&rsquo;m more clued up about elohim - god(s);
+          Adonai - The Lord (as opposed to The Lord);
+          YAHWEH - The name of God.</p>
         <p>Or (perhaps more importantly?) four different words for love in the
           Greek texts that transform the traditional readings.</p>
         <p>I wanted a translation that gave these interesting difference the possibility

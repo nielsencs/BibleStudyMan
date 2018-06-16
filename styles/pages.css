@@ -14,14 +14,13 @@
   color: black;
   text-decoration: none;
   font-weight: normal;
-  /* transition: background-color .3s ease-in-out; */
 }
 
 .subMain {
   margin: 1%;
   padding: 1%;
   width: 84%;
-  overflow: auto;
+  /* overflow: auto; */
 
   background-color: white;
 
@@ -33,6 +32,13 @@
   -khtml-border-radius: 14px;
 
   /* box-shadow: 3px 3px 7px DimGray; */
+}
+
+.collapse {
+  display: none;
+  height: 0;
+  /* background-color: white; */
+  transition: height 3s ease-in-out;
 }
 
 .teaching {
@@ -59,10 +65,6 @@
   width: 96%;
   /* border: 3px solid #773322; */
   border: 3px solid DimGray;
-}
-
-.readmore {
-  text-align: center;
 }
 
 .searchTable td {
