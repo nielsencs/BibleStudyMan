@@ -20,7 +20,7 @@
   margin: 1%;
   padding: 1%;
   width: 84%;
-  /* overflow: auto; */
+  overflow: auto;
 
   background-color: white;
 
@@ -36,9 +36,10 @@
 
 .collapse {
   display: none;
-  height: 0;
+  /* height: 0; */
+  height: auto;
   /* background-color: white; */
-  transition: height 3s ease-in-out;
+  /* transition: height 3s ease-in-out; */
 }
 
 .teaching {
@@ -49,6 +50,10 @@
 .readings {
   border: 3px solid #4ab5b5;
   background-color: #94ffff;
+}
+
+.highlight {
+  background-color: #ffff94;
 }
 
 .plan {
@@ -67,6 +72,25 @@
   border: 3px solid DimGray;
 }
 
+.searchTable {
+  background: #EEEEDD;
+  border: 3px solid #FF0000;
+  margin-top: 21px;
+}
 .searchTable td {
-  font-size: smaller;
+  /* font-size: smaller; */
+  border: 3px solid #DDDDCC;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  /* padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffff94;
+  background-color: rgba(255, 255, 148, 0.3);
 }
