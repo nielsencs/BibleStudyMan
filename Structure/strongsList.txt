@@ -1,14 +1,57 @@
+   Strongs		Original	English			Progress									
+   -------		--------	-------			---------									
 God words
 =========
-Elohim
-Yahweh
-Adonai
+Lord:
+   <H0113>		Adon		Lord    		done
+   <H0136>	  	Adonai		Lord                 	done									
+   <H4756>              Mare            Lord/Ruler		done
+   <H5633>		SerenCeren?	Lord/Tyrant		done
+   <H1166>		Baal		Marry/Own		done
+   <H1167>		Baal		Husband/Master/Owner	done
+   <G2962>	  	Kurios		Lord - may stand for Yahweh as Jewish tradition not to say it in place
+God:
+   <H0410>         	El		God The-Mighty-One	done
+   <H0426>		Elah		God			done
+   <H0433>         	Eloah		God			done
+   <H0430>         	Elohim          God			done	
+IAM:
+   <H3050>        	Yah		IAM			done
+   <H3068>        	Yahweh          TheIAM			done
+Almighty:   
+   <H7706>           	Shaddai		Almighty		done
+   <G3841> 	 	Pantokrator	Almighty		done
+Hosts/Armies:
+   <H6635a>	    	Tsava		Hosts/Armies         										
+   <H6635b>		Tsava		Hosts/Armies
+   <G4519>		Sabaoth		Hosts/Armies - transliteration of hebrew       										
+Spirit:
+   <H7307>	  	Ruach           SpiritBreathWind
+   <G4151>		Pneuma		SpiritBreathWind
+Love:
+   <G0025>		Agapeo		Will-Love		done
+   <G0026>		Agape		Will-Love		done
+   <G0027>		Agapetos	Dearones, Dear
+   <>		Filio		Affection
+   <>		Eros		Passion
+   <>		Storge		Love
+---
+   <H1376>		Gevir		Ruler
+   <H2657>		Hepzibah	MyDelightIsInHer	done
+   <H0403>		Aken		Surely			done
+Pursue:
+   <H1814>          	Dalaq           hotly-pursued		done									
+   <H7291>          	Radaph          pursued			done							
+Leave:
+   <G1459>          	Enkataleipo     Abandon/Forsake		done									
+   <G0447>		Aniemi          Release           										
+---
+   <H1285>		Berith          Covenant             										
+                    	Cherubim        Cherubs!                                                                                           
+   <H2611>              Chaneph         godless
 
-
-Cherubs
-
-Ruach
 Nephesh
+Pharaoh
 
 Place names
 ===========
@@ -25,6 +68,14 @@ Creatures
 =========
 serpent
 fig
+man:adam,ish
+woman:isha
 
 
+you-all (plural):
+   <G4671>		Soi		You
+   <G5213>		Humin		To-you-all
+present tense in midst of past
 
+forever
+edify - upbuild

@@ -67,7 +67,8 @@
 }
 
 .sectGeneral {
-  width: 96%;
+  width: 97%;
+  margin: auto;
   /* border: 3px solid #773322; */
   border: 3px solid DimGray;
 }

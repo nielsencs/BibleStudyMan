@@ -1,4 +1,5 @@
 <?php
+  // $bHome = true;
   require_once 'header.php';
   require_once '../sqlCon.php';
   require_once 'dbFunctions.php';
@@ -155,7 +156,7 @@
     <div class="subMain Bible floatRight">
        <!-- onmouseover="showHide('planBlock', true);" -->
        <!-- onmouseout="showHide('planBlock', false);"> -->
-      <h2>4. The Nielsen Edition of the World English Bible</h2>
+      <h2>4. The Bible</h2>
       <p>Do you know the difference between &lsquo;God&rsquo;, &lsquo;
         <span class="small-caps">The Lord</span>&rsquo; (as opposed to &lsquo;The
         Lord&rsquo;) & &lsquo;God Almighty&rsquo;?</p>

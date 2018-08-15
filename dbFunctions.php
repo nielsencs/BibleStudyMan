@@ -1,8 +1,96 @@
 <?php
   function doQuery($link, $tQuery){
-  echo '<!-- ' . $tQuery . ' -->';
-  return mysqli_query($link, $tQuery);
-}
+    echo '<!-- ' . $tQuery . ' -->';
+    return mysqli_query($link, $tQuery);
+  }
+
+  function buildLink($tBookName, $iChapter, $tSearch, $bPhrase){
+    $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName;
+    if($iChapter > 0){
+      $tReturn .= '&chapter=' . $iChapter;
+    }
+    $tReturn .= '&search=' . str_replace(' ', '+', $tSearch);
+    if($bPhrase){
+      $tReturn .= '&phrase=on';
+    }
+    $tReturn .= '">';
+    return $tReturn;
+  }
+
+  function prepareBookList(){
+    global $link, $tBook, $iBook;
+    $tOutput = '';
+
+    $tQuery = 'SELECT bookName, bookChapters, orderChristian FROM books ORDER BY orderChristian;';
+    $result = doQuery($link, $tQuery);
+    if (mysqli_num_rows($result) > 0) {
+      $tOutput .= '<script type="text/javascript">';
+      $tOutput .=  'var atBooks = [["Start from 1!",';
+      $tOutput .=  '0]';
+
+      while($row = mysqli_fetch_assoc($result)) {
+        $tOutput .=  ', ["' . $row['bookName'] . '", ';
+        $tOutput .=  $row['bookChapters'] . ']';
+        if(strtoupper($row['bookName']) == strtoupper($tBook)){
+          $iBook = $row['orderChristian'];
+        }
+      }
+      $tOutput .=  '];';
+      $tOutput .=  'var iBook=' . $iBook . ';';
+      $tOutput .=  '</script>';
+    } else {
+      $tOutput .=  'Tell Carl something went wrong with the BibleStudyMan database :(';
+    }
+    mysqli_free_result($result);
+    return $tOutput;
+  }
+
+  function prepareDropdownBookList(){
+    global $link, $tBook;
+    $tOutput = '';
+
+    $tQuery = 'SELECT bookName FROM books;';
+    $result = doQuery($link, $tQuery);
+
+    if (mysqli_num_rows($result) > 0) {
+      while($row = mysqli_fetch_assoc($result)) {
+        // $tOutput .= '<option value="' . $row['bookName'] . '">';
+        $tOutput .= '<option value="' . $row['bookName'] . '"';
+        // if ($row['bookName'] == $tBook) {
+          // $tOutput .= ' selected';
+        // }
+        $tOutput .= '>' . $row['bookName'] . '</option>';
+      }
+    } else {
+      $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database :(';
+    }
+    mysqli_free_result($result);
+    return $tOutput;
+  }
+
+  function prepareStrongs(){
+    global $link;
+    $atStrongs = array();
+
+    $tQuery = 'SELECT strongsNumber, strongsOriginal, strongsEnglish FROM strongs;';
+    $result = doQuery($link, $tQuery);
+
+    if (mysqli_num_rows($result) > 0) {
+      while($row = mysqli_fetch_assoc($result)) {
+        $atStrongs += [$row['strongsNumber'] => $row['strongsOriginal']];
+      }
+    } else {
+      echo 'Tell Carl something went wrong with the BibleStudyMan database :(';
+    }
+    mysqli_free_result($result);
+
+    return $atStrongs;
+  }
+
+  function strongs($tStrongsNo){
+    global $atStrongs;
+    return $atStrongs[$tStrongsNo];
+  }
 
 /*
 * days_in_month($month, $year)
@@ -23,7 +111,9 @@
   function basicPassageQuery(){
     $tBaseQuery = '';
     $tBaseQuery .= 'SELECT DISTINCT books.bookName, verses.chapter, verses.verseNumber, ';
-    $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "[H430]", ""), "[H3068]", "") AS vt';
+    // $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "[H430]", ""), "[H3068]", "") AS vt';
+    // $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "<H430>", ""), "<H3068>", "") AS vt';
+    $tBaseQuery .= 'verses.verseText AS vt';
     $tBaseQuery .= ', books.bookName ';
     $tBaseQuery .= 'FROM verses INNER JOIN books ON verses.bookCode=books.bookCode ';
 
@@ -181,19 +271,6 @@
     return $tOutput;
   }
 
-  function buildLink($tBookName, $iChapter, $tSearch, $bPhrase){
-    $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName;
-    if($iChapter > 0){
-      $tReturn .= '&chapter=' . $iChapter;
-    }
-    $tReturn .= '&search=' . str_replace(' ', '+', $tSearch);
-    if($bPhrase){
-      $tReturn .= '&phrase=on';
-    }
-    $tReturn .= '">';
-    return $tReturn;
-  }
-
   function passage($tBook, $tChapter, $tVerses, $tSearch, $bPhrase){
     global $link;
 
@@ -213,7 +290,7 @@
           $tOutput .=  '<p>I can&rsquo;t understand what you want - this is the beginning of The Bible:</p>';
           $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber<10;';
         }else{
-          $tQuery = $tBaseQuery . ' WHERE verses.verseText LIKE "%' . percentify($tSearch, $bPhrase) . '%";';
+          $tQuery = $tBaseQuery . ' WHERE verses.verseText LIKE "' . addSQLWildcards($tSearch, $bPhrase) . '";';
         }
       } else {
         $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '"';
@@ -222,7 +299,7 @@
           if (empty($tSearch)) {
             $tQuery = $tQuery . ';';
           }else{
-            $tQuery = $tQuery . ' AND verses.verseText LIKE "' . percentify($tSearch, $bPhrase) . '";';
+            $tQuery = $tQuery . ' AND verses.verseText LIKE "' . addSQLWildcards($tSearch, $bPhrase) . '";';
           }
         }else{
           // ---- NOT searching down to verse level - keep commented in case I change my mind!
@@ -238,7 +315,7 @@
           // if (empty($tSearch)) {
             $tQuery = $tQuery . ';';
           // }else{
-            // $tQuery = $tQuery . ' AND verses.verseText LIKE "' . percentify($tSearch, $bPhrase) . '";';
+            // $tQuery = $tQuery . ' AND verses.verseText LIKE "' . addSQLWildcards($tSearch, $bPhrase) . '";';
           // }
           // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
         }
@@ -256,10 +333,10 @@
           }
           if (isInRange($row['verseNumber'], $tVerses)){
             $tOutput .=  '<span class="highlight">';
-            $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>' . $row['vt'] . ' ';
+            $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>' . processStrongs($row['vt']) . ' ';
             $tOutput .=  '</span>';
           }else{
-            $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>' . highlightSearch($row['vt']) . ' ';
+            $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>' . highlightSearch(processStrongs($row['vt'])) . ' ';
           }
           $tLastBookName = $row['bookName'];
           $iLastChapter = $row['chapter'];
@@ -271,6 +348,49 @@
 // ------------------- display Bible passage -------------------------------
     }
     return $tOutput;
+  }
+
+  function processStrongs($tValue){
+    $iWordStart = 0;
+    $iTagStart = 0;
+    $iTagEnd = 0;
+    $iSearchEnd = 0;
+    $tNewValue = '';
+    $tStrongsNo = '';
+
+    $bHighlight = true;
+    $bBracketHebrew = true;
+
+    do {
+      $iTagStart = strpos($tValue, '<');
+      // echo '<!-- $iTagStart:' . $iTagStart . ' -->';
+      if ($iTagStart > 0) {
+        $iWordStart = strrpos(substr($tValue, 0, $iTagStart), ' '); // look for preceeding space
+        if (($iWordStart > 0)){$iWordStart = $iWordStart + 1;}else{$iWordStart = 0;}; // if first word - no space
+        // echo '<!-- $iWordStart:' . $iWordStart . ':over 0:' . ($iWordStart > 0) . ' -->';
+        $iTagEnd = strpos(substr($tValue, 0), '>');
+        // echo '<!-- $iTagEnd:' . $iTagEnd . ' -->';
+        $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - 1 - $iTagStart);
+
+        $tNewValue = $tNewValue . substr($tValue, 0, $iWordStart);
+        if ($bHighlight){
+          $tNewValue = $tNewValue . '<span style="background: lavender"';
+          // $tNewValue = $tNewValue . 'onmouseover=""';
+          // $tNewValue = $tNewValue . 'onmouseout=""';
+          $tNewValue = $tNewValue . '>';
+        }
+        $tNewValue = $tNewValue . substr($tValue, $iWordStart, $iTagEnd + 1 - $iWordStart);
+        if ($bBracketHebrew){
+          $tNewValue = $tNewValue . ' <sub>(' . strongs($tStrongsNo) . ')</sub>';
+        }
+        if ($bHighlight){
+          $tNewValue = $tNewValue . '</span> ';
+        }
+
+        $tValue = substr($tValue, $iTagEnd + 1);
+      }
+    } while ($iTagStart > 0);
+    return $tNewValue . $tValue;
   }
 
   function highlightSearch($tValue){
@@ -291,15 +411,15 @@
     return $tValue;
   }
 
-function highlightStr($needle, $haystack) {
-    preg_match_all("/$needle+/i", $haystack, $matches);
-    if (is_array($matches[0]) && count($matches[0]) >= 1) {
-        foreach ($matches[0] as $match) {
-            $haystack = str_replace($match, '<span class="highlight">' . $match . '</span>', $haystack);
-        }
-    }
-    return $haystack;
-}
+// function highlightStr($needle, $haystack) {
+//     preg_match_all("/$needle+/i", $haystack, $matches);
+//     if (is_array($matches[0]) && count($matches[0]) >= 1) {
+//         foreach ($matches[0] as $match) {
+//             $haystack = str_replace($match, '<span class="highlight">' . $match . '</span>', $haystack);
+//         }
+//     }
+//     return $haystack;
+// }
 
 function highlight($needle, $haystack){
     $ind = stripos($haystack, $needle);
@@ -311,7 +431,7 @@ function highlight($needle, $haystack){
     } else return $haystack;
 }
 
-  function percentify($tValue, $bPhrase){
+  function addSQLWildcards($tValue, $bPhrase){
     if($bPhrase){
       $tValue = '%' . $tValue . '%';
     }else {

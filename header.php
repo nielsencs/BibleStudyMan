@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+  $thisFile = $_SERVER['PHP_SELF'];
+  $thisFile = substr($thisFile, strlen($thisFile)-9);
+  $bHome = ($thisFile == 'index.php');
+?>
+
 <head>
   <title>BibleStudyMan.co.uk</title>
   <meta charset="UTF-8">
@@ -22,13 +28,14 @@
     <noscript>
       <h1 class="centerText">It seems that you currently don&rsquo;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
     </noscript>
-    <img class="banner-image" src="images/BibleBannerRainbow.jpg" alt="pic of open bible on desk">
+
+    <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>.jpg" alt="pic of open bible on desk">
 
     <div class="menu">
-      <div class="logo">
+      <!-- <div class="logo"> -->
         <!-- <a href="https://www.BibleStudyMan.co.uk">BibleStudyMan</a> -->
-        <a href="https://www.BibleStudyMan.co.uk"><img src="images/BSMLogo.png" alt="BibleStudyMan logo"></a>
-      </div>
+        <a href="https://www.BibleStudyMan.co.uk"><img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo"></a>
+      <!-- </div> -->
 
       <ul class="nav">
         <li><a href="index.php">Home</a></li>

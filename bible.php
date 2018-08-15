@@ -3,40 +3,19 @@
   require_once '../sqlCon.php';
   require_once 'dbFunctions.php';
 
-  $tBook = filter_input(INPUT_GET, 'book', FILTER_SANITIZE_STRING);
-  $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING);
-  $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING);
-  $tSearch = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING);
+  $tBook = filter_input(INPUT_GET, 'book', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  $tSearch = filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $bPhrase = isset($_GET['phrase']);
 ?>
 
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
 
 <?php
-// ----------- prepare list of books for selection --------------
   $iBook = 0;
-  $tQuery = 'SELECT bookName, bookChapters, orderChristian FROM books ORDER BY orderChristian;';
-  $result = doQuery($link, $tQuery);
-  if (mysqli_num_rows($result) > 0) {
-    echo '<script type="text/javascript">';
-    echo 'var atBooks = [["Start from 1!",';
-    echo '0]';
-
-    while($row = mysqli_fetch_assoc($result)) {
-      echo ', ["' . $row['bookName'] . '", ';
-      echo $row['bookChapters'] . ']';
-      if(strtoupper($row['bookName']) == strtoupper($tBook)){
-        $iBook = $row['orderChristian'];
-      }
-    }
-    echo '];';
-    echo 'var iBook=' . $iBook . ';';
-    echo '</script>';
-  } else {
-    echo 'Tell Carl something went wrong with the BibleStudyMan database :(';
-  }
-  mysqli_free_result($result);
-// ----------- prepare list of books for selection --------------
+  echo prepareBookList();
+  $atStrongs = prepareStrongs();
 ?>
 
 <script type="text/javascript">
@@ -141,7 +120,7 @@
         <div class="main Bible">
             <h1>The Nielsen Edition of the World English Bible</h1>
             <div class="subMain sectGeneral">
-        <p>This is a minor adaptation of the <a href="https://worldenglishbible.org">WEB</a>
+        <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
           to include nuanced meanings of particular ancient words for placenames,
           God and others of special interest.</p>
                 <!-- p>This doesn't look like much yet...<br>
@@ -165,22 +144,7 @@
                       <!-- <td><select name="book" id="book"> -->
                       <!-- <option value="">Pick a book</option>'; -->
 <?php
-  $tQuery = 'SELECT bookName FROM books;';
-  $result = doQuery($link, $tQuery);
-
-  if (mysqli_num_rows($result) > 0) {
-    while($row = mysqli_fetch_assoc($result)) {
-      // echo '<option value="' . $row["bookName"] . '">';
-      echo '<option value="' . $row["bookName"] . '"';
-      // if ($row["bookName"] == $tBook) {
-        // echo ' selected';
-      // }
-      echo '>' . $row["bookName"] . '</option>';
-    }
-  } else {
-    echo "Tell Carl something went wrong with the BibleStudyMan database :(";
-  }
-  mysqli_free_result($result);
+  echo prepareDropdownBookList();
 ?>
                       </datalist>
                       <!-- </select> -->

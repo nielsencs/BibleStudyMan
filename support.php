@@ -17,12 +17,12 @@
     require_once 'PayPalButton.php';
 ?>
                 </div>
-                <p>Or there's <a href="https://www.patreon.com/BibleStudyMan">Patreon</a>
+                <p>Or there's <a href="https://www.patreon.com/BibleStudyMan" target="_blank">Patreon</a>
                 where you can become a Patron with a regular contribution of a
                 dollar (or whatever is the equivalent in your currency) each
                 month. You can of course go for higher amounts too! To find out
                 more or to sign up check out
-                <a href="https://www.patreon.com/BibleStudyMan">Patreon.com/BibleStudyMan</a>
+                <a href="https://www.patreon.com/BibleStudyMan" target="_blank">Patreon.com/BibleStudyMan</a>
               </p>
                 <div class="center">
               <a href="https://www.patreon.com/bePatron?u=10742455"
