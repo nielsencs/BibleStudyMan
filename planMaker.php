@@ -3,10 +3,11 @@
   require_once '../sqlCon.php';
   require_once 'dbFunctions.php';
 
+  $tSection = filter_input(INPUT_GET, 'section', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tBook = filter_input(INPUT_GET, 'book', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $tWords = filter_input(INPUT_GET, 'words', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  $tDays = filter_input(INPUT_GET, 'days', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $bShowMore = isset($_GET['showMore']);
   $bHighlightSW = isset($_GET['highlightSW']);
   $bShowOW = isset($_GET['showOW']);
@@ -27,8 +28,8 @@
   }
 
   function doSubmit(bJustDoit = false) {
-    // if(wordCount(document.searchForm.words.value) > 0){
-    if(document.searchForm.words.value > '' || bJustDoit){
+    // if(wordCount(document.searchForm.days.value) > 0){
+    if(document.searchForm.days.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
     }
@@ -108,9 +109,10 @@
   }
 
   function setFields(){
+    document.searchForm.section.value = "<?php echo $tSection; ?>";
     document.searchForm.book.value = "<?php echo $tBook; ?>";
     document.searchForm.chapter.value = "<?php echo $tChapter; ?>";
-    document.searchForm.words.value = "<?php echo $tWords; ?>";
+    document.searchForm.days.value = "<?php echo $tDays; ?>";
     document.searchForm.showMore.checked = "<?php echo $bShowMore; ?>";
     document.searchForm.highlightSW.checked = "<?php echo $bHighlightSW; ?>";
     document.searchForm.showOW.checked = "<?php echo $bShowOW; ?>";
@@ -121,44 +123,32 @@
   }
 </script>
         <div class="main Bible">
-            <h1>The Bible</h1>
+            <h1>Plan Maker</h1>
             <div class="subMain sectGeneral">
-        <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
-          to include nuanced meanings of particular ancient words for placenames,
-          God and others of special interest. In general square brackets:[] are
-          used to indicated words not found in the original text. It also indicates
-          the 5 books of the Psalms; and a few passages considered by some to be
-          of questionable authenticity.</p>
-                <!-- p>This doesn't look like much yet...<br>
-                I need to develop the code to:</p>
-                <ul>
-                    <li>complete the compilation of this edition</li>
-                    <li>provide a lookup for certain words</li>
-                    <li>Any other requests?</li>
-                </ul -->
-
                 <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
                   <tbody>
                     <tr>
-                      <td><input type="reset" name="clearAll" id="clearAll" value="Clear All"></td>
-                      <td><input type="submit" value="Search"></td>
-                    </tr>
-                    <tr>
                       <td>
                         Book
                         <br />
+                        <input type="text" name="section" id="section" value="" list="sections">
+                        <datalist name="sections" id="sections">
+                        <option value="1TOR">Torah/Law</option>
+                        <option value="2NV1">Nevi&lsquo;im/Prophets</option>
+                        <option value="3KTV">K&lsquo;Tuvim/Writings</option>
+                        <option value="5NCV">New Covenant/New Testament</option>
+                        </datalist>
+
                         <input type="text" name="book" id="book" value="" list="books">
                         <datalist name="books" id="books">
-                        <!-- <td><select name="book" id="book"> -->
-                        <!-- <option value="">Pick a book</option>'; -->
 <?php
   echo prepareDropdownBookList();
 ?>
                         </datalist>
-                        <!-- </select> -->
                         <br />
+
                         <input type="button" value="&lt;" onclick="doDirection('pb')">
                         <input type="button" value="Clear" onclick="clearField('book')">
                         <input type="button" value="&gt;" onclick="doDirection('nb')">
@@ -174,16 +164,14 @@
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="2">Words<br />
-                        <input type="button" value="Clear" onclick="clearField('words')">
-                        <!-- <td colspan="2"><input type="text" name="words" id="words" value="<?php echo $tWords; ?>"></td> -->
-                        <input type="text" name="words" id="words" value="">
-                        <!-- <input type="checkbox" name="showMore" id="showMore"<?php if($bShowMore){ echo ' checked';} ?>> Show More? -->
+                      <td colspan="2">Days<br />
+                        <input type="button" value="Clear" onclick="clearField('days')">
+                        <input type="text" name="days" id="days" value="365">
                         <input type="checkbox" name="showMore" id="showMore" onclick="doSubmit()"> Show More?
                         <br />
                         &lsquo;Special&rsquo; Words<br />
-                        <input type="checkbox" name="highlightSW" id="highlightSW" checked="true" onclick="doSubmit(true)">Highlight
-                        <input type="checkbox" name="showOW" id="showOW" checked="true" onclick="doSubmit(true)">Show Hebrew/Greek
+                        <input type="checkbox" name="highlightSW" id="highlightSW" onclick="doSubmit(true)">Highlight
+                        <input type="checkbox" name="showOW" id="showOW" onclick="doSubmit(true)">Show Hebrew/Greek
                       </td>
                     </tr>
                     <tr>
@@ -194,7 +182,16 @@
                 </table>
                 </form>
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore);
+  $text = planTest($tSection, $tBook, $tChapter, $tVerses, $tDays, $bShowMore);
+
+  $chunk = strlen($text)/$tDays;
+
+  for ($i = 0; $i < $tDays; $i++) {
+    echo "<p><b>";
+    echo 'Day ';
+    echo $i + 1;
+    echo "</b><br>" . substr($text, $i * $chunk, $chunk) . "</p>";
+  }
 ?>
             </div>
         </div>
@@ -202,4 +199,62 @@
 
   mysqli_close($link);
   require_once 'footer.php';
+
+  function planTest($tSection, $tBook, $tChapter, $tVerses, $tDays, $bShowMore){
+    global $link, $bHighlightSW, $bShowOW;
+
+    $bProcessRequest = (strlen($tSection . $tBook . $tChapter . $tVerses . $tSearch) > 0);
+
+    // $tOutput = '';
+    $tBaseQuery = basicMakerQuery();
+    if ($bProcessRequest) {
+      if (empty($tSection)) {
+        if (empty($tBook)) {
+          if (empty($tSearch)) {
+            $tOutput .=  '<p>I can&rsquo;t understand what you want - this is the beginning of The Bible:</p>';
+            $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber<10;';
+          }else{
+            $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tSearch, $bShowMore) . ';';
+          }
+        } else {
+          if ($tBook == '2 & 3 John') {
+            $tQuery = $tBaseQuery . ' WHERE books.bookName ="2 John" OR  books.bookName ="3 John"';
+          } else {
+            $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '"';
+          }
+          if (empty($tChapter))
+          {
+            if (empty($tSearch)) {
+              $tQuery = $tQuery . ';';
+            }else{
+              $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tSearch, $bShowMore) . ';';
+            }
+          }else{
+            $tQuery = $tQuery . ' AND verses.chapter=' . $tChapter;
+            $tQuery = $tQuery . ';';
+          }
+        }
+      } else {
+        if($tSection == '2NV1'){
+          $tSection = '%NV%';
+        }
+        $tQuery = $tBaseQuery . ' WHERE books.sectionCode LIKE "' . $tSection . '"';
+      }
+      $tOutput = showPassage($tQuery);
+      return $tOutput;
+    }
+  }
+
+  function basicMakerQuery(){
+    $tBaseQuery = '';
+    $tBaseQuery .= 'SELECT DISTINCT books.sectionCode, books.bookName, verses.chapter, verses.verseNumber, ';
+    // $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "[H430]", ""), "[H3068]", "") AS vt';
+    // $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "<H430>", ""), "<H3068>", "") AS vt';
+    $tBaseQuery .= 'verses.verseText AS vt';
+    $tBaseQuery .= ', books.bookName ';
+    $tBaseQuery .= 'FROM verses INNER JOIN books ON verses.bookCode=books.bookCode ';
+
+    return $tBaseQuery;
+  }
+
 ?>

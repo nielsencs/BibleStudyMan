@@ -50,6 +50,8 @@ Leave:
                     	Cherubim        Cherubs!                                                                                           
    <H2611>              Chaneph         godless
 
+
+   <G2315>		Theopneustos	Godbreathed		done
 Nephesh
 Pharaoh
 
@@ -75,7 +77,11 @@ woman:isha
 you-all (plural):
    <G4671>		Soi		You
    <G5213>		Humin		To-you-all
+
 present tense in midst of past
 
 forever
 edify - upbuild
+
+heaven
+hell

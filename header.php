@@ -29,7 +29,7 @@
       <h1 class="centerText">It seems that you currently don&rsquo;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
     </noscript>
 
-    <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>.jpg" alt="pic of open bible on desk">
+    <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>.jpg" alt="pic of open Bible on desk">
 
     <div class="menu">
       <!-- <div class="logo"> -->

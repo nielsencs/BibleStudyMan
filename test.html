@@ -1,18 +1,53 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title></title>
-  </head>
-  <body>
-    Hi
-    <script type="text/javascript">
-      var x=112;
-      x=7;
-      doit();
-      function doit(){
-        alert(x);
-      }
-    </script>
-  </body>
+<html>
+<head>
+
+<style>
+.formTitle {
+  display:block;
+  margin:auto;
+  border:3px solid yellow;"
+}
+</style>
+</head>
+<body>
+
+                <form name="searchForm" id="searchForm" action="/bible.php" method="get" onsubmit="showWait();">
+
+                <div style="width:700px; margin:auto; border:3px solid red;">
+                    <div style="display:block; float: left; width:200px; border:3px solid green;">
+                      <span class="formTitle">Book</span>
+                      <br />
+                      <input type="text" name="book" id="book" value="" list="books">
+                      <br />
+                      <input type="button" value="&lt;" onclick="doDirection('pb')">
+                      <input type="button" value="Clear" onclick="clearField('book')">
+                      <input type="button" value="&gt;" onclick="doDirection('nb')">
+                    </div>
+                    <div style="display:block; float: left; width:200px; border:3px solid blue;">
+                      <span class="formTitle">Chapter</span>
+                      <br />
+                      <input type="text" name="chapter" id="chapter" value="">
+                      <br />
+                      <input type="button" value="&lt;" onclick="doDirection('pc')">
+                      <input type="button" value="Clear" onclick="clearField('chapter')">
+                      <input type="button" value="&gt;" onclick="doDirection('nc')">
+                  </div>
+                <div>
+                  <td colspan="2">Words<br />
+                    <input type="button" value="Clear" onclick="clearField('search')">
+                    <!-- <td colspan="2"><input type="text" name="search" id="search" value=""></td> -->
+                    <input type="text" name="search" id="search" value="">
+                    <!-- <input type="checkbox" name="showMore" id="showMore"> Show More? -->
+                    <input type="checkbox" name="showMore" id="showMore" onclick="doSubmit()"> Show More?
+                  </td>
+                </div>
+                <tr>
+                    <td><input type="reset" name="clearAll" id="clearAll" value="Clear All"></td>
+                    <td><input type="submit" value="Search"></td>
+                </tr>
+              </div>
+                </form>
+
+</body>
 </html>

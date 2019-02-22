@@ -7,9 +7,13 @@
                 <p>Thanks for checking here! This has been and continues to be a
                 massive undertaking for me and I could do with all the help I can
                 get. Supporting me spiritually by praying that I'd stay on track
-                would be wonderful. If you'd be happy to sign up for the monthly
+                would be wonderful. I would welcome volunteers to help with developing
+                the site or some of the (often quite tedious!) &lsquo;grunt&rsquo;
+                work on The Bible text.
+</p>
+                <!-- p>If you'd be happy to sign up for the monthly
                 newsletter (see the tab below) I'll keep in touch with you once
-                a month (no more, I promise!) via email to let you know my progress.</p>
+                a month (no more, I promise!) via email to let you know my progress.</p-->
                 <p>Obviously money is useful too! You can make one off or regular
                 donations via PayPal:</p>
                 <div class="center">
@@ -26,8 +30,12 @@
               </p>
                 <div class="center">
               <a href="https://www.patreon.com/bePatron?u=10742455"
-              data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
+              data-patreon-widget-type="become-patron-button" target="_blank">Become
+              a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
             </div>
+<?php
+    require_once 'costs.php';
+?>
               <p>Thanks again for visiting this page and any support you can
                 offer will be very gratefully received.</p>
             </div>

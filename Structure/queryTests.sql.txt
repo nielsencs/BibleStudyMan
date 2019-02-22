@@ -33,6 +33,139 @@ SELECT rownum(), plan2.ID, books.bookName, plan2.startChapter, plan2.startVerse,
 FROM 
 plan2 INNER JOIN books ON plan2.bookCode=books.bookCode ORDER BY books.orderChron2, ID
 
+--------------------------------------------------------------
+DROP FUNCTION IF EXISTS rownum;
+DELIMITER $$
+CREATE FUNCTION rownum()
+  RETURNS int(11)
+BEGIN
+  set @prvrownum=if(@ranklastrun=CURTIME(6),@prvrownum+1,1);
+  set @ranklastrun=CURTIME(6);
+  RETURN @prvrownum;
+END $$
+$$
+DELIMITER ;
+
+SELECT rownum() AS ID, newPlan.planID, books.bookName, newPlan.startChapter, newPlan.startVerse, newPlan.endChapter, newPlan.endVerse
+FROM 
+newPlan INNER JOIN books ON newPlan.bookCode=books.bookCode
+ORDER BY books.orderChron2, newPlan.planID
+--------------------------------------------------------------
+
+--------------------------------------------------------------
+DROP FUNCTION IF EXISTS rownum;
+DELIMITER $$
+CREATE FUNCTION rownum()
+  RETURNS int(11)
+BEGIN
+  set @prvrownum=if(@ranklastrun=CURTIME(6),@prvrownum+1,1);
+  set @ranklastrun=CURTIME(6);
+  RETURN @prvrownum;
+END $$
+$$
+DELIMITER ;
+
+SELECT 
+rownum() AS ID, 
+NP.planID, NP.bookName, NP.startChapter, NP.startVerse, NP.endChapter, NP.endVerse
+FROM (
+  SELECT
+    newPlan.planID,
+    books.bookName,
+    newPlan.startChapter, 
+    newPlan.startVerse, 
+    newPlan.endChapter, 
+    newPlan.endVerse
+  FROM 
+    newPlan INNER JOIN books ON newPlan.bookCode=books.bookCode
+  ORDER BY
+    newPlan.planDay, 
+    newPlan.sectionCode,
+    books.orderChron2)
+AS NP
+--------------------------------------------------------------
+--------------------------------------------------------------
+SELECT
+    newPlan.planID,
+    newPlan.planDay,
+    newPlan.sectionCode,
+	newPlan.bookCode,
+	books.bookChapters,
+    books.bookName,
+	books.orderChristian,
+	books.orderJewish,
+	books.orderChron1,
+	books.orderChron2,
+	books.testament,
+	books.sectionCode,
+    newPlan.startChapter, 
+    newPlan.startVerse, 
+    newPlan.endChapter, 
+    newPlan.endVerse
+  FROM 
+    newPlan INNER JOIN books ON newPlan.bookCode=books.bookCode
+  ORDER BY
+    books.orderChron2,
+    newPlan.planDay, 
+    newPlan.sectionCode
+--------------------------------------------------------------
+
+planDay
+sectionCode
+bookCode
+startChapter
+startVerse
+endChapter
+endVerse
+
+planDate
+sectionCode
+bookCode
+passageStart
+passageEnd
+
+SELECT DATE(`date`) AS `date` , COUNT(`player_name`) AS `player_count`
+FROM (
+    SELECT MIN(`date`) AS `date`, `player_name`
+    FROM `player_playtime`
+    GROUP BY `player_name`
+) AS t
+GROUP BY DATE( `date`) DESC LIMIT 60 ;
 
 
- 
+
+
+CREATE TEMPORARY TABLE `ThePlan` (
+  `ID` smallint(6) NOT NULL,
+  `planDate` date NOT NULL,
+  `sectionCode` varchar(4) NOT NULL,
+  `bookCode` varchar(3) NOT NULL,
+  `passageStart` varchar(10) NOT NULL,
+  `passageEnd` varchar(10) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+
+
+-------------------------------------------
+SELECT * from verses LEFT OUTER JOIN ON newPlan WHERE 
+
+	
+newPlan.planID
+newPlan.planDay
+newPlan.sectionCode
+newPlan.bookCode
+newPlan.startChapter
+newPlan.startVerse
+newPlan.endChapter
+newPlan.endVerse
+
+
+
+verses
+
+verses.verseID
+verses.bookCode
+verses.chapter
+verses.verseNumber
+verses.verseText
+-------------------------------------------

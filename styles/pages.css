@@ -31,6 +31,7 @@
   -ms-border-radius: 14px;
   -khtml-border-radius: 14px;
 
+  /* -webkit-box-shadow: 3px 3px 7px DimGray;   */
   /* box-shadow: 3px 3px 7px DimGray; */
 }
 
@@ -73,6 +74,14 @@
   border: 3px solid DimGray;
 }
 
+.infoBox {
+  border:solid white 7px;
+  width:300px;
+  padding:auto;
+  margin:auto;
+  -webkit-box-shadow: 7px 7px 7px 7px rgba(0,0,0,0.3);
+  box-shadow: 7px 7px 7px 7px rgba(0,0,0,0.3);
+}
 .searchTable {
   background: #EEEEDD;
   border: 3px solid #FF0000;
