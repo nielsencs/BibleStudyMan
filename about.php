@@ -3,7 +3,7 @@
 ?>
         <div class="main">
           <h1>Oh it's that 'About' page!</h1>
-          <img class="mugshot" src="images/Carl-SmileSmall.png" alt="mugshot of Carl"/>
+          <img class="mugshot" src="images/Carl-Small.png" alt="mugshot of Carl"/>
           <h2>So who is this Bible Study Man anyways?</h2>
             <p>Hi! My name is Carl Nielsen and I gave my life to The Lord on
                 14th September 1980. Sometime after that I began making a habit of
