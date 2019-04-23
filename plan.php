@@ -7,9 +7,9 @@
   $month = filter_input(INPUT_GET, 'book');
   $day = filter_input(INPUT_GET, 'chapter');
   $tVerse = filter_input(INPUT_GET, 'verse');
-  $tSearch = filter_input(INPUT_GET, 'search');
+  $tWords = filter_input(INPUT_GET, 'search');
 
-  $bGotRequest = strlen($tBook . $tChapter. $tVerse . $tSearch)>0;
+  $bGotRequest = strlen($tBook . $tChapter. $tVerse . $tWords)>0;
   */
   $todaysVerses = '';
   $tMonth = filter_input(INPUT_GET, 'month');
@@ -33,7 +33,7 @@
     }elseif ($tMonth < 1){
       $month = 1;
     }else {
-      $month = $tMonth;
+      $month = intval($tMonth);
     }
   }
 
@@ -57,7 +57,7 @@
           <div class="main plan">
               <h1>The Bible Reading Plan</h1>
               <div class="subMain sectGeneral">
-                <h2>The Readings</h2>
+                <h2>Readings for <?php echo monthName($month) . " " . $day; ?>:</h2>
   <?php
     // $tOutput = planTable('orderChron2');
     $tOutput = planTable('orderChristian');
@@ -138,7 +138,7 @@
 
   function showReading($tBookCode, $tPassageStart, $tPassageEnd){
     $tQuery =  buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd);
-    return showPassage($tQuery);
+    return showVerses($tQuery);
   }
 
   function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted section
@@ -189,7 +189,7 @@
           if (mysqli_num_rows($result4) == 0) {
             echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery4 . '"';
           } else {
-            $tOutput = buildPlanTable($result1, $result2, $result3, $result4);
+            $tOutput = PTBuild($result1, $result2, $result3, $result4);
           }
         }
       }
@@ -201,7 +201,7 @@
     return $tOutput;
   }
 
-  function buildPlanTable($result1, $result2, $result3, $result4){ // build the HTML table
+  function PTBuild($result1, $result2, $result3, $result4){ // build the HTML table
     global $todaysVerses;
     $tOutput = '';
 
