@@ -21,6 +21,7 @@ h1 {
   font-family: 'Londrina Solid', sans-serif;
   /* font-family: 'Overlock', cursive; */
   margin-top: 7px;
+  margin-bottom: 7px;
   font-size: 21pt;
   text-align: center;
   /* color: #773322; */
@@ -31,14 +32,17 @@ h2 {
   font-family: 'Londrina Solid', sans-serif;
   /* font-family: 'Overlock', cursive; */
   margin-top: 7px;
-  font-size: 14pt;
+  margin-bottom: 7px;
+  font-size: 16pt;
+  text-align: center;
 }
 
 h3 {
   /* font-family: 'Londrina Solid', sans-serif; */
   font-family: 'Lato', sans-serif;
   margin-top: 6px;
-  font-size: 12pt;
+  margin-bottom: 5px;
+  font-size: 14pt;
 }
 
 p {
@@ -312,7 +316,7 @@ tr:nth-child(odd) td:nth-child(even){
 
 .menu {
   width: 100%;
-                                 display: block;
+  display: block;
   padding: 0;
 }
 
@@ -397,103 +401,3 @@ tr:nth-child(odd) td:nth-child(even){
     border: 1px solid magenta;
 }
 */
-
-.content {
-  /* flex: 1 0 auto; */
-  /* height: 100%; */
-  /* min-height: 1000px; */
-  /* height: 1090px; */
-  /* overflow: hidden; */
-}
-
-.mugshot {
-  margin: 3px;
-  padding: 3px;
-  float: left;
-  display: block;
-
-  width: 21%;
-  height: auto;
-
-  max-width:280px;
-  max-height:280px;
-  min-width: 140px;
-  min-height: 140px;
-}
-
-/* img.mugshot {
-  max-width:280px;
-  max-height:280px;
-  min-width: 140px;
-  min-width: 140px;
-} */
-
-.intro {
-  /* border: 1px solid burlywood; */
-  margin: 7px;
-  padding: 7px;
-  overflow: hidden;
-  width: 91%;
-  height: auto;
-  max-width:1000px;
-  /* background-color: white; */
-  /* box-shadow: 3px 3px 7px DimGray; */
-}
-
-.signature {
-  text-align: right;
-  margin-right: 14px;
-}
-
-.main {
-  margin: 1%;
-  padding: 1%;
-  float: none;
-  clear: both;
-  overflow: hidden;
-  height: 80%;
-
-  border-radius: 21px;
-  -webkit-border-radius: 21px;
-  -moz-border-radius: 21px;
-  -o-border-radius: 21px;
-  -ms-border-radius: 21px;
-  -khtml-border-radius: 21px;
-}
-
-.footer {
-  /* background-color: #773322; */
-  background-color: DimGray;
-  color: Gainsboro;
-  list-style: none;
-  text-align: center;
-  padding: 14px 0 14px 0;
-  /* flex-shrink: 0; */
-  height: 100px;
-  /* margin-top: -100px; */
-  /* position: fixed; */
-  /* width: 100%; */
-  /* bottom: 0; */
-  /* position: absolute; */
-}
-
-.footer a {
-  text-decoration: none;
-  font-weight: normal;
-  color: Gainsboro;
-}
-
-.footer a:hover {
-  color: #FFF0CC;
-}
-
-.bibleText {
-  line-height: 1.4;
-  /* padding: 117px 0 0 0; */
-}
-
-.media {
-  float: left;
-  border: 3px solid darkturquoise;
-  margin: 1px;
-}
