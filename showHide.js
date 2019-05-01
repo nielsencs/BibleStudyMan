@@ -1,5 +1,7 @@
 // var bFullHover = ! window.matchMedia("(hover:none), (hover:on-demand)").matches; // touchscreen without mouse gives false
+// ============================================================================
 window.onload = function(){
+// ============================================================================
   // if (bFullHover){
     showHide('block1', false);
     showHide('block2', false);
@@ -13,7 +15,9 @@ window.onload = function(){
   // }
 }
 
+// ============================================================================
 function showHide(tElemName, bShow){
+// ============================================================================
   elem = document.getElementById(tElemName);
   if (bShow) {
     elem.style.display = "block";
@@ -24,7 +28,9 @@ function showHide(tElemName, bShow){
   }
 }
 
+// ============================================================================
 function showHide2(tElemName){
+// ============================================================================
   // alert(tElemName);
   elem = document.getElementById('block' + tElemName);
   button = document.getElementById('button' + tElemName);
