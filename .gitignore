@@ -23,3 +23,10 @@ $RECYCLE.BIN/
 
 # WebServer error log 
 error_log
+
+# working files
+test.php
+test.html
+faviconOld.ico
+faviconOld2.ico
+indexOld.php
