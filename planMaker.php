@@ -203,18 +203,18 @@
   function planTest($tSection, $tBook, $tChapter, $tVerses, $tDays, $bShowMore){
     global $link, $bHighlightSW, $bShowOW;
 
-    $bProcessRequest = (strlen($tSection . $tBook . $tChapter . $tVerses . $tSearch) > 0);
+    $bProcessRequest = (strlen($tSection . $tBook . $tChapter . $tVerses . $tWords) > 0);
 
     // $tOutput = '';
     $tBaseQuery = basicMakerQuery();
     if ($bProcessRequest) {
       if (empty($tSection)) {
         if (empty($tBook)) {
-          if (empty($tSearch)) {
+          if (empty($tWords)) {
             $tOutput .=  '<p>I can&rsquo;t understand what you want - this is the beginning of The Bible:</p>';
             $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber<10;';
           }else{
-            $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tSearch, $bShowMore) . ';';
+            $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bShowMore) . ';';
           }
         } else {
           if ($tBook == '2 & 3 John') {
@@ -224,10 +224,10 @@
           }
           if (empty($tChapter))
           {
-            if (empty($tSearch)) {
+            if (empty($tWords)) {
               $tQuery = $tQuery . ';';
             }else{
-              $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tSearch, $bShowMore) . ';';
+              $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tWords, $bShowMore) . ';';
             }
           }else{
             $tQuery = $tQuery . ' AND verses.chapter=' . $tChapter;
@@ -240,7 +240,7 @@
         }
         $tQuery = $tBaseQuery . ' WHERE books.sectionCode LIKE "' . $tSection . '"';
       }
-      $tOutput = showPassage($tQuery);
+      $tOutput = showVerses($tQuery);
       return $tOutput;
     }
   }

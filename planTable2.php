@@ -7,9 +7,9 @@
   $month = filter_input(INPUT_GET, 'book');
   $day = filter_input(INPUT_GET, 'chapter');
   $tVerse = filter_input(INPUT_GET, 'verse');
-  $tSearch = filter_input(INPUT_GET, 'search');
+  $tWords = filter_input(INPUT_GET, 'search');
 
-  $bGotRequest = strlen($tBook . $tChapter. $tVerse . $tSearch)>0;
+  $bGotRequest = strlen($tBook . $tChapter. $tVerse . $tWords)>0;
   */
   $tMonth = filter_input(INPUT_GET, 'month');
   $tDay = filter_input(INPUT_GET, 'day');
@@ -129,7 +129,7 @@
 
   function showReading($tBookCode, $tPassageStart, $tPassageEnd){
     $tQuery =  buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd);
-    return showPassage($tQuery);
+    return showVerses($tQuery);
   }
 
   function buildSection($sectionCode, $tOrder)
