@@ -106,11 +106,7 @@
   function daysReadingsAsVerses($month, $day){
     global $link;
     $tOutput = '';
-    $tQuery = '';
-
-    $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted ';
-    $tQuery .= 'FROM plan WHERE MONTH(planDate)="' . $month;
-    $tQuery .= '" AND DAY(planDate)="' . $day . '" ORDER BY planDate ASC';
+    $tQuery = getDayReadingQuery($month, $day);
 
     $result = doQuery($link, $tQuery);
 
@@ -129,16 +125,54 @@
       $tOutput .=  '<section class="search-result">';
       for ($i=0; $i < $readCount; $i++) {
         $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
-        $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['passageStart'], $readingList[$i]['passageEnd']);
+        // $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['passageStart'], $readingList[$i]['passageEnd']);
+        $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
       }
       $tOutput .=  '</section>';
     }
     return $tOutput;
   }
 
-  function showReading($tBookCode, $tPassageStart, $tPassageEnd){
-    $tQuery =  buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd);
-    return showVerses($tQuery);
+  function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
+    $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
+    return showPassage($tQuery);
+  }
+
+  function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
+    $tQuery = basicPassageQuery();
+
+    if($tBookCode == '23J'){
+      $tQuery .=' WHERE (books.bookCode = "2JO" OR books.bookCode = "3JO")';
+    }else{
+      $tQuery .=' WHERE books.bookCode = "' . $tBookCode . '"';
+    }
+
+    if ($iStartChapter == $iEndChapter || $iEndChapter < 1){ // one chapter
+      if($iStartVerse < 1){ // whole chapter
+        $tQuery .= ' AND verses.chapter = ' . $iStartChapter;
+      }else {
+        $tQuery .= ' AND verses.chapter = ' . $iStartChapter;
+        $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;
+        $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
+      }
+    } else {
+        $tQuery .= ' AND (';
+        $tQuery .= '(verses.chapter = ' . $iStartChapter;
+        $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse . ')';
+        $tQuery .= ' OR ';
+        $tQuery .= ' (verses.chapter = ' . $iEndChapter;
+        $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse . ')';
+        if ($iEndChapter == $iStartChapter + 1){
+            $tQuery .= ')';
+        } else {
+        $tQuery .= ' OR ';
+            $tQuery .= ' (verses.chapter >' . $iStartChapter;
+            $tQuery .= ' AND verses.chapter <' . $iEndChapter . '))';
+        }
+    }
+    $tQuery .= ' ORDER BY bookName, chapter, verseNumber ASC';
+
+    return $tQuery;
   }
 
   function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted section
@@ -189,7 +223,7 @@
           if (mysqli_num_rows($result4) == 0) {
             echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery4 . '"';
           } else {
-            $tOutput = PTBuild($result1, $result2, $result3, $result4);
+            $tOutput = buildPlanTable($result1, $result2, $result3, $result4);
           }
         }
       }
@@ -201,7 +235,7 @@
     return $tOutput;
   }
 
-  function PTBuild($result1, $result2, $result3, $result4){ // build the HTML table
+  function buildPlanTable($result1, $result2, $result3, $result4){ // build the HTML table
     global $todaysVerses;
     $tOutput = '';
 
