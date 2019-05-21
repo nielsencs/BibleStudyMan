@@ -1,10 +1,12 @@
 var oDate = new Date();
-var iLatest = 40;
-var oTarget = nextMeeting(oDate,   // a date object
-                          2,       // 2=Tuesday
-                          15,      // 15=3pm
-                          iLatest, // length of meeting in minutes
-                          iBST);   // summer time
+var iEarliest = 7 // earliest time can join meeting in minutes
+
+var iLatest = 30;
+var oTarget = nextMeeting(oDate,     // a date object
+                          2,         // 2=Tuesday
+                          15,        // 15=3pm
+                          iLatest,   // last time can join meeting in minutes
+                          iBST);     // summer time
 var oCountdown = setInterval(function() {
   var oNow = new Date();
 
@@ -33,15 +35,20 @@ var oCountdown = setInterval(function() {
 
   document.getElementById('counter').innerHTML = 'The next meeting is in ' + tOutput;
 
-  if (distance < 0) {
-    if (distance < -1000 * 60 * iLatest) { // let people join up to 40 mins late
+  if (distance < 1000 * 60 * 7) { // iEarliest mins to go - let 'em in early :)
+    if (distance < -1000 * 60 * iLatest) { // let people join up to iLatest mins late
       document.getElementById('counter').innerHTML =
       // clearInterval(oCountdown);
       'The next meeting is in a week.';
       window.location.replace(window.location.pathname + window.location.search + window.location.hash);
     } else {
-      document.getElementById('counter').innerHTML =
-      'The next meeting is <a href="https://zoom.us/j/' + tZoomMeetingTrimmed + '"" target="_blank">on right now - join us!</a>';
+      if (distance < -1000 * 60 * 7) { // iEarliest mins in - not 'just starting'
+        document.getElementById('counter').innerHTML =
+        'The next meeting is <a href="https://zoom.us/j/' + tZoomMeetingTrimmed + '"" target="_blank">on right now - join us!</a>';
+      } else {
+        document.getElementById('counter').innerHTML =
+        'The next meeting is <a href="https://zoom.us/j/' + tZoomMeetingTrimmed + '"" target="_blank">just starting - join us!</a>';
+      }
     }
   }
 }, 1000);
