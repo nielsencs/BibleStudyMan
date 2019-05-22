@@ -21,8 +21,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# WebServer error log 
+# WebServer error log
 error_log
+
+# images
+images
 
 # working files
 test.php
