@@ -7,7 +7,9 @@ var oTarget = nextMeeting(oDate,     // a date object
                           15,        // 15=3pm
                           iLatest,   // last time can join meeting in minutes
                           iBST);     // summer time
+// ============================================================================
 var oCountdown = setInterval(function() {
+// ============================================================================
   var oNow = new Date();
 
   var distance = oTarget - oNow;
@@ -52,6 +54,8 @@ var oCountdown = setInterval(function() {
     }
   }
 }, 1000);
+// ============================================================================
+
 // ===========================================================================
 function nextMeeting(oDate,           // today
                      iMeetDay,        // 0-6 sun-sat

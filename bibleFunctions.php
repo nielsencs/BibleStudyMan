@@ -46,6 +46,8 @@ function daysReadingsAsVerses($month, $day){
   return $tOutput;
 }
 // ============================================================================
+
+// ============================================================================
 function daysReadingsAsVersesOld($month, $day){
 // ============================================================================
   global $link;
@@ -76,6 +78,7 @@ function daysReadingsAsVersesOld($month, $day){
   }
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function showReading2($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
@@ -83,6 +86,7 @@ function showReading2($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $i
   $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
   return showVerses($tQuery);
 }
+// ============================================================================
 
 // ============================================================================
 function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
@@ -122,6 +126,7 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
 
   return $tQuery;
 }
+// ============================================================================
 
 // ============================================================================
 function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted section
@@ -147,6 +152,7 @@ function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted sec
 
   return $tQuery;
 }
+// ============================================================================
 
 // ============================================================================
 function planTable($tOrder = 'orderChristian'){// build HTML table of the years reading plan
@@ -186,6 +192,7 @@ function planTable($tOrder = 'orderChristian'){// build HTML table of the years 
   mysqli_free_result($result4);
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function PTBuild($result1, $result2, $result3, $result4){ // build the HTML table
@@ -238,6 +245,7 @@ function PTBuild($result1, $result2, $result3, $result4){ // build the HTML tabl
 
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function PTAddSection($row) { // add a section column to the plan table
@@ -296,4 +304,5 @@ function PTAddSection($row) { // add a section column to the plan table
   $tOutput .= '</td>';
   return $tOutput;
 }
+// ============================================================================
 ?>

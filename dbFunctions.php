@@ -5,6 +5,7 @@ function doQuery($link, $tQuery){
   echo '<!-- ' . $tQuery . ' -->';
   return mysqli_query($link, $tQuery);
 }
+// ============================================================================
 
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bShowMore){
@@ -21,6 +22,7 @@ function buildLink($tBookName, $iChapter, $tWords, $bShowMore){
   $tReturn .= '">';
   return $tReturn;
 }
+// ============================================================================
 
 // ============================================================================
 function prepareBookList(){
@@ -51,6 +53,7 @@ function prepareBookList(){
   mysqli_free_result($result);
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function prepareDropdownBookList(){
@@ -76,6 +79,7 @@ function prepareDropdownBookList(){
   mysqli_free_result($result);
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function prepareStrongs(){
@@ -97,6 +101,7 @@ function prepareStrongs(){
 
   return $atStrongs;
 }
+// ============================================================================
 
 // ============================================================================
 function strongs($tStrongsNo){
@@ -104,6 +109,7 @@ function strongs($tStrongsNo){
   global $atStrongs;
   return $atStrongs[$tStrongsNo];
 }
+// ============================================================================
 
 // ============================================================================
 function daysInMonth($month, $year){// calculate number of days in a month
@@ -122,6 +128,7 @@ function daysInMonth($month, $year){// calculate number of days in a month
 // corrected by ben at sparkyb dot net
   return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31);
 }
+// ============================================================================
 
 // ============================================================================
 function monthName($iMonth){// return text month from numeric
@@ -129,6 +136,7 @@ function monthName($iMonth){// return text month from numeric
   $atMonths = array("Oops", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
   return $atMonths[$iMonth];
 }
+// ============================================================================
 
 // ============================================================================
 function basicPassageQuery(){
@@ -143,11 +151,12 @@ function basicPassageQuery(){
 
   return $tBaseQuery;
 }
+// ============================================================================
 
 // ============================================================================
 function buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd){
-// sort out beginning to end for psalms
 // ============================================================================
+// sort out beginning to end for psalms
   $iCommaA = stripos($tPassageStart, ',');
   $iCommaB = strripos($tPassageEnd, ',');
 
@@ -161,6 +170,7 @@ function buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd){
 
   return buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd);
 }
+// ============================================================================
 
 // ============================================================================
 function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
@@ -218,6 +228,7 @@ function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
 
   return $tQuery;
 }
+// ============================================================================
 
 // ============================================================================
 function getDayReadingQuery($month, $day){
@@ -232,6 +243,7 @@ function getDayReadingQuery($month, $day){
 
   return $tQuery;
 }
+// ============================================================================
 
 // ============================================================================
 function daysReadingsAsSentence($month, $day){
@@ -296,6 +308,7 @@ function daysReadingsAsSentence($month, $day){
 
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks){
@@ -338,6 +351,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks){
   }
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
@@ -428,6 +442,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
   }
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function showVerses($tQuery){
@@ -477,6 +492,7 @@ function showVerses($tQuery){
   $tOutput .=  '</div>';
   return $tOutput;
 }
+// ============================================================================
 
 // ============================================================================
 function processStrongs($tValue, $bHighlight, $bBracketOriginal){
@@ -519,6 +535,7 @@ function processStrongs($tValue, $bHighlight, $bBracketOriginal){
   } while ($iTagStart > 0);
   return $tNewValue . $tValue;
 }
+// ============================================================================
 
 // ============================================================================
 function highlightSearch($tValue){
@@ -539,6 +556,7 @@ function highlightSearch($tValue){
   }
   return '<!-- highlightSearch ' . $tWords . ' -->' . $tValue;
 }
+// ============================================================================
 
 // ============================================================================
 function highlight($needle, $haystack){
@@ -551,6 +569,7 @@ function highlight($needle, $haystack){
           highlight($needle, substr($haystack, $ind + $len));
   } else return $haystack;
 }
+// ============================================================================
 
 // ============================================================================
 function addSQLWildcards($tValue, $bShowMore){
@@ -569,6 +588,7 @@ function addSQLWildcards($tValue, $bShowMore){
   }
   return $tValue;
 }
+// ============================================================================
 
 // ============================================================================
 function isInRange($verse, $tVerses){
@@ -584,5 +604,6 @@ function isInRange($verse, $tVerses){
   }
   return $bReturn;
 }
+// ============================================================================
 
 ?>

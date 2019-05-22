@@ -21,36 +21,50 @@
 ?>
 
 <script type="text/javascript">
+// ============================================================================
   window.onload = function(){
+// ============================================================================
     // document.body.style.cursor = 'default';
     setFields();
   }
+// ============================================================================
 
+// ============================================================================
   function doSubmit(bJustDoit = false) {
+// ============================================================================
     // if(wordCount(document.searchForm.words.value) > 0){
     if(document.searchForm.words.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
     }
   }
+// ============================================================================
 
+// ============================================================================
   function wordCount(tString){
+// ============================================================================
     var iCount = 0;
     if(tString > ''){
       iCount = tString.trim().indexOf(' ') + 1;
     }
     return iCount;
   }
+// ============================================================================
 
+// ============================================================================
   function showWait() {
+// ============================================================================
     document.getElementById('waitHint').style.display = 'block';
     // document.waitHint.style.display = 'block';
     // document.body.style.cursor = 'wait';
     // document.body.style.cursor = 'progress';
     // alert();
   }
+// ============================================================================
 
+// ============================================================================
   function doDirection(tDirection) {
+// ============================================================================
     // alert(iBook);
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
 
@@ -94,8 +108,11 @@
       showWait();
       document.searchForm.submit();
   }
+// ============================================================================
 
+// ============================================================================
   function wrapNum(iNum, iMax, iSkip) {
+// ============================================================================
     iNum = iNum + iSkip;
     // alert(iNum);
     if(iNum < 1){
@@ -106,8 +123,11 @@
     }
     return iNum;
   }
+// ============================================================================
 
+// ============================================================================
   function setFields(){
+// ============================================================================
     document.searchForm.book.value = "<?php echo $tBook; ?>";
     document.searchForm.chapter.value = "<?php echo $tChapter; ?>";
     document.searchForm.words.value = "<?php echo $tWords; ?>";
@@ -115,10 +135,14 @@
     document.searchForm.highlightSW.checked = "<?php echo $bHighlightSW; ?>";
     document.searchForm.showOW.checked = "<?php echo $bShowOW; ?>";
   }
+// ============================================================================
 
+// ============================================================================
   function clearField(tName){
+// ============================================================================
     document.getElementById(tName).value = '';
   }
+// ============================================================================
 </script>
         <div class="main Bible">
             <h1>The Bible</h1>

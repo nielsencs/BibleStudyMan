@@ -22,36 +22,50 @@
 ?>
 
 <script type="text/javascript">
+// ============================================================================
   window.onload = function(){
+// ============================================================================
     // document.body.style.cursor = 'default';
     setFields();
   }
+// ============================================================================
 
+// ============================================================================
   function doSubmit(bJustDoit = false) {
+// ============================================================================
     // if(wordCount(document.searchForm.days.value) > 0){
     if(document.searchForm.days.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
     }
   }
+// ============================================================================
 
+// ============================================================================
   function wordCount(tString){
+// ============================================================================
     var iCount = 0;
     if(tString > ''){
       iCount = tString.trim().indexOf(' ') + 1;
     }
     return iCount;
   }
+// ============================================================================
 
+// ============================================================================
   function showWait() {
+// ============================================================================
     document.getElementById('waitHint').style.display = 'block';
     // document.waitHint.style.display = 'block';
     // document.body.style.cursor = 'wait';
     // document.body.style.cursor = 'progress';
     // alert();
   }
+// ============================================================================
 
+// ============================================================================
   function doDirection(tDirection) {
+// ============================================================================
     // alert(iBook);
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
 
@@ -95,8 +109,11 @@
       showWait();
       document.searchForm.submit();
   }
+// ============================================================================
 
+// ============================================================================
   function wrapNum(iNum, iMax, iSkip) {
+// ============================================================================
     iNum = iNum + iSkip;
     // alert(iNum);
     if(iNum < 1){
@@ -107,8 +124,11 @@
     }
     return iNum;
   }
+// ============================================================================
 
+// ============================================================================
   function setFields(){
+// ============================================================================
     document.searchForm.section.value = "<?php echo $tSection; ?>";
     document.searchForm.book.value = "<?php echo $tBook; ?>";
     document.searchForm.chapter.value = "<?php echo $tChapter; ?>";
@@ -117,8 +137,11 @@
     document.searchForm.highlightSW.checked = "<?php echo $bHighlightSW; ?>";
     document.searchForm.showOW.checked = "<?php echo $bShowOW; ?>";
   }
+// ============================================================================
 
+// ============================================================================
   function clearField(tName){
+// ============================================================================
     document.getElementById(tName).value = '';
   }
 </script>
@@ -200,7 +223,9 @@
   mysqli_close($link);
   require_once 'footer.php';
 
+// ============================================================================
   function planTest($tSection, $tBook, $tChapter, $tVerses, $tDays, $bShowMore){
+// ============================================================================
     global $link, $bHighlightSW, $bShowOW;
 
     $bProcessRequest = (strlen($tSection . $tBook . $tChapter . $tVerses . $tWords) > 0);
@@ -244,8 +269,11 @@
       return $tOutput;
     }
   }
+// ============================================================================
 
+// ============================================================================
   function basicMakerQuery(){
+// ============================================================================
     $tBaseQuery = '';
     $tBaseQuery .= 'SELECT DISTINCT books.sectionCode, books.bookName, verses.chapter, verses.verseNumber, ';
     // $tBaseQuery .= 'REPLACE(REPLACE(verses.verseText, "[H430]", ""), "[H3068]", "") AS vt';
@@ -256,5 +284,6 @@
 
     return $tBaseQuery;
   }
+// ============================================================================
 
 ?>
