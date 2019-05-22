@@ -171,6 +171,7 @@
 .teaching {
   border: 3px solid #4a4ab5;
   background-color: #9494ff;
+  overflow: hidden;
 }
 
 .readings {
