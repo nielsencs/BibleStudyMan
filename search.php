@@ -16,31 +16,42 @@
 ?>
 
 <script type="text/javascript">
+// ============================================================================
   function doSubmit(bJustDoit = false) {
+// ============================================================================
     // if(wordCount(document.searchForm.words.value) > 0){
     if(document.searchForm.words.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
     }
   }
+// ============================================================================
 
+// ============================================================================
   function wordCount(tString){
+// ============================================================================
     var iCount = 0;
     if(tString > ''){
       iCount = tString.trim().indexOf(' ') + 1;
     }
     return iCount;
   }
+// ============================================================================
 
+// ============================================================================
   function showWait() {
+// ============================================================================
     document.getElementById('waitHint').style.display = 'block';
     // document.waitHint.style.display = 'block';
     // document.body.style.cursor = 'wait';
     // document.body.style.cursor = 'progress';
     // alert();
   }
+// ============================================================================
 
+// ============================================================================
   function doDirection(tDirection) {
+// ============================================================================
     // alert(iBook);
     var iLastBook = 67; // to accomodate extra '2&3 John' book!
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
@@ -85,8 +96,11 @@
     showWait();
     document.searchForm.submit();
   }
+// ============================================================================
 
+// ============================================================================
   function dayDirection(tDirection) {
+// ============================================================================
     var oDate = new Date();
     oDate.setMonth(document.searchForm.month.value-1)
     oDate.setDate(document.searchForm.day.value-1)
@@ -101,8 +115,11 @@
     showWait();
     document.searchForm.submit();
   }
+// ============================================================================
 
+// ============================================================================
   function wrapNum(iNum, iMax, iSkip) {
+// ============================================================================
     iNum = iNum + iSkip;
     // alert(iNum);
     if(iNum < 1){
@@ -113,8 +130,11 @@
     }
     return iNum;
   }
+// ============================================================================
 
+// ============================================================================
   function setFields(tCallingFile){
+// ============================================================================
     // alert('book <?php echo $tBook; ?>' +
     //       'chapter <?php echo $tChapter; ?>' +
     //       'words <?php echo $tWords; ?>' +
@@ -137,8 +157,12 @@
     document.searchForm.highlightSW.checked = '<?php echo $bHighlightSW; ?>';
     document.searchForm.showOW.checked = '<?php echo $bShowOW; ?>';
   }
+// ============================================================================
 
+// ============================================================================
   function clearField(tName){
+// ============================================================================
     document.getElementById(tName).value = '';
   }
+// ============================================================================
 </script>
