@@ -44,7 +44,7 @@
     }elseif ($tDay < 1){
       $day = 1;
     }else {
-    $day = $tDay;
+      $day = $tDay;
     }
   }
   echo '<!-- ';
@@ -57,19 +57,19 @@
           <div class="main plan">
               <h1>The Bible Reading Plan</h1>
               <div class="subMain sectGeneral">
-                <h2>Readings for <?php echo monthName($month) . " " . $day; ?>:</h2>
+                <h2>Readings for <?php echo monthName($month) . ' ' . $day; ?>:</h2>
   <?php
     // $tOutput = planTable('orderChron2');
     $tOutput = planTable('orderChristian');
     // echo planTable('orderJewish');
     // echo planTable('orderChron1');
     // echo planTable('orderChron2');
-    echo daysReadingsAsSentence($month, $day);
+    echo 'First, ' . daysReadingsAsSentence($month, $day);
   ?>
                 <p>You can read the passages below. If you're looking to read for
                   a different day or want to use your own Bible, then the entire
                   year&rsquo;s plan is below them in a table. Enjoy!</p>
-                <br />
+
                 <div class="infoBox">
                   <p>This is still very much a work in progress (if you want to help
                     out then please check out the &lsquo;<a href="support.php">Support
@@ -135,7 +135,7 @@
 
   function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
     $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
-    return showPassage($tQuery);
+    return showVerses($tQuery);
   }
 
   function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
@@ -223,7 +223,7 @@
           if (mysqli_num_rows($result4) == 0) {
             echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery4 . '"';
           } else {
-            $tOutput = buildPlanTable($result1, $result2, $result3, $result4);
+            $tOutput = PTBuild($result1, $result2, $result3, $result4);
           }
         }
       }
@@ -235,7 +235,7 @@
     return $tOutput;
   }
 
-  function buildPlanTable($result1, $result2, $result3, $result4){ // build the HTML table
+  function PTBuild($result1, $result2, $result3, $result4){ // build the HTML table
     global $todaysVerses;
     $tOutput = '';
 
@@ -270,10 +270,10 @@
       $tOutput .= $date->format('M j') . '</a>';
       $tOutput .= '</td>';
 
-      $tOutput .= addSection($row1);
-      $tOutput .= addSection($row2);
-      $tOutput .= addSection($row3);
-      $tOutput .= addSection($row4);
+      $tOutput .= PTAddSection($row1);
+      $tOutput .= PTAddSection($row2);
+      $tOutput .= PTAddSection($row3);
+      $tOutput .= PTAddSection($row4);
 
       $tOutput .= '<td><input type="checkbox"></td>';
 
@@ -284,7 +284,7 @@
     return $tOutput;
   }
 
-  function addSection($row) { // add a section column to the plan table
+  function PTAddSection($row) { // add a section column to the plan table
     $tOutput = '';
 
     $tOutput .= '<td>';
