@@ -67,30 +67,12 @@
     echo 'First, ' . daysReadingsAsSentence($month, $day);
   ?>
                 <p>You can read the passages below. If you're looking to read for
-                  a different day or want to use your own Bible, then the entire
-                  year&rsquo;s plan is below them in a table. Enjoy!</p>
+                  a different day or want to use your own Bible, then
+                <a href="planTable.php">here&rsquo;s the entire year&rsquo;s plan
+                  as a list</a>. Enjoy!</p>
 
-                <div class="infoBox">
-                  <p>This is still very much a work in progress (if you want to help
-                    out then please check out the &lsquo;<a href="support.php">Support
-                      this ministry</a>&rsquo; page). I do plan to develop the code to:</p>
-                  <ul>
-                    <li>Enable a checklist so you can &lsquo;mark as read&rsquo;</li>
-                    <li>provide alternative arrangements of the readings for variety</li>
-                    <li>Any other requests?</li>
-                  </ul>
-                </div>
   <?php
     echo daysReadingsAsVerses($month, $day);
-  ?>
-                <hr>
-                <h2>Readings for the Year:</h2>
-                <p>Ooh isn&rsquo;t it pretty? Well I like it anyway! More seriously the
-                  colours can help you (just a little bit) if you have coloured ribbons as
-                  dividers in your Bible to quickly get to the relevant section.</p>
-                <br />
-  <?php
-    echo $tOutput;
   ?>
               </div>
           </div>
@@ -103,7 +85,9 @@
 ?>
 
 <?php
+// ============================================================================
   function daysReadingsAsVerses($month, $day){
+// ============================================================================
     global $link;
     $tOutput = '';
     $tQuery = getDayReadingQuery($month, $day);
@@ -132,13 +116,19 @@
     }
     return $tOutput;
   }
+// ============================================================================
 
+// ============================================================================
   function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
+// ============================================================================
     $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
     return showVerses($tQuery);
   }
+// ============================================================================
 
+// ============================================================================
   function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
+// ============================================================================
     $tQuery = basicPassageQuery();
 
     if($tBookCode == '23J'){
@@ -174,8 +164,11 @@
 
     return $tQuery;
   }
+// ============================================================================
 
+// ============================================================================
   function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted section
+// ============================================================================
     $tQuery = '';
 
     $tQuery .= 'SELECT ';
@@ -197,8 +190,11 @@
 
     return $tQuery;
   }
+// ============================================================================
 
+// ============================================================================
   function planTable($tOrder = 'orderChristian'){ // build HTML table of the years reading plan
+// ============================================================================
     global $link;
     global $todaysVerses;
     $tOutput = '';
@@ -234,8 +230,11 @@
     mysqli_free_result($result4);
     return $tOutput;
   }
+// ============================================================================
 
+// ============================================================================
   function PTBuild($result1, $result2, $result3, $result4){ // build the HTML table
+// ============================================================================
     global $todaysVerses;
     $tOutput = '';
 
@@ -264,7 +263,7 @@
       $tOutput .= '</tr>';
       $tOutput .= '<tr>';
 
-      $tOutput .= '<td><a href="plan.php?month=' . $date->format('m');
+      $tOutput .= '<td><a href="'. filter_input(INPUT_SERVER, 'PHP_SELF') . '?month=' . $date->format('m');
       //$tOutput .= '<td>';
       $tOutput .= '&day=' . $date->format('j') . '">';
       $tOutput .= $date->format('M j') . '</a>';
@@ -283,8 +282,11 @@
 
     return $tOutput;
   }
+// ============================================================================
 
+// ============================================================================
   function PTAddSection($row) { // add a section column to the plan table
+// ============================================================================
     $tOutput = '';
 
     $tOutput .= '<td>';
@@ -339,4 +341,5 @@
     $tOutput .= '</td>';
     return $tOutput;
   }
+// ============================================================================
 ?>

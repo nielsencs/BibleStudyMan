@@ -28,7 +28,9 @@
 <?php
 echo planTable(true);
 
+// ============================================================================
 function planTable($bAllColumns){
+// ============================================================================
   $tOutput = '';
   $tQuery = '';
   global $link;
@@ -83,6 +85,7 @@ function planTable($bAllColumns){
   mysqli_free_result($result);
   return $tOutput;
 }
+// ============================================================================
 ?>
     </p>
     </div>
