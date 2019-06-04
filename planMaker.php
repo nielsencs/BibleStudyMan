@@ -1,6 +1,5 @@
 <?php
   require_once 'header.php';
-  require_once '../sqlCon.php';
   require_once 'dbFunctions.php';
 
   $tSection = filter_input(INPUT_GET, 'section', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);

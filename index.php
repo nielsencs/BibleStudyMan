@@ -1,7 +1,6 @@
 <?php
   // $bHome = true;
   require_once 'header.php';
-  require_once '../sqlCon.php';
   require_once 'dbFunctions.php';
 
   $timestamp = time();

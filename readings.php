@@ -1,6 +1,5 @@
 <?php
     require_once 'header.php';
-    require_once '../sqlCon.php';
     require_once 'dbFunctions.php';
 ?>
         <div class="main readings">
