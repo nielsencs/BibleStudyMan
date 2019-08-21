@@ -4,7 +4,7 @@ var iEarliest = 7 // earliest time can join meeting in minutes
 var iLatest = 30;
 var oTarget = nextMeeting(oDate,     // a date object
                           2,         // 2=Tuesday
-                          15,        // 15=3pm
+                          19,        // 19=7pm
                           iLatest,   // last time can join meeting in minutes
                           iBST);     // summer time
 // ============================================================================
