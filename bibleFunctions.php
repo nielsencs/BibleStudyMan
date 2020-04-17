@@ -48,7 +48,7 @@ function daysReadingsAsVerses($month, $day){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVersesOld($month, $day){
+function daysReadingsAsVersesNoAudio($month, $day){
 // ============================================================================
   global $link;
   $tOutput = '';
