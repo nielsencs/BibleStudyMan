@@ -22,7 +22,7 @@
 
   <div class="main teaching">
     <h1>Online Teaching Sessions</h1>
-    <div class="subMain plain">
+    <!-- <div class="subMain plain">
       <h2>Further Along The Way...</h2>
       <p>Zoom Meeting ID: <strong><?php echo $tZoomMeeting; ?></strong></p>
       <h3 class="centerText" id="counter">_</h3>
@@ -92,7 +92,7 @@
         </p>
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'https://zoom.us/j/<?php echo $tZoomMeetingTrimmed; ?>'">
       </div>
-    </div>
+    </div> -->
     <div class="subMain plain">
             <h2>Teaching Videos</h2>
       <!-- <input type="button" value="More" name="button2" id="button2" class="center" onclick="showHide2('2');">
