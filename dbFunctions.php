@@ -133,7 +133,8 @@ function daysInMonth($month, $year){// calculate number of days in a month
 // ============================================================================
 function monthName($iMonth){// return text month from numeric
 // ============================================================================
-  $atMonths = array("Oops", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+  $atMonths = array("Oops", "January", "February", "March", "April", "May", "June",
+                    "July", "August", "September", "October", "November", "December");
   return $atMonths[$iMonth];
 }
 // ============================================================================
@@ -263,7 +264,7 @@ function daysReadingsAsSentence($month, $day){
         $tOutput .= '';
       }
       //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
-      if($row['sectionCode'] == '2NV1'){
+      if($row['sectionCode'] == '2NV1' || $row['sectionCode'] == '4NV2'){
           // $tOutput .= '; next it&rsquo;s ';
           $tOutput .= '. Follow that by reading';
       }
@@ -408,37 +409,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-// ------------------- display Bible passage -------------------------------
-    // $result = doQuery($link, $tQuery);
-    //
-    // if (mysqli_num_rows($result) > 0) {
-    //   while($row = mysqli_fetch_assoc($result)) {
-    //     if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
-    //       $iBookChapters = 2; //$row['bookChapters'];
-    //       $tOutput .=  '<h3>';
-    //       $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
-    //       $tOutput .=  '</h3>';
-    //     }
-    //     if (isInRange($row['verseNumber'], $tVerses)){
-    //       $tOutput .=  '<span class="highlight">';
-    //       if ($row['verseNumber'] > 0) {
-    //         $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-    //       }
-    //       $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
-    //       $tOutput .=  '</span>';
-    //     }else{
-    //       // $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>' . highlightSearch(processStrongs($row['vt'], true, true)) . ' ';
-    //       $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>' . highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
-    //     }
-    //     $tLastBookName = $row['bookName'];
-    //     $iLastChapter = $row['chapter'];
-    //   }
-    // } else {
-    //   $tOutput .=  'It could be me... but there doesn&rsquo;t seem to be a match for that!';
-    // }
-    // mysqli_free_result($result);
     $tOutput = showVerses($tQuery);
-// ------------------- display Bible passage -------------------------------
   }
   return $tOutput;
 }
@@ -527,7 +498,7 @@ function processStrongs($tValue, $bHighlight, $bBracketOriginal){
         $tNewValue = $tNewValue . ' <sub>(' . strongs($tStrongsNo) . ')</sub>';
       }
       if ($bHighlight){
-        $tNewValue = $tNewValue . '</span> ';
+        $tNewValue = $tNewValue . '</span>';
       }
 
       $tValue = substr($tValue, $iTagEnd + 1);
