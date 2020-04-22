@@ -65,25 +65,26 @@
   function doDirection(tDirection) {
 // ============================================================================
     // alert(iBook);
+    var iLastBook = 67; // to accomodate extra '2&3 John' book!
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
 
     if(tDirection=='pb'){ //prev book
       if(iBook==0){
         iBook = 1;
       }
-      iBook = wrapNum(iBook, 66, -1);
+      iBook = wrapNum(iBook, iLastBook, -1);
       document.searchForm.chapter.value='';
     }
     if(tDirection=='nb'){ //next book
       if(iBook==0){
-        iBook = 66;
+        iBook = iLastBook;
       }
-      iBook = wrapNum(iBook, 66, +1);
+      iBook = wrapNum(iBook, iLastBook, +1);
       document.searchForm.chapter.value='';
     }
     if(tDirection=='pc'){ //prev chapter
       if(iChapter == 0 || iChapter == 1){
-        iBook = wrapNum(iBook, 66, -1);
+        iBook = wrapNum(iBook, iLastBook, -1);
         // document.searchForm.chapter.value='';
         document.searchForm.chapter.value=atBooks[iBook][1];
       }else {
@@ -94,7 +95,7 @@
     if(tDirection=='nc'){ //next chapter
       // if(iChapter == 0 || iChapter == iChapterMax){
       if(iChapter == 0 || iChapter == atBooks[iBook][1]){
-        iBook = wrapNum(iBook, 66, +1);
+        iBook = wrapNum(iBook, iLastBook, +1);
         iChapter = 1;
       }else {
         // iChapter = wrapNum(iChapter, iChapterMax, +1);
