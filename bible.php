@@ -6,9 +6,9 @@
   $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tWords = filter_input(INPUT_GET, 'words', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $bShowMore = isset($_GET['showMore']);
-  $bHighlightSW = isset($_GET['highlightSW']);
-  $bShowOW = isset($_GET['showOW']);
+  $bShowMore = filter_input(INPUT_GET, 'showMore', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
 ?>
 
 <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
@@ -25,7 +25,7 @@
 // ============================================================================
     // document.body.style.cursor = 'default';
     setFields();
-  }
+  };
 // ============================================================================
 
 // ============================================================================
