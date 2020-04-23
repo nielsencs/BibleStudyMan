@@ -351,9 +351,6 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .nav {
-  font-family: 'Londrina Solid', sans-serif;
-  /* font-family: 'Overlock', cursive; */
-  /* background-color: #773322; */
   background-color: DimGray;
   color: Gainsboro;
   list-style: none;
@@ -369,10 +366,14 @@ tr:nth-child(odd) td:nth-child(even){
 
 .nav li {
   display: inline-block;
-  padding: 3px 3px 3px 3px;
+  padding: 3px;
   font-size: 14px;
-  /* border: 1px solid #773322; */
-  border: 1px solid DimGray;
+}
+
+@media (min-width: 800px) {
+  .nav li {
+    font-size: 18px;
+  }
 }
 
 .nav li a {
