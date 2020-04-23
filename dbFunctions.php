@@ -281,7 +281,8 @@ function daysReadingsAsSentence($month, $day){
           $tOutput .= 'from';
         }
       }
-      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false);
+      $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & ($row['startVerse'] == 0) & ($row['endVerse'] == 0);
+      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
 
       $tOutput .= ' ' . $row['startChapter'];
       if($row['startVerse'] > 0){
@@ -292,13 +293,21 @@ function daysReadingsAsSentence($month, $day){
         $tOutput .= ' ' . $row['startVerse'];
       }
       if($row['endVerse'] > 0||$row['endChapter'] > 0){
-        $tOutput .= ' to ';
+        if($bChaptersOnly & $row['endChapter'] == $row['startChapter']+1){
+          $tOutput .= ' and ';
+        } else {
+          $tOutput .= ' to ';          
+        }
         if($row['startChapter'] == $row['endChapter']){
           $tOutput .= $row['endVerse'];
-        } else{
-          $tOutput .= ' Chapter ';
+        }else{
+          if (! $bChaptersOnly){
+            $tOutput .= ' Chapter ';
+          }
           $tOutput .= $row['endChapter'];
-          $tOutput .= ' verse ' . $row['endVerse'];
+          if (! $bChaptersOnly){
+            $tOutput .= ' verse ' . $row['endVerse'];
+          }
         }
       }
 // -------------- if whole chapter no from... to ------------
@@ -312,7 +321,7 @@ function daysReadingsAsSentence($month, $day){
 // ============================================================================
 
 // ============================================================================
-function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks){
+function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false){
 // ============================================================================
   global $tWords, $bShowMore;
 
@@ -341,7 +350,11 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks){
       $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bShowMore);
     }
     if($tBookName != 'Psalms'){
-      $tOutput .= 'Chapter ';
+      if($bPluralChapter){
+        $tOutput .= 'Chapters ';
+      }else{
+        $tOutput .= 'Chapter ';
+      }
     }
     if ($iChapter > 0){
       $tOutput .= $iChapter;
