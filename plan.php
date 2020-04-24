@@ -16,7 +16,6 @@
   $tDay = filter_input(INPUT_GET, 'day');
   $bHighlightSW = true;
   $bShowOW = true;
-
   $iBook = 0;
   echo prepareBookList();
   $atStrongs = prepareStrongs();
@@ -54,6 +53,24 @@
   echo '$day:' . $day;
   echo '-->';
 ?>
+  <script type="text/javascript">
+// ============================================================================
+    function audioPlayPause(tAudioID){
+// ============================================================================
+      // alert(document.getElementById('b' + tAudioID).value);
+      if(document.getElementById('b' + tAudioID).value == 'listen' || document.getElementById('b' + tAudioID).value == 'continue'){
+        document.getElementById('b' + tAudioID).value = 'stop';
+        document.getElementById('a' + tAudioID).play();
+        document.getElementById('a' + tAudioID).controls = true;
+      } else {
+        document.getElementById('b' + tAudioID).value = 'continue';
+        document.getElementById('a' + tAudioID).pause();
+        document.getElementById('a' + tAudioID).controls = false;
+      }
+    }
+// ============================================================================
+  </script>
+
           <div class="main plan">
               <h1>The Bible Reading Plan</h1>
               <div class="subMain sectGeneral">
