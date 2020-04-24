@@ -28,8 +28,8 @@ error_log
 media
 
 # working files
-test.php
-test.html
+test*.php
+test*.html
 faviconOld.ico
 faviconOld2.ico
 indexOld.php
