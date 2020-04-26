@@ -45,6 +45,6 @@
         <li><a href="plan.php">Plan</a></li>
         <li><a href="bible.php">Bible</a></li>
         <li><a href="pricing.php">Pricing</a></li>
-        <li><a href="support.php">Support This Ministry</a></li>
+        <li><a href="support.php">Support Me</a></li>
       </ul>
     </div>
