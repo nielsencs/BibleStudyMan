@@ -123,6 +123,16 @@
     document.getElementById(tName).value = '';
   }
 // ============================================================================
+
+// ============================================================================
+  function clearAllFields(){ // rather than reset so 2 options not affected
+// ============================================================================
+    document.searchForm.book.value = "";
+    document.searchForm.chapter.value = "";
+    document.searchForm.words.value = "";
+    document.searchForm.showMore.checked = "True";
+  }
+// ============================================================================
 </script>
         <div class="main Bible">
             <h1>The Bible</h1>
@@ -166,7 +176,7 @@
                     </tr>
                     <tr>
                       <td colspan="2">
-                          <input type="reset" name="clearAll" id="clearAll" value="Clear All">
+                        <input type="button" name="clearAll" id="clearAll" value="Clear All" onclick="clearAllFields()">
                         &nbsp;&nbsp;&nbsp;
                         <input type="submit" value="Search">
                       </td>
