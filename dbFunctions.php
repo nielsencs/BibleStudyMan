@@ -10,7 +10,7 @@ function doQuery($link, $tQuery){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bShowMore){
 // ============================================================================
-  // $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName; // we might be in plan.php!
+  // $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName;
   $tReturn = '<a href="bible.php?book=' . $tBookName; // we might be in plan.php!
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
@@ -68,9 +68,9 @@ function prepareDropdownBookList(){
     while($row = mysqli_fetch_assoc($result)) {
       // $tOutput .= '<option value="' . $row['bookName'] . '">';
       $tOutput .= '<option value="' . $row['bookName'] . '"';
-      // if ($row['bookName'] == $tBook) {
-        // $tOutput .= ' selected';
-      // }
+       if ($row['bookName'] == $tBook) {
+         $tOutput .= ' selected';
+       }
       $tOutput .= '>' . $row['bookName'] . '</option>';
     }
   } else {

@@ -21,14 +21,6 @@
 
 <script type="text/javascript">
 // ============================================================================
-  window.onload = function(){
-// ============================================================================
-    // document.body.style.cursor = 'default';
-    setFields();
-  };
-// ============================================================================
-
-// ============================================================================
   function doSubmit(bJustDoit = false) {
 // ============================================================================
     // if(wordCount(document.searchForm.words.value) > 0){
@@ -126,21 +118,19 @@
 // ============================================================================
 
 // ============================================================================
-  function setFields(){
+  function clearField(tName){
 // ============================================================================
-    document.searchForm.book.value = "<?php echo $tBook; ?>";
-    document.searchForm.chapter.value = "<?php echo $tChapter; ?>";
-    document.searchForm.words.value = "<?php echo $tWords; ?>";
-    document.searchForm.showMore.checked = "<?php echo $bShowMore; ?>";
-    document.searchForm.highlightSW.checked = "<?php echo $bHighlightSW; ?>";
-    document.searchForm.showOW.checked = "<?php echo $bShowOW; ?>";
+    document.getElementById(tName).value = '';
   }
 // ============================================================================
 
 // ============================================================================
-  function clearField(tName){
+  function clearAllFields(){ // rather than reset so 2 options not affected
 // ============================================================================
-    document.getElementById(tName).value = '';
+    document.searchForm.book.value = "";
+    document.searchForm.chapter.value = "";
+    document.searchForm.words.value = "";
+    document.searchForm.showMore.checked = "True";
   }
 // ============================================================================
 </script>
@@ -153,18 +143,15 @@
                   <tbody>
                     <tr>
                       <td colspan="2">
-                          Search by keyword or book or a combination<br />
-                        <!-- <td colspan="2"><input type="text" name="words" id="words" value="<?php echo $tWords; ?>"></td> -->
-                        <input type="text" name="words" id="words" placeholder="Enter phrase or word" value="">
-                        <!-- <input type="checkbox" name="showMore" id="showMore"<?php if($bShowMore){ echo ' checked';} ?>> Show More? -->
-                        <input type="button" value="x" onclick="clearField('words')">
-                        <input type="checkbox" name="showMore" id="showMore" onclick="doSubmit()"> Show More?
+                        <!--Search by keyword or book or a combination<br />-->
+                        <input type="search" name="words" id="words" placeholder="Enter phrase or word" value="<?php echo $tWords; ?>">
+                        <input type="checkbox" name="showMore" id="showMore" <?php if($bShowMore){echo 'checked';}; ?> onclick="doSubmit()"><label>Show More?</label>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pb')">
-                        Book
+                        &nbsp;Book&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nb')">
                         <br />
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
@@ -176,26 +163,29 @@
 ?>
                         <!--</datalist>-->
                          </select> 
-                        <input type="button" value="x" onclick="clearField('book')">
+                        <input type="button" value="Clear" onclick="clearField('book')">
                       </td>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pc')">
-                        Chapter
+                        &nbsp;Chapter&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
-                        <input type="number" name="chapter" id="chapter" value="" onchange="doSubmit(true)">
-                        <input type="button" value="x" onclick="clearField('chapter')">
+                        <input type="number" name="chapter" id="chapter" value="<?php echo $tChapter; ?>" onchange="doSubmit(true)">
+                        <input type="button" value="Clear" onclick="clearField('chapter')">
                       </td>
                     </tr>
                     <tr>
-                      <td><input type="reset" name="clearAll" id="clearAll" value="Clear All"></td>
-                      <td><input type="submit" value="Search"></td>
+                      <td colspan="2">
+                        <input type="button" name="clearAll" id="clearAll" value="Clear All" onclick="clearAllFields()">
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="submit" value="Search">
+                      </td>
                     </tr>
                   </tbody>
                 </table>
-                <p>For certain words where the meaning is difficult to translate,
-                  <input type="checkbox" name="highlightSW" id="highlightSW" checked onclick="doSubmit(true)">highlight them
-                  <input type="checkbox" name="showOW" id="showOW" onclick="doSubmit(true)">Show Hebrew/Greek
+                <p>For certain interesting words:<br />
+                    <input type="checkbox" name="highlightSW" id="highlightSW" <?php if($bHighlightSW){echo 'checked';}; ?> onclick="doSubmit(true)"><label>highlight them</label>
+                  <input type="checkbox" name="showOW" id="showOW" <?php if($bHighlightSW){echo 'checked';}; ?> onclick="doSubmit(true)"><label>Show Hebrew/Greek</label>
                 </p>
               </form>
 <?php
