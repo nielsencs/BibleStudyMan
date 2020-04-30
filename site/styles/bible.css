@@ -1,0 +1,70 @@
+/*
+    Created on : 14-May-2018
+    Author     : Carl Nielsen
+*/
+
+.home {
+  /* border: 3px solid #773322; */
+  border: 3px solid DimGray;
+  /* background-color: bisque; */
+  background-color: Gainsboro;
+}
+
+.home>a {
+  color: black;
+  text-decoration: none;
+  font-weight: normal;
+  /* transition: background-color .3s ease-in-out; */
+}
+
+.subMain {
+  margin: 1%;
+  padding: 1%;
+  width: 84%;
+  overflow: auto;
+
+  background-color: white;
+
+  border-radius: 14px;
+  -webkit-border-radius: 14px;
+  -moz-border-radius: 14px;
+  -o-border-radius: 14px;
+  -ms-border-radius: 14px;
+  -khtml-border-radius: 14px;
+
+  /* box-shadow: 3px 3px 7px DimGray; */
+}
+
+.teaching {
+  border: 3px solid #4a4ab5;
+  background-color: #9494ff;
+}
+
+.readings {
+  border: 3px solid #4ab5b5;
+  background-color: #94ffff;
+}
+
+.plan {
+  border: 3px solid #4ab54a;
+  background-color: #94ff94;
+}
+
+.Bible {
+  border: 3px solid #b5b54a;
+  background-color: #ffff94;
+}
+
+.sectGeneral {
+  width: 96%;
+  /* border: 3px solid #773322; */
+  border: 3px solid DimGray;
+}
+
+.readmore {
+  text-align: center;
+}
+
+.searchTable td {
+  font-size: smaller;
+}
