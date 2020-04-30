@@ -7,7 +7,11 @@
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tDay = filter_input(INPUT_GET, 'day', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){
+    $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  }else{
+    $bHighlightSW = true;
+  }
   $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
 
   $iBook = 0;
@@ -17,10 +21,18 @@
 
 <script type="text/javascript">
 // ============================================================================
-  function doSubmit(bJustDoit = false) {
+//  function doSubmit(bJustDoit = false) {
+  function doSubmit(tField) {
 // ============================================================================
-    // if(wordCount(document.searchForm.words.value) > 0){
-    if(document.searchForm.words.value > '' || bJustDoit){
+    bDoit = false;
+    if(tField > ''){
+      bDoit = document.getElementById(tField).value;
+    }else{
+      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';}; ?>;
+    }
+    if(bDoit){
+
+        //    if(document.searchForm.words.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
     }

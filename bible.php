@@ -15,7 +15,7 @@
                       <td colspan="2">
                         <!--Search by keyword or book or a combination<br />-->
                         <input type="search" name="words" id="words" placeholder="Enter phrase or word" value="<?php echo $tWords; ?>">
-                        <input type="checkbox" name="showMore" id="showMore" <?php if($bShowMore){echo 'checked';}; ?> onclick="doSubmit()"><label>Show More?</label>
+                        <input type="checkbox" name="showMore" id="showMore" <?php if($bShowMore){echo 'checked';}; ?> onclick="doSubmit('words')"><label>Show More?</label>
                       </td>
                     </tr>
                     <tr>
@@ -26,7 +26,7 @@
                         <br />
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
                         <!--<datalist name="books" id="books">-->
-                        <select name="book" id="book" onchange="doSubmit(true)">
+                        <select name="book" id="book" onchange="doSubmit('book'')">
                          <option value="">Pick a book</option>';
 <?php
   echo prepareDropdownBookList();
@@ -40,7 +40,7 @@
                         &nbsp;Chapter&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
-                        <input type="number" name="chapter" id="chapter" value="<?php echo $tChapter; ?>" onchange="doSubmit(true)">
+                        <input type="number" name="chapter" id="chapter" value="<?php echo $tChapter; ?>" onchange="doSubmit('chapter')">
                         <input type="button" value="Clear" onclick="clearField('chapter')">
                       </td>
                     </tr>
@@ -56,10 +56,10 @@
                 <p>For certain interesting words:<br />
                 <input type="checkbox" name="highlightSW" id="highlightSW"
                   <?php if($bHighlightSW){echo 'checked';}; ?>
-                       onclick="doSubmit(true)"><label>highlight them</label> 
+                       onclick="doSubmit()"><label>highlight them</label> 
                 <input type="checkbox" name="showOW"      id="showOW"
                   <?php if($bShowOW){echo 'checked';}; ?>
-                       onclick="doSubmit(true)"><label>Show Hebrew/Greek</label> 
+                       onclick="doSubmit()"><label>Show Hebrew/Greek</label> 
                 </p>
               </form>
 <?php
