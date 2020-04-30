@@ -3,12 +3,16 @@
   $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tWords = filter_input(INPUT_GET, 'words', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $bShowMore = isset($_GET['showMore']);
+  $bShowMore = filter_input(INPUT_GET, 'showMore', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tDay = filter_input(INPUT_GET, 'day', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $bHighlightSW = isset($_GET['highlightSW']);
-  $bShowOW = isset($_GET['showOW']);
+  if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){
+    $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  }else{
+    $bHighlightSW = true;
+  }
+  $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
 
   $iBook = 0;
   echo prepareBookList();
@@ -17,10 +21,18 @@
 
 <script type="text/javascript">
 // ============================================================================
-  function doSubmit(bJustDoit = false) {
+//  function doSubmit(bJustDoit = false) {
+  function doSubmit(tField) {
 // ============================================================================
-    // if(wordCount(document.searchForm.words.value) > 0){
-    if(document.searchForm.words.value > '' || bJustDoit){
+    bDoit = false;
+    if(tField > ''){
+      bDoit = document.getElementById(tField).value;
+    }else{
+      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';}; ?>;
+    }
+    if(bDoit){
+
+        //    if(document.searchForm.words.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
     }
@@ -42,10 +54,6 @@
   function showWait() {
 // ============================================================================
     document.getElementById('waitHint').style.display = 'block';
-    // document.waitHint.style.display = 'block';
-    // document.body.style.cursor = 'wait';
-    // document.body.style.cursor = 'progress';
-    // alert();
   }
 // ============================================================================
 
@@ -133,36 +141,26 @@
 // ============================================================================
 
 // ============================================================================
-  function setFields(tCallingFile){
+  function clearField(tName){
 // ============================================================================
-    // alert('book <?php echo $tBook; ?>' +
-    //       'chapter <?php echo $tChapter; ?>' +
-    //       'words <?php echo $tWords; ?>' +
-    //       'showMore <?php echo $bShowMore; ?>' +
-    //       'highlightSW <?php echo $bHighlightSW; ?>' +
-    //       'showOW <?php echo $bShowOW; ?>' +
-    //       'month <?php echo $tMonth; ?>' +
-    //       'day <?php echo $tDay; ?>');
-    if(tCallingFile=='bible'){
-      document.searchForm.book.value = '<?php echo $tBook; ?>';
-      document.searchForm.chapter.value = '<?php echo $tChapter; ?>';
-      document.searchForm.words.value = '<?php echo $tWords; ?>';
-      document.searchForm.showMore.checked = '<?php echo $bShowMore; ?>';
-    }
-    if(tCallingFile=='plan'){
-      document.searchForm.month.value = '<?php echo $month; ?>';
-      document.searchForm.day.value = '<?php echo $day; ?>';
-      document.searchForm.sortOrder.value = '<?php echo $tSortOrder; ?>';
-    }
-    document.searchForm.highlightSW.checked = '<?php echo $bHighlightSW; ?>';
-    document.searchForm.showOW.checked = '<?php echo $bShowOW; ?>';
+    document.getElementById(tName).value = '';
   }
 // ============================================================================
 
 // ============================================================================
-  function clearField(tName){
+  function clearAllFields(tCallingFile){
 // ============================================================================
-    document.getElementById(tName).value = '';
+    if(tCallingFile=='bible'){
+      document.searchForm.book.value = '';
+      document.searchForm.chapter.value = '';
+      document.searchForm.words.value = '';
+      document.searchForm.showMore.checked = '';
+    }
+    if(tCallingFile=='plan'){
+      document.searchForm.month.value = '';
+      document.searchForm.day.value = '';
+      document.searchForm.sortOrder.value = '';
+    }
   }
 // ============================================================================
 </script>
