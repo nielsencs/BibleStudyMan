@@ -422,14 +422,17 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput = showVerses($tQuery);
+    $tOutput = showVerses($tQuery, $tVerses);
+  }else{
+    $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
+    $tOutput = '<h2>This is a sample:</h2>' . showVerses($tQuery, $tVerses);
   }
   return $tOutput;
 }
 // ============================================================================
 
 // ============================================================================
-function showVerses($tQuery){
+function showVerses($tQuery, $tVerses){
 // ============================================================================
   global $link, $bHighlightSW, $bShowOW;
 
