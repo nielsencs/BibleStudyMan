@@ -72,6 +72,5 @@
             </div>
         </div>
 <?php
-  mysqli_close($link);
   require_once 'footer.php';
 ?>
