@@ -445,7 +445,7 @@ function showVerses($tQuery, $tVerses){
   $tOutput .=  '<div class="bibleText">';
 
   if (mysqli_num_rows($result) == 0) {
-    $tOutput .=  'It could be me... but there doesn&rsquo;t seem to be a match for that!';
+    $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
