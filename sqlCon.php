@@ -1,9 +1,16 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'bible');
+  $host = 'localhost';
+  $db   = 'bible';
+  $user = 'root';
+  $pass = '';
+  $charset = 'utf8mb4';
 
-$link = @mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME)
-        OR die('Sorry I&rsquo;m unable to connect to the database. (' . mysqli_connect_error() . ')' );
+  mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+  try {
+      $link = mysqli_connect($host, $user, $pass, $db);
+      mysqli_set_charset($link, $charset);
+  } catch (\mysqli_sql_exception $e) {
+       throw new \mysqli_sql_exception($e->getMessage(), $e->getCode());
+  }
+  unset($host, $db, $user, $pass, $charset); // we don't need them anymore
 ?>
