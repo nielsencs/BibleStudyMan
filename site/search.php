@@ -7,12 +7,16 @@
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tDay = filter_input(INPUT_GET, 'day', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){
+  if($tBook . $tWords . $tMonth > ''){
     $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   }else{
     $bHighlightSW = true;
   }
   $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+
+  if($tSortOrder === ''){
+    $tSortOrder = 'orderChristian';
+  }
 
   $iBook = 0;
   echo prepareBookList();
