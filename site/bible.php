@@ -21,18 +21,18 @@
                     <tr>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pb')">
-                        &nbsp;Book&nbsp;
+                        &nbsp;<abbr title="The Bible is a library of books. You can select one of them below">Book</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nb')">
                         <br />
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
                         <!--<datalist name="books" id="books">-->
-                        <select name="book" id="book" onchange="doSubmit('book'')">
-                         <option value="">Pick a book</option>';
+                        <select name="book" id="book" onchange="doSubmit('book')">
+                         <option value=""></option>;
 <?php
   echo prepareDropdownBookList();
 ?>
                         <!--</datalist>-->
-                         </select>
+                        </select>
                         <input type="button" value="Clear" onclick="clearField('book')">
                       </td>
                       <td>
@@ -40,8 +40,13 @@
                         &nbsp;Chapter&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
-                        <input type="number" name="chapter" id="chapter" value="<?php echo $tChapter; ?>" onchange="doSubmit('chapter')">
-                        <input type="button" value="Clear" onclick="clearField('chapter')">
+                        <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
+                          <option value="">All</option>;
+<?php
+  echo prepareDropdownChapterList();
+?>
+                        </select>
+                        <!--<input type="button" value="Clear" onclick="clearField('chapter')">-->
                       </td>
                     </tr>
                     <tr>

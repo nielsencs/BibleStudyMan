@@ -40,7 +40,7 @@ function prepareBookList(){
     while($row = mysqli_fetch_assoc($result)) {
       $tOutput .=  ', ["' . $row['bookName'] . '", ';
       $tOutput .=  $row['bookChapters'] . ']';
-      if(strtoupper($row['bookName']) == strtoupper($tBook)){
+      if(strtoupper($row['bookName']) === strtoupper($tBook)){
         $iBook = $row['orderChristian'];
       }
     }
@@ -68,10 +68,37 @@ function prepareDropdownBookList(){
     while($row = mysqli_fetch_assoc($result)) {
       // $tOutput .= '<option value="' . $row['bookName'] . '">';
       $tOutput .= '<option value="' . $row['bookName'] . '"';
-       if ($row['bookName'] == $tBook) {
+       if ($row['bookName'] === $tBook) {
          $tOutput .= ' selected';
        }
       $tOutput .= '>' . $row['bookName'] . '</option>';
+    }
+  } else {
+    $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database :(';
+  }
+  mysqli_free_result($result);
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function prepareDropdownChapterList(){
+// ============================================================================
+  global $link, $tBook, $tChapter;
+  $tOutput = '';
+
+  $tQuery = 'SELECT bookName,bookChapters FROM books WHERE bookName = "' . $tBook . '";';
+  $result = doQuery($link, $tQuery);
+
+  if (mysqli_num_rows($result) === 1) {
+    while($row = mysqli_fetch_assoc($result)) {
+      for ($i=1;$i<=$row['bookChapters'];$i++){
+        $tOutput .= '<option value="' . $i . '"';
+        if ($i === $tChapter) {
+          $tOutput .= ' selected';
+        }
+        $tOutput .= '>' . $i . '</option>';
+      }
     }
   } else {
     $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database :(';
@@ -126,7 +153,7 @@ function daysInMonth($month, $year){// calculate number of days in a month
 * Post: none
 */
 // corrected by ben at sparkyb dot net
-  return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31);
+  return $month === 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31);
 }
 // ============================================================================
 
@@ -180,7 +207,7 @@ function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
   $iColonB = stripos($tPassageEnd, ':');
   $tQuery = basicPassageQuery();
 
-  if($tBookCode == '23J'){
+  if($tBookCode === '23J'){
     $tQuery .=' WHERE (books.bookCode = "2JO" OR books.bookCode = "3JO")';
   }else{
     $tQuery .=' WHERE books.bookCode = "' . $tBookCode . '"';
@@ -202,7 +229,7 @@ function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
       $tVerseB = '0';
   }
 
-  if ($tChapterA == $tChapterB || $tChapterB == ''){ // one chapter
+  if ($tChapterA === $tChapterB || $tChapterB === ''){ // one chapter
     if($tVerseA > ''){
       $tQuery .= ' AND verses.chapter = ' . $tChapterA;
     }else {
@@ -217,7 +244,7 @@ function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
       $tQuery .= ' OR ';
       $tQuery .= ' (verses.chapter = ' . $tChapterB;
       $tQuery .= ' AND verses.verseNumber <=' . $tVerseB . ')';
-      if ($tChapterB == $tChapterA + 1){
+      if ($tChapterB === $tChapterA + 1){
           $tQuery .= ')';
       } else {
       $tQuery .= ' OR ';
@@ -255,23 +282,23 @@ function daysReadingsAsSentence($month, $day){
 
   $result = doQuery($link, $tQuery);
 
-  if (mysqli_num_rows($result) == 0) {
+  if (mysqli_num_rows($result) === 0) {
     $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
   } else {
     while($row = mysqli_fetch_assoc($result)) {
-      if($row['sectionCode'] == '1TOR'){
+      if($row['sectionCode'] === '1TOR'){
         // $tOutput .= ' first, ';
         $tOutput .= '';
       }
       //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
-      if($row['sectionCode'] == '2NV1' || $row['sectionCode'] == '4NV2'){
+      if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
           // $tOutput .= '; next it&rsquo;s ';
           $tOutput .= '. Follow that by reading';
       }
-      if($row['sectionCode'] == '3KTV'){
+      if($row['sectionCode'] === '3KTV'){
           $tOutput .= '. The third part is';
       }
-      if($row['sectionCode'] == '5NCV'){
+      if($row['sectionCode'] === '5NCV'){
           $tOutput .= '; and lastly';
       }
       $tOutput .= ' <strong>';
@@ -281,24 +308,24 @@ function daysReadingsAsSentence($month, $day){
           $tOutput .= 'from';
         }
       }
-      $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & ($row['startVerse'] == 0) & ($row['endVerse'] == 0);
+      $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & ($row['startVerse'] === 0) & ($row['endVerse'] === 0);
       $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
 
       $tOutput .= ' ' . $row['startChapter'];
       if($row['startVerse'] > 0){
         $tOutput .= ' verse';
-        if($row['startChapter'] == $row['endChapter']){
+        if($row['startChapter'] === $row['endChapter']){
           $tOutput .= 's';
         }
         $tOutput .= ' ' . $row['startVerse'];
       }
       if($row['endVerse'] > 0||$row['endChapter'] > 0){
-        if($bChaptersOnly & $row['endChapter'] == $row['startChapter']+1){
+        if($bChaptersOnly & $row['endChapter'] === $row['startChapter']+1){
           $tOutput .= ' and ';
         } else {
           $tOutput .= ' to ';          
         }
-        if($row['startChapter'] == $row['endChapter']){
+        if($row['startChapter'] === $row['endChapter']){
           $tOutput .= $row['endVerse'];
         }else{
           if (! $bChaptersOnly){
@@ -336,7 +363,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   if($bShowLinks){ // link to book only
     $tOutput .= buildLink($tBookName, 0, $tWords, $bShowMore);
   }
-  if($tBookName == 'Psalms'){
+  if($tBookName === 'Psalms'){
     $tOutput .= 'Psalm';
   }else {
     $tOutput .= $tBookName;
@@ -391,7 +418,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
         $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bShowMore) . ';';
       }
     } else {
-      if ($tBook == '2 & 3 John') {
+      if ($tBook === '2 & 3 John') {
         $tQuery = $tBaseQuery . ' WHERE books.bookName ="2 John" OR  books.bookName ="3 John"';
       } else {
         $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '"';
@@ -424,8 +451,11 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
     }
     $tOutput = showVerses($tQuery, $tVerses);
   }else{
-    $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-    $tOutput = '<h2>This is a sample:</h2>' . showVerses($tQuery, $tVerses);
+// These two lines could be exchanged for the one below to give sample text when 
+// blank search criteria eg on opening bible.php for the first time   .
+//    $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
+//    $tOutput = '<h2>This is a sample:</h2>' . showVerses($tQuery, $tVerses);
+    $tOutput = '';
   }
   return $tOutput;
 }
@@ -444,12 +474,12 @@ function showVerses($tQuery, $tVerses){
 
   $tOutput .=  '<div class="bibleText">';
 
-  if (mysqli_num_rows($result) == 0) {
+  if (mysqli_num_rows($result) === 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
-        $iBookChapters = 2; //$row['bookChapters'];
+//        $iBookChapters = 2; //$row['bookChapters'];
         if ($tLastBookName > ''){
           $tOutput .= '</p>';
         }
@@ -487,7 +517,7 @@ function processStrongs($tValue, $bHighlight, $bBracketOriginal){
   $iWordStart = 0;
   $iTagStart = 0;
   $iTagEnd = 0;
-  $iSearchEnd = 0;
+//  $iSearchEnd = 0;
   $tNewValue = '';
   $tStrongsNo = '';
 
@@ -550,7 +580,7 @@ function highlight($needle, $haystack){
 // ============================================================================
   $ind = stripos($haystack, $needle);
   $len = strlen($needle);
-  if($ind !== false){
+  if($ind){
       return substr($haystack, 0, $ind) . '<span class="highlight">' .
          substr($haystack, $ind, $len) .'</span>' .
           highlight($needle, substr($haystack, $ind + $len));
@@ -587,7 +617,7 @@ function isInRange($verse, $tVerses){
     $iEndVerse = substr($tVerses, $iDashPosition + 1);
     $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
   }else{
-     $bReturn = ($tVerses == $verse);
+     $bReturn = ($tVerses === $verse);
   }
   return $bReturn;
 }
