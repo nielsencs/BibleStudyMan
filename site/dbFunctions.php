@@ -94,7 +94,7 @@ function prepareDropdownChapterList(){
     while($row = mysqli_fetch_assoc($result)) {
       for ($i=1;$i<=$row['bookChapters'];$i++){
         $tOutput .= '<option value="' . $i . '"';
-        if ($i === $tChapter) {
+        if ($i === intval($tChapter)) {
           $tOutput .= ' selected';
         }
         $tOutput .= '>' . $i . '</option>';
