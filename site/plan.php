@@ -2,55 +2,40 @@
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'bibleFunctions.php';
+  require_once 'search.php';
 
-  /*
-  $month = filter_input(INPUT_GET, 'book');
-  $day = filter_input(INPUT_GET, 'chapter');
-  $tVerse = filter_input(INPUT_GET, 'verse');
-  $tWords = filter_input(INPUT_GET, 'search');
-
-  $bGotRequest = strlen($tBook . $tChapter. $tVerse . $tWords)>0;
-  */
   $todaysVerses = '';
-  $tMonth = filter_input(INPUT_GET, 'month');
-  $tDay = filter_input(INPUT_GET, 'day');
-  $bHighlightSW = true;
-  $bShowOW = true;
-  $iBook = 0;
-  echo prepareBookList();
-  $atStrongs = prepareStrongs();
-
   $timestamp = time();
   //$bLeap = (date('L', $timestamp)==1);
-  $year = date('Y', $timestamp);
-  $month = date('n', $timestamp);
-  $day = date('j', $timestamp);
+  $iYear = date('Y', $timestamp);
+  $iMonth = date('n', $timestamp);
+  $iDay = date('j', $timestamp);
 
   if (strlen($tMonth) > 0){
     if ($tMonth > 12){
-      $month = 12;
+      $iMonth = 12;
     }elseif ($tMonth < 1){
-      $month = 1;
+      $iMonth = 1;
     }else {
-      $month = intval($tMonth);
+      $iMonth = intval($tMonth);
     }
   }
 
-  $daysInMonth = daysInMonth($month, $year);
+  $iDaysInMonth = daysInMonth($iMonth, $iYear);
   if (strlen($tDay) > 0){
-    if ($tDay > $daysInMonth){
-      $day = $daysInMonth;
+    if ($tDay > $iDaysInMonth){
+      $iDay = $iDaysInMonth;
     }elseif ($tDay < 1){
-      $day = 1;
+      $iDay = 1;
     }else {
-      $day = $tDay;
+      $iDay = intval($tDay);
     }
   }
   echo '<!-- ';
   echo '$tMonth:' . $tMonth;
   echo '$tDay:' . $tDay;
-  echo '$month:' . $month;
-  echo '$day:' . $day;
+  echo '$iMonth:' . $iMonth;
+  echo '$iDay:' . $iDay;
   echo '-->';
 ?>
   <script type="text/javascript">
@@ -58,7 +43,7 @@
     function audioPlayPause(tAudioID){
 // ============================================================================
       // alert(document.getElementById('b' + tAudioID).value);
-      if(document.getElementById('b' + tAudioID).value == 'listen' || document.getElementById('b' + tAudioID).value == 'continue'){
+      if(document.getElementById('b' + tAudioID).value === 'listen' || document.getElementById('b' + tAudioID).value === 'continue'){
         document.getElementById('b' + tAudioID).value = 'stop';
         document.getElementById('a' + tAudioID).play();
         document.getElementById('a' + tAudioID).controls = true;
@@ -74,22 +59,61 @@
           <div class="main plan">
               <h1>The Bible Reading Plan</h1>
               <div class="subMain sectGeneral">
-                <h2>Readings for <?php echo monthName($month) . ' ' . $day; ?>:</h2>
+                <h2>Readings for <?php echo monthName($iMonth) . ' ' . $iDay; ?>:</h2>
   <?php
     // $tOutput = planTable('orderChron2');
     $tOutput = planTable('orderChristian');
     // echo planTable('orderJewish');
     // echo planTable('orderChron1');
     // echo planTable('orderChron2');
-    echo 'First, ' . daysReadingsAsSentence($month, $day);
+    echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay);
   ?>
                 <p>You can read the passages below. If you're looking to read for
                   a different day or want to use your own Bible, then
                 <a href="planTable.php">here&rsquo;s the entire year&rsquo;s plan
                   as a list</a>. Enjoy!</p>
 
+                <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
+
+                <table class="searchTable">
+                  <tbody>
+                    <!-- tr>
+                      <td colspan="2">
+                        Sort Order
+                        <select name="sortOrder">
+                          <option value="orderChristian">Traditional Christian</option>
+                          <option value="orderJewish">Traditional Jewish</option>
+                          <option value="orderChron1">Chronological A</option>
+                          <option value="orderChron2">Chronological B</option>
+                        </select>
+                      </td>
+                    </tr -->
+                    <tr>
+                      <td>
+                        <select name="month" id="month" onchange="doSubmit('month')">
+<?php
+  echo prepareDropdownMonthList($iMonth);
+?>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="button" value="&lt;" onclick="dayDirection('pd')">
+                        <select name="day" id="day" onchange="doSubmit('day')">
+<?php
+  echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);
+?>
+                        </select>
+                        <input type="button" value="&gt;" onclick="dayDirection('nd')">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+<?php require_once 'intWords.php'; ?>
+              </form>
+                
+                
   <?php
-    echo daysReadingsAsVerses($month, $day);
+    echo daysReadingsAsVerses($iMonth, $iDay);
   ?>
               </div>
           </div>

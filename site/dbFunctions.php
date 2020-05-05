@@ -94,7 +94,7 @@ function prepareDropdownChapterList(){
     while($row = mysqli_fetch_assoc($result)) {
       for ($i=1;$i<=$row['bookChapters'];$i++){
         $tOutput .= '<option value="' . $i . '"';
-        if ($i === $tChapter) {
+        if ($i === intval($tChapter)) {
           $tOutput .= ' selected';
         }
         $tOutput .= '>' . $i . '</option>';
@@ -104,6 +104,38 @@ function prepareDropdownChapterList(){
     $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database :(';
   }
   mysqli_free_result($result);
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function prepareDropdownMonthList($iMonth){
+// ============================================================================
+  $tOutput = '';
+
+  for ($i=1;$i<=12;$i++){
+    $tOutput .= '<option value="' . $i . '"';
+    if ($i == $iMonth) {
+      $tOutput .= ' selected';
+    }
+    $tOutput .= '>' . monthName($i) . '</option>';
+  }
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth){
+// ============================================================================
+  $tOutput = '';
+
+  for ($i=1;$i<= $iDaysInMonth;$i++){
+    $tOutput .= '<option value="' . $i . '"';
+    if ($i == $iDay) {
+      $tOutput .= ' selected';
+    }
+    $tOutput .= '>' . $i . '</option>';
+  }
   return $tOutput;
 }
 // ============================================================================
@@ -139,21 +171,21 @@ function strongs($tStrongsNo){
 // ============================================================================
 
 // ============================================================================
-function daysInMonth($month, $year){// calculate number of days in a month
+function daysInMonth($iMonth, $iYear){// calculate number of days in a month
 // ============================================================================
 /*
-* days_in_month($month, $year)
+* days_in_month($iMonth, $iYear)
 * David Bindel from PHP.net Manual
 * Returns the number of days in a given month and year, taking into account leap years.
 *
-* $month: numeric month (integers 1-12)
-* $year: numeric year (any integer)
+* $iMonth: numeric month (integers 1-12)
+* $iYear: numeric year (any integer)
 *
-* Prec: $month is an integer between 1 and 12, inclusive, and $year is an integer.
+* Prec: $iMonth is an integer between 1 and 12, inclusive, and $iYear is an integer.
 * Post: none
 */
 // corrected by ben at sparkyb dot net
-  return $month === 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31);
+  return $iMonth === 2 ? ($iYear % 4 ? 28 : ($iYear % 100 ? 29 : ($iYear % 400 ? 28 : 29))) : (($iMonth - 1) % 7 % 2 ? 30 : 31);
 }
 // ============================================================================
 
@@ -259,14 +291,14 @@ function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
 // ============================================================================
 
 // ============================================================================
-function getDayReadingQuery($month, $day){
+function getDayReadingQuery($iMonth, $day){
 // ============================================================================
   $tQuery = '';
 
   $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
   $tQuery .= ' FROM newPlan INNER JOIN planDays ON newPlan.planDay=planDays.ID';
   $tQuery .= ' INNER JOIN books ON newPlan.bookCode=books.bookCode';
-  $tQuery .= ' WHERE MONTH(planDate)="' . $month;
+  $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth;
   $tQuery .= '" AND DAY(planDate)="' . $day . '" ORDER BY planDate, newPlan.sectionCode ASC';
 
   return $tQuery;
@@ -274,11 +306,11 @@ function getDayReadingQuery($month, $day){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsSentence($month, $day){
+function daysReadingsAsSentence($iMonth, $day){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($month, $day);
+  $tQuery = getDayReadingQuery($iMonth, $day);
 
   $result = doQuery($link, $tQuery);
 

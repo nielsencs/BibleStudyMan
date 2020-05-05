@@ -3,9 +3,9 @@
   require_once 'dbFunctions.php';
 
   $timestamp = time();
-  $year = date("Y", $timestamp);
-  $month = date("n", $timestamp);
-  $day = date("j", $timestamp);
+  $iYear = date("Y", $timestamp);
+  $iMonth = date("n", $timestamp);
+  $iDay = date("j", $timestamp);
 ?>
 
   <script src="showHide.js"></script>
@@ -93,7 +93,7 @@
           New Testament.</p>
 <?php
   if ($link) {
-    echo '<p>As a sample, today&rsquo;s sections to read are ' . daysReadingsAsSentence($month, $day) . '. Enjoy!</p>';
+    echo '<p>As a sample, today&rsquo;s sections to read are ' . daysReadingsAsSentence($iMonth, $iDay) . '. Enjoy!</p>';
   }
 ?>
         <!-- p>If you'd rather read from your own Bible (there&rsquo;s nothing quite like a real book is there?) click here for <a href="planTable.php">the entire year&rsquo;s readings as a list.</a></p -->
