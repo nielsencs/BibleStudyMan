@@ -1,25 +1,12 @@
 <?php
-  // $bHome = true;
   require_once 'header.php';
   require_once 'dbFunctions.php';
 
   $timestamp = time();
-  //$bLeap = (date("L", $timestamp)==1);
   $year = date("Y", $timestamp);
   $month = date("n", $timestamp);
   $day = date("j", $timestamp);
 ?>
-
-  <script type="text/javascript">
-  // $(document).ready(function(){
-  //     $("#block1").mouseenter(function(){
-  //         $("#block1").slideDown("fast");
-  //     });
-  //     $("#block1").mouseleave(function(){
-  //         $("#block1").slideUp("fast");
-  //     });
-  // });
-  </script>
 
   <script src="showHide.js"></script>
 
