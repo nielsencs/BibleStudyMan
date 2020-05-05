@@ -27,10 +27,10 @@
     if(tField > ''){
       bDoit = (tField === 'chapter')||(document.getElementById(tField).value);
       if(tField === 'book'){
-        clearField('chapter')
+        clearField('chapter');
       }
     }else{
-      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';}; ?>;
+      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';} ?>;
     }
     if(bDoit){
         //    if(document.searchForm.words.value > '' || bJustDoit){
