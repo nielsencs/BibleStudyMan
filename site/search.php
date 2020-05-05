@@ -21,17 +21,18 @@
 
 <script type="text/javascript">
 // ============================================================================
-//  function doSubmit(bJustDoit = false) {
   function doSubmit(tField) {
 // ============================================================================
     bDoit = false;
     if(tField > ''){
-      bDoit = document.getElementById(tField).value;
+      bDoit = (tField === 'chapter')||(document.getElementById(tField).value);
+      if(tField === 'book'){
+        clearField('chapter')
+      }
     }else{
       bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';}; ?>;
     }
     if(bDoit){
-
         //    if(document.searchForm.words.value > '' || bJustDoit){
       showWait();
       document.searchForm.submit();
@@ -64,22 +65,22 @@
     var iLastBook = 67; // to accomodate extra '2&3 John' book!
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
 
-    if(tDirection=='pb'){ //prev book
-      if(iBook==0){
+    if(tDirection==='pb'){ //prev book
+      if(iBook===0){
         iBook = 1;
       }
       iBook = wrapNum(iBook, iLastBook, -1);
       document.searchForm.chapter.value='';
     }
-    if(tDirection=='nb'){ //next book
-      if(iBook==0){
+    if(tDirection==='nb'){ //next book
+      if(iBook===0){
         iBook = iLastBook;
       }
       iBook = wrapNum(iBook, iLastBook, +1);
       document.searchForm.chapter.value='';
     }
-    if(tDirection=='pc'){ //prev chapter
-      if(iChapter == 0 || iChapter == 1){
+    if(tDirection==='pc'){ //prev chapter
+      if(iChapter === 0 || iChapter === 1){
         iBook = wrapNum(iBook, iLastBook, -1);
         // document.searchForm.chapter.value='';
         document.searchForm.chapter.value=atBooks[iBook][1];
@@ -88,9 +89,9 @@
         document.searchForm.chapter.value=iChapter;
       }
     }
-    if(tDirection=='nc'){ //next chapter
+    if(tDirection==='nc'){ //next chapter
       // if(iChapter == 0 || iChapter == iChapterMax){
-      if(iChapter == 0 || iChapter == atBooks[iBook][1]){
+      if(iChapter === 0 || iChapter === atBooks[iBook][1]){
         iBook = wrapNum(iBook, iLastBook, +1);
         iChapter = 1;
       }else {
@@ -110,12 +111,12 @@
   function dayDirection(tDirection) {
 // ============================================================================
     var oDate = new Date();
-    oDate.setMonth(document.searchForm.month.value-1)
-    oDate.setDate(document.searchForm.day.value-1)
-    if(tDirection=='pd'){ //prev day
+    oDate.setMonth(document.searchForm.month.value-1);
+    oDate.setDate(document.searchForm.day.value-1);
+    if(tDirection==='pd'){ //prev day
       oDate.setDate(oDate.getDate()-1);
     }
-    if(tDirection=='nd'){ //next day
+    if(tDirection==='nd'){ //next day
       oDate.setDate(oDate.getDate()+1);
     }
     document.searchForm.month.value = oDate.getMonth()+1;
@@ -150,13 +151,13 @@
 // ============================================================================
   function clearAllFields(tCallingFile){
 // ============================================================================
-    if(tCallingFile=='bible'){
+    if(tCallingFile==='bible'){
       document.searchForm.book.value = '';
       document.searchForm.chapter.value = '';
       document.searchForm.words.value = '';
       document.searchForm.showMore.checked = '';
     }
-    if(tCallingFile=='plan'){
+    if(tCallingFile==='plan'){
       document.searchForm.month.value = '';
       document.searchForm.day.value = '';
       document.searchForm.sortOrder.value = '';
