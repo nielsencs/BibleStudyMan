@@ -8,7 +8,7 @@ function doQuery($link, $tQuery){
 // ============================================================================
 
 // ============================================================================
-function buildLink($tBookName, $iChapter, $tWords, $bShowMore){
+function buildLink($tBookName, $iChapter, $tWords, $bPhrase){
 // ============================================================================
   // $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName;
   $tReturn = '<a href="bible.php?book=' . $tBookName; // we might be in plan.php!
@@ -16,8 +16,8 @@ function buildLink($tBookName, $iChapter, $tWords, $bShowMore){
     $tReturn .= '&chapter=' . $iChapter;
   }
   $tReturn .= '&search=' . str_replace(' ', '+', $tWords);
-  if($bShowMore){
-    $tReturn .= '&showMore=on';
+  if($bPhrase){
+    $tReturn .= '&phrase=on';
   }
   $tReturn .= '">';
   return $tReturn;
@@ -389,7 +389,7 @@ function isChaptersOnly($row){
 // ============================================================================
 function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false){
 // ============================================================================
-  global $tWords, $bShowMore;
+  global $tWords, $bPhrase;
 
   $tOutput = '';
   $iBookChapters = 2; // not important to get actual chapters in book unless only 1
@@ -400,7 +400,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   }
 
   if($bShowLinks){ // link to book only
-    $tOutput .= buildLink($tBookName, 0, $tWords, $bShowMore);
+    $tOutput .= buildLink($tBookName, 0, $tWords, $bPhrase);
   }
   if($tBookName === 'Psalms'){
     $tOutput .= 'Psalm';
@@ -413,7 +413,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   if ($iBookChapters > 1){
     $tOutput .= ' ';
     if($bShowLinks){ // link to book and chapter
-      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bShowMore);
+      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bPhrase);
     }
     if($tBookName != 'Psalms'){
       if($bPluralChapter){
@@ -434,13 +434,13 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
 // ============================================================================
 
 // ============================================================================
-function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
+function passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase){
 // ============================================================================
   global $link, $bHighlightSW, $bShowOW;
 
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
 
-  // $tOutput = '';
+  $tOutput = '';
   $tBaseQuery = basicPassageQuery();
   if ($bProcessRequest) {
   // if (true) {
@@ -451,10 +451,10 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
       if (empty($tWords)) {
         // $tOutput .= ''<p>It seems you didn&rsquo;t enter a passage - this is one of my favourites:</p>';
         // $tQuery = 'SELECT verseText FROM verses WHERE bookCode ="JOH" AND chapter=3 AND verseNumber=16;';
-        $tOutput .=  '<p>I can&rsquo;t understand what you want - this is the beginning of The Bible:</p>';
+        $tOutput .=  '<h2>I&rsquo;m sorry I don&rsquo;t understand what you want - this is the beginning of The Bible:</h2>';
         $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber<10;';
       }else{
-        $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bShowMore) . ';';
+        $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bPhrase) . ';';
       }
     } else {
       if ($tBook === '2 & 3 John') {
@@ -467,7 +467,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
         if (empty($tWords)) {
           $tQuery = $tQuery . ';';
         }else{
-          $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tWords, $bShowMore) . ';';
+          $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tWords, $bPhrase) . ';';
         }
       }else{
         // ---- NOT searching down to verse level - keep commented in case I change my mind!
@@ -483,18 +483,18 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore){
         // if (empty($tWords)) {
           $tQuery = $tQuery . ';';
         // }else{
-          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bShowMore) . ';';
+          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bPhrase) . ';';
         // }
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput = showVerses($tQuery, $tVerses);
+    $tOutput .= showVerses($tQuery, $tVerses);
   }else{
 // These two lines could be exchanged for the one below to give sample text when 
 // blank search criteria eg on opening bible.php for the first time   .
-//    $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-//    $tOutput = '<h2>This is a sample:</h2>' . showVerses($tQuery, $tVerses);
-    $tOutput = '';
+    $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
+//    $tOutput = '';
   }
   return $tOutput;
 }
@@ -596,10 +596,11 @@ function processStrongs($tValue, $bHighlight, $bBracketOriginal){
 // ============================================================================
 function highlightSearch($tValue){
 // ============================================================================
-  global $tWords, $bShowMore;
+  global $tWords, $bPhrase;
 
   if ($tWords > ''){
-    if (! $bShowMore){
+//    if (! $bPhrase){
+    if ($bPhrase){
       // $tValue = str_ireplace($tWords, '<span class="highlight">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
@@ -628,9 +629,9 @@ function highlight($needle, $haystack){
 // ============================================================================
 
 // ============================================================================
-function addSQLWildcards($tValue, $bShowMore){
+function addSQLWildcards($tValue, $bPhrase){
 // ============================================================================
-  if($bShowMore){
+  if(! $bPhrase){
     // if (strpos($tValue, ' ') > 0){ // spaces present - more than one word!
       $tValue = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tValue) . '%"';
     // }else {

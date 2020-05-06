@@ -13,9 +13,17 @@
                   <tbody>
                     <tr>
                       <td colspan="2">
-                        <!--Search by keyword or book or a combination<br />-->
-                        <input type="search" name="words" id="words" placeholder="Enter phrase or word" value="<?php echo $tWords; ?>">
-                        <input type="checkbox" name="showMore" id="showMore" <?php if($bShowMore){echo 'checked';}; ?> onclick="doSubmit('words')"><label>Show More?</label>
+                        Search by word or book or both<br />
+                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo $tWords; ?>">
+                        <input type="checkbox" name="phrase" id="phrase" <?php if($bPhrase){echo 'checked';}; ?>
+                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll get fewer results as it treats the words to the left as a phrase.">Phrase</abbr></label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <input type="button" name="clearAll" id="clearAll" value="Clear" onclick="clearAllFields('bible')">
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="submit" value="Search">
                       </td>
                     </tr>
                     <tr>
@@ -26,22 +34,22 @@
                         <br />
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
                         <!--<datalist name="books" id="books">-->
-                        <select name="book" id="book" onchange="doSubmit('book')">
+                        <select name="book" id="book"  onchange="doSubmit('book')">
                          <option value=""></option>;
 <?php
   echo prepareDropdownBookList();
 ?>
                         <!--</datalist>-->
                         </select>
-                        <input type="button" value="Clear" onclick="clearField('book')">
+                        <!--<input type="button" value="Clear" onclick="clearField('book')">-->
                       </td>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pc')">
-                        &nbsp;Chapter&nbsp;
+                        &nbsp;<abbr title="The books in The Bible are divided into chapters; once you&rsquo;ve picked a book, you can pick a chapter below.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
                         <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
-                          <option value="">All</option>;
+                          <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>;
 <?php
   echo prepareDropdownChapterList();
 ?>
@@ -49,19 +57,12 @@
                         <!--<input type="button" value="Clear" onclick="clearField('chapter')">-->
                       </td>
                     </tr>
-                    <tr>
-                      <td colspan="2">
-                        <input type="button" name="clearAll" id="clearAll" value="Clear All" onclick="clearAllFields('bible')">
-                        &nbsp;&nbsp;&nbsp;
-                        <input type="submit" value="Search">
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bShowMore);
+  echo passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase);
 ?>
         <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
           to include nuanced meanings of particular ancient words for placenames,
