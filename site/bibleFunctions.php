@@ -107,13 +107,19 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
       $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;
       $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
     }
-  } else {
+  } else { // multiple chapters
       $tQuery .= ' AND (';
       $tQuery .= '(verses.chapter = ' . $iStartChapter;
-      $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse . ')';
+      if ($iStartVerse > 0){ // not whole chapter
+        $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;        
+      }
+      $tQuery .= ')';
       $tQuery .= ' OR ';
       $tQuery .= ' (verses.chapter = ' . $iEndChapter;
-      $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse . ')';
+      if ($iEndVerse > 0){ // not whole chapter
+        $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
+      }
+      $tQuery .= ')';
       if ($iEndChapter == $iStartChapter + 1){
           $tQuery .= ')';
       } else {
@@ -252,6 +258,9 @@ function PTAddSection($row) { // add a section column to the plan table
 // ============================================================================
   $tOutput = '';
 
+//  $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
+  $bChaptersOnly = isChaptersOnly($row);
+  
   $tOutput .= '<td>';
   $tOutput .= '<a href="bible.php?book=';
   $tOutput .= $row['bookName'];
@@ -267,7 +276,7 @@ function PTAddSection($row) { // add a section column to the plan table
     $tOutput .= '">';
     $tOutput .= $row['startChapter'];
     $tOutput .= '</a>';
-    if ($row['endChapter'] > 0){
+    if ($row['endChapter'] > 0 && !$bChaptersOnly){
       $tOutput .= ":";
     }
   }
