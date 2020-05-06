@@ -14,7 +14,7 @@
   }
   $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
 
-  if($tSortOrder === ''){
+  if(!($tSortOrder > '')){
     $tSortOrder = 'orderChristian';
   }
 
