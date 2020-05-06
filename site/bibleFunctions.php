@@ -107,13 +107,19 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
       $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;
       $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
     }
-  } else {
+  } else { // multiple chapters
       $tQuery .= ' AND (';
       $tQuery .= '(verses.chapter = ' . $iStartChapter;
-      $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse . ')';
+      if ($iStartVerse > 0){ // not whole chapter
+        $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;        
+      }
+      $tQuery .= ')';
       $tQuery .= ' OR ';
       $tQuery .= ' (verses.chapter = ' . $iEndChapter;
-      $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse . ')';
+      if ($iEndVerse > 0){ // not whole chapter
+        $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
+      }
+      $tQuery .= ')';
       if ($iEndChapter == $iStartChapter + 1){
           $tQuery .= ')';
       } else {
@@ -129,7 +135,7 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
 // ============================================================================
 
 // ============================================================================
-function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted section
+function sectionQuery($sectionCode, $tSortOrder){ // build query to get 1 sorted section
 // ============================================================================
   $tQuery = '';
 
@@ -147,7 +153,7 @@ function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted sec
   $tQuery .= 'WHERE ';
   $tQuery .= 'newPlan.sectionCode = "' . $sectionCode . '" ';
   $tQuery .= 'ORDER BY ';
-  $tQuery .= 'books.' . $tOrder . ', ';
+  $tQuery .= 'books.' . $tSortOrder . ', ';
   $tQuery .= 'newPlan.planDay;';
 
   return $tQuery;
@@ -155,28 +161,28 @@ function sectionQuery($sectionCode, $tOrder){ // build query to get 1 sorted sec
 // ============================================================================
 
 // ============================================================================
-function planTable($tOrder = 'orderChristian'){// build HTML table of the years reading plan
+function planTable($tSortOrder = 'orderChristian'){// build HTML table of the years reading plan
 // ============================================================================
   global $link;
   global $todaysVerses;
   $tOutput = '';
 
-  $tQuery1 = sectionQuery('1TOR', $tOrder);
+  $tQuery1 = sectionQuery('1TOR', $tSortOrder);
   $result1 = doQuery($link, $tQuery1);
   if (mysqli_num_rows($result1) == 0) {
     echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery1 . '"';
   } else {
-    $tQuery2 = sectionQuery('2NV1', $tOrder);
+    $tQuery2 = sectionQuery('2NV1', $tSortOrder);
     $result2 = doQuery($link, $tQuery2);
     if (mysqli_num_rows($result2) == 0) {
       echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery2 . '"';
     } else {
-      $tQuery3 = sectionQuery('3KTV', $tOrder);
+      $tQuery3 = sectionQuery('3KTV', $tSortOrder);
       $result3 = doQuery($link, $tQuery3);
       if (mysqli_num_rows($result3) == 0) {
         echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery3 . '"';
       } else {
-        $tQuery4 = sectionQuery('5NCV', $tOrder);
+        $tQuery4 = sectionQuery('5NCV', $tSortOrder);
         $result4 = doQuery($link, $tQuery4);
         if (mysqli_num_rows($result4) == 0) {
           echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery4 . '"';
@@ -252,6 +258,9 @@ function PTAddSection($row) { // add a section column to the plan table
 // ============================================================================
   $tOutput = '';
 
+//  $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
+  $bChaptersOnly = isChaptersOnly($row);
+  
   $tOutput .= '<td>';
   $tOutput .= '<a href="bible.php?book=';
   $tOutput .= $row['bookName'];
@@ -267,7 +276,7 @@ function PTAddSection($row) { // add a section column to the plan table
     $tOutput .= '">';
     $tOutput .= $row['startChapter'];
     $tOutput .= '</a>';
-    if ($row['endChapter'] > 0){
+    if ($row['endChapter'] > 0 && !$bChaptersOnly){
       $tOutput .= ":";
     }
   }

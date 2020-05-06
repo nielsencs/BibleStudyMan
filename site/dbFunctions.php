@@ -340,7 +340,7 @@ function daysReadingsAsSentence($iMonth, $day){
           $tOutput .= 'from';
         }
       }
-      $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & ($row['startVerse'] === 0) & ($row['endVerse'] === 0);
+      $bChaptersOnly = isChaptersOnly($row);
       $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
 
       $tOutput .= ' ' . $row['startChapter'];
@@ -376,6 +376,13 @@ function daysReadingsAsSentence($iMonth, $day){
   mysqli_free_result($result);
 
   return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function isChaptersOnly($row){
+// ============================================================================
+  return ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
 }
 // ============================================================================
 
