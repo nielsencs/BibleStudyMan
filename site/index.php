@@ -1,11 +1,7 @@
 <?php
   require_once 'header.php';
   require_once 'dbFunctions.php';
-
-  $timestamp = time();
-  $iYear = date("Y", $timestamp);
-  $iMonth = date("n", $timestamp);
-  $iDay = date("j", $timestamp);
+  require_once 'timeStamp.php';
 ?>
 
   <script src="showHide.js"></script>

@@ -3,13 +3,9 @@
   require_once 'dbFunctions.php';
   require_once 'bibleFunctions.php';
   require_once 'search.php';
+  require_once 'timeStamp.php';
 
   $todaysVerses = '';
-  $timestamp = time();
-  //$bLeap = (date('L', $timestamp)==1);
-  $iYear = date('Y', $timestamp);
-  $iMonth = date('n', $timestamp);
-  $iDay = date('j', $timestamp);
 
   if (strlen($tMonth) > 0){
     if ($tMonth > 12){
