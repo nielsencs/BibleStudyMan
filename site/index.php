@@ -7,14 +7,13 @@
   <script src="showHide.js"></script>
 
   <div class='intro'>
-    <a href="about.php"><img class="mugshot" src="images/Carl-Small.png"
-      alt="mugshot of Carl"/></a>
-    <p class="frameborder">Welcome to the <strong>Bible Study Man</strong> website where I
+    <a href="about.php"><img class="mugshot" src="images/CarlSmall.png" alt="mugshot of Carl"/></a>
+    <p>Welcome to the <strong>Bible Study Man</strong> website where I
       hope we can learn together what The Bible has to teach us. My aim
       is to bring this <strong>amazing book alive</strong> in a
       <strong>fresh, interesting and</strong> sometimes
       <strong>challenging</strong> way!</p>
-    <p class="frameborder">I have divided the site into <strong>four main sections</strong> detailed below.
+    <p>I have divided the site into <strong>four main sections</strong> detailed below.
       Feel free to <strong>explore</strong> and if there&rsquo;s anything you can&rsquo;t
       find or understand - <a href="mailto:carl@BibleStudyMan.co.uk">get in touch</a>!</p>
     <p class="signature">Carl Nielsen, January 2018</p>
