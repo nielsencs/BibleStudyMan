@@ -491,7 +491,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase){
     $tOutput .= showVerses($tQuery, $tVerses);
   }else{
 // These two lines could be exchanged for the one below to give sample text when 
-// blank search criteria eg on opening bible.php for the first time   .
+// blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
     $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
 //    $tOutput = '';
@@ -551,7 +551,7 @@ function showVerses($tQuery, $tVerses){
 // ============================================================================
 
 // ============================================================================
-function processStrongs($tValue, $bHighlight, $bBracketOriginal){
+function processStrongs($tValue, $bHighlightSW, $bShowOW){
 // ============================================================================
   $iWordStart = 0;
   $iTagStart = 0;
@@ -572,17 +572,14 @@ function processStrongs($tValue, $bHighlight, $bBracketOriginal){
       $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - 1 - $iTagStart);
 
       $tNewValue = $tNewValue . substr($tValue, 0, $iWordStart);
-      if ($bHighlight){
-        $tNewValue = $tNewValue . '<span style="background: lavender"';
-        // $tNewValue = $tNewValue . 'onmouseover=""';
-        // $tNewValue = $tNewValue . 'onmouseout=""';
-        $tNewValue = $tNewValue . '>';
+      if ($bHighlightSW){
+        $tNewValue = $tNewValue . '<span class="highlightOW">';
       }
       $tNewValue = $tNewValue . substr($tValue, $iWordStart, $iTagEnd + 1 - $iWordStart);
-      if ($bBracketOriginal){
+      if ($bShowOW){
         $tNewValue = $tNewValue . ' <sub>(' . strongs($tStrongsNo) . ')</sub>';
       }
-      if ($bHighlight){
+      if ($bHighlightSW){
         $tNewValue = $tNewValue . '</span>';
       }
 
