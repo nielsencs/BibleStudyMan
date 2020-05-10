@@ -15,7 +15,7 @@ function buildLink($tBookName, $iChapter, $tWords, $bPhrase){
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }
-  $tReturn .= '&search=' . str_replace(' ', '+', $tWords);
+  $tReturn .= '&words=' . str_replace(' ', '+', $tWords);
   if($bPhrase){
     $tReturn .= '&phrase=on';
   }
