@@ -115,19 +115,48 @@
   function dayDirection(tDirection) {
 // ============================================================================
     var oDate = new Date();
-    oDate.setMonth(document.searchForm.month.value-1);
-    oDate.setDate(document.searchForm.day.value-1);
+    var iMonth = parseInt(document.searchForm.month.value);
+    var iDay = parseInt(document.searchForm.day.value);
     if(tDirection==='pd'){ //prev day
-      oDate.setDate(oDate.getDate()-1);
+      if(iDay > 1){
+        iDay --;
+      }else{
+        iMonth = wrapNum(iMonth, 12, -1);
+        iDay = daysInMonth(iMonth, oDate.getFullYear());
+      }
     }
     if(tDirection==='nd'){ //next day
-      oDate.setDate(oDate.getDate()+1);
+      if(iDay < daysInMonth(iMonth, oDate.getFullYear())){
+        iDay ++;
+      }else{
+        iMonth = wrapNum(iMonth, 12, +1);
+        iDay = 1;
+      }
     }
-    document.searchForm.month.value = oDate.getMonth()+1;
-    document.searchForm.day.value =   oDate.getDate()+1;
+    document.searchForm.month.value = iMonth;
+    document.searchForm.day.value =   iDay;
     showWait();
     document.searchForm.submit();
   }
+// ============================================================================
+
+// ============================================================================
+function daysInMonth(iMonth, iYear){// calculate number of days in a month
+// ============================================================================
+/*
+* days_in_month($iMonth, $iYear)
+* David Bindel from PHP.net Manual
+* Returns the number of days in a given month and year, taking into account leap years.
+*
+* $iMonth: numeric month (integers 1-12)
+* $iYear: numeric year (any integer)
+*
+* Prec: $iMonth is an integer between 1 and 12, inclusive, and $iYear is an integer.
+* Post: none
+*/
+// corrected by ben at sparkyb dot net
+  return iMonth === 2 ? (iYear % 4 ? 28 : (iYear % 100 ? 29 : (iYear % 400 ? 28 : 29))) : ((iMonth - 1) % 7 % 2 ? 30 : 31);
+}
 // ============================================================================
 
 // ============================================================================
