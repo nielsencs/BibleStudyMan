@@ -626,21 +626,21 @@ function highlight($needle, $haystack){
 // ============================================================================
 
 // ============================================================================
-function addSQLWildcards($tValue, $bPhrase){
+function addSQLWildcards($tWords, $bPhrase){
 // ============================================================================
-  if(! $bPhrase){
-    // if (strpos($tValue, ' ') > 0){ // spaces present - more than one word!
-      $tValue = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tValue) . '%"';
+  if($bPhrase){ // 'phrase' was 'checked' regardless of number of words
+    if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
+      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
+    }else {
+      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+    }
+  }else {
+    // if (strpos($tWords, ' ') > 0){ // spaces present - more than one word!
+      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
     // }else {
     // }
-  }else {
-    if (strpos($tValue, ' ') > 0){ // spaces present - probably more than one word!
-      $tValue = 'verses.verseText LIKE "%' . $tValue . '%"';
-    }else {
-      $tValue = '(verses.verseText LIKE "' . $tValue . '%"' . ' OR verses.verseText LIKE "% ' . $tValue . '%")';
-    }
   }
-  return $tValue;
+  return $tWords;
 }
 // ============================================================================
 
@@ -649,7 +649,7 @@ function isInRange($verse, $tVerses){
 // ============================================================================
   $bReturn = false;
   $iDashPosition = strpos($tVerses, '-');
-  if ($iDashPosition > 0){
+  if ($iDashPosition > 0){ // from - to
     $iStartVerse = substr($tVerses, 0, $iDashPosition);
     $iEndVerse = substr($tVerses, $iDashPosition + 1);
     $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
