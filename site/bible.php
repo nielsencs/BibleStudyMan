@@ -3,9 +3,11 @@
   require_once 'dbFunctions.php';
   require_once 'search.php';
     $atBookChapSearch = bookChapSearch($tWords);
-    if($atBookChapSearch[0] > ''){ //book found in search
+    if($atBookChapSearch[0] > ''){ // book found in search
       $tBook = $atBookChapSearch[0];
-      $tChapter = $atBookChapSearch[1];
+      if($atBookChapSearch[1] > ''){ // chapter found in search
+        $tChapter = $atBookChapSearch[1];
+      }
       $tWords = $atBookChapSearch[2];
     }
 ?>
@@ -41,7 +43,7 @@
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
                         <!--<datalist name="books" id="books">-->
                         <select name="book" id="book"  onchange="doSubmit('book')">
-                         <option value=""></option>;
+                         <option value=""></option>
 <?php
   echo prepareDropdownBookList();
 ?>
@@ -55,7 +57,7 @@
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
                         <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
-                          <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>;
+                          <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>
 <?php
   echo prepareDropdownChapterList();
 ?>
@@ -88,18 +90,17 @@ function bookChapSearch($tWords){
   $atWords = explode(' ', $tWords);
   $iLen = count($atWords);
 
-  $atBeginBook = beginsWithBook($atWords, $iLen);
-  $tBook = $atBeginBook[0];
-  $tChapter = $atBeginBook[1];
+  $atBeginsWithBook = beginsWithBook($atWords, $iLen);
+  $tBook = $atBeginsWithBook[0];
+  $tChapter = $atBeginsWithBook[1];
 
-  $i = $atBeginBook[2];
+  $i = $atBeginsWithBook[2];
 
   if ($i === $iLen){ // done!
     $tWords = '';
   }else{
     $tWords = joinWords($atWords, $i, $iLen);
   }
-//  echo '$tWords[' . $tWords . ']';
   return [$tBook, $tChapter, $tWords];
 }
 // ============================================================================
@@ -109,10 +110,11 @@ function beginsWithBook($atWords, $iLen){
 // ============================================================================
   $tBook = '';      
   $tChapter = '';      
-  $atFindBibleBook = findBook($atWords, 0, $iLen);
-  $i = $atFindBibleBook[1];
-  if (strlen($atFindBibleBook[0]) > 0){ // first few words is a book
-    $tBook = $atFindBibleBook[0];
+  $atFindBook = findBook($atWords, 0, $iLen);
+  $i = $atFindBook[1];
+
+  if (strlen($atFindBook[0]) > 0){ // first few words is a book
+    $tBook = $atFindBook[0];
     $atFindChapter = findChapter($atWords, $i, $iLen);
     $tChapter = $atFindChapter[0];
     $i = $atFindChapter[1];
@@ -128,7 +130,6 @@ function findBook($atWords, $i, $iLen){
   // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
   // 1 cor vs 1cor
   global $atBookAbbs;
-
   if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
     if ($iLen > 1){
       $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
@@ -143,7 +144,7 @@ function findBook($atWords, $i, $iLen){
   $i = $atSongs[1];
   $tBook = getBookName($tMayBeBook, $atBookAbbs);
   if($tBook > ''){
-    $i++;
+    $i = $i + 1;
   }
   return [$tBook, $i];
 }
@@ -153,14 +154,28 @@ function findBook($atWords, $i, $iLen){
 function findChapter($atWords, $i, $iLen){
 // ============================================================================
   $tChapter = '';
-//  echo '$i[' . $i . ']$iLen[' . $iLen . ']';
-  if($i < $iLen){
-    if(is_numeric (substr($atWords[$i], 0, 1))){ // is next word a chapter?
-      $tChapter = $atWords[$i];
-      $i++;
+  $iKeep = $i;
+  for ($j=$i;$j < $iLen; $j++){
+    if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // is first remaining 'word' a chapter?
+      $tChapter .= $atWords[$i];
+      $iKeep = $i+1;
+      $iColon = strpos($tChapter, ':');
+      if($iColon > 0){ // verses - we don't yet search for them yet!
+        $tChapter = substr($tChapter, 0, $iColon-1);
+      }
+    }
+    if($j>$i){ // on to the rest
+      if($atWords[$j] === ':'){ // verses - we don't yet search for them yet!
+        $tChapter .= $atWords[$i];
+        $iKeep = $i+1;
+      }
+      if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // should be search words by now
+        $iKeep = $i+1;
+      }
     }
   }
-  return [$tChapter, $i];
+
+  return [$tChapter, $iKeep];
 }
 // ============================================================================
 
