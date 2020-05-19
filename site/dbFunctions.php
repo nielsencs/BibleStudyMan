@@ -25,6 +25,28 @@ function buildLink($tBookName, $iChapter, $tWords, $bPhrase){
 // ============================================================================
 
 // ============================================================================
+function prepareBookAbbs(){
+// ============================================================================
+  global $link;
+  $atBookAbbs = array();
+
+  $tQuery = 'SELECT baBookAbbreviation, bookName FROM bookabbreviations INNER JOIN books ON baBookCode=books.bookCode;';
+  $result = doQuery($link, $tQuery);
+
+  if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+      $atBookAbbs += [$row['baBookAbbreviation'] => $row['bookName']];
+    }
+  } else {
+    echo 'Tell Carl something went wrong with the BibleStudyMan database :(';
+  }
+  mysqli_free_result($result);
+
+  return $atBookAbbs;
+}
+// ============================================================================
+
+// ============================================================================
 function prepareBookList(){
 // ============================================================================
   global $link, $tBook, $iBook;
@@ -551,6 +573,22 @@ function showVerses($tQuery, $tVerses){
 // ============================================================================
 
 // ============================================================================
+function isInRange($verse, $tVerses){
+// ============================================================================
+  $bReturn = false;
+  $iDashPosition = strpos($tVerses, '-');
+  if ($iDashPosition > 0){ // from - to
+    $iStartVerse = substr($tVerses, 0, $iDashPosition);
+    $iEndVerse = substr($tVerses, $iDashPosition + 1);
+    $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
+  }else{
+     $bReturn = ($tVerses === $verse);
+  }
+  return $bReturn;
+}
+// ============================================================================
+
+// ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW){
 // ============================================================================
   $iWordStart = 0;
@@ -641,22 +679,6 @@ function addSQLWildcards($tWords, $bPhrase){
     // }
   }
   return $tWords;
-}
-// ============================================================================
-
-// ============================================================================
-function isInRange($verse, $tVerses){
-// ============================================================================
-  $bReturn = false;
-  $iDashPosition = strpos($tVerses, '-');
-  if ($iDashPosition > 0){ // from - to
-    $iStartVerse = substr($tVerses, 0, $iDashPosition);
-    $iEndVerse = substr($tVerses, $iDashPosition + 1);
-    $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
-  }else{
-     $bReturn = ($tVerses === $verse);
-  }
-  return $bReturn;
 }
 // ============================================================================
 
