@@ -2,7 +2,13 @@
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'search.php';
- ?>
+    $atBookChapSearch = bookChapSearch($tWords);
+    if($atBookChapSearch[0] > ''){ //book found in search
+      $tBook = $atBookChapSearch[0];
+      $tChapter = $atBookChapSearch[1];
+      $tWords = $atBookChapSearch[2];
+    }
+?>
 
         <div class="main Bible">
             <h1>The Bible</h1>
@@ -62,13 +68,6 @@
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
-  if($tBook === ''){ //book not specified in slot - is it in search?
-    $atBookChapSearch = bookChapSearch($tWords);
-    $tBook = $atBookChapSearch [0];
-    $tChapter = $atBookChapSearch [1];
-    $tWords = $atBookChapSearch [2];
-            
-  }
   echo passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase);
 ?>
         <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
@@ -91,12 +90,16 @@ function bookChapSearch($tWords){
 
   $atBeginBook = beginsWithBook($atWords, $iLen);
   $tBook = $atBeginBook[0];
-  $i = $atBeginBook[1];
-  if ($i === $iLen-1){ // done!
+  $tChapter = $atBeginBook[1];
+
+  $i = $atBeginBook[2];
+
+  if ($i === $iLen){ // done!
     $tWords = '';
   }else{
     $tWords = joinWords($atWords, $i, $iLen);
   }
+//  echo '$tWords[' . $tWords . ']';
   return [$tBook, $tChapter, $tWords];
 }
 // ============================================================================
@@ -104,22 +107,22 @@ function bookChapSearch($tWords){
 // ============================================================================
 function beginsWithBook($atWords, $iLen){
 // ============================================================================
-  $atBookFound = findBibleBook($atWords, 0, $iLen);
-  $i = $atBookFound[1];
-  if (strlen($atBookFound[0]) > 0){ // first few words is a book
-    $tBook = $atBookFound[0];
-    if(is_numeric ($atWords[$i])){ // is next word a chapter?
-      $tChapter = $atWords[$i];
-    }else{
-      $tChapter = '';      
-    }
+  $tBook = '';      
+  $tChapter = '';      
+  $atFindBibleBook = findBook($atWords, 0, $iLen);
+  $i = $atFindBibleBook[1];
+  if (strlen($atFindBibleBook[0]) > 0){ // first few words is a book
+    $tBook = $atFindBibleBook[0];
+    $atFindChapter = findChapter($atWords, $i, $iLen);
+    $tChapter = $atFindChapter[0];
+    $i = $atFindChapter[1];
   }
-  return [$tBook, $i];
+  return [$tBook, $tChapter, $i];
 }
 // ============================================================================
 
 // ============================================================================
-function findBibleBook($atWords, $i, $iLen){
+function findBook($atWords, $i, $iLen){
 // ============================================================================
 //  abbreviations with or without fullstop  
   // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
@@ -127,23 +130,18 @@ function findBibleBook($atWords, $i, $iLen){
   global $atBookAbbs;
 
   if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
-    echo '$iLen:' . $iLen;
     if ($iLen > 1){
       $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
       $i ++;
-      echo '$atWords[$i]:' . $atWords[$i];
     }
   } else {
     $tMayBeBook = $atWords[0];
   }
 
-  echo '$tBook:1:' . $tMayBeBook;
   $atSongs = isItSongs($tMayBeBook, $atWords, $i, $iLen);
   $tMayBeBook = $atSongs[0];
   $i = $atSongs[1];
-  echo '$tBook:2:' . $tMayBeBook;
-  $tBook = getBibleBookName($tMayBeBook, $atBookAbbs);
-  echo '$tBook:3:' . $tBook;
+  $tBook = getBookName($tMayBeBook, $atBookAbbs);
   if($tBook > ''){
     $i++;
   }
@@ -152,13 +150,25 @@ function findBibleBook($atWords, $i, $iLen){
 // ============================================================================
 
 // ============================================================================
-function getBibleBookName($tWord, $atBookAbbs){
+function findChapter($atWords, $i, $iLen){
 // ============================================================================
-  echo '$tWord:' . $tWord;
+  $tChapter = '';
+//  echo '$i[' . $i . ']$iLen[' . $iLen . ']';
+  if($i < $iLen){
+    if(is_numeric (substr($atWords[$i], 0, 1))){ // is next word a chapter?
+      $tChapter = $atWords[$i];
+      $i++;
+    }
+  }
+  return [$tChapter, $i];
+}
+// ============================================================================
+
+// ============================================================================
+function getBookName($tWord, $atBookAbbs){
+// ============================================================================
   foreach ($atBookAbbs as $tAbbr => $tName) // as list($tAbbr, $tName) )
   {
-//    echo '$tAbbr:' . $tAbbr;
-//    echo '$tName:' . $tName;
     if(strtolower($tWord) === strtolower($tAbbr)){
       return $tName;
     }
@@ -190,7 +200,7 @@ function isItSongs($tBook, $atWords, $i, $iLen){
       }
     }
   }
-  return [$tBook, $1];
+  return [$tBook, $i];
 }
 // ============================================================================
 

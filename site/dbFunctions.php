@@ -666,7 +666,7 @@ function highlight($needle, $haystack){
 // ============================================================================
 function addSQLWildcards($tWords, $bPhrase){
 // ============================================================================
-  return procesSearchWords($tWords, $bPhrase);
+//  return procesSearchWords($tWords, $bPhrase);
 
   if($bPhrase){ // 'phrase' was 'checked' regardless of number of words
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
@@ -688,10 +688,11 @@ function addSQLWildcards($tWords, $bPhrase){
 function joinWords($atWords, $i, $iLen){
 // ============================================================================
   $tWords = '';
+//    echo '$i[' . $i . ']$iLen[' . $iLen . ']';
   for ($j=$i;$j < $iLen; $j++){
-    $tWords .= $atWords[$j];
+    $tWords .= $atWords[$j] . ' ';
   }
-  return  $tWords;
+  return  trim($tWords);
 }
 // ============================================================================
 
