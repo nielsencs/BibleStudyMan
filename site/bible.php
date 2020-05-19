@@ -62,6 +62,13 @@
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
+  if($tBook === ''){ //book not specified in slot - is it in search?
+    $atBookChapSearch = bookChapSearch($tWords);
+    $tBook = $atBookChapSearch [0];
+    $tChapter = $atBookChapSearch [1];
+    $tWords = $atBookChapSearch [2];
+            
+  }
   echo passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase);
 ?>
         <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
@@ -75,4 +82,116 @@
 <?php
 
   require_once 'footer.php';
+
+// ============================================================================
+function bookChapSearch($tWords){
+// ============================================================================
+  $atWords = explode(' ', $tWords);
+  $iLen = count($atWords);
+
+  $atBeginBook = beginsWithBook($atWords, $iLen);
+  $tBook = $atBeginBook[0];
+  $i = $atBeginBook[1];
+  if ($i === $iLen-1){ // done!
+    $tWords = '';
+  }else{
+    $tWords = joinWords($atWords, $i, $iLen);
+  }
+  return [$tBook, $tChapter, $tWords];
+}
+// ============================================================================
+
+// ============================================================================
+function beginsWithBook($atWords, $iLen){
+// ============================================================================
+  $atBookFound = findBibleBook($atWords, 0, $iLen);
+  $i = $atBookFound[1];
+  if (strlen($atBookFound[0]) > 0){ // first few words is a book
+    $tBook = $atBookFound[0];
+    if(is_numeric ($atWords[$i])){ // is next word a chapter?
+      $tChapter = $atWords[$i];
+    }else{
+      $tChapter = '';      
+    }
+  }
+  return [$tBook, $i];
+}
+// ============================================================================
+
+// ============================================================================
+function findBibleBook($atWords, $i, $iLen){
+// ============================================================================
+//  abbreviations with or without fullstop  
+  // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
+  // 1 cor vs 1cor
+  global $atBookAbbs;
+
+  if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
+    echo '$iLen:' . $iLen;
+    if ($iLen > 1){
+      $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
+      $i ++;
+      echo '$atWords[$i]:' . $atWords[$i];
+    }
+  } else {
+    $tMayBeBook = $atWords[0];
+  }
+
+  echo '$tBook:1:' . $tMayBeBook;
+  $atSongs = isItSongs($tMayBeBook, $atWords, $i, $iLen);
+  $tMayBeBook = $atSongs[0];
+  $i = $atSongs[1];
+  echo '$tBook:2:' . $tMayBeBook;
+  $tBook = getBibleBookName($tMayBeBook, $atBookAbbs);
+  echo '$tBook:3:' . $tBook;
+  if($tBook > ''){
+    $i++;
+  }
+  return [$tBook, $i];
+}
+// ============================================================================
+
+// ============================================================================
+function getBibleBookName($tWord, $atBookAbbs){
+// ============================================================================
+  echo '$tWord:' . $tWord;
+  foreach ($atBookAbbs as $tAbbr => $tName) // as list($tAbbr, $tName) )
+  {
+//    echo '$tAbbr:' . $tAbbr;
+//    echo '$tName:' . $tName;
+    if(strtolower($tWord) === strtolower($tAbbr)){
+      return $tName;
+    }
+  }
+  return '';
+}
+// ============================================================================
+
+// ============================================================================
+function isItSongs($tBook, $atWords, $i, $iLen){
+// ============================================================================
+  if (strtolower($atWords[0]) === 'song' || substr((strtolower($atWords[0])), 0, 4) === 'cant'){
+    $tBook = 'Song of Songs';
+    if ($iLen > 1){
+      if (strtolower($atWords[1]) === 'of'){
+        $i = $i + 1;
+        if ($iLen >= 2){
+          if (substr((strtolower($atWords[2])), 0, 4) === 'cant' || substr((strtolower($atWords[2])), 0, 2) === 'so'){
+            $i = $i + 1;
+          }
+        }
+      } else {
+        if (strtolower($atWords[1]) === 'of'){
+          $i = $i + 2;
+        } else {
+          $tBook = 'Song of Songs';
+          $i++;        
+        }
+      }
+    }
+  }
+  return [$tBook, $1];
+}
+// ============================================================================
+
 ?>
