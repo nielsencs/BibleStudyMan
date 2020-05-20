@@ -108,8 +108,8 @@ function bookChapSearch($tWords){
 // ============================================================================
 function beginsWithBook($atWords, $iLen){
 // ============================================================================
-  $tBook = '';      
-  $tChapter = '';      
+  $tBook = '';
+  $tChapter = '';
   $atFindBook = findBook($atWords, 0, $iLen);
   $i = $atFindBook[1];
 
@@ -126,7 +126,7 @@ function beginsWithBook($atWords, $iLen){
 // ============================================================================
 function findBook($atWords, $i, $iLen){
 // ============================================================================
-//  abbreviations with or without fullstop  
+//  abbreviations with or without fullstop
   // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
   // 1 cor vs 1cor
   global $atBookAbbs;
@@ -210,7 +210,7 @@ function isItSongs($tBook, $atWords, $i, $iLen){
           $i = $i + 2;
         } else {
           $tBook = 'Song of Songs';
-          $i++;        
+          $i++;
         }
       }
     }
