@@ -21,6 +21,7 @@
   $iBook = 0;
   echo prepareBookList();
   $atStrongs = prepareStrongs();
+  $atBookAbbs = prepareBookAbbs();
 ?>
 
 <script type="text/javascript">
