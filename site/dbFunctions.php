@@ -25,6 +25,28 @@ function buildLink($tBookName, $iChapter, $tWords, $bPhrase){
 // ============================================================================
 
 // ============================================================================
+function prepareBookAbbs(){
+// ============================================================================
+  global $link;
+  $atBookAbbs = array();
+
+  $tQuery = 'SELECT baBookAbbreviation, bookName FROM bookabbreviations INNER JOIN books ON baBookCode=books.bookCode;';
+  $result = doQuery($link, $tQuery);
+
+  if (mysqli_num_rows($result) > 0) {
+    while($row = mysqli_fetch_assoc($result)) {
+      $atBookAbbs += [$row['baBookAbbreviation'] => $row['bookName']];
+    }
+  } else {
+    echo 'Tell Carl something went wrong with the BibleStudyMan database :(';
+  }
+  mysqli_free_result($result);
+
+  return $atBookAbbs;
+}
+// ============================================================================
+
+// ============================================================================
 function prepareBookList(){
 // ============================================================================
   global $link, $tBook, $iBook;
@@ -551,6 +573,22 @@ function showVerses($tQuery, $tVerses){
 // ============================================================================
 
 // ============================================================================
+function isInRange($verse, $tVerses){
+// ============================================================================
+  $bReturn = false;
+  $iDashPosition = strpos($tVerses, '-');
+  if ($iDashPosition > 0){ // from - to
+    $iStartVerse = substr($tVerses, 0, $iDashPosition);
+    $iEndVerse = substr($tVerses, $iDashPosition + 1);
+    $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
+  }else{
+     $bReturn = ($tVerses === $verse);
+  }
+  return $bReturn;
+}
+// ============================================================================
+
+// ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW){
 // ============================================================================
   $iWordStart = 0;
@@ -626,37 +664,143 @@ function highlight($needle, $haystack){
 // ============================================================================
 
 // ============================================================================
-function addSQLWildcards($tValue, $bPhrase){
+function addSQLWildcards($tWords, $bPhrase){
 // ============================================================================
-  if(! $bPhrase){
-    // if (strpos($tValue, ' ') > 0){ // spaces present - more than one word!
-      $tValue = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tValue) . '%"';
+//  return procesSearchWords($tWords, $bPhrase);
+
+  if($bPhrase){ // 'phrase' was 'checked' regardless of number of words
+    if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
+      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
+    }else {
+      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+    }
+  }else {
+    // if (strpos($tWords, ' ') > 0){ // spaces present - more than one word!
+      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
     // }else {
     // }
-  }else {
-    if (strpos($tValue, ' ') > 0){ // spaces present - probably more than one word!
-      $tValue = 'verses.verseText LIKE "%' . $tValue . '%"';
-    }else {
-      $tValue = '(verses.verseText LIKE "' . $tValue . '%"' . ' OR verses.verseText LIKE "% ' . $tValue . '%")';
-    }
   }
-  return $tValue;
+  return $tWords;
 }
 // ============================================================================
 
 // ============================================================================
-function isInRange($verse, $tVerses){
+function joinWords($atWords, $i, $iLen){
 // ============================================================================
-  $bReturn = false;
-  $iDashPosition = strpos($tVerses, '-');
-  if ($iDashPosition > 0){
-    $iStartVerse = substr($tVerses, 0, $iDashPosition);
-    $iEndVerse = substr($tVerses, $iDashPosition + 1);
-    $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
-  }else{
-     $bReturn = ($tVerses === $verse);
+  $tWords = '';
+//    echo '$i[' . $i . ']$iLen[' . $iLen . ']';
+  for ($j=$i;$j < $iLen; $j++){
+    $tWords .= $atWords[$j] . ' ';
   }
-  return $bReturn;
+  return  trim($tWords);
+}
+// ============================================================================
+
+// ============================================================================
+function procesSearchWords($tWords, $bPhrase){
+// ============================================================================
+  $atWords = explode(' ', $tWords);
+  $tWord = '';
+  $iLen = count($atWords);
+
+  $i = 0;
+  $atBeginBook = beginsWithBook($atWords, $i, $iLen, $bPhrase);
+  $tBook = $atBeginBook[0];
+  $i = $atBeginBook[1];
+
+  echo '####### BOOK ####### $tBook:[' . $tBook . '], $i:' . $i . '####### BOOK #######';
+
+  if ($i === $iLen-1){ // done!
+    echo 'Tada!';
+    $tWords = '';
+  }else{
+//    for($j = $i;$j < $iLen; $j++) {
+//      $tWord = $atWords[$j];
+//      if ($j < $iLen){
+//      $tValue = procesSearchWord($atWords, $j, $iLen, $bPhrase);
+//      }else{
+//        $tValue = procesSearchWord($atWords, 0);
+//      }
+//    }
+//    if($bPhrase){
+//      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
+//    }else{
+//      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+//    }else{
+      // if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
+//        $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
+      // }else {
+      // }
+    }
+  
+/*
+  
+  
+  
+  if($bPhrase){
+    if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
+//      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
+      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
+    }else {
+      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+    }
+  }else{
+    // if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
+      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
+    // }else {
+    // }
+  }
+
+*/
+  return $tBook . $tWords;
+}
+// ============================================================================
+
+// ============================================================================
+function procesSearchWord($atWords, $i, $iLen, $bPhrase){
+// ============================================================================
+  $tBook = '';
+  $tWords = '';
+  $atBookFound = findBibleBook($atWords, $i, $iLen);
+  $i = $atBookFound[1];
+  if (strlen($atBookFound[0]) > 0){ // first few words is a book
+    $tBook .= 'books.bookName = "' . $atBookFound[0] . '"';
+    if(is_numeric ($atWords[$i])){// is next word a chapter?
+      $tBook .= ' AND verses.chapter = "' . $atBookFound[$i] . '"';
+    }
+  }else{
+//    addStrongsWild($atWords, $i, $iLen)
+  }
+  $tWords = joinWords($atWords, $i, $iLen);
+  echo '$tBook  NOW:' . $tBook;
+  echo '$tWords NOW:' . $tWords;
+  $tWords = $tWords . addStrongsWild($atWords, $i, $iLen, $bPhrase);
+
+  return $tBook . $tWords;
+}
+// ============================================================================
+
+// ============================================================================
+function addStrongsWild($atWords, $i, $iLen, $bPhrase){
+// ============================================================================
+  global $atStrongs;
+  $tWords = '';
+  if($bPhrase){
+    $tWild = '';
+  } else {
+    $tWild = '%';
+  }
+  for($i = $i;$i < $iLen; $i++) { // carry on from wherever we've got
+//    $bFound = (array_search($atWords[$i], $atStrongs));
+    $bFound = (array_search(strtolower($atWords[$i]), array_map('strtolower', $atStrongs)));
+    if ($bFound){
+      $tWords = $tWords . $atWords[$i] . '<____>' . $tWild . ' ';
+    } else {
+      $tWords = $tWords . $atWords[$i] . '' . $tWild . ' ';
+    }
+  }
+  echo '$tWords:' . $tWords;
+  return $tWords;
 }
 // ============================================================================
 

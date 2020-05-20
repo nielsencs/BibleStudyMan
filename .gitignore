@@ -27,6 +27,12 @@ error_log
 # images
 media
 
+# NetBeans
+/nbproject/
+
+#added by NetBeans itself
+/nbproject/private/
+
 # working files
 test*.php
 test*.html
