@@ -102,10 +102,10 @@ input[type="number"] {
     width: 49px;
 }
 
-input[type="button" i],
-input[type="submit" i],
-input[type="reset" i],
-input[type="file" i]::-webkit-file-upload-button,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="file"]::-webkit-file-upload-button,
 button{
     align-items: flex-start;
     text-align: center;
@@ -128,15 +128,15 @@ button{
 
 }
 
-input[type="button" i]:hover,
-input[type="submit" i]:hover,
-input[type="reset" i]:hover,
-input[type="file" i]::-webkit-file-upload-button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+input[type="file"]::-webkit-file-upload-button:hover,
 button:hover
-input[type="button" i]:focus,
-input[type="submit" i]:focus,
-input[type="reset" i]:focus,
-input[type="file" i]::-webkit-file-upload-button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="file"]::-webkit-file-upload-button:focus,
 button:focus
 {
     outline: none;
@@ -144,10 +144,10 @@ button:focus
     /* font-weight: bold; */
 }
 
-input[type="button" i]:focus,
-input[type="submit" i]:focus,
-input[type="reset" i]:focus,
-input[type="file" i]::-webkit-file-upload-button:focus,
+input[type="button"]:focus,
+input[type="submit"]:focus,
+input[type="reset"]:focus,
+input[type="file"]::-webkit-file-upload-button:focus,
 button:focus
 {
   /* outline: 3px solid #fc9; */
@@ -156,22 +156,22 @@ button:focus
   box-shadow: 0 0 7px 7px rgba(255, 200, 0, .2);
 }
 
-input[type="button" i]:active,
-input[type="submit" i]:active,
-input[type="reset" i]:active,
-input[type="file" i]::-webkit-file-upload-button:active,
+input[type="button"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active,
+input[type="file"]::-webkit-file-upload-button:active,
 button:active {
   transform: scale(0.99);
   box-shadow: none;
 }
 
-/* input[type="button" i], input[type="submit" i], input[type="reset" i] {
+/* input[type="button"], input[type="submit"], input[type="reset"] {
     -webkit-appearance: push-button;
     user-select: none;
     white-space: pre;
 } */
 
-/* button, input[type="button" i]  {
+/* button, input[type="button"]  {
   display: inline-block;
   border: none;
   padding: 1rem 2rem;
