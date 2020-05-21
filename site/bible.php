@@ -7,8 +7,11 @@
       $tBook = $atBookChapSearch[0];
       if($atBookChapSearch[1] > ''){ // chapter found in search
         $tChapter = $atBookChapSearch[1];
+        if($atBookChapSearch[2] > ''){ // verses found in search
+          $tVerses = $atBookChapSearch[2];
+        }
       }
-      $tWords = $atBookChapSearch[2];
+      $tWords = $atBookChapSearch[3];
     }
 ?>
 
@@ -24,7 +27,9 @@
                         Search by word or book or both<br />
                         <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo $tWords; ?>">
                         <input type="checkbox" name="phrase" id="phrase" <?php if($bPhrase){echo 'checked';}; ?>
-                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll get fewer results as it treats the words to the left as a phrase.">Phrase</abbr></label>
+                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to 
+get fewer results as it treats the
+words to the left as a phrase.">Phrase</abbr></label>
                       </td>
                     </tr>
                     <tr>
@@ -37,7 +42,8 @@
                     <tr>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pb')">
-                        &nbsp;<abbr title="The Bible is a library of books. You can select one of them below">Book</abbr>&nbsp;
+                        &nbsp;<abbr title="The Bible is a library of books.
+You can select one of them here.">Book</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nb')">
                         <br />
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
@@ -53,7 +59,9 @@
                       </td>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pc')">
-                        &nbsp;<abbr title="The books in The Bible are divided into chapters; once you&rsquo;ve picked a book, you can pick a chapter below.">Chapter</abbr>&nbsp;
+                        &nbsp;<abbr title="The books in The Bible are divided
+into chapters; once you&rsquo;ve picked a
+book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
                         <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
@@ -67,6 +75,7 @@
                     </tr>
                   </tbody>
                 </table>
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo $tVerses;} ?>" list="books">
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
@@ -93,15 +102,15 @@ function bookChapSearch($tWords){
   $atBeginsWithBook = beginsWithBook($atWords, $iLen);
   $tBook = $atBeginsWithBook[0];
   $tChapter = $atBeginsWithBook[1];
-
-  $i = $atBeginsWithBook[2];
+  $tVerses = $atBeginsWithBook[2];
+  $i = $atBeginsWithBook[3];
 
   if ($i === $iLen){ // done!
     $tWords = '';
   }else{
     $tWords = joinWords($atWords, $i, $iLen);
   }
-  return [$tBook, $tChapter, $tWords];
+  return [$tBook, $tChapter, $tVerses, $tWords];
 }
 // ============================================================================
 
@@ -110,16 +119,18 @@ function beginsWithBook($atWords, $iLen){
 // ============================================================================
   $tBook = '';
   $tChapter = '';
+  $tVerses = '';
+
   $atFindBook = findBook($atWords, 0, $iLen);
   $i = $atFindBook[1];
 
   if (strlen($atFindBook[0]) > 0){ // first few words is a book
     $tBook = $atFindBook[0];
-    $atFindChapter = findChapter($atWords, $i, $iLen);
-    $tChapter = $atFindChapter[0];
-    $i = $atFindChapter[1];
-  }
-  return [$tBook, $tChapter, $i];
+    $atFindChapterVerse = findChapterVerse($atWords, $i, $iLen);
+    $tChapter = $atFindChapterVerse[0];
+    $tVerses = $atFindChapterVerse[1];
+    $i = $atFindChapterVerse[2];
+  return [$tBook, $tChapter, $tVerses, $i];
 }
 // ============================================================================
 
@@ -130,15 +141,15 @@ function findBook($atWords, $i, $iLen){
   // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
   // 1 cor vs 1cor
   global $atBookAbbs;
+  $tMayBeBook = '';
   if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
-    if ($iLen > 1){
+    if ($iLen >= 1){
       $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
       $i ++;
     }
   } else {
     $tMayBeBook = $atWords[0];
   }
-
   $atSongs = isItSongs($tMayBeBook, $atWords, $i, $iLen);
   $tMayBeBook = $atSongs[0];
   $i = $atSongs[1];
@@ -151,31 +162,43 @@ function findBook($atWords, $i, $iLen){
 // ============================================================================
 
 // ============================================================================
-function findChapter($atWords, $i, $iLen){
+function findChapterVerse($atWords, $i, $iLen){
 // ============================================================================
-  $tChapter = '';
   $iKeep = $i;
+  $iColonCount = 0;
+  $tChapter = '';
+  $tVerses = '';
+  
   for ($j=$i;$j < $iLen; $j++){
     if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // is first remaining 'word' a chapter?
-      $tChapter .= $atWords[$i];
-      $iKeep = $i+1;
+      $tChapter .= $atWords[$j];
+      $iKeep = $iKeep+1;
       $iColon = strpos($tChapter, ':');
-      if($iColon > 0){ // verses - we don't yet search for them yet!
-        $tChapter = substr($tChapter, 0, $iColon-1);
+      if($iColon > 0){ // verses
+        $tVerses = substr($tChapter, $iColon+1);
+        $tChapter = substr($tChapter, 0, $iColon);
+        $iKeep = $iKeep+1;
       }
     }
     if($j>$i){ // on to the rest
-      if($atWords[$j] === ':'){ // verses - we don't yet search for them yet!
-        $tChapter .= $atWords[$i];
-        $iKeep = $i+1;
+      if($atWords[$j] === ':' || strtolower($atWords[$j]) === 'vv'){ // verses
+        if($iColonCount === 0){
+          $tChapter .= $atWords[$i];
+          $iKeep = $iKeep+1;
+        }
+        $iColonCount++;
+        if(is_numeric(substr($atWords[$j+1], 0, 1))){
+          $tVerses .= $atWords[$j+1];
+          $iKeep = $iKeep+1;
+        }
       }
-      if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // should be search words by now
-        $iKeep = $i+1;
-      }
+//      if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // should be search words by now
+//        $iKeep = $i+1;
+//      }
     }
   }
 
-  return [$tChapter, $iKeep];
+  return [$tChapter, $tVerses, $iKeep];
 }
 // ============================================================================
 
