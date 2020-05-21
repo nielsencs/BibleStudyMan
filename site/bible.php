@@ -26,10 +26,12 @@
                       <td colspan="2">
                         Search by word or book or both<br />
                         <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo $tWords; ?>">
-                        <input type="checkbox" name="phrase" id="phrase" <?php if($bPhrase){echo 'checked';}; ?>
+                        <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
                                onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to 
 get fewer results as it treats the
-words to the left as a phrase.">Phrase</abbr></label>
+words to the left as a phrase if
+there are more than one or as the
+exact word.">Exact</abbr></label>
                       </td>
                     </tr>
                     <tr>
@@ -79,7 +81,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase);
+  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact);
 ?>
         <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
           to include nuanced meanings of particular ancient words for placenames,

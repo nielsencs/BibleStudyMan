@@ -8,7 +8,7 @@ function doQuery($link, $tQuery){
 // ============================================================================
 
 // ============================================================================
-function buildLink($tBookName, $iChapter, $tWords, $bPhrase){
+function buildLink($tBookName, $iChapter, $tWords, $bExact){
 // ============================================================================
   // $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName;
   $tReturn = '<a href="bible.php?book=' . $tBookName; // we might be in plan.php!
@@ -16,7 +16,7 @@ function buildLink($tBookName, $iChapter, $tWords, $bPhrase){
     $tReturn .= '&chapter=' . $iChapter;
   }
   $tReturn .= '&words=' . str_replace(' ', '+', $tWords);
-  if($bPhrase){
+  if($bExact){
     $tReturn .= '&phrase=on';
   }
   $tReturn .= '">';
@@ -411,7 +411,7 @@ function isChaptersOnly($row){
 // ============================================================================
 function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false){
 // ============================================================================
-  global $tWords, $bPhrase;
+  global $tWords, $bExact;
 
   $tOutput = '';
   $iBookChapters = 2; // not important to get actual chapters in book unless only 1
@@ -422,7 +422,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   }
 
   if($bShowLinks){ // link to book only
-    $tOutput .= buildLink($tBookName, 0, $tWords, $bPhrase);
+    $tOutput .= buildLink($tBookName, 0, $tWords, $bExact);
   }
   if($tBookName === 'Psalms'){
     $tOutput .= 'Psalm';
@@ -435,7 +435,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   if ($iBookChapters > 1){
     $tOutput .= ' ';
     if($bShowLinks){ // link to book and chapter
-      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bPhrase);
+      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact);
     }
     if($tBookName != 'Psalms'){
       if($bPluralChapter){
@@ -456,7 +456,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
 // ============================================================================
 
 // ============================================================================
-function passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase){
+function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
   global $link, $bHighlightSW, $bShowOW;
 
@@ -476,7 +476,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase){
         $tOutput .=  '<h2>I&rsquo;m sorry I don&rsquo;t understand what you want - this is the beginning of The Bible:</h2>';
         $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber<10;';
       }else{
-        $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bPhrase) . ';';
+        $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bExact) . ';';
       }
     } else {
       if ($tBook === '2 & 3 John') {
@@ -489,7 +489,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase){
         if (empty($tWords)) {
           $tQuery = $tQuery . ';';
         }else{
-          $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tWords, $bPhrase) . ';';
+          $tQuery = $tQuery . ' AND  ' . addSQLWildcards($tWords, $bExact) . ';';
         }
       }else{
         // ---- NOT searching down to verse level - keep commented in case I change my mind!
@@ -505,7 +505,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bPhrase){
         // if (empty($tWords)) {
           $tQuery = $tQuery . ';';
         // }else{
-          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bPhrase) . ';';
+          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bExact) . ';';
         // }
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
@@ -631,11 +631,11 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW){
 // ============================================================================
 function highlightSearch($tValue){
 // ============================================================================
-  global $tWords, $bPhrase;
+  global $tWords, $bExact;
 
   if ($tWords > ''){
-//    if (! $bPhrase){
-    if ($bPhrase){
+//    if (! $bExact){
+    if ($bExact){
       // $tValue = str_ireplace($tWords, '<span class="highlight">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
@@ -664,11 +664,11 @@ function highlight($needle, $haystack){
 // ============================================================================
 
 // ============================================================================
-function addSQLWildcards($tWords, $bPhrase){
+function addSQLWildcards($tWords, $bExact){
 // ============================================================================
-//  return procesSearchWords($tWords, $bPhrase);
+//  return procesSearchWords($tWords, $bExact);
 
-  if($bPhrase){ // 'phrase' was 'checked' regardless of number of words
+  if($bExact){ // 'phrase' was 'checked' regardless of number of words
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
       $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
     }else {
@@ -697,14 +697,14 @@ function joinWords($atWords, $i, $iLen){
 // ============================================================================
 
 // ============================================================================
-function procesSearchWords($tWords, $bPhrase){
+function procesSearchWords($tWords, $bExact){
 // ============================================================================
   $atWords = explode(' ', $tWords);
   $tWord = '';
   $iLen = count($atWords);
 
   $i = 0;
-  $atBeginBook = beginsWithBook($atWords, $i, $iLen, $bPhrase);
+  $atBeginBook = beginsWithBook($atWords, $i, $iLen, $bExact);
   $tBook = $atBeginBook[0];
   $i = $atBeginBook[1];
 
@@ -717,12 +717,12 @@ function procesSearchWords($tWords, $bPhrase){
 //    for($j = $i;$j < $iLen; $j++) {
 //      $tWord = $atWords[$j];
 //      if ($j < $iLen){
-//      $tValue = procesSearchWord($atWords, $j, $iLen, $bPhrase);
+//      $tValue = procesSearchWord($atWords, $j, $iLen, $bExact);
 //      }else{
 //        $tValue = procesSearchWord($atWords, 0);
 //      }
 //    }
-//    if($bPhrase){
+//    if($bExact){
 //      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
 //    }else{
 //      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
@@ -737,7 +737,7 @@ function procesSearchWords($tWords, $bPhrase){
   
   
   
-  if($bPhrase){
+  if($bExact){
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
 //      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
       $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
@@ -757,7 +757,7 @@ function procesSearchWords($tWords, $bPhrase){
 // ============================================================================
 
 // ============================================================================
-function procesSearchWord($atWords, $i, $iLen, $bPhrase){
+function procesSearchWord($atWords, $i, $iLen, $bExact){
 // ============================================================================
   $tBook = '';
   $tWords = '';
@@ -774,18 +774,18 @@ function procesSearchWord($atWords, $i, $iLen, $bPhrase){
   $tWords = joinWords($atWords, $i, $iLen);
   echo '$tBook  NOW:' . $tBook;
   echo '$tWords NOW:' . $tWords;
-  $tWords = $tWords . addStrongsWild($atWords, $i, $iLen, $bPhrase);
+  $tWords = $tWords . addStrongsWild($atWords, $i, $iLen, $bExact);
 
   return $tBook . $tWords;
 }
 // ============================================================================
 
 // ============================================================================
-function addStrongsWild($atWords, $i, $iLen, $bPhrase){
+function addStrongsWild($atWords, $i, $iLen, $bExact){
 // ============================================================================
   global $atStrongs;
   $tWords = '';
-  if($bPhrase){
+  if($bExact){
     $tWild = '';
   } else {
     $tWild = '%';
