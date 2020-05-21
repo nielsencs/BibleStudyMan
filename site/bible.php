@@ -130,6 +130,7 @@ function beginsWithBook($atWords, $iLen){
     $tChapter = $atFindChapterVerse[0];
     $tVerses = $atFindChapterVerse[1];
     $i = $atFindChapterVerse[2];
+  }
   return [$tBook, $tChapter, $tVerses, $i];
 }
 // ============================================================================
@@ -192,9 +193,6 @@ function findChapterVerse($atWords, $i, $iLen){
           $iKeep = $iKeep+1;
         }
       }
-//      if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // should be search words by now
-//        $iKeep = $i+1;
-//      }
     }
   }
 
