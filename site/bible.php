@@ -7,9 +7,13 @@
       $tBook = $atBookChapSearch[0];
       if($atBookChapSearch[1] > ''){ // chapter found in search
         $tChapter = $atBookChapSearch[1];
+        if($atBookChapSearch[2] > ''){ // verses found in search
+          $tVerses = $atBookChapSearch[2];
+        }
       }
-      $tWords = $atBookChapSearch[2];
+      $tWords = $atBookChapSearch[3];
     }
+//echo '$tBook:' . $tBook . ', $tChapter:' . $tChapter . ', $tVerses:' . $tVerses . ', $tWords:' . $tWords . '.<br>';
 ?>
 
         <div class="main Bible">
@@ -72,6 +76,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                     </tr>
                   </tbody>
                 </table>
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo $tVerses;} ?>" list="books">
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
@@ -96,17 +101,19 @@ function bookChapSearch($tWords){
   $iLen = count($atWords);
 
   $atBeginsWithBook = beginsWithBook($atWords, $iLen);
+//echo 'OY! $atBeginsWithBook[0]:' . $atBeginsWithBook[0] .  ', $atBeginsWithBook[1]:' .  $atBeginsWithBook[1] .', $atBeginsWithBook[2]:' . $atBeginsWithBook[2] . ', $atBeginsWithBook[3]:' . $atBeginsWithBook[3] . '.<br>';
   $tBook = $atBeginsWithBook[0];
   $tChapter = $atBeginsWithBook[1];
-
-  $i = $atBeginsWithBook[2];
+  $tVerses = $atBeginsWithBook[2];
+  $i = $atBeginsWithBook[3];
+//echo 'HI! $i:' . $i .  ', $atWords[$i]:' .  $atWords[$i] .', $tChapter:' . $tChapter . ', $tVerses:' . $tVerses . ', $tWords:' . $tWords . '.<br>';
 
   if ($i === $iLen){ // done!
     $tWords = '';
   }else{
     $tWords = joinWords($atWords, $i, $iLen);
   }
-  return [$tBook, $tChapter, $tWords];
+  return [$tBook, $tChapter, $tVerses, $tWords];
 }
 // ============================================================================
 
@@ -115,16 +122,26 @@ function beginsWithBook($atWords, $iLen){
 // ============================================================================
   $tBook = '';
   $tChapter = '';
+  $tVerses = '';
+
   $atFindBook = findBook($atWords, 0, $iLen);
   $i = $atFindBook[1];
 
   if (strlen($atFindBook[0]) > 0){ // first few words is a book
+//echo 'IN!';
     $tBook = $atFindBook[0];
-    $atFindChapter = findChapter($atWords, $i, $iLen);
-    $tChapter = $atFindChapter[0];
-    $i = $atFindChapter[1];
+    $atFindChapterVerse = findChapterVerse($atWords, $i, $iLen);
+    $tChapter = $atFindChapterVerse[0];
+    $tVerses = $atFindChapterVerse[1];
+    $i = $atFindChapterVerse[2];
+//    if (strlen($tChapter) > 0){
+//      $atFindVerses = findVerses($atWords, $i, $iLen);
+//      $tVerses = $atFindVerses[0];
+//      $i = $atFindVerses[1];
+//    }
   }
-  return [$tBook, $tChapter, $i];
+//echo '$i:' . $i . '$atWords[$i]:' . $atWords[$i] . ', , $tChapter:' . $tChapter . ', $tVerses:' . $tVerses . ', $tWords:' . $tWords . '.<br>';
+  return [$tBook, $tChapter, $tVerses, $i];
 }
 // ============================================================================
 
@@ -135,15 +152,17 @@ function findBook($atWords, $i, $iLen){
   // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
   // 1 cor vs 1cor
   global $atBookAbbs;
+  $tMayBeBook = '';
+//echo '$iLen:' . $iLen . '.';
   if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
-    if ($iLen > 1){
+    if ($iLen >= 1){
       $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
       $i ++;
     }
   } else {
     $tMayBeBook = $atWords[0];
   }
-
+  //echo '$tMayBeBook:' . $tMayBeBook . '.<br>';
   $atSongs = isItSongs($tMayBeBook, $atWords, $i, $iLen);
   $tMayBeBook = $atSongs[0];
   $i = $atSongs[1];
@@ -151,36 +170,52 @@ function findBook($atWords, $i, $iLen){
   if($tBook > ''){
     $i = $i + 1;
   }
+//echo '$tBook:' . $tBook . ', $i:' . $i . '.<br>';
   return [$tBook, $i];
 }
 // ============================================================================
 
 // ============================================================================
-function findChapter($atWords, $i, $iLen){
+function findChapterVerse($atWords, $i, $iLen){
 // ============================================================================
-  $tChapter = '';
   $iKeep = $i;
+  $iColonCount = 0;
+  $tChapter = '';
+  $tVerses = '';
+  
   for ($j=$i;$j < $iLen; $j++){
+//echo '$i:' . $i . ', $iLen:' . $iLen . ', $j:' . $j . ', $iKeep:' . $iKeep . ', $atWords[$j]:' . $atWords[$j] . ', $tChapter:' . $tChapter . ', $tVerses:' . $tVerses . ', $iColon:' . $iColon . '.<br>';
     if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // is first remaining 'word' a chapter?
-      $tChapter .= $atWords[$i];
-      $iKeep = $i+1;
+      $tChapter .= $atWords[$j];
+      $iKeep = $iKeep+1;
+//echo '$i:' . $i . ', $iLen:' . $iLen . ', $j:' . $j . ', $iKeep:' . $iKeep . ', $atWords[$j]:' . $atWords[$j] . ', $tChapter:' . $tChapter . ', $tVerses:' . $tVerses . ', $iColon:' . $iColon . '.<br>';
       $iColon = strpos($tChapter, ':');
-      if($iColon > 0){ // verses - we don't yet search for them yet!
-        $tChapter = substr($tChapter, 0, $iColon-1);
+      if($iColon > 0){ // verses
+        $tVerses = substr($tChapter, $iColon+1);
+        $tChapter = substr($tChapter, 0, $iColon);
+        $iKeep = $iKeep+1;
+//echo '$i:' . $i . ', $iLen:' . $iLen . ', $j:' . $j . ', $iKeep:' . $iKeep . ', $atWords[$j]:' . $atWords[$j] . ', $tChapter:' . $tChapter . ', $tVerses:' . $tVerses . ', $iColon:' . $iColon . '.<br>';
       }
     }
     if($j>$i){ // on to the rest
-      if($atWords[$j] === ':'){ // verses - we don't yet search for them yet!
-        $tChapter .= $atWords[$i];
-        $iKeep = $i+1;
+      if($atWords[$j] === ':' || strtolower($atWords[$j]) === 'vv'){ // verses
+        if($iColonCount === 0){
+          $tChapter .= $atWords[$i];
+          $iKeep = $iKeep+1;
+        }
+        $iColonCount++;
+        if(is_numeric(substr($atWords[$j+1], 0, 1))){
+          $tVerses .= $atWords[$j+1];
+          $iKeep = $iKeep+1;
+        }
       }
-      if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // should be search words by now
-        $iKeep = $i+1;
-      }
+//      if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // should be search words by now
+//        $iKeep = $i+1;
+//      }
     }
   }
 
-  return [$tChapter, $iKeep];
+  return [$tChapter, $tVerses, $iKeep];
 }
 // ============================================================================
 
