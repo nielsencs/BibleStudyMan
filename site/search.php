@@ -1,7 +1,16 @@
 <?php
   $tBook = filter_input(INPUT_GET, 'book', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  if(empty($tBook)){ // can't have a chapter without a book
+    $tChapter = '';
+    $tVerses = '';
+  } else {
+    $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    if(empty($tChapter)){ // can't have verses without a chapter
+      $tVerses = '';
+    } else {
+      $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    }
+  }
   $tWords = trim(filter_input(INPUT_GET, 'words', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES));
   $bExact = filter_input(INPUT_GET, 'exact', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -14,7 +23,8 @@
   }
   $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
 
-  if(!($tSortOrder > '')){
+//  if(!($tSortOrder > '')){
+  if(empty($tSortOrder)){
     $tSortOrder = 'orderChristian';
   }
 
@@ -188,8 +198,9 @@ function daysInMonth(iMonth, iYear){// calculate number of days in a month
     if(tCallingFile==='bible'){
       document.searchForm.book.value = '';
       document.searchForm.chapter.value = '';
+      document.searchForm.verses.value = '';
       document.searchForm.words.value = '';
-      document.searchForm.phrase.checked = '';
+      document.searchForm.exact.checked = '';
     }
     if(tCallingFile==='plan'){
       document.searchForm.month.value = '';
