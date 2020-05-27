@@ -82,7 +82,6 @@
 // ============================================================================
   function doDirection(tDirection) {
 // ============================================================================
-    // alert(iBook);
     var iLastBook = 67; // to accomodate extra '2&3 John' book!
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
     if(tDirection === 'pb'){ //prev book
@@ -115,12 +114,9 @@
         iChapter = wrapNum(iChapter, atBooks[iBook][1], +1);
       }
     }
-//alert(document.searchForm.book.value + '<form book form chapter>' + document.searchForm.chapter.value);
-//alert(iBook + ' ' + atBooks[iBook][0] + '<book chapter>' + iChapter);
     document.searchForm.book.value = atBooks[iBook][0];
     document.searchForm.chapter.value = iChapter;
     document.searchForm.chapterNext.value = iChapter; // if chapter dropdown too small
-//alert(document.searchForm.book.value + '<form book form chapter>' + document.searchForm.chapter.value);
     showWait();
     document.searchForm.submit();
   }
@@ -179,7 +175,6 @@ function daysInMonth(iMonth, iYear){// calculate number of days in a month
   function wrapNum(iNum, iMax, iSkip) {
 // ============================================================================
     iNum = iNum + iSkip;
-    // alert(iNum);
     if(iNum < 1){
       iNum = iMax;
     }
