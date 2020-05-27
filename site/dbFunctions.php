@@ -668,7 +668,7 @@ function addSQLWildcards($tWords, $bExact){
 // ============================================================================
 //  return procesSearchWords($tWords, $bExact);
 
-  if($bExact){ // 'phrase' was 'checked' regardless of number of words
+  if($bExact){ // 'Exact' was 'checked' regardless of number of words
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
       $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
     }else {
