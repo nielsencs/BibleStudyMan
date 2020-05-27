@@ -1,6 +1,6 @@
 <?php
   $host = 'localhost';
-  $db   = 'bible';
+  $db   = 'biblestu_dy';
   $user = 'root';
   $pass = '';
   $charset = 'utf8mb4';
