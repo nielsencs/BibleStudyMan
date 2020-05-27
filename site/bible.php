@@ -67,6 +67,7 @@ into chapters; once you&rsquo;ve picked a
 book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
+                        <input type="hidden"  name="chapterNext" id="chapterNext" value="">
                         <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
                           <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>
 <?php

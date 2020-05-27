@@ -5,6 +5,9 @@
     $tVerses = '';
   } else {
     $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    if(empty($tChapter)){
+      $tChapter = filter_input(INPUT_GET, 'chapterNext', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+    }
     if(empty($tChapter)){ // can't have verses without a chapter
       $tVerses = '';
     } else {
@@ -79,44 +82,42 @@
     // alert(iBook);
     var iLastBook = 67; // to accomodate extra '2&3 John' book!
     var iChapter = parseInt('0' + document.searchForm.chapter.value);
-
-    if(tDirection==='pb'){ //prev book
-      if(iBook===0){
+    if(tDirection === 'pb'){ //prev book
+      if(iBook === 0){
         iBook = 1;
       }
       iBook = wrapNum(iBook, iLastBook, -1);
-      document.searchForm.chapter.value='';
+      iChapter = 0;
     }
-    if(tDirection==='nb'){ //next book
-      if(iBook===0){
+    if(tDirection === 'nb'){ //next book
+      if(iBook === 0){ // no book yet chosen
         iBook = iLastBook;
       }
       iBook = wrapNum(iBook, iLastBook, +1);
-      document.searchForm.chapter.value='';
+      iChapter = 0;
     }
-    if(tDirection==='pc'){ //prev chapter
+    if(tDirection === 'pc'){ //prev chapter
       if(iChapter === 0 || iChapter === 1){
         iBook = wrapNum(iBook, iLastBook, -1);
-        // document.searchForm.chapter.value='';
-        document.searchForm.chapter.value=atBooks[iBook][1];
+        iChapter = atBooks[iBook][1];
       }else {
         iChapter--;
-        document.searchForm.chapter.value=iChapter;
       }
     }
-    if(tDirection==='nc'){ //next chapter
-      // if(iChapter == 0 || iChapter == iChapterMax){
+    if(tDirection === 'nc'){ //next chapter
       if(iChapter === 0 || iChapter === atBooks[iBook][1]){
         iBook = wrapNum(iBook, iLastBook, +1);
         iChapter = 1;
       }else {
-        // iChapter = wrapNum(iChapter, iChapterMax, +1);
         iChapter = wrapNum(iChapter, atBooks[iBook][1], +1);
       }
-      document.searchForm.chapter.value=iChapter;
     }
-    // alert(atBooks[iBook][0] + ' : ' + iBook);
-    document.searchForm.book.value=atBooks[iBook][0];
+//alert(document.searchForm.book.value + '<form book form chapter>' + document.searchForm.chapter.value);
+//alert(iBook + ' ' + atBooks[iBook][0] + '<book chapter>' + iChapter);
+    document.searchForm.book.value = atBooks[iBook][0];
+    document.searchForm.chapter.value = iChapter;
+    document.searchForm.chapterNext.value = iChapter; // if chapter dropdown too small
+//alert(document.searchForm.book.value + '<form book form chapter>' + document.searchForm.chapter.value);
     showWait();
     document.searchForm.submit();
   }
@@ -128,7 +129,7 @@
     var oDate = new Date();
     var iMonth = parseInt(document.searchForm.month.value);
     var iDay = parseInt(document.searchForm.day.value);
-    if(tDirection==='pd'){ //prev day
+    if(tDirection === 'pd'){ //prev day
       if(iDay > 1){
         iDay --;
       }else{
@@ -136,7 +137,7 @@
         iDay = daysInMonth(iMonth, oDate.getFullYear());
       }
     }
-    if(tDirection==='nd'){ //next day
+    if(tDirection === 'nd'){ //next day
       if(iDay < daysInMonth(iMonth, oDate.getFullYear())){
         iDay ++;
       }else{
