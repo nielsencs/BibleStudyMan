@@ -94,6 +94,7 @@
                       </td>
                       <td>
                         <input type="button" value="&lt;" onclick="dayDirection('pd')">
+                        <input type="hidden" name="dayNext" id="dayNext" value="">
                         <select name="day" id="day" onchange="doSubmit('day')">
 <?php
   echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);

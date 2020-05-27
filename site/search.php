@@ -5,7 +5,7 @@
     $tVerses = '';
   } else {
     $tChapter = filter_input(INPUT_GET, 'chapter', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-    if(empty($tChapter)){
+    if(empty($tChapter)){ // if chapter dropdown too small
       $tChapter = filter_input(INPUT_GET, 'chapterNext', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
     }
     if(empty($tChapter)){ // can't have verses without a chapter
@@ -18,6 +18,9 @@
   $bExact = filter_input(INPUT_GET, 'exact', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tDay = filter_input(INPUT_GET, 'day', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  if(empty($tDay)){ // in case dropdown has too few days
+    $tDay = filter_input(INPUT_GET, 'dayNext', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+  }
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   if($tBook . $tWords . $tMonth > ''){
     $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
@@ -146,7 +149,8 @@
       }
     }
     document.searchForm.month.value = iMonth;
-    document.searchForm.day.value =   iDay;
+    document.searchForm.day.value = iDay;
+    document.searchForm.dayNext.value = iDay; // in case dropdown has too few days
     showWait();
     document.searchForm.submit();
   }
