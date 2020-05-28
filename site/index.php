@@ -4,7 +4,7 @@
   require_once 'timeStamp.php';
 ?>
 
-  <script src="showHide.js"></script>
+  <script src="scripts/showHide.js"></script>
 
   <div class='intro'>
     <a href="about.php"><img class="mugshot" src="images/CarlSmall.png" alt="mugshot of Carl"/></a>
