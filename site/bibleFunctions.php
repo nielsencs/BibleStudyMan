@@ -140,21 +140,21 @@ function sectionQuery($sectionCode, $tSortOrder){ // build query to get 1 sorted
   $tQuery = '';
 
   $tQuery .= 'SELECT ';
-  $tQuery .= 'plan-new.planID, ';
+  $tQuery .= '`plan-new`.planID, ';
   $tQuery .= 'books.bookName, ';
   $tQuery .= 'books.bookCode, ';
-  $tQuery .= 'plan-new.startChapter, ';
+  $tQuery .= '`plan-new`.startChapter, ';
   $tQuery .= 'books.bookChapters, ';
-  $tQuery .= 'plan-new.startVerse, ';
-  $tQuery .= 'plan-new.endChapter, ';
-  $tQuery .= 'plan-new.endVerse ';
+  $tQuery .= '`plan-new`.startVerse, ';
+  $tQuery .= '`plan-new`.endChapter, ';
+  $tQuery .= '`plan-new`.endVerse ';
   $tQuery .= 'FROM ';
-  $tQuery .= 'plan-new INNER JOIN books ON plan-new.bookCode=books.bookCode ';
+  $tQuery .= '`plan-new` INNER JOIN books ON `plan-new`.bookCode=books.bookCode ';
   $tQuery .= 'WHERE ';
-  $tQuery .= 'plan-new.sectionCode = "' . $sectionCode . '" ';
+  $tQuery .= '`plan-new`.sectionCode = "' . $sectionCode . '" ';
   $tQuery .= 'ORDER BY ';
   $tQuery .= 'books.' . $tSortOrder . ', ';
-  $tQuery .= 'plan-new.planDay;';
+  $tQuery .= '`plan-new`.planDay;';
 
   return $tQuery;
 }
