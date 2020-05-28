@@ -9,7 +9,7 @@
   $iUTCMillis = strtotime($tTime . ' ' . 'UTC');
 ?>
 
-<script src="showHide.js"></script>
+<script src="scripts/showHide.js"></script>
 
 <script type="text/javascript">
   var tZoomMeetingTrimmed = '<?php echo $tZoomMeetingTrimmed; ?>';
@@ -18,7 +18,7 @@
   var iBST = 0;
   if (iZoneMillis != iUTCMillis){iBST = 1;}
 </script>
-<script src="countdown.js"></script>
+<script src="scripts/countdown.js"></script>
 
   <div class="main teaching">
     <h1>Online Teaching Sessions</h1>
