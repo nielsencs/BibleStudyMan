@@ -30,7 +30,7 @@ function prepareBookAbbs(){
   global $link;
   $atBookAbbs = array();
 
-  $tQuery = 'SELECT baBookAbbreviation, bookName FROM bookabbreviations INNER JOIN books ON baBookCode=books.bookCode;';
+  $tQuery = 'SELECT baBookAbbreviation, bookName FROM book-abbreviations INNER JOIN books ON baBookCode=books.bookCode;';
   $result = doQuery($link, $tQuery);
 
   if (mysqli_num_rows($result) > 0) {
@@ -318,10 +318,10 @@ function getDayReadingQuery($iMonth, $day){
   $tQuery = '';
 
   $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
-  $tQuery .= ' FROM newPlan INNER JOIN planDays ON newPlan.planDay=planDays.ID';
-  $tQuery .= ' INNER JOIN books ON newPlan.bookCode=books.bookCode';
+  $tQuery .= ' FROM new-plan INNER JOIN plan-days ON new-plan.planDay=plan-days.ID';
+  $tQuery .= ' INNER JOIN books ON new-plan.bookCode=books.bookCode';
   $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth;
-  $tQuery .= '" AND DAY(planDate)="' . $day . '" ORDER BY planDate, newPlan.sectionCode ASC';
+  $tQuery .= '" AND DAY(planDate)="' . $day . '" ORDER BY planDate, new-plan.sectionCode ASC';
 
   return $tQuery;
 }
