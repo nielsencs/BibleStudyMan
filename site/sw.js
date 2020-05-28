@@ -1,14 +1,14 @@
 const staticCacheName = 'bsm-static-v1-alpha';
 const assets = [
-  '/site/index.php',
-  '/site/styles/resetRichardClark.css',
-  '/site/styles/general.css',
-  '/site/styles/pages.css',
+  '/',
+  '/index.php',
+  '/styles/resetRichardClark.css',
+  '/styles/general.css',
+  '/styles/pages.css',
   
-  '/site/images/BibleBannerRainbow.jpg',
-  '/site/images/BibleBannerRainbowBot.jpg',
-  '/site/images/BSMLogo.png',
-  '/site/images/CarlSmall.png',
+  '/images/BibleBannerRainbow.jpg',
+  '/images/BSMLogo.png',
+  '/images/CarlSmall.png',
   'https://fonts.googleapis.com/css?family=Lato|Londrina+Solid:300'
 ];
 
