@@ -67,7 +67,7 @@ into chapters; once you&rsquo;ve picked a
 book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
-                        <input type="hidden"  name="chapterNext" id="chapterNext" value="">
+                        <input type="hidden" name="chapterNext" id="chapterNext" value="">
                         <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
                           <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>
 <?php
@@ -85,10 +85,10 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
 <?php
   echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact);
 ?>
-        <p>This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
+          <p class="centerText">This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
           to include nuanced meanings of particular ancient words for placenames,
-          God and others of special interest. In general square brackets:[] are
-          used to indicated words not found in the original text. It also indicates
+          God and others of special interest.<br />In general square brackets:[] are
+          used to indicated words not found in the original text.<br />They also indicate
           the 5 books of the Psalms; and a few passages considered by some to be
           of questionable authenticity.</p>
             </div>
