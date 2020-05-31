@@ -28,9 +28,6 @@ error_log
 media
 
 # NetBeans
-/nbproject/
-
-#added by NetBeans itself
 /nbproject/private/
 
 # working files
