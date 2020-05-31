@@ -14,7 +14,7 @@ body {
   font-family: 'Lato', sans-serif;
 
   /* border: 3px solid #773322; */
-  border: 3px solid DimGray;
+  border: 3px solid #4F3F49;
 }
 
 h1 {
@@ -25,7 +25,7 @@ h1 {
   font-size: 21pt;
   text-align: center;
   /* color: #773322; */
-  color: DimGray;
+  color: #4F3F49;
 }
 
 h2 {
@@ -124,7 +124,7 @@ button{
       -o-border-radius: 3px;
       -ms-border-radius: 3px;
       -khtml-border-radius: 3px;
-    box-shadow: 1px 1px 3px DimGray;
+    box-shadow: 1px 1px 3px #4F3F49;
 
 }
 
@@ -189,7 +189,7 @@ button:active {
   -o-appearance: none;
   -ms-appearance: none;
   -khtml-appearance: none;
-  box-shadow: 3px 3px 7px DimGray;
+  box-shadow: 3px 3px 7px #4F3F49;
 }
 
 button:hover,
@@ -355,7 +355,7 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .nav {
-  background-color: DimGray;
+  background-color: #4F3F49;
   color: Gainsboro;
   list-style: none;
   text-align: right;
@@ -386,7 +386,7 @@ tr:nth-child(odd) td:nth-child(even){
   color: Gainsboro;
   padding: 3px;
   /* border: 1px solid #773322; */
-  border: 1px solid DimGray;
+  border: 1px solid #4F3F49;
 }
 
 .nav li a:hover {
