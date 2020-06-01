@@ -84,13 +84,8 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
               </form>
 <?php
   echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact);
+  include_once 'bibleDisclaimer.html';
 ?>
-          <p class="centerText">This is a minor adaptation of the <a href="https://worldenglishbible.org" target="_blank">WEB</a>
-          to include nuanced meanings of particular ancient words for placenames,
-          God and others of special interest.<br />In general square brackets:[] are
-          used to indicated words not found in the original text.<br />They also indicate
-          the 5 books of the Psalms; and a few passages considered by some to be
-          of questionable authenticity.</p>
             </div>
         </div>
 <?php

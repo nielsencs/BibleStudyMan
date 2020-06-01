@@ -111,6 +111,7 @@
                 
   <?php
     echo daysReadingsAsVerses($iMonth, $iDay);
+    include_once 'bibleDisclaimer.html';
   ?>
               </div>
           </div>
