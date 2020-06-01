@@ -57,11 +57,7 @@
               <div class="subMain sectGeneral">
                 <h2>Readings for <?php echo monthName($iMonth) . ' ' . $iDay; ?>:</h2>
   <?php
-    // $tOutput = planTable('orderChron2');
-    $tOutput = planTable('orderChristian');
-    // echo planTable('orderJewish');
-    // echo planTable('orderChron1');
-    // echo planTable('orderChron2');
+    $tOutput = planTable($tSortOrder);
     echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay);
   ?>
                 <p>You can read the passages below. If you're looking to read for
@@ -73,17 +69,6 @@
 
                 <table class="searchTable">
                   <tbody>
-                    <!-- tr>
-                      <td colspan="2">
-                        Sort Order
-                        <select name="sortOrder">
-                          <option value="orderChristian">Traditional Christian</option>
-                          <option value="orderJewish">Traditional Jewish</option>
-                          <option value="orderChron1">Chronological A</option>
-                          <option value="orderChron2">Chronological B</option>
-                        </select>
-                      </td>
-                    </tr -->
                     <tr>
                       <td>
                         <select name="month" id="month" onchange="doSubmit('month')">

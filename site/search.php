@@ -28,9 +28,7 @@
     $bHighlightSW = true;
   }
   $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
-
-//  if(!($tSortOrder > '')){
-  if(empty($tSortOrder)){
+  if(empty($tSortOrder) || !strpos('orderChristian|orderJewish|orderChron1|orderChron2', $tSortOrder)){
     $tSortOrder = 'orderChristian';
   }
 
@@ -46,7 +44,8 @@
 // ============================================================================
     bDoit = false;
     if(tField > ''){
-      bDoit = (tField === 'chapter')||(document.getElementById(tField).value);
+//      bDoit = (tField === 'chapter')||(document.getElementById(tField).value);
+      bDoit = (tField === 'chapter')||(tField === 'sortOrder')||(document.getElementById(tField).value);
       if(tField === 'book'){
         clearField('chapter');
       }

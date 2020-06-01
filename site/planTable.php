@@ -16,7 +16,6 @@
 <?php
 echo planTable($tSortOrder);
 ?>
-    <!--</p>-->
     </div>
   </div>
 <?php
