@@ -35,6 +35,7 @@ h2 {
   margin-bottom: 7px;
   font-size: 16pt;
   text-align: center;
+  color: #4F3F49;
 }
 
 h3 {
@@ -81,6 +82,10 @@ sub {
   /* font-weight: bold; */
 }
 
+select{
+  margin: 3px auto 3px auto;
+  padding: 1px 3px;
+}
 input{
   margin: 7px;
 }
