@@ -24,6 +24,11 @@ function daysReadingsAsVerses($month, $day){
     $tOutput .=  '<form class="" action="" method="post" onsubmit="return false">';
       for ($i=0; $i < $readCount; $i++) {
         $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
+
+        $tOutput .=  '<p class="centerText">' . $readingList[$i]['bookName'];
+        $tOutput .=  ' ' . $readingList[$i]['startChapter'] . ':' .  $readingList[$i]['startVerse'];
+        $tOutput .=  ' - ' . $readingList[$i]['endChapter'] . ':' .  $readingList[$i]['endVerse'] . '</p>';
+
         $tAudio = 'media/' . $readingList[$i]['bookCode'] . '_' . $readingList[$i]['startChapter'];
         $tAudio .= '_' .  $readingList[$i]['startVerse'] . '-' . $readingList[$i]['endChapter'];
         $tAudio .= '_' . $readingList[$i]['endVerse'] . '.ogg';
