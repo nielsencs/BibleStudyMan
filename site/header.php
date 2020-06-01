@@ -2,7 +2,7 @@
 <html lang="en">
 
 <?php
-  $thisFile = $_SERVER['PHP_SELF'];
+  $thisFile = filter_input(INPUT_SERVER, 'PHP_SELF');
   $thisFile = substr($thisFile, strlen($thisFile)-9);
   $bHome = ($thisFile == 'index.php');
   require_once '../sqlCon.php';
