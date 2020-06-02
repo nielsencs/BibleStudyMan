@@ -1,5 +1,101 @@
 <?php
 // ============================================================================
+function getDayReadingQuery($iMonth, $day){
+// ============================================================================
+  $tQuery = '';
+
+  $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
+  $tQuery .= ' FROM `plan-new` INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID';
+  $tQuery .= ' INNER JOIN books ON `plan-new`.bookCode=books.bookCode';
+  $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth;
+  $tQuery .= '" AND DAY(planDate)="' . $day . '" ORDER BY planDate, `plan-new`.sectionCode ASC';
+
+  return $tQuery;
+}
+// ============================================================================
+
+// ============================================================================
+function daysReadingsAsSentence($iMonth, $day){
+// ============================================================================
+  global $link;
+  $tOutput = '';
+  $tQuery = getDayReadingQuery($iMonth, $day);
+
+  $result = doQuery($link, $tQuery);
+
+  if (mysqli_num_rows($result) === 0) {
+    $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
+  } else {
+    while($row = mysqli_fetch_assoc($result)) {
+      if($row['sectionCode'] === '1TOR'){
+        // $tOutput .= ' first, ';
+        $tOutput .= '';
+      }
+      //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
+      if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
+          // $tOutput .= '; next it&rsquo;s ';
+          $tOutput .= '. Follow that by reading';
+      }
+      if($row['sectionCode'] === '3KTV'){
+          $tOutput .= '. The third part is';
+      }
+      if($row['sectionCode'] === '5NCV'){
+          $tOutput .= '; and lastly';
+      }
+      $tOutput .= ' <strong>';
+// -------------- if whole chapter no from... to ------------
+      if($row['endVerse'] > 0){
+        if($row['startChapter'] != $row['endChapter']){
+          $tOutput .= 'from';
+        }
+      }
+      $bChaptersOnly = isChaptersOnly($row);
+      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
+
+      $tOutput .= ' ' . $row['startChapter'];
+      if($row['startVerse'] > 0){
+        $tOutput .= ' verse';
+        if($row['startChapter'] === $row['endChapter']){
+          $tOutput .= 's';
+        }
+        $tOutput .= ' ' . $row['startVerse'];
+      }
+      if($row['endVerse'] > 0||$row['endChapter'] > 0){
+        if($bChaptersOnly & $row['endChapter'] === $row['startChapter']+1){
+          $tOutput .= ' and ';
+        } else {
+          $tOutput .= ' to ';          
+        }
+        if($row['startChapter'] === $row['endChapter']){
+          $tOutput .= $row['endVerse'];
+        }else{
+          if (! $bChaptersOnly){
+            $tOutput .= ' Chapter ';
+          }
+          $tOutput .= $row['endChapter'];
+          if (! $bChaptersOnly){
+            $tOutput .= ' verse ' . $row['endVerse'];
+          }
+        }
+      }
+// -------------- if whole chapter no from... to ------------
+      $tOutput .= '</strong>';
+    }
+  }
+  mysqli_free_result($result);
+
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function isChaptersOnly($row){
+// ============================================================================
+  return ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
+}
+// ============================================================================
+
+// ============================================================================
 function daysReadingsAsVerses($month, $day){
 // ============================================================================
   global $link;
@@ -86,6 +182,85 @@ function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iE
   return showVerses($tQuery, '');
 }
 // ============================================================================
+
+/*
+// ============================================================================
+function buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd){
+// ============================================================================
+// sort out beginning to end for psalms
+  $iCommaA = stripos($tPassageStart, ',');
+  $iCommaB = strripos($tPassageEnd, ',');
+
+  // if ($iCommaA > 0){
+  //     $tPassageStart = substr($tPassageStart, 0, $iCommaA);
+  // }
+  //
+  // if ($iCommaB > 0){
+  //     $tPassageEnd = substr($tPassageEnd, $iCommaB+1);
+  // }
+
+  return buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd);
+}
+// ============================================================================
+
+// ============================================================================
+function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
+// ============================================================================
+  $iColonA = stripos($tPassageStart, ':');
+  $iColonB = stripos($tPassageEnd, ':');
+  $tQuery = basicPassageQuery();
+
+  if($tBookCode === '23J'){
+    $tQuery .=' WHERE (books.bookCode = "2JO" OR books.bookCode = "3JO")';
+  }else{
+    $tQuery .=' WHERE books.bookCode = "' . $tBookCode . '"';
+  }
+
+  if ($iColonA > 0){
+      $tChapterA = substr($tPassageStart, 0, $iColonA);
+      $tVerseA = substr($tPassageStart, $iColonA+1);
+  }else{
+      $tChapterA = $tPassageStart;
+      $tVerseA = '0';
+  }
+
+  if ($iColonB > 0){
+      $tChapterB = substr($tPassageEnd, 0, $iColonB);
+      $tVerseB = substr($tPassageEnd, $iColonB+1);
+  }else{
+      $tChapterB = $tPassageEnd;
+      $tVerseB = '0';
+  }
+
+  if ($tChapterA === $tChapterB || $tChapterB === ''){ // one chapter
+    if($tVerseA > ''){
+      $tQuery .= ' AND verses.chapter = ' . $tChapterA;
+    }else {
+      $tQuery .= ' AND verses.chapter = ' . $tChapterA;
+      $tQuery .= ' AND verses.verseNumber >=' . $tVerseA;
+      $tQuery .= ' AND verses.verseNumber <=' . $tVerseB;
+    }
+  } else {
+      $tQuery .= ' AND (';
+      $tQuery .= '(verses.chapter = ' . $tChapterA;
+      $tQuery .= ' AND verses.verseNumber >=' . $tVerseA . ')';
+      $tQuery .= ' OR ';
+      $tQuery .= ' (verses.chapter = ' . $tChapterB;
+      $tQuery .= ' AND verses.verseNumber <=' . $tVerseB . ')';
+      if ($tChapterB === $tChapterA + 1){
+          $tQuery .= ')';
+      } else {
+      $tQuery .= ' OR ';
+          $tQuery .= ' (verses.chapter >' . $tChapterA;
+          $tQuery .= ' AND verses.chapter <' . $tChapterB . '))';
+      }
+  }
+  $tQuery .= ' ORDER BY bookName, chapter, verseNumber ASC';
+
+  return $tQuery;
+}
+// ============================================================================
+*/
 
 // ============================================================================
 function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
