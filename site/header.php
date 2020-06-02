@@ -1,11 +1,8 @@
-<?php declare(strict_types=1); ?>
-<!DOCTYPE html>
+<?php declare(strict_types=1); ?><!DOCTYPE html>
 <html lang="en">
 
 <?php
-  $thisFile = filter_input(INPUT_SERVER, 'PHP_SELF');
-  $thisFile = substr($thisFile, strlen($thisFile)-9);
-  $bHome = ($thisFile == 'index.php');
+  $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php');
   require_once '../sqlCon.php';
 ?>
 
