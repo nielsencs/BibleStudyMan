@@ -1,6 +1,6 @@
 <?php
 // ============================================================================
-function getDayReadingQuery($iMonth, $day){
+function getDayReadingQuery($iMonth, $iDay){
 // ============================================================================
   $tQuery = '';
 
@@ -8,18 +8,92 @@ function getDayReadingQuery($iMonth, $day){
   $tQuery .= ' FROM `plan-new` INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID';
   $tQuery .= ' INNER JOIN books ON `plan-new`.bookCode=books.bookCode';
   $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth;
-  $tQuery .= '" AND DAY(planDate)="' . $day . '" ORDER BY planDate, `plan-new`.sectionCode ASC';
+  $tQuery .= '" AND DAY(planDate)="' . $iDay . '" ORDER BY planDate, `plan-new`.sectionCode ASC';
 
   return $tQuery;
 }
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsSentence($iMonth, $day){
+function daysReadingsAsSentence($iMonth, $iDay){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($iMonth, $day);
+  $tQuery = getDayReadingQuery($iMonth, $iDay);
+
+  $result = doQuery($link, $tQuery);
+
+  if (mysqli_num_rows($result) === 0) {
+    $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
+  } else {
+    while($row = mysqli_fetch_assoc($result)) {
+      if($row['sectionCode'] === '1TOR'){
+        // $tOutput .= ' first, ';
+        $tOutput .= '';
+      }
+      //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
+      if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
+          // $tOutput .= '; next it&rsquo;s ';
+          $tOutput .= '. Follow that by reading';
+      }
+      if($row['sectionCode'] === '3KTV'){
+          $tOutput .= '. The third part is';
+      }
+      if($row['sectionCode'] === '5NCV'){
+          $tOutput .= '; and lastly';
+      }
+      $tOutput .= ' <strong>';
+// -------------- if whole chapter no from... to ------------
+      if($row['endVerse'] > 0){
+        if($row['startChapter'] != $row['endChapter']){
+          $tOutput .= 'from';
+        }
+      }
+      $bChaptersOnly = isChaptersOnly($row);
+      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
+
+      $tOutput .= ' ' . $row['startChapter'];
+      if($row['startVerse'] > 0){
+        $tOutput .= ' verse';
+        if($row['startChapter'] === $row['endChapter']){
+          $tOutput .= 's';
+        }
+        $tOutput .= ' ' . $row['startVerse'];
+      }
+      if($row['endVerse'] > 0||$row['endChapter'] > 0){
+        if($bChaptersOnly & $row['endChapter'] === $row['startChapter']+1){
+          $tOutput .= ' and ';
+        } else {
+          $tOutput .= ' to ';          
+        }
+        if($row['startChapter'] === $row['endChapter']){
+          $tOutput .= $row['endVerse'];
+        }else{
+          if (! $bChaptersOnly){
+            $tOutput .= ' Chapter ';
+          }
+          $tOutput .= $row['endChapter'];
+          if (! $bChaptersOnly){
+            $tOutput .= ' verse ' . $row['endVerse'];
+          }
+        }
+      }
+// -------------- if whole chapter no from... to ------------
+      $tOutput .= '</strong>';
+    }
+  }
+  mysqli_free_result($result);
+
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function daysReading($iMonth, $iDay, $iSection){
+// ============================================================================
+  global $link;
+  $tOutput = '';
+  $tQuery = getDayReadingQuery($iMonth, $iDay);
 
   $result = doQuery($link, $tQuery);
 
@@ -96,11 +170,11 @@ function isChaptersOnly($row){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVerses($month, $day){
+function daysReadingsAsVerses($month, $iDay){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($month, $day);
+  $tQuery = getDayReadingQuery($month, $iDay);
 
   $result = doQuery($link, $tQuery);
 
@@ -144,11 +218,11 @@ function daysReadingsAsVerses($month, $day){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVersesNoAudio($month, $day){
+function daysReadingsAsVersesNoAudio($month, $iDay){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($month, $day);
+  $tQuery = getDayReadingQuery($month, $iDay);
 
   $result = doQuery($link, $tQuery);
 
