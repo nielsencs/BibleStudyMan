@@ -1,14 +1,53 @@
 <?php
 // ============================================================================
-function getDayReadingQuery($iMonth, $iDay){
+function getDayReadingQuery($iMonth, $iDay, $iSection = 0){
+// ============================================================================
+  $tQuery = getDayReadingQueryStart();
+  $tQuery .= getDayReadingQueryWhere($iMonth, $iDay, $iSection);
+
+  return $tQuery;
+}
+// ============================================================================
+
+// ============================================================================
+function getDayReadingQueryStart(){
 // ============================================================================
   $tQuery = '';
 
   $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
   $tQuery .= ' FROM `plan-new` INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID';
   $tQuery .= ' INNER JOIN books ON `plan-new`.bookCode=books.bookCode';
-  $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth;
-  $tQuery .= '" AND DAY(planDate)="' . $iDay . '" ORDER BY planDate, `plan-new`.sectionCode ASC';
+
+  return $tQuery;
+}
+// ============================================================================
+
+// ============================================================================
+function getDayReadingQueryWhere($iMonth, $iDay, $iSection = 0){
+// ============================================================================
+  $tQuery = '';
+
+  $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth . '"';
+  $tQuery .= ' AND DAY(planDate)="' . $iDay . '"';
+  switch ($iSection){
+    case 1:
+  $tQuery .= ' AND ';
+      $tQuery .= '`plan-new`.sectionCode = "1TOR"';
+      break;
+    case 2:
+  $tQuery .= ' AND ';
+      $tQuery .= '`plan-new`.sectionCode = "2NV1" OR `plan-new`.sectionCode = "4NV2"';
+      break;
+    case 3:
+  $tQuery .= ' AND ';
+      $tQuery .= '`plan-new`.sectionCode = "3KTV"';
+      break;
+    case 4:
+  $tQuery .= ' AND ';
+      $tQuery .= '`plan-new`.sectionCode = "5NCV"';
+      break;
+  }
+  $tQuery .= ' ORDER BY planDate, `plan-new`.sectionCode ASC';
 
   return $tQuery;
 }
@@ -50,7 +89,9 @@ function daysReadingsAsSentence($iMonth, $iDay){
         }
       }
       $bChaptersOnly = isChaptersOnly($row);
-      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
+      $bSameChapter = isSameChapter($row);
+
+      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly && ! $bSameChapter );
 
       $tOutput .= ' ' . $row['startChapter'];
       if($row['startVerse'] > 0){
@@ -89,71 +130,45 @@ function daysReadingsAsSentence($iMonth, $iDay){
 // ============================================================================
 
 // ============================================================================
-function daysReading($iMonth, $iDay, $iSection){
+function daysSectionReading($iMonth, $iDay, $iSection){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($iMonth, $iDay);
-
+  $tQuery = getDayReadingQuery($iMonth, $iDay, $iSection);
+  
   $result = doQuery($link, $tQuery);
+  echo '';
 
   if (mysqli_num_rows($result) === 0) {
     $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
   } else {
+    echo '';
     while($row = mysqli_fetch_assoc($result)) {
-      if($row['sectionCode'] === '1TOR'){
-        // $tOutput .= ' first, ';
-        $tOutput .= '';
-      }
-      //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
-      if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
-          // $tOutput .= '; next it&rsquo;s ';
-          $tOutput .= '. Follow that by reading';
-      }
-      if($row['sectionCode'] === '3KTV'){
-          $tOutput .= '. The third part is';
-      }
-      if($row['sectionCode'] === '5NCV'){
-          $tOutput .= '; and lastly';
-      }
-      $tOutput .= ' <strong>';
-// -------------- if whole chapter no from... to ------------
-      if($row['endVerse'] > 0){
-        if($row['startChapter'] != $row['endChapter']){
-          $tOutput .= 'from';
-        }
-      }
       $bChaptersOnly = isChaptersOnly($row);
-      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly);
+      $bSameChapter = isSameChapter($row);
 
-      $tOutput .= ' ' . $row['startChapter'];
+      $tOutput .= bookNameOrPsalm($row['bookName'], -1, false, $bChaptersOnly && ! $bSameChapter );
+
+      $tOutput .= $row['startChapter'];
       if($row['startVerse'] > 0){
-        $tOutput .= ' verse';
+        $tOutput .= ':' . $row['startVerse'];
         if($row['startChapter'] === $row['endChapter']){
-          $tOutput .= 's';
+          $tOutput .= '-';
         }
-        $tOutput .= ' ' . $row['startVerse'];
       }
-      if($row['endVerse'] > 0||$row['endChapter'] > 0){
-        if($bChaptersOnly & $row['endChapter'] === $row['startChapter']+1){
-          $tOutput .= ' and ';
-        } else {
-          $tOutput .= ' to ';          
-        }
+      if($row['endVerse'] > 0 || $row['endChapter'] > 0){
         if($row['startChapter'] === $row['endChapter']){
           $tOutput .= $row['endVerse'];
         }else{
           if (! $bChaptersOnly){
-            $tOutput .= ' Chapter ';
+            $tOutput .= '-';
           }
           $tOutput .= $row['endChapter'];
           if (! $bChaptersOnly){
-            $tOutput .= ' verse ' . $row['endVerse'];
+            $tOutput .= ':' . $row['endVerse'];;
           }
         }
       }
-// -------------- if whole chapter no from... to ------------
-      $tOutput .= '</strong>';
     }
   }
   mysqli_free_result($result);
@@ -165,16 +180,24 @@ function daysReading($iMonth, $iDay, $iSection){
 // ============================================================================
 function isChaptersOnly($row){
 // ============================================================================
-  return ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
+//  return ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
+  return (intval($row['startVerse']) === 0) && (intval($row['endVerse']) === 0);
 }
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVerses($month, $iDay){
+function isSameChapter($row){
+// ============================================================================
+  return (intval($row['endChapter']) === 0) || (intval($row['startChapter']) === intval($row['endChapter']));
+}
+// ============================================================================
+
+// ============================================================================
+function daysReadingsAsVerses($iMonth, $iDay){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($month, $iDay);
+  $tQuery = getDayReadingQuery($iMonth, $iDay);
 
   $result = doQuery($link, $tQuery);
 
@@ -195,9 +218,10 @@ function daysReadingsAsVerses($month, $iDay){
       for ($i=0; $i < $readCount; $i++) {
         $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
 
-        $tOutput .=  '<p class="centerText">' . $readingList[$i]['bookName'];
-        $tOutput .=  ' ' . $readingList[$i]['startChapter'] . ':' .  $readingList[$i]['startVerse'];
-        $tOutput .=  ' - ' . $readingList[$i]['endChapter'] . ':' .  $readingList[$i]['endVerse'] . '</p>';
+//        $tOutput .=  '<p class="centerText">' . $readingList[$i]['bookName'];
+//        $tOutput .=  ' ' . $readingList[$i]['startChapter'] . ':' .  $readingList[$i]['startVerse'];
+//        $tOutput .=  ' - ' . $readingList[$i]['endChapter'] . ':' .  $readingList[$i]['endVerse'] . '</p>';
+        $tOutput .=  '<p class="centerText">' . daysSectionReading($iMonth, $iDay, $i + 1) . '</p>';
 
         $tAudio = 'media/' . $readingList[$i]['bookCode'] . '_' . $readingList[$i]['startChapter'];
         $tAudio .= '_' .  $readingList[$i]['startVerse'] . '-' . $readingList[$i]['endChapter'];
@@ -218,11 +242,11 @@ function daysReadingsAsVerses($month, $iDay){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVersesNoAudio($month, $iDay){
+function daysReadingsAsVersesNoAudio($iMonth, $iDay){
 // ============================================================================
   global $link;
   $tOutput = '';
-  $tQuery = getDayReadingQuery($month, $iDay);
+  $tQuery = getDayReadingQuery($iMonth, $iDay);
 
   $result = doQuery($link, $tQuery);
 
