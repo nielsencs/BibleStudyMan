@@ -1,7 +1,7 @@
 <?php
   require_once 'header.php';
   require_once 'dbFunctions.php';
-  require_once 'bibleFunctions.php';
+  require_once 'planFunctions.php';
   require_once 'search.php';
   require_once 'timeStamp.php';
 
@@ -88,6 +88,17 @@
                         <input type="button" value="&gt;" onclick="dayDirection('nd')">
                       </td>
                     </tr>
+<!--                    <tr>
+                      <td colspan="2">
+                        Sort Order
+                        <select name="sortOrder" onchange="doSubmit('sortOrder')">
+                          <option value="orderChristian"<?php if($tSortOrder === 'orderChristian'){echo ' selected';}; ?>>Traditional Christian</option>
+                          <option value="orderJewish"<?php if($tSortOrder === 'orderJewish'){echo ' selected';}; ?>>Traditional Jewish</option>
+                          <option value="orderChron1"<?php if($tSortOrder === 'orderChron1'){echo ' selected';}; ?>>Chronological A</option>
+                          <option value="orderChron2"<?php if($tSortOrder === 'orderChron2'){echo ' selected';}; ?>>Chronological B</option>
+                        </select>
+                      </td>
+                    </tr> -->
                   </tbody>
                 </table>
 <?php require_once 'intWords.php'; ?>
