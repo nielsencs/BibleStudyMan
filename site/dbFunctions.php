@@ -264,12 +264,14 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
     if($bShowLinks){ // link to book and chapter
       $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact);
     }
+    if ($iChapter > -1){
     if($tBookName != 'Psalms'){
       if($bPluralChapter){
         $tOutput .= 'Chapters ';
       }else{
         $tOutput .= 'Chapter ';
       }
+    }
     }
     if ($iChapter > 0){
       $tOutput .= $iChapter;
