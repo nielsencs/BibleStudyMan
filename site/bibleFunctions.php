@@ -34,16 +34,11 @@ function daysReadingsAsVerses($month, $day){
         $tAudio .= '_' . $readingList[$i]['endVerse'] . '.ogg';
 
         $tOutput .=  '<!-- ' . $tAudio . ' -->';
-// GEN_1_1-1_23.ogg filezilla
-// GEN_1_1-1_23.ogg
         if (file_exists($tAudio)){
-        // if (true){
-          // $tOutput .=  '<input type="button" id="bReading"' . $i . ' name="bReading"' . $i . ' value="listen" onclick="audioPlayPause(\'Genesis_1_1-23\');"><br />';
           $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br />';
           $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . $tAudio . '"></audio>';
         }
-        // $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
-        $tOutput .=  showReading2($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
+        $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
     }
     $tOutput .=  '</form>';
     $tOutput .=  '</section>';
@@ -76,8 +71,7 @@ function daysReadingsAsVersesNoAudio($month, $day){
     $tOutput .=  '<section class="search-result">';
     for ($i=0; $i < $readCount; $i++) {
       $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
-      // $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['passageStart'], $readingList[$i]['passageEnd']);
-      $tOutput .=  showReading2($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
+      $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
     }
     $tOutput .=  '</section>';
   }
@@ -86,7 +80,7 @@ function daysReadingsAsVersesNoAudio($month, $day){
 // ============================================================================
 
 // ============================================================================
-function showReading2($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
+function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
 // ============================================================================
   $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
   return showVerses($tQuery, '');
@@ -215,10 +209,6 @@ function PTBuild($result1, $result2, $result3, $result4){ // build the HTML tabl
   $tOutput .= '<tr>';
   $tOutput .= '<th>Date</th>';
 
-  // $tOutput .= '<th colspan="3">Torah</th>';
-  // $tOutput .= '<th colspan="3">Nevi&rsquo;im</th>';
-  // $tOutput .= '<th colspan="3">K&rsquo;tuvim</th>';
-  // $tOutput .= '<th colspan="3">New Covenant</th>';
   $tOutput .= '<th>Section 1</th>';
   $tOutput .= '<th>Section 2</th>';
   $tOutput .= '<th>Section 3</th>';
@@ -237,8 +227,6 @@ function PTBuild($result1, $result2, $result3, $result4){ // build the HTML tabl
     $tOutput .= '<tr>';
 
     $tOutput .= '<td><a href="plan.php?month=' . $date->format('m');
-    // $tOutput .= '<td><a href="'. filter_input(INPUT_SERVER, 'PHP_SELF') . '?month=' . $date->format('m');
-    //$tOutput .= '<td>';
     $tOutput .= '&day=' . $date->format('j') . '">';
     $tOutput .= $date->format('M j') . '</a>';
     $tOutput .= '</td>';
@@ -263,7 +251,6 @@ function PTAddSection($row) { // add a section column to the plan table
 // ============================================================================
   $tOutput = '';
 
-//  $bChaptersOnly = ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
   $bChaptersOnly = isChaptersOnly($row);
   
   $tOutput .= '<td>';
