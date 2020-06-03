@@ -2,7 +2,7 @@
 // ============================================================================
 function getDayReadingQuery($iMonth, $iDay, $iSection = 0){
 // ============================================================================
-  $tQuery = getDayReadingQueryStart();
+  $tQuery = getDayReadingQueryStart($iMonth, $iDay);
   $tQuery .= getDayReadingQueryWhere($iMonth, $iDay, $iSection);
 
   return $tQuery;
@@ -10,13 +10,17 @@ function getDayReadingQuery($iMonth, $iDay, $iSection = 0){
 // ============================================================================
 
 // ============================================================================
-function getDayReadingQueryStart(){
+function getDayReadingQueryStart($iMonth, $iDay){
 // ============================================================================
   $tQuery = '';
-
-  $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
-  $tQuery .= ' FROM `plan-new` INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID';
-  $tQuery .= ' INNER JOIN books ON `plan-new`.bookCode=books.bookCode';
+  if($iMonth === 2 && $iDay === 29){
+    $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
+    $tQuery .= ' FROM `plan-feb-29` INNER JOIN books ON `plan-feb-29`.bookCode=books.bookCode';
+  } else {
+    $tQuery .= 'SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted';
+    $tQuery .= ' FROM `plan-new` INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID';
+    $tQuery .= ' INNER JOIN books ON `plan-new`.bookCode=books.bookCode';
+  }
 
   return $tQuery;
 }
@@ -26,28 +30,33 @@ function getDayReadingQueryStart(){
 function getDayReadingQueryWhere($iMonth, $iDay, $iSection = 0){
 // ============================================================================
   $tQuery = '';
+  if($iMonth === 2 && $iDay === 29){
+    $tTable = '`plan-feb-29`';
+  } else {
+    $tTable = '`plan-new`';   
+  }
 
   $tQuery .= ' WHERE MONTH(planDate)="' . $iMonth . '"';
   $tQuery .= ' AND DAY(planDate)="' . $iDay . '"';
   switch ($iSection){
     case 1:
   $tQuery .= ' AND ';
-      $tQuery .= '`plan-new`.sectionCode = "1TOR"';
+      $tQuery .= '' . $tTable . '.sectionCode = "1TOR"';
       break;
     case 2:
   $tQuery .= ' AND ';
-      $tQuery .= '`plan-new`.sectionCode = "2NV1" OR `plan-new`.sectionCode = "4NV2"';
+      $tQuery .= '' . $tTable . '.sectionCode = "2NV1" OR ' . $tTable . '.sectionCode = "4NV2"';
       break;
     case 3:
   $tQuery .= ' AND ';
-      $tQuery .= '`plan-new`.sectionCode = "3KTV"';
+      $tQuery .= '' . $tTable . '.sectionCode = "3KTV"';
       break;
     case 4:
   $tQuery .= ' AND ';
-      $tQuery .= '`plan-new`.sectionCode = "5NCV"';
+      $tQuery .= '' . $tTable . '.sectionCode = "5NCV"';
       break;
   }
-  $tQuery .= ' ORDER BY planDate, `plan-new`.sectionCode ASC';
+  $tQuery .= ' ORDER BY planDate, ' . $tTable . '.sectionCode ASC';
 
   return $tQuery;
 }
@@ -65,6 +74,13 @@ function daysReadingsAsSentence($iMonth, $iDay){
   if (mysqli_num_rows($result) === 0) {
     $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
   } else {
+    if($iMonth === 2 && $iDay === 29){
+      $tOutput .= ' let me say Happy Leap-Year-Extra-Day.</p><p><strong>Today is a special day!</strong> ';
+      $tOutput .= 'Because February 29th doesn&rsquo;t come round very often it ';
+      $tOutput .= 'can&rsquo;t sensibly be included in the regular plan. However, ';
+      $tOutput .= 'since you&rsquo;ve taken the trouble to look here today, I&rsquo;ve ';
+      $tOutput .= 'prepared a little collection of shorter passages to reflect on.</p><p>';
+    }
     while($row = mysqli_fetch_assoc($result)) {
       if($row['sectionCode'] === '1TOR'){
         // $tOutput .= ' first, ';
@@ -375,9 +391,14 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
     if($iStartVerse < 1){ // whole chapter
       $tQuery .= ' AND verses.chapter = ' . $iStartChapter;
     }else {
-      $tQuery .= ' AND verses.chapter = ' . $iStartChapter;
-      $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;
-      $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
+      if($iEndVerse < 1){ // one verse!
+        $tQuery .= ' AND verses.chapter = ' . $iStartChapter;
+        $tQuery .= ' AND verses.verseNumber =' . $iStartVerse;
+      }else {
+        $tQuery .= ' AND verses.chapter = ' . $iStartChapter;
+        $tQuery .= ' AND verses.verseNumber >=' . $iStartVerse;
+        $tQuery .= ' AND verses.verseNumber <=' . $iEndVerse;
+      }
     }
   } else { // multiple chapters
       $tQuery .= ' AND (';
