@@ -1,6 +1,7 @@
 <?php
   require_once 'header.php';
   require_once 'dbFunctions.php';
+  require_once 'planFunctions.php';
   require_once 'timeStamp.php';
 ?>
 
@@ -75,6 +76,8 @@
 <?php
   if ($link) {
     echo '<p>As a sample, today&rsquo;s sections to read are ' . daysReadingsAsSentence($iMonth, $iDay) . '. Enjoy!</p>';
+  } else {
+    echo '<p>A sample of one day&rsquo;s sections to read: <strong> Exodus Chapter 20 verses 1 to 17</strong>. Follow that by reading <strong> 1 Kings Chapter 10</strong>. The third part is <strong> Psalm  8 verses 4 to 5</strong>; and lastly <strong>from Luke Chapter 21 verse 25 to Chapter 22 verse 6</strong> Enjoy!</p>';
   }
 ?>
         <!-- p>If you'd rather read from your own Bible (there&rsquo;s nothing quite like a real book is there?) click here for <a href="planTable.php">the entire year&rsquo;s readings as a list.</a></p -->
