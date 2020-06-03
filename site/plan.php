@@ -18,6 +18,11 @@
   }
 
   $iDaysInMonth = daysInMonth($iMonth, $iYear);
+//  horrible kludge to protect from Feb 29!
+  if ($iMonth === 2){
+    $iDaysInMonth = 28;
+  }
+
   if (strlen($tDay) > 0){
     if ($tDay > $iDaysInMonth){
       $iDay = $iDaysInMonth;
