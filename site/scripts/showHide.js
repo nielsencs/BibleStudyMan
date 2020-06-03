@@ -13,7 +13,7 @@ window.onload = function(){
   //   showHide('block3', true);
   //   showHide('block4', true);
   // }
-}
+};
 
 // ============================================================================
 function showHide(tElemName, bShow){
@@ -34,13 +34,13 @@ function showHide2(tElemName){
   // alert(tElemName);
   elem = document.getElementById('block' + tElemName);
   button = document.getElementById('button' + tElemName);
-  if (elem.style.display == "none") {
+  if (elem.style.display === "none") {
     // $('#block1').slideDown("slow");
     $('#' + 'block' + tElemName).slideDown("slow");
-    button.value = "Less"
+    button.value = "Less";
   } else {
     // $('#block1').slideUp("slow");
     $('#' + 'block' + tElemName).slideUp("slow");
-    button.value = "More"
+    button.value = "More";
   }
 }
