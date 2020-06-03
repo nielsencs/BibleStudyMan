@@ -112,15 +112,18 @@ function bookChapSearch($tWords, $tBook, $tChapter){
     $iLen = count($atWords);
 
     $atBeginsWithBook = beginsWithBook($atWords, $iLen);
-    $tBook = $atBeginsWithBook[0];
-    $tChapter = $atBeginsWithBook[1];
-    $tVerses = $atBeginsWithBook[2];
-    $i = $atBeginsWithBook[3];
+    $tBookNew = $atBeginsWithBook[0];
+    if(empty($tBook) || $tBookNew !== $tBook){
+      $tBook = $tBookNew;
+      $tChapter = $atBeginsWithBook[1];
+      $tVerses = $atBeginsWithBook[2];
+      $i = $atBeginsWithBook[3];
 
-    if ($i === $iLen){ // done!
-      $tWords = '';
-    }else{
-      $tWords = joinWords($atWords, $i, $iLen);
+      if ($i === $iLen){ // done!
+        $tWords = '';
+      }else{
+        $tWords = joinWords($atWords, $i, $iLen);
+      }      
     }
   }
   return [$tBook, $tChapter, $tVerses, $tWords];

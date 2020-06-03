@@ -17,7 +17,7 @@ function buildLink($tBookName, $iChapter, $tWords, $bExact){
   }
   $tReturn .= '&words=' . str_replace(' ', '+', $tWords);
   if($bExact){
-    $tReturn .= '&phrase=on';
+    $tReturn .= '&exact=on';
   }
   $tReturn .= '">';
   return $tReturn;
@@ -495,7 +495,7 @@ function highlight($needle, $haystack){
 // ============================================================================
 function addSQLWildcards($tWords, $bExact){
 // ============================================================================
-//  return procesSearchWords($tWords, $bExact);
+return procesSearchWords($tWords, $bExact);
 
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
@@ -514,58 +514,54 @@ function addSQLWildcards($tWords, $bExact){
 // ============================================================================
 
 // ============================================================================
-function joinWords($atWords, $i, $iLen){
+function procesSearchWords($tWords, $bExact){
 // ============================================================================
-  $tWords = '';
-//    echo '$i[' . $i . ']$iLen[' . $iLen . ']';
-  for ($j=$i;$j < $iLen; $j++){
-    $tWords .= $atWords[$j] . ' ';
+  if($bExact){ // 'Exact' was 'checked' regardless of number of words
+//    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
+    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[\W]"';
+  }else {
+    $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
   }
-  return  trim($tWords);
+  return $tWords;
 }
 // ============================================================================
 
 // ============================================================================
-function procesSearchWords($tWords, $bExact){
+function procesSearchWords2($tWords, $bExact){
 // ============================================================================
   $atWords = explode(' ', $tWords);
   $tWord = '';
   $iLen = count($atWords);
+  
+  if ($iLen === 1){
+    //treat 1 word differently
+  }
+  
+  
+  
+  
 
   $i = 0;
-  $atBeginBook = beginsWithBook($atWords, $i, $iLen, $bExact);
-  $tBook = $atBeginBook[0];
-  $i = $atBeginBook[1];
 
-  echo '####### BOOK ####### $tBook:[' . $tBook . '], $i:' . $i . '####### BOOK #######';
-
-  if ($i === $iLen-1){ // done!
-    echo 'Tada!';
-    $tWords = '';
-  }else{
-//    for($j = $i;$j < $iLen; $j++) {
-//      $tWord = $atWords[$j];
-//      if ($j < $iLen){
-//      $tValue = procesSearchWord($atWords, $j, $iLen, $bExact);
-//      }else{
-//        $tValue = procesSearchWord($atWords, 0);
-//      }
-//    }
-//    if($bExact){
-//      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
-//    }else{
-//      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+    for($j = $i;$j < $iLen; $j++) {
+      $tWord = $atWords[$j];
+      if ($j < $iLen){
+      $tValue = procesSearchWord($atWords, $j, $iLen, $bExact);
+      }else{
+        $tValue = procesSearchWord($atWords, 0);
+      }
+    }
+    if($bExact){
+      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
+    }else{
+      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
 //    }else{
       // if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
-//        $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
+        $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
       // }else {
-      // }
     }
-  
+
 /*
-  
-  
-  
   if($bExact){
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
 //      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
@@ -581,7 +577,7 @@ function procesSearchWords($tWords, $bExact){
   }
 
 */
-  return $tBook . $tWords;
+  return $tWords;
 }
 // ============================================================================
 
@@ -606,6 +602,18 @@ function procesSearchWord($atWords, $i, $iLen, $bExact){
   $tWords = $tWords . addStrongsWild($atWords, $i, $iLen, $bExact);
 
   return $tBook . $tWords;
+}
+// ============================================================================
+
+// ============================================================================
+function joinWords($atWords, $i, $iLen){
+// ============================================================================
+  $tWords = '';
+//    echo '$i[' . $i . ']$iLen[' . $iLen . ']';
+  for ($j=$i;$j < $iLen; $j++){
+    $tWords .= $atWords[$j] . ' ';
+  }
+  return  trim($tWords);
 }
 // ============================================================================
 
