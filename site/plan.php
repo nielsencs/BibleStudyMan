@@ -69,38 +69,36 @@
                 <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <select name="month" id="month" onchange="doSubmit('month')">
+                  <tr>
+                    <td>
+                      <select name="month" id="month" onchange="doSubmit('month')">
 <?php
   echo prepareDropdownMonthList($iMonth);
 ?>
-                        </select>
-                      </td>
-                      <td>
-                        <input type="button" value="&lt;" onclick="dayDirection('pd')">
-                        <input type="hidden" name="dayNext" id="dayNext" value="">
-                        <select name="day" id="day" onchange="doSubmit('day')">
+                      </select>
+                    </td>
+                    <td>
+                      <input type="button" value="&lt;" onclick="dayDirection('pd')">
+                      <input type="hidden" name="dayNext" id="dayNext" value="">
+                      <select name="day" id="day" onchange="doSubmit('day')">
 <?php
   echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);
 ?>
-                        </select>
-                        <input type="button" value="&gt;" onclick="dayDirection('nd')">
-                      </td>
-                    </tr>
-<!--                    <tr>
-                      <td colspan="2">
-                        Sort Order
-                        <select name="sortOrder" onchange="doSubmit('sortOrder')">
-                          <option value="orderChristian"<?php if($tSortOrder === 'orderChristian'){echo ' selected';}; ?>>Traditional Christian</option>
-                          <option value="orderJewish"<?php if($tSortOrder === 'orderJewish'){echo ' selected';}; ?>>Traditional Jewish</option>
-                          <option value="orderChron1"<?php if($tSortOrder === 'orderChron1'){echo ' selected';}; ?>>Chronological A</option>
-                          <option value="orderChron2"<?php if($tSortOrder === 'orderChron2'){echo ' selected';}; ?>>Chronological B</option>
-                        </select>
-                      </td>
-                    </tr> -->
-                  </tbody>
+                      </select>
+                      <input type="button" value="&gt;" onclick="dayDirection('nd')">
+                    </td>
+                  </tr>
+<!--                  <tr>
+                    <td colspan="2">
+                      Sort Order
+                      <select name="sortOrder" onchange="doSubmit('sortOrder')">
+                        <option value="orderChristian"<?php if($tSortOrder === 'orderChristian'){echo ' selected';} ?>>Traditional Christian</option>
+                        <option value="orderJewish"<?php if($tSortOrder === 'orderJewish'){echo ' selected';} ?>>Traditional Jewish</option>
+                        <option value="orderChron1"<?php if($tSortOrder === 'orderChron1'){echo ' selected';} ?>>Chronological A</option>
+                        <option value="orderChron2"<?php if($tSortOrder === 'orderChron2'){echo ' selected';} ?>>Chronological B</option>
+                      </select>
+                    </td>
+                  </tr> -->
                 </table>
 <?php require_once 'intWords.php'; ?>
               </form>
