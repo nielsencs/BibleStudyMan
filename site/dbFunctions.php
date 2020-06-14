@@ -16,7 +16,7 @@ function buildLink($tBookName, $iChapter, $tWords, $bExact){
   }
   $tReturn .= '&words=' . str_replace(' ', '+', $tWords);
   if($bExact){
-    $tReturn .= '&phrase=on';
+    $tReturn .= '&exact=on';
   }
   $tReturn .= '">';
   return $tReturn;
