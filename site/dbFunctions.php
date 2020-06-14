@@ -10,8 +10,7 @@ function doQuery($link, $tQuery){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact){
 // ============================================================================
-  // $tReturn = '<a href="' . filter_input(INPUT_SERVER, 'PHP_SELF') . '?book=' . $tBookName;
-  $tReturn = '<a href="bible.php?book=' . $tBookName; // we might be in plan.php!
+  $tReturn = '<a href="bible.php?book=' . $tBookName;
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }
@@ -341,7 +340,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
     }
     $tOutput .= showVerses($tQuery, $tVerses);
   }else{
-// These two lines could be exchanged for the one below to give sample text when 
+// These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
     $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
@@ -561,11 +560,9 @@ function procesSearchWords($tWords, $bExact){
       // }else {
       // }
     }
-  
+
 /*
-  
-  
-  
+
   if($bExact){
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
 //      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
