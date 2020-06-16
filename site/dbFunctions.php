@@ -376,7 +376,7 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3><p>';
       }
-      if (isInRange($row['verseNumber'], $tVerses)){
+      if (verseSearchedFor($row['verseNumber'], $tVerses)){
         $tOutput .=  '<span class="highlight">';
         if ($row['verseNumber'] > 0) {
           $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
@@ -401,16 +401,27 @@ function showVerses($tQuery, $tVerses){
 // ============================================================================
 
 // ============================================================================
-function isInRange($verse, $tVerses){
+function verseSearchedFor($thisVerse, $tVerses){ // True if the current verse is within those being searched for
 // ============================================================================
   $bReturn = false;
+  $iCommaStart = 0;
   $iDashPosition = strpos($tVerses, '-');
-  if ($iDashPosition > 0){ // from - to
+  if($iDashPosition > 0){ // from - to
     $iStartVerse = substr($tVerses, 0, $iDashPosition);
     $iEndVerse = substr($tVerses, $iDashPosition + 1);
-    $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
+    $bReturn = ($thisVerse >= $iStartVerse) && ($thisVerse <= $iEndVerse);
   }else{
-     $bReturn = ($tVerses === $verse);
+    $iCommaPosition = strpos($tVerses, ',', $iCommaStart);
+    if(! $iCommaPosition > 0){ // no comma
+       $bReturn = ($tVerses === $thisVerse);
+    }
+    while ($iCommaPosition > 0){ // various verses
+      $iVerse = substr($tVerses, $iCommaStart, $iCommaPosition - $iCommaStart);
+//      $iEndVerse = substr($tVerses, $iCommaPosition + 1);
+      $bReturn = $bReturn || ($thisVerse === $iVerse);
+      $iCommaStart = $iCommaPosition+1;
+      $iCommaPosition = strpos($tVerses . ',', ',', $iCommaStart);
+    }
   }
   return $bReturn;
 }
@@ -516,8 +527,7 @@ return procesSearchWords($tWords, $bExact);
 function procesSearchWords($tWords, $bExact){
 // ============================================================================
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
-//    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
-    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[\W]"';
+    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
   }else {
     $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
   }
