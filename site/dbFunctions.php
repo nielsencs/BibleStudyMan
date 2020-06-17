@@ -10,7 +10,7 @@ function doQuery($link, $tQuery){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact){
 // ============================================================================
-  $tReturn = '<a href="bible.php?book=' . $tBookName;
+  $tReturn = '<a href="bible.php?book=' . $tBookName; // we might be in plan.php and we want to look up a bible passage!
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }
@@ -366,6 +366,7 @@ function showVerses($tQuery, $tVerses){
   if (mysqli_num_rows($result) === 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
+    $tVersesExpanded = expandVerses($tVerses);
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
@@ -376,7 +377,8 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3><p>';
       }
-      if (isInRange($row['verseNumber'], $tVerses)){
+
+      if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
         $tOutput .=  '<span class="highlight">';
         if ($row['verseNumber'] > 0) {
           $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
@@ -389,6 +391,7 @@ function showVerses($tQuery, $tVerses){
         }
         $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
       }
+
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -401,18 +404,46 @@ function showVerses($tQuery, $tVerses){
 // ============================================================================
 
 // ============================================================================
-function isInRange($verse, $tVerses){
+function expandVerses($tVerses){
 // ============================================================================
-  $bReturn = false;
-  $iDashPosition = strpos($tVerses, '-');
-  if ($iDashPosition > 0){ // from - to
-    $iStartVerse = substr($tVerses, 0, $iDashPosition);
-    $iEndVerse = substr($tVerses, $iDashPosition + 1);
-    $bReturn = ($verse >= $iStartVerse) && ($verse <= $iEndVerse);
-  }else{
-     $bReturn = ($tVerses === $verse);
+// turn mixed dash and comma search into commas only with a leading comma
+// to ensure 0 is never first position. For example:
+    
+// From: '3,5,7-11,19-21,25,28-30,33'
+// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'   
+// ----------------------------------------------------------------------------
+  $tVersesExpanded = '';
+  $tVerses .= '@';
+  $iLen = strlen($tVerses);
+  $iDash = 0;
+  $tLastChar = '';
+  $tLastNum = '';
+  $tThisNum = '';
+//  $iCommaPosition = strpos($tVerses, ',');
+  for ($i = 0; $i <= $iLen; $i++) {
+    $tThisChar = substr($tVerses, $i, 1);
+    if(is_numeric($tThisChar)){
+      $tThisNum .= $tThisChar;
+//      $tVersesExpanded .= $tThisChar;
+      $tLastChar = $tThisChar;
+    }else{
+      if($iDash > 0){
+        for ($j = $tLastNum+1; $j <= $tThisNum; $j++){
+          $tVersesExpanded .= ',' . $j;
+        }
+        $iDash = 0;
+      }else{
+        $tVersesExpanded .= ',' . $tThisNum;
+      }
+      $tLastNum = $tThisNum;
+      $tThisNum = '';
+      if($tThisChar === '-'){
+        $iDash = $i;
+      }
+      $tLastChar = $tThisChar;
+    }
   }
-  return $bReturn;
+  return $tVersesExpanded;
 }
 // ============================================================================
 
@@ -494,7 +525,7 @@ function highlight($needle, $haystack){
 // ============================================================================
 function addSQLWildcards($tWords, $bExact){
 // ============================================================================
-//  return procesSearchWords($tWords, $bExact);
+return procesSearchWords($tWords, $bExact);
 
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
@@ -513,56 +544,53 @@ function addSQLWildcards($tWords, $bExact){
 // ============================================================================
 
 // ============================================================================
-function joinWords($atWords, $i, $iLen){
+function procesSearchWords($tWords, $bExact){
 // ============================================================================
-  $tWords = '';
-//    echo '$i[' . $i . ']$iLen[' . $iLen . ']';
-  for ($j=$i;$j < $iLen; $j++){
-    $tWords .= $atWords[$j] . ' ';
+  if($bExact){ // 'Exact' was 'checked' regardless of number of words
+    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
+  }else {
+    $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
   }
-  return  trim($tWords);
+  return $tWords;
 }
 // ============================================================================
 
 // ============================================================================
-function procesSearchWords($tWords, $bExact){
+function procesSearchWords2($tWords, $bExact){
 // ============================================================================
   $atWords = explode(' ', $tWords);
   $tWord = '';
   $iLen = count($atWords);
 
+  if ($iLen === 1){
+    //treat 1 word differently
+  }
+
+
+
+
+
   $i = 0;
-  $atBeginBook = beginsWithBook($atWords, $i, $iLen, $bExact);
-  $tBook = $atBeginBook[0];
-  $i = $atBeginBook[1];
 
-  echo '####### BOOK ####### $tBook:[' . $tBook . '], $i:' . $i . '####### BOOK #######';
-
-  if ($i === $iLen-1){ // done!
-    echo 'Tada!';
-    $tWords = '';
-  }else{
-//    for($j = $i;$j < $iLen; $j++) {
-//      $tWord = $atWords[$j];
-//      if ($j < $iLen){
-//      $tValue = procesSearchWord($atWords, $j, $iLen, $bExact);
-//      }else{
-//        $tValue = procesSearchWord($atWords, 0);
-//      }
-//    }
-//    if($bExact){
-//      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
-//    }else{
-//      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+    for($j = $i;$j < $iLen; $j++) {
+      $tWord = $atWords[$j];
+      if ($j < $iLen){
+      $tValue = procesSearchWord($atWords, $j, $iLen, $bExact);
+      }else{
+        $tValue = procesSearchWord($atWords, 0);
+      }
+    }
+    if($bExact){
+      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
+    }else{
+      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
 //    }else{
       // if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
-//        $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
+        $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
       // }else {
-      // }
     }
 
 /*
-
   if($bExact){
     if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
 //      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
@@ -578,7 +606,7 @@ function procesSearchWords($tWords, $bExact){
   }
 
 */
-  return $tBook . $tWords;
+  return $tWords;
 }
 // ============================================================================
 
@@ -603,6 +631,18 @@ function procesSearchWord($atWords, $i, $iLen, $bExact){
   $tWords = $tWords . addStrongsWild($atWords, $i, $iLen, $bExact);
 
   return $tBook . $tWords;
+}
+// ============================================================================
+
+// ============================================================================
+function joinWords($atWords, $i, $iLen){
+// ============================================================================
+  $tWords = '';
+//    echo '$i[' . $i . ']$iLen[' . $iLen . ']';
+  for ($j=$i;$j < $iLen; $j++){
+    $tWords .= $atWords[$j] . ' ';
+  }
+  return  trim($tWords);
 }
 // ============================================================================
 

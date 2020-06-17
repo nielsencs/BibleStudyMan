@@ -107,6 +107,10 @@ function bookChapSearch($tWords, $tBook, $tChapter){
       }
       $tWords = '';
     }
+  }elseif(is_numeric(substr($tWords, 0, 1))) {
+    if(strpos($tWords, '-')>0 || strpos($tWords, ',')>0){
+      $tVerses = $tWords;
+    }
   } else {
     $atWords = explode(' ', $tWords);
     $iLen = count($atWords);
