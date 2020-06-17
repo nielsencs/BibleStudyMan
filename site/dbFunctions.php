@@ -366,6 +366,7 @@ function showVerses($tQuery, $tVerses){
   if (mysqli_num_rows($result) === 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
+    $tVersesExpanded = expandVerses($tVerses);
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
@@ -376,7 +377,8 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3><p>';
       }
-      if (verseSearchedFor($row['verseNumber'], $tVerses)){
+//      if (verseSearchedFor($row['verseNumber'], $tVerses)){
+      if (strpos($tVersesExpanded, $row['verseNumber'])){
         $tOutput .=  '<span class="highlight">';
         if ($row['verseNumber'] > 0) {
           $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
@@ -401,7 +403,51 @@ function showVerses($tQuery, $tVerses){
 // ============================================================================
 
 // ============================================================================
-function verseSearchedFor($thisVerse, $tVerses){ // True if the current verse is within those being searched for
+function expandVerses($tVerses){
+// ============================================================================
+// turn mixed dash and comma search into commas only with a leading comma
+// to ensure 0 is never first position. For example:
+    
+// From: '3,5,7-11,19-21,25,28-30,33'
+// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'   
+// ----------------------------------------------------------------------------
+  $tVersesExpanded = ',';
+  $iDashPosition = strpos($tVerses, '-');
+  $iCommaPosition = strpos($tVerses, ',');
+
+  if($iDashPosition + $iCommaPosition !== 0){ // some dashes or commas
+    if($iDashPosition > $iCommaPosition){
+      $tVersesExpanded .= ',';
+    } else {
+      
+    }
+    $iDashStart = 0;
+    $iDashEnd = 0;
+    while ($iDashPosition > 0){ // from - to
+      $iStartVerse = substr($tVerses, $iDashStart, $iDashPosition - $iDashStart);
+      $iDashEnd = $iDashPosition + 1;
+  echo'$iStartVerse:' . $iStartVerse;
+      while (is_numeric(substr($tVerses . '@', $iDashPosition + 1, $iDashEnd - $iDashPosition))){
+        $iDashEnd++;
+      }
+
+      $iEndVerse = substr($tVerses, $iDashPosition + 1, $iDashEnd - $iDashPosition);
+      $bReturn = $bReturn || ($thisVerse >= $iStartVerse) && ($thisVerse <= $iEndVerse);
+      $iDashStart = $iDashPosition + 1;
+      $iDashPosition = strpos($tVerses . '-', '-', $iDashStart);
+    }
+  } else {
+//    $tVersesExpanded .= ',' . $tVerses;
+    $tVersesExpanded .= $tVerses;
+  }
+  echo '$tVerses[' . $tVerses . ']';
+  echo '$tVersesExpanded' . $tVersesExpanded . ']';
+  return $tVersesExpanded;
+}
+// ============================================================================
+
+// ============================================================================
+function verseSearchedFor1($thisVerse, $tVerses){ // True if the current verse is within those being searched for
 // ============================================================================
   $bReturn = false;
   $iCommaStart = 0;
@@ -422,6 +468,65 @@ function verseSearchedFor($thisVerse, $tVerses){ // True if the current verse is
       $iCommaStart = $iCommaPosition+1;
       $iCommaPosition = strpos($tVerses . ',', ',', $iCommaStart);
     }
+  }
+  return $bReturn;
+}
+// ============================================================================
+
+// ============================================================================
+function verseSearchedFor($thisVerse, $tVerses){ // True if the current verse is within those being searched for
+// ============================================================================
+  $iDashPosition = strpos($tVerses, '-');
+  $iCommaPosition = strpos($tVerses, ',');
+
+  if($iDashPosition + $iCommaPosition === 0){ // no dashes or commas
+    $bReturn = ($thisVerse === $tVerses); // only asked for one verse - this one!
+  } else {
+    if($iDashPosition > 0){
+      $bReturn = verseSearchDash($thisVerse, $tVerses, $iDashPosition);  
+    }
+    if($iCommaPosition > 0) {
+      $bReturn = verseSearchComma($thisVerse, $tVerses, $iCommaPosition);
+    }
+  }
+
+  return $bReturn;
+}
+// ============================================================================
+
+// ============================================================================
+function verseSearchDash($thisVerse, $tVerses, $iDashPosition){
+// ============================================================================
+  $bReturn = false;
+  $iDashStart = 0;
+  $iDashEnd = 0;
+  while ($iDashPosition > 0){ // from - to
+    $iStartVerse = substr($tVerses, $iDashStart, $iDashPosition - $iDashStart);
+    $iDashEnd = $iDashPosition + 1;
+echo'$iStartVerse:' . $iStartVerse;
+    while (is_numeric(substr($tVerses . '@', $iDashPosition + 1, $iDashEnd - $iDashPosition))){
+      $iDashEnd++;
+    }
+
+    $iEndVerse = substr($tVerses, $iDashPosition + 1, $iDashEnd - $iDashPosition);
+    $bReturn = $bReturn || ($thisVerse >= $iStartVerse) && ($thisVerse <= $iEndVerse);
+    $iDashStart = $iDashPosition + 1;
+    $iDashPosition = strpos($tVerses . '-', '-', $iDashStart);
+  }
+  return $bReturn;
+}
+// ============================================================================
+
+// ============================================================================
+function verseSearchComma($thisVerse, $tVerses, $iCommaPosition){
+// ============================================================================
+  $bReturn = false;
+  $iCommaStart = 0;
+  while ($iCommaPosition > 0){ // various verses
+    $iVerse = substr($tVerses, $iCommaStart, $iCommaPosition - $iCommaStart);
+    $bReturn = $bReturn || ($thisVerse === $iVerse);
+    $iCommaStart = $iCommaPosition+1;
+    $iCommaPosition = strpos($tVerses . ',', ',', $iCommaStart);
   }
   return $bReturn;
 }
