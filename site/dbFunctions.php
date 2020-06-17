@@ -377,8 +377,8 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3><p>';
       }
-//      if (verseSearchedFor($row['verseNumber'], $tVerses)){
-      if (strpos($tVersesExpanded, $row['verseNumber'])){
+
+      if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
         $tOutput .=  '<span class="highlight">';
         if ($row['verseNumber'] > 0) {
           $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
@@ -391,6 +391,7 @@ function showVerses($tQuery, $tVerses){
         }
         $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
       }
+
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -411,124 +412,38 @@ function expandVerses($tVerses){
 // From: '3,5,7-11,19-21,25,28-30,33'
 // To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'   
 // ----------------------------------------------------------------------------
-  $tVersesExpanded = ',';
-  $iDashPosition = strpos($tVerses, '-');
-  $iCommaPosition = strpos($tVerses, ',');
-
-  if($iDashPosition + $iCommaPosition !== 0){ // some dashes or commas
-    if($iDashPosition > $iCommaPosition){
-      $tVersesExpanded .= ',';
-    } else {
-      
-    }
-    $iDashStart = 0;
-    $iDashEnd = 0;
-    while ($iDashPosition > 0){ // from - to
-      $iStartVerse = substr($tVerses, $iDashStart, $iDashPosition - $iDashStart);
-      $iDashEnd = $iDashPosition + 1;
-  echo'$iStartVerse:' . $iStartVerse;
-      while (is_numeric(substr($tVerses . '@', $iDashPosition + 1, $iDashEnd - $iDashPosition))){
-        $iDashEnd++;
+  $tVersesExpanded = '';
+  $tVerses .= '@';
+  $iLen = strlen($tVerses);
+  $iDash = 0;
+  $tLastChar = '';
+  $tLastNum = '';
+  $tThisNum = '';
+//  $iCommaPosition = strpos($tVerses, ',');
+  for ($i = 0; $i <= $iLen; $i++) {
+    $tThisChar = substr($tVerses, $i, 1);
+    if(is_numeric($tThisChar)){
+      $tThisNum .= $tThisChar;
+//      $tVersesExpanded .= $tThisChar;
+      $tLastChar = $tThisChar;
+    }else{
+      if($iDash > 0){
+        for ($j = $tLastNum+1; $j <= $tThisNum; $j++){
+          $tVersesExpanded .= ',' . $j;
+        }
+        $iDash = 0;
+      }else{
+        $tVersesExpanded .= ',' . $tThisNum;
       }
-
-      $iEndVerse = substr($tVerses, $iDashPosition + 1, $iDashEnd - $iDashPosition);
-      $bReturn = $bReturn || ($thisVerse >= $iStartVerse) && ($thisVerse <= $iEndVerse);
-      $iDashStart = $iDashPosition + 1;
-      $iDashPosition = strpos($tVerses . '-', '-', $iDashStart);
+      $tLastNum = $tThisNum;
+      $tThisNum = '';
+      if($tThisChar === '-'){
+        $iDash = $i;
+      }
+      $tLastChar = $tThisChar;
     }
-  } else {
-//    $tVersesExpanded .= ',' . $tVerses;
-    $tVersesExpanded .= $tVerses;
   }
-  echo '$tVerses[' . $tVerses . ']';
-  echo '$tVersesExpanded' . $tVersesExpanded . ']';
   return $tVersesExpanded;
-}
-// ============================================================================
-
-// ============================================================================
-function verseSearchedFor1($thisVerse, $tVerses){ // True if the current verse is within those being searched for
-// ============================================================================
-  $bReturn = false;
-  $iCommaStart = 0;
-  $iDashPosition = strpos($tVerses, '-');
-  if($iDashPosition > 0){ // from - to
-    $iStartVerse = substr($tVerses, 0, $iDashPosition);
-    $iEndVerse = substr($tVerses, $iDashPosition + 1);
-    $bReturn = ($thisVerse >= $iStartVerse) && ($thisVerse <= $iEndVerse);
-  }else{
-    $iCommaPosition = strpos($tVerses, ',', $iCommaStart);
-    if(! $iCommaPosition > 0){ // no comma
-       $bReturn = ($tVerses === $thisVerse);
-    }
-    while ($iCommaPosition > 0){ // various verses
-      $iVerse = substr($tVerses, $iCommaStart, $iCommaPosition - $iCommaStart);
-//      $iEndVerse = substr($tVerses, $iCommaPosition + 1);
-      $bReturn = $bReturn || ($thisVerse === $iVerse);
-      $iCommaStart = $iCommaPosition+1;
-      $iCommaPosition = strpos($tVerses . ',', ',', $iCommaStart);
-    }
-  }
-  return $bReturn;
-}
-// ============================================================================
-
-// ============================================================================
-function verseSearchedFor($thisVerse, $tVerses){ // True if the current verse is within those being searched for
-// ============================================================================
-  $iDashPosition = strpos($tVerses, '-');
-  $iCommaPosition = strpos($tVerses, ',');
-
-  if($iDashPosition + $iCommaPosition === 0){ // no dashes or commas
-    $bReturn = ($thisVerse === $tVerses); // only asked for one verse - this one!
-  } else {
-    if($iDashPosition > 0){
-      $bReturn = verseSearchDash($thisVerse, $tVerses, $iDashPosition);  
-    }
-    if($iCommaPosition > 0) {
-      $bReturn = verseSearchComma($thisVerse, $tVerses, $iCommaPosition);
-    }
-  }
-
-  return $bReturn;
-}
-// ============================================================================
-
-// ============================================================================
-function verseSearchDash($thisVerse, $tVerses, $iDashPosition){
-// ============================================================================
-  $bReturn = false;
-  $iDashStart = 0;
-  $iDashEnd = 0;
-  while ($iDashPosition > 0){ // from - to
-    $iStartVerse = substr($tVerses, $iDashStart, $iDashPosition - $iDashStart);
-    $iDashEnd = $iDashPosition + 1;
-echo'$iStartVerse:' . $iStartVerse;
-    while (is_numeric(substr($tVerses . '@', $iDashPosition + 1, $iDashEnd - $iDashPosition))){
-      $iDashEnd++;
-    }
-
-    $iEndVerse = substr($tVerses, $iDashPosition + 1, $iDashEnd - $iDashPosition);
-    $bReturn = $bReturn || ($thisVerse >= $iStartVerse) && ($thisVerse <= $iEndVerse);
-    $iDashStart = $iDashPosition + 1;
-    $iDashPosition = strpos($tVerses . '-', '-', $iDashStart);
-  }
-  return $bReturn;
-}
-// ============================================================================
-
-// ============================================================================
-function verseSearchComma($thisVerse, $tVerses, $iCommaPosition){
-// ============================================================================
-  $bReturn = false;
-  $iCommaStart = 0;
-  while ($iCommaPosition > 0){ // various verses
-    $iVerse = substr($tVerses, $iCommaStart, $iCommaPosition - $iCommaStart);
-    $bReturn = $bReturn || ($thisVerse === $iVerse);
-    $iCommaStart = $iCommaPosition+1;
-    $iCommaPosition = strpos($tVerses . ',', ',', $iCommaStart);
-  }
-  return $bReturn;
 }
 // ============================================================================
 
