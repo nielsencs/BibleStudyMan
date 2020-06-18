@@ -47,18 +47,13 @@
   for($i = 0; $i < $iNumMeetings; $i++){
     echo showMeeting($atMeetings[$i], $i);
   }
-//  echo showMeeting($atMeetings[0]);
-//  echo showMeeting($atMeetings[1]);
 ?>
     <div class="subMain plain">
             <h2>Teaching Videos</h2>
-      <!-- <input type="button" value="More" name="button2" id="button2" class="center" onclick="showHide2('2');">
-      <div name="block2" id="block2" class="collapse"> -->
       <div>
-        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBibleStudyCarl%2Fvideos%2F567115487031461%2F&show_text=1&width=280" width="280" height="158" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
-        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBibleStudyCarl%2Fvideos%2F2199583323705807%2F&show_text=0&width=280" width="280" height="158" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
-        <iframe src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FBibleStudyCarl%2Fvideos%2F504843780047032%2F&show_text=0&width=560" width="280" height="158" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allowFullScreen="true"></iframe>
-        <!-- <iframe src="https://www.youtube.com/embed/LhN9xm5FAWc" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+<?php
+  echo videoList('T');
+?>
       </div>
     </div>
   </div>
