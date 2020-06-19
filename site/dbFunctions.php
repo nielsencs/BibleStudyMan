@@ -670,4 +670,62 @@ function addStrongsWild($atWords, $i, $iLen, $bExact){
 }
 // ============================================================================
 
+// ============================================================================
+function videoList($tClass = 'R'){
+// ============================================================================
+  global $link;
+  $tOutput = '';
+  $tQuery = '';
+  $tQuery .= 'SELECT * ';
+  $tQuery .= 'FROM media ';
+  $tQuery .= 'WHERE media.mediaClass = "' . $tClass . '";';
+
+//  $tWidth = '320';
+//  $tHeight = '180';
+  $tWidth = '325';  // almost the same as above but better thumbnails!
+  $tHeight = '183'; // almost the same as above but better thumbnails!
+
+  $result = doQuery($link, $tQuery);
+
+  if (mysqli_num_rows($result) == 0) {
+    $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
+  } else {
+    while ($row = mysqli_fetch_assoc($result)) {
+      $tOutput .= '<div class="media">';
+      if(! empty($row["audioURL"])){
+        $tOutput .= '<p class="centerText">' . $row["mediaName"] . '</p>';
+        $tOutput .= '<br />';
+//        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
+//        $tOutput .= $row["audioURL"];
+//        $tOutput .= '">Play on SoundCloud.com';
+//        $tOutput .= '</a> ';
+//        $tOutput .= '<br />';
+
+//        $tOutput .= '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
+        $tOutput .= '<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
+//        $tOutput .= '<iframe scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
+        $tOutput .= $row["audioTrack"];
+        $tOutput .= '&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>';
+        $tOutput .= '<br />';
+      }
+
+      if(! empty($row["videoURL"])){
+//        $tOutput .= '<a class="centerText" href="https://youtu.be/';
+//        $tOutput .= $row["videoURL"];
+//        $tOutput .= '">Play on YouTube.com';
+//        $tOutput .= '</a>';
+//        $tOutput .= '<br />';
+
+        $tOutput .= '<iframe width = "' . $tWidth . '" height = "' . $tHeight . '" src="https://www.youtube.com/embed/';
+        $tOutput .= $row["videoURL"];
+//        $tOutput .= '?controls=1&modestbranding=0"';
+        $tOutput .= '?rel=0" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+      }
+      $tOutput .= '</div>';
+    }
+  }
+  mysqli_free_result($result);
+  return $tOutput;
+}
+// ============================================================================
 ?>
