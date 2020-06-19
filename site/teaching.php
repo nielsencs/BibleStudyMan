@@ -48,8 +48,8 @@
     echo showMeeting($atMeetings[$i], $i);
   }
 ?>
-    <div class="subMain plain">
-            <h2>Teaching Videos</h2>
+    <div class="subMain sectGeneral">
+      <h2>Teaching Videos</h2>
       <div>
 <?php
   echo videoList('T');

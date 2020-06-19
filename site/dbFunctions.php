@@ -680,8 +680,10 @@ function videoList($tClass = 'R'){
   $tQuery .= 'FROM media ';
   $tQuery .= 'WHERE media.mediaClass = "' . $tClass . '";';
 
-  $tWidth = '420';
-  $tHeight = '315';
+//  $tWidth = '320';
+//  $tHeight = '180';
+  $tWidth = '325';  // almost the same as above but better thumbnails!
+  $tHeight = '183'; // almost the same as above but better thumbnails!
 
   $result = doQuery($link, $tQuery);
 
@@ -691,7 +693,7 @@ function videoList($tClass = 'R'){
     while ($row = mysqli_fetch_assoc($result)) {
       $tOutput .= '<div class="media">';
       if(! empty($row["audioURL"])){
-        $tOutput .= $row["mediaName"];
+        $tOutput .= '<p class="centerText">' . $row["mediaName"] . '</p>';
         $tOutput .= '<br />';
 //        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
 //        $tOutput .= $row["audioURL"];
@@ -714,7 +716,7 @@ function videoList($tClass = 'R'){
 //        $tOutput .= '</a>';
 //        $tOutput .= '<br />';
 
-        $tOutput .= '<iframe width = "420" height = "315" src="https://www.youtube.com/embed/';
+        $tOutput .= '<iframe width = "' . $tWidth . '" height = "' . $tHeight . '" src="https://www.youtube.com/embed/';
         $tOutput .= $row["videoURL"];
 //        $tOutput .= '?controls=1&modestbranding=0"';
         $tOutput .= '?rel=0" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
