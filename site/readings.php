@@ -11,7 +11,7 @@
                 <div class="infoBox">
                   <p>This is still very much a work in progress (if you want to help
                     out then please check out the &lsquo;<a href="support.php">Support
-                      this ministry</a>&rsquo; page).</p><!-- I do plan to develop the code to:</p>
+                      Me</a>&rsquo; page).</p><!-- I do plan to develop the code to:</p>
                   <ul>
                     <li>Enable a checklist so you can &lsquo;mark as read&rsquo;</li>
                     <li>provide alternative arrangements of the readings for variety</li>
