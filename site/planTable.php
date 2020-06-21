@@ -1,7 +1,7 @@
 <?php
   require_once 'header.php';
   require_once 'dbFunctions.php';
-  require_once 'bibleFunctions.php';
+  require_once 'planFunctions.php';
   require_once 'search.php';
 
   $tBaseQuery = basicPassageQuery()
@@ -16,7 +16,6 @@
 <?php
 echo planTable($tSortOrder);
 ?>
-    <!--</p>-->
     </div>
   </div>
 <?php

@@ -5,7 +5,7 @@
 
 .home {
   /* border: 3px solid #773322; */
-  border: 3px solid DimGray;
+  border: 3px solid #4F3F49;
   /* background-color: bisque; */
   background-color: Gainsboro;
 }
@@ -58,7 +58,7 @@
 .sectGeneral {
   width: 96%;
   /* border: 3px solid #773322; */
-  border: 3px solid DimGray;
+  border: 3px solid #4F3F49;
 }
 
 .readmore {

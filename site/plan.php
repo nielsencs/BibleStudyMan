@@ -1,7 +1,7 @@
 <?php
   require_once 'header.php';
   require_once 'dbFunctions.php';
-  require_once 'bibleFunctions.php';
+  require_once 'planFunctions.php';
   require_once 'search.php';
   require_once 'timeStamp.php';
 
@@ -18,6 +18,7 @@
   }
 
   $iDaysInMonth = daysInMonth($iMonth, $iYear);
+
   if (strlen($tDay) > 0){
     if ($tDay > $iDaysInMonth){
       $iDay = $iDaysInMonth;
@@ -57,11 +58,7 @@
               <div class="subMain sectGeneral">
                 <h2>Readings for <?php echo monthName($iMonth) . ' ' . $iDay; ?>:</h2>
   <?php
-    // $tOutput = planTable('orderChron2');
-    $tOutput = planTable('orderChristian');
-    // echo planTable('orderJewish');
-    // echo planTable('orderChron1');
-    // echo planTable('orderChron2');
+    $tOutput = planTable($tSortOrder);
     echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay);
   ?>
                 <p>You can read the passages below. If you're looking to read for
@@ -72,37 +69,36 @@
                 <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
-                  <tbody>
-                    <!-- tr>
-                      <td colspan="2">
-                        Sort Order
-                        <select name="sortOrder">
-                          <option value="orderChristian">Traditional Christian</option>
-                          <option value="orderJewish">Traditional Jewish</option>
-                          <option value="orderChron1">Chronological A</option>
-                          <option value="orderChron2">Chronological B</option>
-                        </select>
-                      </td>
-                    </tr -->
-                    <tr>
-                      <td>
-                        <select name="month" id="month" onchange="doSubmit('month')">
+                  <tr>
+                    <td>
+                      <select name="month" id="month" onchange="doSubmit('month')">
 <?php
   echo prepareDropdownMonthList($iMonth);
 ?>
-                        </select>
-                      </td>
-                      <td>
-                        <input type="button" value="&lt;" onclick="dayDirection('pd')">
-                        <select name="day" id="day" onchange="doSubmit('day')">
+                      </select>
+                    </td>
+                    <td>
+                      <input type="button" value="&lt;" onclick="dayDirection('pd')">
+                      <input type="hidden" name="dayNext" id="dayNext" value="">
+                      <select name="day" id="day" onchange="doSubmit('day')">
 <?php
   echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);
 ?>
-                        </select>
-                        <input type="button" value="&gt;" onclick="dayDirection('nd')">
-                      </td>
-                    </tr>
-                  </tbody>
+                      </select>
+                      <input type="button" value="&gt;" onclick="dayDirection('nd')">
+                    </td>
+                  </tr>
+<!--                  <tr>
+                    <td colspan="2">
+                      Sort Order
+                      <select name="sortOrder" onchange="doSubmit('sortOrder')">
+                        <option value="orderChristian"<?php if($tSortOrder === 'orderChristian'){echo ' selected';} ?>>Traditional Christian</option>
+                        <option value="orderJewish"<?php if($tSortOrder === 'orderJewish'){echo ' selected';} ?>>Traditional Jewish</option>
+                        <option value="orderChron1"<?php if($tSortOrder === 'orderChron1'){echo ' selected';} ?>>Chronological A</option>
+                        <option value="orderChron2"<?php if($tSortOrder === 'orderChron2'){echo ' selected';} ?>>Chronological B</option>
+                      </select>
+                    </td>
+                  </tr> -->
                 </table>
 <?php require_once 'intWords.php'; ?>
               </form>
@@ -110,6 +106,7 @@
                 
   <?php
     echo daysReadingsAsVerses($iMonth, $iDay);
+    include_once 'bibleDisclaimer.html';
   ?>
               </div>
           </div>

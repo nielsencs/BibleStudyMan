@@ -42,7 +42,7 @@
   height: auto;
   max-width:1000px;
   /* background-color: PapayaWhip; */
-  /* box-shadow: 3px 3px 7px DimGray; */
+  /* box-shadow: 3px 3px 7px #4F3F49; */
 }
 
 .frameborder{
@@ -83,7 +83,7 @@
 
 .footer {
   /* background-color: #773322; */
-  background-color: DimGray;
+  background-color: #4F3F49;
   color: Gainsboro;
   list-style: none;
   text-align: center;
@@ -114,13 +114,13 @@
 
 .media {
   float: left;
-  border: 3px solid darkturquoise;
+  border: 1px solid #4F3F49;
   margin: 1px;
 }
 
 .home {
   /* border: 3px solid #773322; */
-  border: 3px solid DimGray;
+  border: 3px solid #4F3F49;
   /* background-color: bisque; */
   background-color: Gainsboro;
   overflow: hidden;
@@ -147,8 +147,8 @@
   -ms-border-radius: 14px;
   -khtml-border-radius: 14px;
 
-  /* -webkit-box-shadow: 3px 3px 7px DimGray;   */
-  /* box-shadow: 3px 3px 7px DimGray; */
+  /* -webkit-box-shadow: 3px 3px 7px #4F3F49;   */
+  /* box-shadow: 3px 3px 7px #4F3F49; */
 }
 
 .subMain:nth-child(odd) {
@@ -164,7 +164,7 @@
 }
 
 .plain {
-  border: 3px solid DimGray;
+  border: 3px solid #4F3F49;
   background-color: white;
 }
 
@@ -183,6 +183,10 @@
   background-color: #ffff94;
 }
 
+.highlightOW{
+  background-color: lavender;
+}
+
 .plan {
   border: 3px solid #4ab54a;
   background-color: #94ff94;
@@ -197,7 +201,7 @@
   width: 97%;
   margin: auto;
   /* border: 3px solid #773322; */
-  border: 3px solid DimGray;
+  border: 3px solid #4F3F49;
 }
 
 .infoBox {

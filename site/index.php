@@ -1,20 +1,20 @@
 <?php
   require_once 'header.php';
   require_once 'dbFunctions.php';
+  require_once 'planFunctions.php';
   require_once 'timeStamp.php';
 ?>
 
-  <script src="showHide.js"></script>
+  <script src="scripts/showHide.js"></script>
 
   <div class='intro'>
-    <a href="about.php"><img class="mugshot" src="images/Carl-Small.png"
-      alt="mugshot of Carl"/></a>
-    <p class="frameborder">Welcome to the <strong>Bible Study Man</strong> website where I
+    <a href="about.php"><img class="mugshot" src="images/CarlSmall.png" alt="mugshot of Carl"/></a>
+    <p>Welcome to the <strong>Bible Study Man</strong> website where I
       hope we can learn together what The Bible has to teach us. My aim
       is to bring this <strong>amazing book alive</strong> in a
       <strong>fresh, interesting and</strong> sometimes
       <strong>challenging</strong> way!</p>
-    <p class="frameborder">I have divided the site into <strong>four main sections</strong> detailed below.
+    <p>I have divided the site into <strong>four main sections</strong> detailed below.
       Feel free to <strong>explore</strong> and if there&rsquo;s anything you can&rsquo;t
       find or understand - <a href="mailto:carl@BibleStudyMan.co.uk">get in touch</a>!</p>
     <p class="signature">Carl Nielsen, January 2018</p>
@@ -22,13 +22,9 @@
 
   <div class="main home">
     <h1>The Four Main Sections</h1>
-    <!-- <a href="teaching.php" class="subMain teaching floatLeft"> -->
     <div class="subMain teaching">
-       <!-- onmouseover="showHide('block1', true);" -->
-       <!-- onmouseout="showHide('block1', false);"> -->
-      <h2>1. Online Teaching Sessions</h2>
+      <a href="teaching.php"><h2>1. Online Teaching Sessions</h2></a>
       <p>Would you think I&rsquo;ve learnt anything by reading The Bible from-cover-to-cover many times over several years?</p>
-      <!-- <p class="centerText">Read more...</p> -->
       <input type="button" value="More" name="button1" id="button1" class="center" onclick="showHide2('1');">
       <div name="block1" id="block1" class="collapse">
         <p>I certainly hope I have! I also learnt from my time wrestling with
@@ -41,17 +37,12 @@
         <p>I unpack this and other subjects in this growing library of video and
           audio sessions.</p>
         <p>On the live sessions interaction is encouraged.</p>
-        <!-- <p class="centerText">Click to go there!</p> -->
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'teaching.php'">
       </div>
     </div>
-    <!-- <a href="readings.php" class="subMain readings floatRight" -->
     <div class="subMain readings">
-       <!-- onmouseover="showHide('block2', true);" -->
-       <!-- onmouseout="showHide('block2', false);"> -->
-      <h2>2. Dramatic Bible Readings</h2>
+      <a href="readings.php"><h2>2. Dramatic Bible Readings</h2></a>
       <p>Have you noticed that people often read The Bible without emotion?</p>
-      <!-- <p class="centerText">Read more...</p> -->
       <input type="button" value="More" name="button2" id="button2" class="center" onclick="showHide2('2');">
       <div name="block2" id="block2" class="collapse">
         <p>There&rsquo;ll be none of that here! If you read the texts it is sometimes
@@ -68,17 +59,12 @@
           readings. I doubt my interpretation accurately reflects the mood or emotional
           tone of the original, but I think it&rsquo;s an interesting and sometimes
           enlightening alternative to the usual formal reading style.</p>
-        <!-- <p class="centerText">Click to go there!</p> -->
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'readings.php'">
       </div>
     </div>
-    <!-- <a href="plan.php" class="subMain plan floatLeft" -->
     <div class="subMain plan">
-       <!-- onmouseover="showHide('block3', true);" -->
-       <!-- onmouseout="showHide('block3', false);"> -->
-      <h2>3. Bible Reading Plan</h2>
+      <a href="plan.php"><h2>3. Bible Reading Plan</h2></a>
       <p>Have you ever tried to read The Bible from cover to cover?</p>
-      <!-- <p class="centerText">Read more...</p> -->
       <input type="button" value="More" name="button3" id="button3" class="center" onclick="showHide2('3');">
       <div name="block3" id="block3" class="collapse">
         <p>If not and you&rsquo;d like to, then this day-by-day plan will help you
@@ -90,25 +76,19 @@
 <?php
   if ($link) {
     echo '<p>As a sample, today&rsquo;s sections to read are ' . daysReadingsAsSentence($iMonth, $iDay) . '. Enjoy!</p>';
+  } else {
+    echo '<p>A sample of one day&rsquo;s sections to read: <strong> Exodus Chapter 20 verses 1 to 17</strong>. Follow that by reading <strong> 1 Kings Chapter 10</strong>. The third part is <strong> Psalm  8 verses 4 to 5</strong>; and lastly <strong>from Luke Chapter 21 verse 25 to Chapter 22 verse 6</strong> Enjoy!</p>';
   }
 ?>
         <!-- p>If you'd rather read from your own Bible (there&rsquo;s nothing quite like a real book is there?) click here for <a href="planTable.php">the entire year&rsquo;s readings as a list.</a></p -->
-
-        <!-- <p class="centerText">Click to go there!</p> -->
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'plan.php'">
       </div>
     </div>
-    <!-- <a href="bible.php" class="subMain Bible floatRight" -->
-       <!-- onmouseover="showHide('block3', true);" -->
-       <!-- onmouseout="showHide('block3', false);"> -->
     <div class="subMain Bible">
-       <!-- onmouseover="showHide('block3', true);" -->
-       <!-- onmouseout="showHide('block3', false);"> -->
-      <h2>4. The Bible</h2>
+      <a href="bible.php"><h2>4. The Bible</h2></a>
       <p>Do you know the difference between &lsquo;God&rsquo;, &lsquo;
-        <span class="small-caps">The Lord</span>&rsquo; (as opposed to &lsquo;The
-        Lord&rsquo;) & &lsquo;God Almighty&rsquo;?</p>
-      <!-- <p class="centerText">Read more...</p> -->
+      <span class="small-caps">The Lord</span>&rsquo; (as opposed to &lsquo;The
+      Lord&rsquo;) & &lsquo;God Almighty&rsquo;?</p>
       <input type="button" value="More" name="button4" id="button4" class="center" onclick="showHide2('4');">
       <div name="block4" id="block4" class="collapse">
         <p>No? neither do I! Well that's a bit strong; what I mean is, it's not
@@ -133,15 +113,11 @@
           welcome any suggestions for investigation and possible inclusion.</p>
         <!-- p>So what I have started (will I ever finish?) is a minor adaptation of
           the World English Bible which already differentiates Agape and Yahweh
-          and others
+          and others. It
           includes nuanced meanings of particular ancient words for placenames,
           for God and others of special interest. This is a growing list and I
           Welcome any suggestions for investigation and possible inclusion.
         </p -->
-        <!-- <p>
-          I&rsquo;ve tried to make it fast and
-        </p> -->
-        <!-- <p class="centerText">Click to go there!</p> -->
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'bible.php'">
       </div>
     </div>
