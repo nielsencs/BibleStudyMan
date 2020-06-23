@@ -19,12 +19,14 @@ window.onload = function(){
 function showHide(tElemName, bShow){
 // ============================================================================
   elem = document.getElementById(tElemName);
-  if (bShow) {
-    elem.style.display = "block";
-    // elem.style.height = "auto";
-  } else {
-    elem.style.display = "none";
-    // elem.style.height = 0;
+  if (elem){
+    if (bShow) {
+      elem.style.display = "block";
+      // elem.style.height = "auto";
+    } else {
+      elem.style.display = "none";
+      // elem.style.height = 0;
+    }
   }
 }
 
