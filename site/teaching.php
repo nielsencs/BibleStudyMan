@@ -68,13 +68,12 @@ function getMeetings(){
   $atOutput = array();
   $tQuery = '';
   $tQuery .= 'SELECT * ';
-  $tQuery .= 'FROM meetings;';
+  $tQuery .= 'FROM meetings ';
+  $tQuery .= 'WHERE meetingActive;';
 
   $result = doQuery($link, $tQuery);
 
-  if (mysqli_num_rows($result) === 0) {
-    echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
-  } else {
+  if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
       array_push($atOutput,$row);
     }
