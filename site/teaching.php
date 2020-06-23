@@ -68,13 +68,12 @@ function getMeetings(){
   $atOutput = array();
   $tQuery = '';
   $tQuery .= 'SELECT * ';
-  $tQuery .= 'FROM meetings;';
+  $tQuery .= 'FROM meetings ';
+  $tQuery .= 'WHERE meetingActive;';
 
   $result = doQuery($link, $tQuery);
 
-  if (mysqli_num_rows($result) === 0) {
-    echo 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . $tQuery . '"';
-  } else {
+  if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
       array_push($atOutput,$row);
     }
@@ -90,6 +89,9 @@ function showMeeting($row, $i){
   $tOutput = '';
   $tOutput .= '<div class="subMain plain">';
   $tOutput .= '<h2>' . $row['meetingName'] . '</h2>';
+  $tOutput .= '<p class="centerText"><strong>';
+  $tOutput .= jddayofweek($row['meetingDay']-1, 1) . 's at ' . $row['meetingTime'] . ' UK time.'; // which is usually 7am Pacific Time,';
+  $tOutput .= '</strong></p>';
 
   $tOutput .= '<p>Zoom Meeting ID: <strong>' . $row['meetingRoom'] . '</strong>';
   $tOutput .= ' Password: <strong>' . $row['meetingPassword'] . '</strong></p>';
@@ -101,7 +103,7 @@ function showMeeting($row, $i){
   $tOutput .= '  question is the one you didn&rsquo;t ask!</p>';
   $tOutput .= '<input type="button" value="More" name="button' . $row['meetingID'] . '" id="button' . $row['meetingID'] . '" class="center" onclick="showHide2(\'' . $row['meetingID'] . '\');">';
   $tOutput .= '<div name="block' . $row['meetingID'] . '" id="block' . $row['meetingID'] . '" class="collapse">';
-  $tOutput .= '  <p>All are welcome and you can access it online via their ';
+  $tOutput .= '  <p>All are welcome and you can access it online via the Zoom ';
   $tOutput .= '    <a href="' . $row['meetingURL'] . '" target="_blank">website</a>';
 //  $tOutput .= '    incliding video or by phone for just the sound.';
 //  $tOutput .= '     I would encourage you to have a Bible ready (you can use the one on this site) and';
@@ -130,7 +132,7 @@ function showMeeting($row, $i){
 //  $tOutput .= '    </ul>';
 //  $tOutput .= '  </p>';
   $tOutput .= '  <p>When it&rsquo;s time you can <a href="' . $row['meetingURL'] . '" target="_blank">join the Zoom Meeting online</a>.</p>';
-  $tOutput .= '  <input type="button" value="Go there!" class="center" onclick="window.location.href = \'' . $row['meetingURL'] . '">';
+  $tOutput .= '  <input type="button" value="Go there!" class="center" onclick="window.location.href = \'' . $row['meetingURL'] . '\'">';
   $tOutput .= '</div>';
   $tOutput .= '</div>';
 
