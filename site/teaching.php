@@ -90,6 +90,9 @@ function showMeeting($row, $i){
   $tOutput = '';
   $tOutput .= '<div class="subMain plain">';
   $tOutput .= '<h2>' . $row['meetingName'] . '</h2>';
+  $tOutput .= '<p class="centerText"><strong>';
+  $tOutput .= jddayofweek($row['meetingDay']-1, 1) . 's at ' . $row['meetingTime'] . ' UK time.'; // which is usually 7am Pacific Time,';
+  $tOutput .= '</strong></p>';
 
   $tOutput .= '<p>Zoom Meeting ID: <strong>' . $row['meetingRoom'] . '</strong>';
   $tOutput .= ' Password: <strong>' . $row['meetingPassword'] . '</strong></p>';
