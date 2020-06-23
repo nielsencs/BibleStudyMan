@@ -13,7 +13,7 @@ function countDown(i, tZoomMeetingUrl) {
 
   // Display the result in the element with id='counter'
   var tOutput = '';
-  if (iS > 0 && iH == 0){
+  if (iS > 0 && iH == 0 && iD == 0){
     tOutput = iS + 's ';
   }
   if (iM > 0){
