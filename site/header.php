@@ -16,6 +16,8 @@
   <link rel="stylesheet" type="text/css" href="styles/general.css">
   <link rel="stylesheet" type="text/css" href="styles/pages.css">
   
+  <script src="https://cmp.osano.com/AzZcqjS44O5M21NrU/dda2dc42-5678-4e89-b7d6-c6ea02b5d890/osano.js"></script>
+  
   <script src="scripts/jquery-3.5.1.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
   
