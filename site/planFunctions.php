@@ -151,7 +151,7 @@ function daysSectionReading($iMonth, $iDay, $iSection){
   global $link;
   $tOutput = '';
   $tQuery = getDayReadingQuery($iMonth, $iDay, $iSection);
-  
+
   $result = doQuery($link, $tQuery);
   echo '';
 
@@ -169,6 +169,10 @@ function daysSectionReading($iMonth, $iDay, $iSection){
       if($row['startVerse'] > 0){
         $tOutput .= ':' . $row['startVerse'];
         if($row['startChapter'] === $row['endChapter']){
+          $tOutput .= '-';
+        }
+      }else{
+        if($row['endChapter'] > 0 && $row['startChapter'] != $row['endChapter']){
           $tOutput .= '-';
         }
       }
