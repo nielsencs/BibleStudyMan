@@ -5,7 +5,7 @@
         <div class="main readings">
             <h1>The Dramatic Bible Readings</h1>
             <div class="subMain sectGeneral">
-                <!-- a href="https://youtu.be/cuxOBLFUABE">Psalm 22</a -->
+                <!-- a href="https://youtu.be/cuxOBLFUABE" target="_blank">Psalm 22</a -->
                 <!-- <iframe src="https://www.youtube.com/embed/cuxOBLFUABE" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
                 <!-- <iframe src="https://www.youtube.com/embed/LyPfQ-in8-g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
                 <div class="infoBox">

@@ -697,7 +697,7 @@ function videoList($tClass = 'R'){
         $tOutput .= '<br />';
 //        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
 //        $tOutput .= $row["audioURL"];
-//        $tOutput .= '">Play on SoundCloud.com';
+//        $tOutput .= '" target="_blank">Play on SoundCloud.com';
 //        $tOutput .= '</a> ';
 //        $tOutput .= '<br />';
 
@@ -712,7 +712,7 @@ function videoList($tClass = 'R'){
       if(! empty($row["videoURL"])){
 //        $tOutput .= '<a class="centerText" href="https://youtu.be/';
 //        $tOutput .= $row["videoURL"];
-//        $tOutput .= '">Play on YouTube.com';
+//        $tOutput .= '" target="_blank">Play on YouTube.com';
 //        $tOutput .= '</a>';
 //        $tOutput .= '<br />';
 
