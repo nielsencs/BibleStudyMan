@@ -358,6 +358,7 @@ function showVerses($tQuery, $tVerses){
   $tOutput = '';
   $tLastBookName = '';
   $iLastChapter = 0;
+  $bLastVerseParagraph = true;
 
   $result = doQuery($link, $tQuery);
 
@@ -380,18 +381,17 @@ function showVerses($tQuery, $tVerses){
 
       if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
         $tOutput .=  '<span class="highlight">';
-        if ($row['verseNumber'] > 0) {
-          $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-        }
+        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph);
         $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
         $tOutput .=  '</span>';
       }else{
-        if ($row['verseNumber'] > 0) {
-          $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-        }
+        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph);
         $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
       }
-
+      if($bLastVerseParagraph){
+        $tOutput .=  '</p>';
+      }
+      $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -444,6 +444,28 @@ function expandVerses($tVerses){
     }
   }
   return $tVersesExpanded;
+}
+// ============================================================================
+
+// ============================================================================
+function doVerseNumber($iVerseNumber, $bNewPara){
+// ============================================================================
+  $tOutput =  '';
+  if ($iVerseNumber > 0) {
+    if ($bNewPara){
+      $tOutput .=  '<p>';
+    }
+    $tOutput .= '<sup>' . $iVerseNumber . '</sup>';
+  }
+  return $tOutput;
+  
+}
+// ============================================================================
+
+// ============================================================================
+function isSentence($text){
+// ============================================================================
+  return (strpos('.!?', substr($text, -1))>-1);
 }
 // ============================================================================
 
