@@ -338,12 +338,12 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput .= showVerses($tQuery, $tVerses);
+    $tOutput .= showVerses($tQuery, $tVerses, $tChapter);
   }else{
 // These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses, $tChapter);
 //    $tOutput = '';
   }
   return $tOutput;
@@ -351,7 +351,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
 
 // ============================================================================
-function showVerses($tQuery, $tVerses){
+function showVerses($tQuery, $tVerses, $tChapter){
 // ============================================================================
   global $link, $bHighlightSW, $bShowOW;
 
@@ -374,11 +374,15 @@ function showVerses($tQuery, $tVerses){
         if ($tLastBookName > ''){
           $tOutput .= '</p>';
         }
-        $tOutput .=  '</div>';
+        if (! empty($tChapter)){
+          $tOutput .=  '</div>';
+        }
         $tOutput .=  '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>';
-        $tOutput .=  '<div class="bibleText">';
+        if (! empty($tChapter)){
+          $tOutput .=  '<div class="bibleText">';
+        }
       }
 
       if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){

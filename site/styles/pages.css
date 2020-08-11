@@ -109,11 +109,34 @@
 
 .bibleText {
   line-height: 1.7;
-  /*padding: 0 20%;*/
-  /*min-width: 300px;*/
-  /*max-width: 700px;*/
-  column-count: 4;
-  column-width: 600px;
+  
+         column-count: 4;
+ -webkit-column-count: 4;
+    -moz-column-count: 4;
+      -o-column-count: 4;
+     -ms-column-count: 4;
+  -khtml-column-count: 4;
+  
+         column-width: 600px;
+ -webkit-column-width: 600px;
+    -moz-column-width: 600px;
+      -o-column-width: 600px;
+     -ms-column-width: 600px;
+  -khtml-column-width: 600px;
+
+           column-gap: 35px;
+   -webkit-column-gap: 35px;
+      -moz-column-gap: 35px;
+        -o-column-gap: 35px;
+       -ms-column-gap: 35px;
+    -khtml-column-gap: 35px;
+      
+          column-rule: 1px dotted #aaa;
+  -webkit-column-rule: 1px dotted #aaa;
+     -moz-column-rule: 1px dotted #aaa;
+       -o-column-rule: 1px dotted #aaa;
+      -ms-column-rule: 1px dotted #aaa;
+   -khtml-column-rule: 1px dotted #aaa;
 }
 
 .media {
