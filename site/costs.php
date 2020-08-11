@@ -2,7 +2,7 @@
 <p>I have the following specific costs for running this website and the services
   I provide here (in addition to my other needs such as food and shelter!)</p>
 <ul>
-  <li>Website Hosting - currently £71.99 a year</li>
+  <li>Website Hosting - currently £71.88 a year</li>
   <li>Domain name registration for biblestudyman.co.uk - currently £11.99 a year</li>
   <li>My time!</li>
 </ul>
