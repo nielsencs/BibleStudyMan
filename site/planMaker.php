@@ -263,7 +263,7 @@
         }
         $tQuery = $tBaseQuery . ' WHERE books.sectionCode LIKE "' . $tSection . '"';
       }
-      $tOutput = showVerses($tQuery);
+      $tOutput = showVerses($tQuery, '', '');
       return $tOutput;
     }
   }

@@ -297,7 +297,7 @@ function daysReadingsAsVersesNoAudio($iMonth, $iDay){
 function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
 // ============================================================================
   $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
-  return showVerses($tQuery, '');
+  return showVerses($tQuery, '', '');
 }
 // ============================================================================
 

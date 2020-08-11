@@ -338,12 +338,12 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput .= showVerses($tQuery, $tVerses);
+    $tOutput .= showVerses($tQuery, $tVerses, $tChapter);
   }else{
 // These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses, $tChapter);
 //    $tOutput = '';
   }
   return $tOutput;
@@ -351,13 +351,14 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
 
 // ============================================================================
-function showVerses($tQuery, $tVerses){
+function showVerses($tQuery, $tVerses, $tChapter){
 // ============================================================================
   global $link, $bHighlightSW, $bShowOW;
 
   $tOutput = '';
   $tLastBookName = '';
   $iLastChapter = 0;
+  $bLastVerseParagraph = true;
 
   $result = doQuery($link, $tQuery);
 
@@ -373,25 +374,27 @@ function showVerses($tQuery, $tVerses){
         if ($tLastBookName > ''){
           $tOutput .= '</p>';
         }
+        if (! empty($tChapter)){
+          $tOutput .=  '</div>';
+        }
         $tOutput .=  '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
-        $tOutput .=  '</h3><p>';
+        $tOutput .=  '</h3>';
+        if (! empty($tChapter)){
+          $tOutput .=  '<div class="bibleText">';
+        }
       }
 
       if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
         $tOutput .=  '<span class="highlight">';
-        if ($row['verseNumber'] > 0) {
-          $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-        }
+        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
         $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
         $tOutput .=  '</span>';
       }else{
-        if ($row['verseNumber'] > 0) {
-          $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-        }
+        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
         $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
       }
-
+      $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -444,6 +447,32 @@ function expandVerses($tVerses){
     }
   }
   return $tVersesExpanded;
+}
+// ============================================================================
+
+// ============================================================================
+function doVerseNumber($iVerseNumber, $bNewPara, $bFirstTime){
+// ============================================================================
+  $tOutput =  '';
+  if ($iVerseNumber > 0) {
+    if ($bNewPara){
+      if (! $bFirstTime){
+        $tOutput .=  '</p>';
+      }
+      $tOutput .=  '<p>';
+    }
+    $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
+  }
+  return $tOutput;
+  
+}
+// ============================================================================
+
+// ============================================================================
+function isSentence($text){
+// ============================================================================
+  $tLastChar = substr($text, -1);
+  return (strpos('@.!?', $tLastChar)>0);
 }
 // ============================================================================
 
