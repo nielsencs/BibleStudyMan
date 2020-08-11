@@ -82,7 +82,7 @@ function prepareDropdownBookList(){
   global $link, $tBook;
   $tOutput = '';
 
-  $tQuery = 'SELECT bookName FROM books;';
+  $tQuery = 'SELECT bookName FROM books ORDER BY bookName;';
   $result = doQuery($link, $tQuery);
 
   if (mysqli_num_rows($result) > 0) {
