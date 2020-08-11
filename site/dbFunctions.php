@@ -378,20 +378,17 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>';
-        $tOutput .=  '<div class="bibleText"><p>';
+        $tOutput .=  '<div class="bibleText">';
       }
 
       if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
         $tOutput .=  '<span class="highlight">';
-        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph);
+        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
         $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
         $tOutput .=  '</span>';
       }else{
-        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph);
+        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
         $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
-      }
-      if($bLastVerseParagraph){
-        $tOutput .=  '</p>';
       }
       $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
@@ -450,14 +447,17 @@ function expandVerses($tVerses){
 // ============================================================================
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bNewPara){
+function doVerseNumber($iVerseNumber, $bNewPara, $bFirstTime){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
     if ($bNewPara){
+      if (! $bFirstTime){
+        $tOutput .=  '</p>';
+      }
       $tOutput .=  '<p>';
     }
-    $tOutput .= '<sup>' . $iVerseNumber . '</sup>';
+    $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
   }
   return $tOutput;
   
@@ -467,7 +467,8 @@ function doVerseNumber($iVerseNumber, $bNewPara){
 // ============================================================================
 function isSentence($text){
 // ============================================================================
-  return (strpos('.!?', substr($text, -1))>-1);
+  $tLastChar = substr($text, -1);
+  return (strpos('@.!?', $tLastChar)>0);
 }
 // ============================================================================
 
