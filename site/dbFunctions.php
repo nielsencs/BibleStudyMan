@@ -374,9 +374,11 @@ function showVerses($tQuery, $tVerses){
         if ($tLastBookName > ''){
           $tOutput .= '</p>';
         }
+        $tOutput .=  '</div>';
         $tOutput .=  '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
-        $tOutput .=  '</h3><p>';
+        $tOutput .=  '</h3>';
+        $tOutput .=  '<div class="bibleText"><p>';
       }
 
       if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
