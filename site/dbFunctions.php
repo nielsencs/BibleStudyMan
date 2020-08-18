@@ -361,10 +361,11 @@ function showVerses($tQuery, $tVerses, $tChapter){
   $bLastVerseParagraph = true;
 
   $result = doQuery($link, $tQuery);
+  $iRows = mysqli_num_rows($result);
 
   $tOutput .=  '<div class="bibleText">';
 
-  if (mysqli_num_rows($result) === 0) {
+  if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
     $tVersesExpanded = expandVerseList($tVerses);
