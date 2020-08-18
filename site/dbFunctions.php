@@ -386,15 +386,7 @@ function showVerses($tQuery, $tVerses, $tChapter){
         }
       }
 
-      if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
-        $tOutput .=  '<span class="highlight">';
-        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
-        $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
-        $tOutput .=  '</span>';
-      }else{
-        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
-        $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
-      }
+      $tOutput .= showVerse($tVersesExpanded, $row, $bLastVerseParagraph, $iLastChapter);
       $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
@@ -403,6 +395,27 @@ function showVerses($tQuery, $tVerses, $tChapter){
   mysqli_free_result($result);
 
   $tOutput .=  '</div>';
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function showVerse($tVersesExpanded, $row, $bLastVerseParagraph, $iLastChapter){
+// ============================================================================
+  global $bHighlightSW, $bShowOW;
+
+  $tOutput = '';
+
+  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
+	$tOutput .=  '<span class="highlight">';
+	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
+	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
+	$tOutput .=  '</span>';
+  }else{
+	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
+	$tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+  }
+
   return $tOutput;
 }
 // ============================================================================
