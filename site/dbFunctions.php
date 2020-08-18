@@ -368,7 +368,6 @@ function showVerses($tQuery, $tVerses, $tChapter){
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
-    $tVersesExpanded = expandVerseList($tVerses);
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
@@ -386,7 +385,7 @@ function showVerses($tQuery, $tVerses, $tChapter){
         }
       }
 
-      $tOutput .= showVerse($tVersesExpanded, $row, $bLastVerseParagraph, $iLastChapter);
+      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter);
       $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
@@ -400,13 +399,14 @@ function showVerses($tQuery, $tVerses, $tChapter){
 // ============================================================================
 
 // ============================================================================
-function showVerse($tVersesExpanded, $row, $bLastVerseParagraph, $iLastChapter){
+function showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter){
 // ============================================================================
   global $bHighlightSW, $bShowOW;
+  $tVersesExpanded = expandVerseList($tVerses);
 
   $tOutput = '';
 
-  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
+  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for
 	$tOutput .=  '<span class="highlight">';
 	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
 	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
