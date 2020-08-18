@@ -367,7 +367,7 @@ function showVerses($tQuery, $tVerses, $tChapter){
   if (mysqli_num_rows($result) === 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
-    $tVersesExpanded = expandVerses($tVerses);
+    $tVersesExpanded = expandVerseList($tVerses);
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
@@ -407,13 +407,13 @@ function showVerses($tQuery, $tVerses, $tChapter){
 // ============================================================================
 
 // ============================================================================
-function expandVerses($tVerses){
+function expandVerseList($tVerses){
 // ============================================================================
 // turn mixed dash and comma search into commas only with a leading comma
 // to ensure 0 is never first position. For example:
-    
+
 // From: '3,5,7-11,19-21,25,28-30,33'
-// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'   
+// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'
 // ----------------------------------------------------------------------------
   $tVersesExpanded = '';
   $tVerses .= '@';
@@ -451,11 +451,11 @@ function expandVerses($tVerses){
 // ============================================================================
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bNewPara, $bFirstTime){
+function doVerseNumber($iVerseNumber, $bNewColumns, $bFirstTime){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
-    if ($bNewPara){
+    if ($bNewColumns){
       if (! $bFirstTime){
         $tOutput .=  '</p>';
       }
@@ -464,7 +464,7 @@ function doVerseNumber($iVerseNumber, $bNewPara, $bFirstTime){
     $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
   }
   return $tOutput;
-  
+
 }
 // ============================================================================
 
