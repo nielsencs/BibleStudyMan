@@ -139,6 +139,10 @@
    -khtml-column-rule: 1px dotted #aaa;
 }
 
+.bibleText h3 {
+  column-span: all;
+}
+
 .media {
   float: left;
   border: 1px solid #4F3F49;
