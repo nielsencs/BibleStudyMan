@@ -338,12 +338,12 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput .= showVerses($tQuery, $tVerses, $tChapter);
+    $tOutput .= showVerses($tQuery, $tVerses);
   }else{
 // These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses, $tChapter);
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While your deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
 //    $tOutput = '';
   }
   return $tOutput;
@@ -351,7 +351,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
 
 // ============================================================================
-function showVerses($tQuery, $tVerses, $tChapter){
+function showVerses($tQuery, $tVerses){
 // ============================================================================
   global $link, $bHighlightSW, $bShowOW;
 
@@ -361,39 +361,25 @@ function showVerses($tQuery, $tVerses, $tChapter){
   $bLastVerseParagraph = true;
 
   $result = doQuery($link, $tQuery);
+  $iRows = mysqli_num_rows($result);
 
   $tOutput .=  '<div class="bibleText">';
 
-  if (mysqli_num_rows($result) === 0) {
+  if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
-    $tVersesExpanded = expandVerses($tVerses);
     while($row = mysqli_fetch_assoc($result)) {
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
         if ($tLastBookName > ''){
           $tOutput .= '</p>';
         }
-        if (! empty($tChapter)){
-          $tOutput .=  '</div>';
-        }
         $tOutput .=  '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>';
-        if (! empty($tChapter)){
-          $tOutput .=  '<div class="bibleText">';
-        }
       }
 
-      if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
-        $tOutput .=  '<span class="highlight">';
-        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
-        $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
-        $tOutput .=  '</span>';
-      }else{
-        $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
-        $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
-      }
+      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter);
       $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
@@ -407,13 +393,35 @@ function showVerses($tQuery, $tVerses, $tChapter){
 // ============================================================================
 
 // ============================================================================
-function expandVerses($tVerses){
+function showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter){
+// ============================================================================
+  global $bHighlightSW, $bShowOW;
+  $tVersesExpanded = expandVerseList($tVerses);
+
+  $tOutput = '';
+
+  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for
+	$tOutput .=  '<span class="highlight">';
+	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
+	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
+	$tOutput .=  '</span>';
+  }else{
+	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
+	$tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+  }
+
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function expandVerseList($tVerses){
 // ============================================================================
 // turn mixed dash and comma search into commas only with a leading comma
 // to ensure 0 is never first position. For example:
-    
+
 // From: '3,5,7-11,19-21,25,28-30,33'
-// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'   
+// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'
 // ----------------------------------------------------------------------------
   $tVersesExpanded = '';
   $tVerses .= '@';
@@ -451,11 +459,11 @@ function expandVerses($tVerses){
 // ============================================================================
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bNewPara, $bFirstTime){
+function doVerseNumber($iVerseNumber, $bNewColumns, $bFirstTime){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
-    if ($bNewPara){
+    if ($bNewColumns){
       if (! $bFirstTime){
         $tOutput .=  '</p>';
       }
@@ -464,7 +472,7 @@ function doVerseNumber($iVerseNumber, $bNewPara, $bFirstTime){
     $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
   }
   return $tOutput;
-  
+
 }
 // ============================================================================
 
