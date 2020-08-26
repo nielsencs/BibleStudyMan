@@ -286,8 +286,6 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
 // ============================================================================
 function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
-  global $link, $bHighlightSW, $bShowOW;
-
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
 
   $tOutput = '';
@@ -353,7 +351,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
 function showVerses($tQuery, $tVerses){
 // ============================================================================
-  global $link, $bHighlightSW, $bShowOW;
+  global $link;
 
   $tOutput = '';
   $tLastBookName = '';
