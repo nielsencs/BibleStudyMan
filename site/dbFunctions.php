@@ -357,6 +357,7 @@ function showVerses($tQuery, $tVerses){
   $tLastBookName = '';
   $iLastChapter = 0;
   $bLastVerseParagraph = true;
+  $bFirstParagraph = true;
 
   $result = doQuery($link, $tQuery);
   $iRows = mysqli_num_rows($result);
@@ -370,14 +371,17 @@ function showVerses($tQuery, $tVerses){
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
         if ($tLastBookName > ''){
-          $tOutput .= '</p>';
+          $tOutput .= '</p>' . PHP_EOL;
         }
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>' . PHP_EOL;
+        $bFirstParagraph = true;
       }
 
-      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter);
+      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph);
+      $bFirstParagraph = false; //($tOutput > '');
+
       $bLastVerseParagraph =  isSentence($row['vt']);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
@@ -385,13 +389,13 @@ function showVerses($tQuery, $tVerses){
   }
   mysqli_free_result($result);
 
-  $tOutput .=  '</div>';
+  $tOutput .=  '</div>' . PHP_EOL;
   return $tOutput;
 }
 // ============================================================================
 
 // ============================================================================
-function showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter){
+function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   global $bHighlightSW, $bShowOW;
   $tVersesExpanded = expandVerseList($tVerses);
@@ -400,11 +404,11 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter){
 
   if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for
 	$tOutput .=  '<span class="highlight">';
-	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
+	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
 	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
 	$tOutput .=  '</span>';
   }else{
-	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
+	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
 	$tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
   }
 
@@ -457,13 +461,13 @@ function expandVerseList($tVerses){
 // ============================================================================
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bNewColumns, $bFirstTime){
+function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
-    if ($bNewColumns){
-      if (! $bFirstTime){
-        $tOutput .=  '</p>';
+    if ($bLastVerseParagraph){
+      if (! $bFirstParagraph){
+        $tOutput .=  '</p>' . PHP_EOL;
       }
       $tOutput .=  '<p>';
     }
