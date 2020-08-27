@@ -368,21 +368,30 @@ function showVerses($tQuery, $tVerses){
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
     while($row = mysqli_fetch_assoc($result)) {
+      // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
 //        $iBookChapters = 2; //$row['bookChapters'];
-        if ($tLastBookName > ''){
-          $tOutput .= '</p>' . PHP_EOL;
-        }
+//        if ($tLastBookName > ''){
+//          $tOutput .= '</p>' . PHP_EOL;
+//        }
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>' . PHP_EOL;
         $bFirstParagraph = true;
+      }
+      // just verse(s):
+      if ($bLastVerseParagraph){
+        $tOutput .= PHP_EOL . '<p>';
       }
 
       $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph);
       $bFirstParagraph = false; //($tOutput > '');
 
       $bLastVerseParagraph =  isSentence($row['vt']);
+      if ($bLastVerseParagraph){
+        $tOutput .= '</p>' . PHP_EOL;
+      }
+
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -399,10 +408,10 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   global $bHighlightSW, $bShowOW;
   $tVersesExpanded = expandVerseList($tVerses);
-
+  $bVerseSearched = (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ','));
   $tOutput = '';
 
-  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for just highlight the whole verse
+  if ($bVerseSearched){ //if verse searched for just highlight the whole verse
 	$tOutput .=  '<span class="highlight">';
 	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
 	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
@@ -465,16 +474,9 @@ function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
-    if ($bLastVerseParagraph){
-      if (! $bFirstParagraph){
-        $tOutput .=  '</p>' . PHP_EOL;
-      }
-      $tOutput .=  '<p>';
-    }
     $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
   }
   return $tOutput;
-
 }
 // ============================================================================
 
