@@ -286,8 +286,6 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
 // ============================================================================
 function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
-  global $link, $bHighlightSW, $bShowOW;
-
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
 
   $tOutput = '';
@@ -353,61 +351,94 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
 function showVerses($tQuery, $tVerses){
 // ============================================================================
-  global $link, $bHighlightSW, $bShowOW;
+  global $link;
 
   $tOutput = '';
   $tLastBookName = '';
   $iLastChapter = 0;
   $bLastVerseParagraph = true;
+  $bFirstParagraph = true;
 
   $result = doQuery($link, $tQuery);
   $iRows = mysqli_num_rows($result);
+  $iBooks = countBooks($result);
 
-  $tOutput .=  '<div class="bibleText">';
+  $tOutput .=  '<div class="bibleText';
+  if ($iBooks > 1 || $iRows < 7){
+    $tOutput .=  ' spanAll';
+  }
+  $tOutput .=  '">';
 
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
     while($row = mysqli_fetch_assoc($result)) {
+      // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
-//        $iBookChapters = 2; //$row['bookChapters'];
-        if ($tLastBookName > ''){
-          $tOutput .= '</p>';
-        }
-        $tOutput .=  '<h3>';
+        $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
-        $tOutput .=  '</h3>';
+        $tOutput .=  '</h3>' . PHP_EOL;
+        $bFirstParagraph = true;
+      }
+      // just verse(s):
+      if ($bLastVerseParagraph){
+        $tOutput .= PHP_EOL . '<p>';
       }
 
-      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter);
+      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph);
+      $bFirstParagraph = false; //($tOutput > '');
+
       $bLastVerseParagraph =  isSentence($row['vt']);
+      if ($bLastVerseParagraph){
+        $tOutput .= '</p>' . PHP_EOL;
+      }
+
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
   }
   mysqli_free_result($result);
 
-  $tOutput .=  '</div>';
+  $tOutput .=  '</div>' . PHP_EOL;
   return $tOutput;
 }
 // ============================================================================
 
 // ============================================================================
-function showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter){
+function countBooks($result){
+// ============================================================================
+  $iBooks = 0;
+  $tLastBookName = '';
+  while($row = mysqli_fetch_assoc($result)) {
+    if ($row['bookName'] != $tLastBookName){
+      $iBooks++;
+      $tLastBookName = $row['bookName'];
+    }
+  }
+  mysqli_data_seek($result, 0);
+  return $iBooks;
+}
+// ============================================================================
+
+// ============================================================================
+function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   global $bHighlightSW, $bShowOW;
-  $tVersesExpanded = expandVerseList($tVerses);
+  $tVersesExpanded = '@' . expandVerseList($tVerses);
+  $tThisVerse = ',' . $row['verseNumber'] . ',';
 
+  $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
 
-  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for
-	$tOutput .=  '<span class="highlight">';
-	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
-	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
-	$tOutput .=  '</span>';
-  }else{
-	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $iLastChapter === 0);
-	$tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '<span class="highlightVerse">';
+  }
+
+  $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
+  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '</span>';
   }
 
   return $tOutput;
@@ -459,20 +490,13 @@ function expandVerseList($tVerses){
 // ============================================================================
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bNewColumns, $bFirstTime){
+function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
-    if ($bNewColumns){
-      if (! $bFirstTime){
-        $tOutput .=  '</p>';
-      }
-      $tOutput .=  '<p>';
-    }
     $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
   }
   return $tOutput;
-
 }
 // ============================================================================
 
@@ -532,12 +556,12 @@ function highlightSearch($tValue){
   if ($tWords > ''){
 //    if (! $bExact){
     if ($bExact){
-      // $tValue = str_ireplace($tWords, '<span class="highlight">' . $tWords . '</span>', $tValue);
+      // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
       $atSearch = explode (' ', $tWords);
       foreach ($atSearch as $tWordsWord) {
-        // $tValue = str_ireplace($tWordsWord, '<span class="highlight">' . $tWordsWord . '</span>', $tValue);
+        // $tValue = str_ireplace($tWordsWord, '<span class="highlightWord">' . $tWordsWord . '</span>', $tValue);
         $tValue = highlight($tWordsWord, $tValue);
       }
     }
@@ -552,7 +576,7 @@ function highlight($needle, $haystack){
   $ind = stripos($haystack, $needle);
   $len = strlen($needle);
   if($ind){
-      return substr($haystack, 0, $ind) . '<span class="highlight">' .
+      return substr($haystack, 0, $ind) . '<span class="highlightWord">' .
          substr($haystack, $ind, $len) .'</span>' .
           highlight($needle, substr($haystack, $ind + $len));
   } else return $haystack;
