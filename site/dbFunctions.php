@@ -402,7 +402,7 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 
   $tOutput = '';
 
-  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for
+  if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){ //if verse searched for just highlight the whole verse
 	$tOutput .=  '<span class="highlight">';
 	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
 	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
