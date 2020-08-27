@@ -210,12 +210,16 @@
   background-color: #94ffff;
 }
 
-.highlight {
-  background-color: #ffff94;
+.highlightWord {
+  background-color: #ffffaa;
+}
+
+.highlightVerse {
+  background-color: #ffcccc;
 }
 
 .highlightOW{
-  background-color: lavender;
+  background-color: #ccccff;
 }
 
 .plan {

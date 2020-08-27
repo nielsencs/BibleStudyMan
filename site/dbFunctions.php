@@ -407,18 +407,21 @@ function showVerses($tQuery, $tVerses){
 function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   global $bHighlightSW, $bShowOW;
-  $tVersesExpanded = expandVerseList($tVerses);
-  $bVerseSearched = (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ','));
+  $tVersesExpanded = '@' . expandVerseList($tVerses);
+  $tThisVerse = ',' . $row['verseNumber'] . ',';
+
+  $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
 
-  if ($bVerseSearched){ //if verse searched for just highlight the whole verse
-	$tOutput .=  '<span class="highlight">';
-	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
-	$tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
-	$tOutput .=  '</span>';
-  }else{
-	$tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
-	$tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '<span class="highlightVerse">';
+  }
+
+  $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
+  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '</span>';
   }
 
   return $tOutput;
@@ -536,12 +539,12 @@ function highlightSearch($tValue){
   if ($tWords > ''){
 //    if (! $bExact){
     if ($bExact){
-      // $tValue = str_ireplace($tWords, '<span class="highlight">' . $tWords . '</span>', $tValue);
+      // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
       $atSearch = explode (' ', $tWords);
       foreach ($atSearch as $tWordsWord) {
-        // $tValue = str_ireplace($tWordsWord, '<span class="highlight">' . $tWordsWord . '</span>', $tValue);
+        // $tValue = str_ireplace($tWordsWord, '<span class="highlightWord">' . $tWordsWord . '</span>', $tValue);
         $tValue = highlight($tWordsWord, $tValue);
       }
     }
@@ -556,7 +559,7 @@ function highlight($needle, $haystack){
   $ind = stripos($haystack, $needle);
   $len = strlen($needle);
   if($ind){
-      return substr($haystack, 0, $ind) . '<span class="highlight">' .
+      return substr($haystack, 0, $ind) . '<span class="highlightWord">' .
          substr($haystack, $ind, $len) .'</span>' .
           highlight($needle, substr($haystack, $ind + $len));
   } else return $haystack;
