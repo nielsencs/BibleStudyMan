@@ -361,9 +361,10 @@ function showVerses($tQuery, $tVerses){
 
   $result = doQuery($link, $tQuery);
   $iRows = mysqli_num_rows($result);
+  $iBooks = countBooks($result);
 
   $tOutput .=  '<div class="bibleText';
-  if (false){
+  if ($iBooks > 1 || $iRows < 7){
     $tOutput .=  ' spanAll';
   }
   $tOutput .=  '">';
@@ -400,6 +401,22 @@ function showVerses($tQuery, $tVerses){
 
   $tOutput .=  '</div>' . PHP_EOL;
   return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function countBooks($result){
+// ============================================================================
+  $iBooks = 0;
+  $tLastBookName = '';
+  while($row = mysqli_fetch_assoc($result)) {
+    if ($row['bookName'] != $tLastBookName){
+      $iBooks++;
+      $tLastBookName = $row['bookName'];
+    }
+  }
+  mysqli_data_seek($result, 0);
+  return $iBooks;
 }
 // ============================================================================
 
