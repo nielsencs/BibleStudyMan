@@ -110,19 +110,19 @@
 .bibleText {
   line-height: 1.7;
 
-         column-count: 4;
- -webkit-column-count: 4;
-    -moz-column-count: 4;
-      -o-column-count: 4;
-     -ms-column-count: 4;
-  -khtml-column-count: 4;
+         column-count: 5;
+ -webkit-column-count: 5;
+    -moz-column-count: 5;
+      -o-column-count: 5;
+     -ms-column-count: 5;
+  -khtml-column-count: 5;
   
-         column-width: 600px;
- -webkit-column-width: 600px;
-    -moz-column-width: 600px;
-      -o-column-width: 600px;
-     -ms-column-width: 600px;
-  -khtml-column-width: 600px;
+         column-width: 560px;
+ -webkit-column-width: 560px;
+    -moz-column-width: 560px;
+      -o-column-width: 560px;
+     -ms-column-width: 560px;
+  -khtml-column-width: 560px;
 
            column-gap: 35px;
    -webkit-column-gap: 35px;
@@ -141,6 +141,7 @@
 
 .bibleText h3 {
   column-span: all;
+  border-bottom: 1px solid #aaa;
 }
 
 .spanAll p {
