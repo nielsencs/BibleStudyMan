@@ -372,9 +372,9 @@ function showVerses($tQuery, $tVerses){
         if ($tLastBookName > ''){
           $tOutput .= '</p>';
         }
-        $tOutput .=  '<h3>';
+        $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
-        $tOutput .=  '</h3>';
+        $tOutput .=  '</h3>' . PHP_EOL;
       }
 
       $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $iLastChapter);
