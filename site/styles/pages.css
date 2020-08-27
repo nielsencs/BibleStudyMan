@@ -143,6 +143,10 @@
   column-span: all;
 }
 
+.spanAll p {
+  column-span: all;
+}
+
 .media {
   float: left;
   border: 1px solid #4F3F49;

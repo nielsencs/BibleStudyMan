@@ -362,7 +362,11 @@ function showVerses($tQuery, $tVerses){
   $result = doQuery($link, $tQuery);
   $iRows = mysqli_num_rows($result);
 
-  $tOutput .=  '<div class="bibleText">';
+  $tOutput .=  '<div class="bibleText';
+  if (false){
+    $tOutput .=  ' spanAll';
+  }
+  $tOutput .=  '">';
 
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
@@ -370,10 +374,6 @@ function showVerses($tQuery, $tVerses){
     while($row = mysqli_fetch_assoc($result)) {
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
-//        $iBookChapters = 2; //$row['bookChapters'];
-//        if ($tLastBookName > ''){
-//          $tOutput .= '</p>' . PHP_EOL;
-//        }
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>' . PHP_EOL;
