@@ -5226,7 +5226,6 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 22, 'I, Tertius, who write the letter, greet you in the Lord<G2962>.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 23, 'Gaius, my host and host of the whole assembly, greets you. Erastus, the treasurer of the city, greets you, as does Quartus, the brother.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 24, '[Some doubt the authenticity of this - The grace of our Lord<G2962> Jesus AnointedOne<G5547> be with you all! Amen.]');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 24, 'The grace of our Lord<G2962> Jesus AnointedOne<G5547> be with you all! Amen.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 25, '[this verse is placed in Romans 14:24]');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 26, '[this verse is placed in Romans 14:25]');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('ROM', 16, 27, '[this verse is placed in Romans 14:26]');
