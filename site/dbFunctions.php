@@ -372,6 +372,7 @@ function showVerses($tQuery, $tVerses){
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
+    $tOutput .= $iRows . ' verses<br />';
     while($row = mysqli_fetch_assoc($result)) {
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
@@ -624,7 +625,11 @@ function procesSearchWords($tWords, $bExact){
   $tNewWords = '';
 
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
-    $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
+    if ($iLen === 1){ //treat 1 word differently
+      $tNewWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
+    }else {
+      $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
+    }
   }else {
     if ($iLen === 1){ //treat 1 word differently
       $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
