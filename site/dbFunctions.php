@@ -372,6 +372,7 @@ function showVerses($tQuery, $tVerses){
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
+    $tOutput .= $iRows . ' verses<br />';
     while($row = mysqli_fetch_assoc($result)) {
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
@@ -605,7 +606,7 @@ return procesSearchWords($tWords, $bExact);
 // ============================================================================
 
 // ============================================================================
-function procesSearchWords($tWords, $bExact){
+function procesSearchWordsOld($tWords, $bExact){
 // ============================================================================
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
     $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
@@ -613,6 +614,36 @@ function procesSearchWords($tWords, $bExact){
     $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
   }
   return $tWords;
+}
+// ============================================================================
+
+// ============================================================================
+function procesSearchWords($tWords, $bExact){
+// ============================================================================
+  $atWords = explode(' ', $tWords);
+  $iLen = count($atWords);
+  $tNewWords = '';
+
+  if($bExact){ // 'Exact' was 'checked' regardless of number of words
+    if ($iLen === 1){ //treat 1 word differently
+      $tNewWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
+    }else {
+      $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
+    }
+  }else {
+    if ($iLen === 1){ //treat 1 word differently
+      $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
+    } else {
+      for ($i = 0; $i < $iLen; $i++){
+        $tWord = $atWords[$i];
+        $tNewWords .= 'verses.verseText LIKE "%' . $tWord . '%"';
+        if ($i < ($iLen-1)){ // only if not last one
+          $tNewWords .= ' AND ';
+        }
+      }
+    }
+  }
+  return $tNewWords;
 }
 // ============================================================================
 
