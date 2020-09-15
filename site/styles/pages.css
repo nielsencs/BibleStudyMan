@@ -141,6 +141,7 @@
 
 .bibleText h3 {
   column-span: all;
+  border-top: 3px solid #aaa;
   border-bottom: 1px solid #aaa;
 }
 
