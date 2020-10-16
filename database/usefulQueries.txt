@@ -1,0 +1,5 @@
+-- verses per book:
+SELECT DISTINCT `bookCode`, COUNT(`verseNumber`) AS `versesCount` FROM `verses` GROUP BY bookCode ORDER BY `versesCount`
+
+-- longest verse:
+SELECT DISTINCT `bookCode`, `chapter`, `verseNumber`, `verseText`, LENGTH(`verseText`) AS verseLength FROM `verses` ORDER BY verseLength DESC
