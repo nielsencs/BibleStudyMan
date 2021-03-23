@@ -97,7 +97,7 @@
           the closest to our English &lsquo;god&rsquo;; &lsquo;Adonai&rsquo; -
           &lsquo;The Lord&rsquo;; &lsquo;YAHWEH&rsquo; - The name of God (the one
           that&rsquo;s often rendered &lsquo;<span class="small-caps">The
-          Lord</span>&rsquo; with the small caps) which I am rendering TheIAM.
+          Lord</span>&rsquo; with the small caps) which I am rendering ForeverOne.
           Or the four different words for love in the Greek texts that transform the
           traditional readings.</p>
         <p>I wanted a translation that brought these interesting differences to light
