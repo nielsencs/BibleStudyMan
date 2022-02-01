@@ -42,6 +42,7 @@ INSERT INTO media (mediaClass, videoURL, audioTrack, audioURL, mediaName, mediaD
 INSERT INTO media (mediaClass, videoURL, audioTrack, audioURL, mediaName, mediaDescription) VALUES('T', 'zFXDtPfsMwk', '', '', 'If There Were a God What Would They Be Like?', '');
 INSERT INTO media (mediaClass, videoURL, audioTrack, audioURL, mediaName, mediaDescription) VALUES('T', '3Cv_VI3Hg4M', '', '', 'Which Bible Translation Should I Read?', '');
 INSERT INTO media (mediaClass, videoURL, audioTrack, audioURL, mediaName, mediaDescription) VALUES('T', 'xL0tzsH-Onw', '', '', 'Introduction to the Nielsen Creed', '');
+INSERT INTO media (mediaClass, videoURL, audioTrack, audioURL, mediaName, mediaDescription) VALUES('T', 'dPWMOTAdNUk', '', '', 'Praying The Lord\'s Prayer', '');
 
 DROP TABLE IF EXISTS meetings;
 CREATE TABLE meetings (
