@@ -79,7 +79,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                     </tr>
                   </tbody>
                 </table>
-                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo $tVerses;} ?>" list="books">
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo $tVerses;} ?>">
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php

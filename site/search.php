@@ -12,11 +12,7 @@
     if(empty($tChapter)){ // can't have verses without a chapter
       $tVerses = '';
     } else {
-      if(empty($tWords)){
         $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-      } else {
-        $tVerses = '';
-      }
     }
   }
   $bExact = filter_input(INPUT_GET, 'exact', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';

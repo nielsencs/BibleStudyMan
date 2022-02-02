@@ -82,7 +82,7 @@ function prepareDropdownBookList(){
   global $link, $tBook;
   $tOutput = '';
 
-  $tQuery = 'SELECT bookName FROM books;';
+  $tQuery = 'SELECT bookName FROM books ORDER BY bookName;';
   $result = doQuery($link, $tQuery);
 
   if (mysqli_num_rows($result) > 0) {
@@ -286,8 +286,6 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
 // ============================================================================
 function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
-  global $link, $bHighlightSW, $bShowOW;
-
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
 
   $tOutput = '';
@@ -353,43 +351,47 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // ============================================================================
 function showVerses($tQuery, $tVerses){
 // ============================================================================
-  global $link, $bHighlightSW, $bShowOW;
+  global $link;
 
   $tOutput = '';
   $tLastBookName = '';
   $iLastChapter = 0;
+  $bLastVerseParagraph = true;
+  $bFirstParagraph = true;
 
   $result = doQuery($link, $tQuery);
+  $iRows = mysqli_num_rows($result);
+  $iBooks = countBooks($result);
 
-  $tOutput .=  '<div class="bibleText">';
+  $tOutput .=  '<div class="bibleText';
+  if ($iBooks > 1 || $iRows < 7){
+    $tOutput .=  ' spanAll';
+  }
+  $tOutput .=  '">';
 
-  if (mysqli_num_rows($result) === 0) {
+  if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
   } else {
-    $tVersesExpanded = expandVerses($tVerses);
+    $tOutput .= $iRows . ' verses<br />';
     while($row = mysqli_fetch_assoc($result)) {
+      // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
-//        $iBookChapters = 2; //$row['bookChapters'];
-        if ($tLastBookName > ''){
-          $tOutput .= '</p>';
-        }
-        $tOutput .=  '<h3>';
+        $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
-        $tOutput .=  '</h3><p>';
+        $tOutput .=  '</h3>' . PHP_EOL;
+        $bFirstParagraph = true;
+      }
+      // just verse(s):
+      if ($bLastVerseParagraph){
+        $tOutput .= PHP_EOL . '<p>';
       }
 
-      if (strpos('@' . $tVersesExpanded, ',' . $row['verseNumber'] . ',')){
-        $tOutput .=  '<span class="highlight">';
-        if ($row['verseNumber'] > 0) {
-          $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-        }
-        $tOutput .=  processStrongs($row['vt'], $bHighlightSW, $bShowOW) . ' ';
-        $tOutput .=  '</span>';
-      }else{
-        if ($row['verseNumber'] > 0) {
-          $tOutput .=  '<sup>' . $row['verseNumber'] . '</sup>';
-        }
-        $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph);
+      $bFirstParagraph = false; //($tOutput > '');
+
+      $bLastVerseParagraph =  isSentence($row['vt']);
+      if ($bLastVerseParagraph){
+        $tOutput .= '</p>' . PHP_EOL;
       }
 
       $tLastBookName = $row['bookName'];
@@ -398,19 +400,60 @@ function showVerses($tQuery, $tVerses){
   }
   mysqli_free_result($result);
 
-  $tOutput .=  '</div>';
+  $tOutput .=  '</div>' . PHP_EOL;
   return $tOutput;
 }
 // ============================================================================
 
 // ============================================================================
-function expandVerses($tVerses){
+function countBooks($result){
+// ============================================================================
+  $iBooks = 0;
+  $tLastBookName = '';
+  while($row = mysqli_fetch_assoc($result)) {
+    if ($row['bookName'] != $tLastBookName){
+      $iBooks++;
+      $tLastBookName = $row['bookName'];
+    }
+  }
+  mysqli_data_seek($result, 0);
+  return $iBooks;
+}
+// ============================================================================
+
+// ============================================================================
+function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
+// ============================================================================
+  global $bHighlightSW, $bShowOW;
+  $tVersesExpanded = '@' . expandVerseList($tVerses);
+  $tThisVerse = ',' . $row['verseNumber'] . ',';
+
+  $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
+  $tOutput = '';
+
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '<span class="highlightVerse">';
+  }
+
+  $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
+  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '</span>';
+  }
+
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function expandVerseList($tVerses){
 // ============================================================================
 // turn mixed dash and comma search into commas only with a leading comma
 // to ensure 0 is never first position. For example:
-    
+
 // From: '3,5,7-11,19-21,25,28-30,33'
-// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'   
+// To:  ',3,5,7,8,9,10,11,19,20,21,25,28,29,30,33'
 // ----------------------------------------------------------------------------
   $tVersesExpanded = '';
   $tVerses .= '@';
@@ -444,6 +487,25 @@ function expandVerses($tVerses){
     }
   }
   return $tVersesExpanded;
+}
+// ============================================================================
+
+// ============================================================================
+function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
+// ============================================================================
+  $tOutput =  '';
+  if ($iVerseNumber > 0) {
+    $tOutput .= '<sup>' . $iVerseNumber . '</sup>';
+  }
+  return $tOutput;
+}
+// ============================================================================
+
+// ============================================================================
+function isSentence($text){
+// ============================================================================
+  $tLastChar = substr($text, -1);
+  return (strpos('@.!?', $tLastChar)>0);
 }
 // ============================================================================
 
@@ -495,12 +557,12 @@ function highlightSearch($tValue){
   if ($tWords > ''){
 //    if (! $bExact){
     if ($bExact){
-      // $tValue = str_ireplace($tWords, '<span class="highlight">' . $tWords . '</span>', $tValue);
+      // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
       $atSearch = explode (' ', $tWords);
       foreach ($atSearch as $tWordsWord) {
-        // $tValue = str_ireplace($tWordsWord, '<span class="highlight">' . $tWordsWord . '</span>', $tValue);
+        // $tValue = str_ireplace($tWordsWord, '<span class="highlightWord">' . $tWordsWord . '</span>', $tValue);
         $tValue = highlight($tWordsWord, $tValue);
       }
     }
@@ -515,7 +577,7 @@ function highlight($needle, $haystack){
   $ind = stripos($haystack, $needle);
   $len = strlen($needle);
   if($ind){
-      return substr($haystack, 0, $ind) . '<span class="highlight">' .
+      return substr($haystack, 0, $ind) . '<span class="highlightWord">' .
          substr($haystack, $ind, $len) .'</span>' .
           highlight($needle, substr($haystack, $ind + $len));
   } else return $haystack;
@@ -544,7 +606,7 @@ return procesSearchWords($tWords, $bExact);
 // ============================================================================
 
 // ============================================================================
-function procesSearchWords($tWords, $bExact){
+function procesSearchWordsOld($tWords, $bExact){
 // ============================================================================
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
     $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
@@ -552,6 +614,36 @@ function procesSearchWords($tWords, $bExact){
     $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
   }
   return $tWords;
+}
+// ============================================================================
+
+// ============================================================================
+function procesSearchWords($tWords, $bExact){
+// ============================================================================
+  $atWords = explode(' ', $tWords);
+  $iLen = count($atWords);
+  $tNewWords = '';
+
+  if($bExact){ // 'Exact' was 'checked' regardless of number of words
+    if ($iLen === 1){ //treat 1 word differently
+      $tNewWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
+    }else {
+      $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
+    }
+  }else {
+    if ($iLen === 1){ //treat 1 word differently
+      $tNewWords .= 'verses.verseText LIKE "%' . $tWords . '%"';
+    } else {
+      for ($i = 0; $i < $iLen; $i++){
+        $tWord = $atWords[$i];
+        $tNewWords .= 'verses.verseText LIKE "%' . $tWord . '%"';
+        if ($i < ($iLen-1)){ // only if not last one
+          $tNewWords .= ' AND ';
+        }
+      }
+    }
+  }
+  return $tNewWords;
 }
 // ============================================================================
 
@@ -697,7 +789,7 @@ function videoList($tClass = 'R'){
         $tOutput .= '<br />';
 //        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
 //        $tOutput .= $row["audioURL"];
-//        $tOutput .= '">Play on SoundCloud.com';
+//        $tOutput .= '" target="_blank">Play on SoundCloud.com';
 //        $tOutput .= '</a> ';
 //        $tOutput .= '<br />';
 
@@ -712,7 +804,7 @@ function videoList($tClass = 'R'){
       if(! empty($row["videoURL"])){
 //        $tOutput .= '<a class="centerText" href="https://youtu.be/';
 //        $tOutput .= $row["videoURL"];
-//        $tOutput .= '">Play on YouTube.com';
+//        $tOutput .= '" target="_blank">Play on YouTube.com';
 //        $tOutput .= '</a>';
 //        $tOutput .= '<br />';
 

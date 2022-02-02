@@ -109,7 +109,44 @@
 
 .bibleText {
   line-height: 1.7;
-  /* padding: 117px 0 0 0; */
+
+         column-count: 5;
+ -webkit-column-count: 5;
+    -moz-column-count: 5;
+      -o-column-count: 5;
+     -ms-column-count: 5;
+  -khtml-column-count: 5;
+  
+         column-width: 400px;
+ -webkit-column-width: 400px;
+    -moz-column-width: 400px;
+      -o-column-width: 400px;
+     -ms-column-width: 400px;
+  -khtml-column-width: 400px;
+
+           column-gap: 35px;
+   -webkit-column-gap: 35px;
+      -moz-column-gap: 35px;
+        -o-column-gap: 35px;
+       -ms-column-gap: 35px;
+    -khtml-column-gap: 35px;
+      
+          column-rule: 1px dotted #aaa;
+  -webkit-column-rule: 1px dotted #aaa;
+     -moz-column-rule: 1px dotted #aaa;
+       -o-column-rule: 1px dotted #aaa;
+      -ms-column-rule: 1px dotted #aaa;
+   -khtml-column-rule: 1px dotted #aaa;
+}
+
+.bibleText h3 {
+  column-span: all;
+  border-top: 3px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+
+.spanAll p {
+  column-span: all;
 }
 
 .media {
@@ -179,12 +216,16 @@
   background-color: #94ffff;
 }
 
-.highlight {
-  background-color: #ffff94;
+.highlightWord {
+  background-color: #ffffaa;
+}
+
+.highlightVerse {
+  background-color: #ffcccc;
 }
 
 .highlightOW{
-  background-color: lavender;
+  background-color: #ccccff;
 }
 
 .plan {
