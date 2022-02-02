@@ -22,7 +22,7 @@
     $tDay = filter_input(INPUT_GET, 'dayNext', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   }
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  if(empty($tBook . $tWords . $tMonth)){
+  if(empty($tBook . $tWords . $tMonth)){ // no search yet 'clean' page
     if(strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'plan.php')){
       $bHighlightSW = false;
     }else{
