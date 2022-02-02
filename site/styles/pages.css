@@ -117,12 +117,12 @@
      -ms-column-count: 5;
   -khtml-column-count: 5;
   
-         column-width: 560px;
- -webkit-column-width: 560px;
-    -moz-column-width: 560px;
-      -o-column-width: 560px;
-     -ms-column-width: 560px;
-  -khtml-column-width: 560px;
+         column-width: 400px;
+ -webkit-column-width: 400px;
+    -moz-column-width: 400px;
+      -o-column-width: 400px;
+     -ms-column-width: 400px;
+  -khtml-column-width: 400px;
 
            column-gap: 35px;
    -webkit-column-gap: 35px;
