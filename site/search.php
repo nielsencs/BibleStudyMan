@@ -22,16 +22,13 @@
     $tDay = filter_input(INPUT_GET, 'dayNext', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   }
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-  if(empty($tBook . $tWords . $tMonth)){ // no search yet 'clean' page
-    if(strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'plan.php')){
-      $bHighlightSW = false;
-    }else{
-      $bHighlightSW = true;
-    }
+  if(empty($tBook . $tWords . $tMonth)){ // no search yet - 'clean' page
+    $bHighlightSW = true;
+    $bShowOW = true;
   }else{
     $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+    $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   }
-  $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   if(empty($tSortOrder) || !strpos('orderChristian|orderJewish|orderChron1|orderChron2', $tSortOrder)){
     $tSortOrder = 'orderChristian';
   }
