@@ -495,7 +495,7 @@ function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
-    $tOutput .= '<sup>' . $iVerseNumber . '</sup>&nbsp;';
+    $tOutput .= '<sup>' . $iVerseNumber . '</sup>';
   }
   return $tOutput;
 }
