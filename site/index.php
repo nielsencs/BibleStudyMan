@@ -18,6 +18,9 @@
       Feel free to <strong>explore</strong> and if there&rsquo;s anything you can&rsquo;t
       find or understand - <a href="mailto:carl@BibleStudyMan.co.uk">get in touch</a>!</p>
     <p class="signature">Carl Nielsen, January 2018</p>
+    <p>P.S. If you'd be happy to sign up for the monthly newsletter (see 
+                the form at the bottom of this page) I'll keep in touch with you once
+                a month (no more, I promise!) via email to let you know my progress.</p>
   </div>
 
   <div class="main home">
@@ -122,6 +125,9 @@
       </div>
     </div>
   </div>
+<?php
+    require_once 'newsletterForm.php';
+?>
 <?php
   require_once 'footer.php';
 ?>
