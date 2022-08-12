@@ -12,9 +12,9 @@
                 would be wonderful. I would welcome volunteers to help with developing
                 the site or some of the (often quite tedious!) &lsquo;grunt&rsquo;
                 work on The Bible text.</p>
-                <!-- p>If you'd be happy to sign up for the monthly
-                newsletter (see the tab below) I'll keep in touch with you once
-                a month (no more, I promise!) via email to let you know my progress.</p-->
+                <p>If you'd be happy to sign up for the monthly newsletter (see 
+                the form at the bottom of this page) I'll keep in touch with you once
+                a month (no more, I promise!) via email to let you know my progress.</p>
                 <p class="signature">Carl Nielsen, June 2020</p>
                 <p>Obviously money is useful too! You can make one off or regular
                 donations via PayPal:</p>
@@ -41,9 +41,11 @@
 ?>
               <p>Thanks again for visiting this page and any support you can
                 offer will be very gratefully received.</p>
+<?php
+    require_once 'newsletterForm.php';
+?>
             </div>
         </div>
-
 <?php
     require_once 'footer.php';
 ?>

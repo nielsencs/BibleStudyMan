@@ -51,7 +51,7 @@
       <h1 class="centerText">It seems that you currently don&rsquo;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
     </noscript>
 
-    <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>.jpg" alt="pic of open Bible on desk">
+    <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
     <div class="menu">
       <a href="https://www.BibleStudyMan.co.uk"><img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo"></a>
