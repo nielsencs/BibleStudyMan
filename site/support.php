@@ -41,11 +41,11 @@
 ?>
               <p>Thanks again for visiting this page and any support you can
                 offer will be very gratefully received.</p>
+            </div>
+        </div>
 <?php
     require_once 'newsletterForm.php';
 ?>
-            </div>
-        </div>
 <?php
     require_once 'footer.php';
 ?>
