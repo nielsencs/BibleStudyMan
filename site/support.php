@@ -41,12 +41,9 @@
 ?>
               <p>Thanks again for visiting this page and any support you can
                 offer will be very gratefully received.</p>
-<!-- Email Octopus signup form -->
-<br />
-<div style="display: flex;justify-content: center">
-<script async src="https://eocampaign1.com/form/7062f448-850b-11ec-9835-06b4694bee2a.js" data-form="7062f448-850b-11ec-9835-06b4694bee2a"></script>
-</div>
-<!--  Email Octopus signup form -->
+<?php
+    require_once 'newsletterForm.php';
+?>
             </div>
         </div>
 <?php
