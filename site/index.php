@@ -106,8 +106,8 @@
         <p>I wanted a translation that brought these interesting differences to light
           but couldn&rsquo;t find anything that worked for me. The interlinear
           texts which seemed so promising to begin with turned out to be way too
-          clumsy to actually use on a daily basis it seemed to me; I don&rsquo;t know the Hebrew
-          or Greek alphabets - let alone the languages. Anyway I discovered there was
+          clumsy to actually use on a daily basis it seemed to me; I am not an expert in Hebrew
+          or Greek but have some knowledge and lots of resources to draw upon. Anyway I discovered there was
           a public domain modern English translation and realised I could build
           it myself from that... Easier said than done!</p>
         <p>So what I have is a minor adaptation of the World English Bible which
