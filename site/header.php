@@ -1,4 +1,16 @@
-<?php declare(strict_types=1); ?><!DOCTYPE html>
+<?php
+	$tHeader = "";
+	$tHeader .= "Content-Security-Policy: default-src 'self';";
+	$tHeader .= " style-src 'self' 'unsafe-inline' fonts.googleapis.com;";
+	$tHeader .= " font-src 'self' fonts.googleapis.com fonts.gstatic.com;";
+	$tHeader .= " img-src 'self' www.paypalobjects.com  gallery.eo.page/tentacles/icons/v1/powered-by/otto.svg;";
+	$tHeader .= " script-src 'self' 'unsafe-inline' www.google.com www.gstatic.com;";
+	$tHeader .= " script-src-elem 'self' 'unsafe-inline' eocampaign1.com/form/7062f448-850b-11ec-9835-06b4694bee2a.js www.google.com/recaptcha/api.js www.gstatic.com/recaptcha/releases/ c6.patreon.com/becomePatronButton.bundle.js;";
+  $tHeader .= " frame-src www.youtube.com w.soundcloud.com www.patreon.com;";
+
+  header($tHeader);
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <?php
