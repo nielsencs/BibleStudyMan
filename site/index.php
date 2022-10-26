@@ -8,7 +8,7 @@
   <script src="scripts/showHide.js"></script>
 
   <div class='intro'>
-    <a href="about.php"><img class="mugshot" src="images/CarlSmall.png" alt="mugshot of Carl"/></a>
+    <a href="about.php"><img class="mugshot" src="images/BSMMugshot_Trimmed_280x280.jpg" alt="mugshot of Carl"/></a>
     <p>Welcome to the <strong>Bible Study Man</strong> website where I
       hope we can learn together what The Bible has to teach us. My aim
       is to bring this <strong>amazing book alive</strong> in a

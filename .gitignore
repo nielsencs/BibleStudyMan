@@ -34,3 +34,6 @@ media
 test*.php
 test*.html
 sqlCon.php
+
+# as the name suggests!
+/ProbableJunk!/

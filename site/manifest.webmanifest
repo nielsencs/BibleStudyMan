@@ -42,7 +42,7 @@
       "purpose": "any maskable"
     },
     {
-      "src": "icons/BSMSplashScreen.png",
+      "src": "icons/BSM_PWA_SplashScreen.png",
       "sizes": "512x512",
       "type": "image/png",
       "density": "4.0"
