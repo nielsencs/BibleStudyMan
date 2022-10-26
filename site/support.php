@@ -5,7 +5,7 @@
             <h1>Support Me</h1>
             <div class="subMain sectGeneral">
               <div class='intro'>
-                <a href="about.php"><img class="mugshot" src="images/CarlSmall.png" alt="mugshot of Carl"/></a>
+                <a href="about.php"><img class="mugshot" src="images/BSMMugshot_Trimmed_280x280.jpg" alt="mugshot of Carl"/></a>
                 <p>Thanks for checking here! This has been and continues to be a
                 massive undertaking for me and I could do with all the help I can
                 get. Supporting me spiritually by praying that I'd stay on track
