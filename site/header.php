@@ -69,12 +69,12 @@
       <a href="https://www.BibleStudyMan.co.uk"><img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo"></a>
 
       <ul class="nav">
-        <li><a href="index.php">Home</a></li>
-        <li><a href="teaching.php">Teaching</a></li>
-        <li><a href="readings.php">Readings</a></li>
-        <li><a href="plan.php">Plan</a></li>
-        <li><a href="bible.php">Bible</a></li>
-        <li><a href="pricing.php">Pricing</a></li>
-        <li><a href="support.php">Support Me</a></li>
+        <li><a href="home">Home</a></li>
+        <li><a href="teaching">Teaching</a></li>
+        <li><a href="readings">Readings</a></li>
+        <li><a href="plan">Plan</a></li>
+        <li><a href="bible">Bible</a></li>
+        <li><a href="pricing">Pricing</a></li>
+        <li><a href="supportMe">Support Me</a></li>
       </ul>
     </div>
