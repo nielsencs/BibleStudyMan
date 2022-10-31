@@ -14,7 +14,7 @@
 <html lang="en">
 
 <?php
-  $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php');
+  $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php');
   require_once '../sqlCon.php';
 ?>
 
