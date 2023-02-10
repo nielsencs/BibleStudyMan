@@ -433,6 +433,12 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
 
 // ============================================================================
 function sectionQuery($sectionCode, $tSortOrder){ // build query to get 1 sorted section
+  /*
+  > $sectionCode should be one of '1TOR', '2NV1', '3KTV', '5NCV' (4 is a throwback
+    to when I split Neviim in two) from TABLE 'sections'
+  > $tSortOrder should be one of 'orderChristian', 'orderJewish', 'orderChron1', 
+    'orderChron2' from TABLE books
+  */
 // ============================================================================
   $tQuery = '';
 
