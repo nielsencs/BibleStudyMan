@@ -1,5 +1,72 @@
+-- ============================================================================
+-- the Whole Bible in natural verse order:
+SELECT DISTINCT books.bookName, verses.chapter, verses.verseNumber, verses.verseText FROM verses INNER JOIN books ON verses.bookCode=books.bookCode;
+-- ============================================================================
+
+-- ============================================================================
+-- the Whole Bible giving verse length in characters:
+SELECT DISTINCT verses.bookCode, verses.chapter, verses.verseNumber, LENGTH(verses.verseText) as VL FROM verses;
+-- ============================================================================
+
+-- ============================================================================
+-- specific verse length in characters:
+SELECT DISTINCT verses.bookCode, verses.chapter, verses.verseNumber, LENGTH(verses.verseText) as VL 
+FROM verses WHERE verses.bookCode = ;
+-- ============================================================================
+
+-- ============================================================================
 -- verses per book:
 SELECT DISTINCT `bookCode`, COUNT(`verseNumber`) AS `versesCount` FROM `verses` GROUP BY bookCode ORDER BY `versesCount`
+-- ============================================================================
 
--- longest verse:
-SELECT DISTINCT `bookCode`, `chapter`, `verseNumber`, `verseText`, LENGTH(`verseText`) AS verseLength FROM `verses` ORDER BY verseLength DESC
+-- ============================================================================
+-- shortest / longest verse:
+SELECT DISTINCT `bookCode`, `chapter`, `verseNumber`, `verseText`, LENGTH(`verseText`) AS verseLength FROM `verses` WHERE `verseNumber` > 0 ORDER BY verseLength ASC
+SELECT DISTINCT `bookCode`, `chapter`, `verseNumber`, `verseText`, LENGTH(`verseText`) AS verseLength FROM `verses` WHERE `verseNumber` > 0 ORDER BY verseLength DESC
+-- ============================================================================
+
+-- ============================================================================
+-- query to get plan
+--
+--  > ORDER BY should be one of 'books.orderChristian', 'books.orderJewish', 'books.orderChron1', 'books.orderChron2'
+-- ----------------------------------------------------------------------------
+SELECT `plan-new`.planDay, `plan-new`.planID, books.bookName, books.bookCode, `plan-new`.startChapter, books.bookChapters, `plan-new`.startVerse, `plan-new`.endChapter, `plan-new`.endVerse
+FROM `plan-new` INNER JOIN books ON `plan-new`.bookCode=books.bookCode
+ORDER BY `plan-new`.planDay, books.orderChristian, `plan-new`.sectionCode;
+-- ============================================================================
+
+-- ============================================================================
+-- query to get 1 sorted section of plan
+--
+--  > WHERE `plan-new`.sectionCode should be one of '1TOR', '2NV1', '3KTV', '5NCV' (4 is a throwback to when I split Neviim in two) from TABLE 'sections'
+--  > ORDER BY should be one of 'books.orderChristian', 'books.orderJewish', 'books.orderChron1', 'books.orderChron2'
+-- ----------------------------------------------------------------------------
+SELECT `plan-new`.planID, books.bookName, books.bookCode, `plan-new`.startChapter, books.bookChapters, `plan-new`.startVerse, `plan-new`.endChapter, `plan-new`.endVerse
+FROM `plan-new` INNER JOIN books ON `plan-new`.bookCode=books.bookCode
+WHERE `plan-new`.sectionCode = "1TOR"
+ORDER BY books.orderChristian, `plan-new`.planDay;
+-- ============================================================================
+
+
+WiP:
+-- ============================================================================
+-- query to get plan with dates
+--
+--  > ORDER BY should be one of 'books.orderChristian', 'books.orderJewish', 'books.orderChron1', 'books.orderChron2'
+-- ----------------------------------------------------------------------------
+SELECT `plan-days`.ID, `plan-days`.planDate, `plan-new`.planDay, `plan-new`.planID, books.bookName, books.bookCode, 
+       `plan-new`.startChapter, books.bookChapters, `plan-new`.startVerse, `plan-new`.endChapter, `plan-new`.endVerse
+FROM `plan-new` 
+INNER JOIN `plan-days` ON `plan-new`.planID=`plan-days`.ID
+INNER JOIN books ON `plan-new`.bookCode=books.bookCode
+ORDER BY `plan-new`.planDay, books.orderChristian, `plan-new`.sectionCode;
+-- ============================================================================
+
+SELECT @TheDay := 1, `plan-days`.`planDate` FROM `plan-days`, `plan-new` WHERE `plan-days`.ID = @TheDay;
+
+SELECT `plan-new`.planDay, @TheDay := `plan-new`.planDay, `plan-new`.planID, books.bookName, books.bookCode, 
+       `plan-new`.startChapter, books.bookChapters, `plan-new`.startVerse, `plan-new`.endChapter, `plan-new`.endVerse
+FROM `plan-new`
+INNER JOIN books ON `plan-new`.bookCode=books.bookCode
+WHERE (SELECT `plan-days`.`planDate` FROM `plan-new`, `plan-days` WHERE `plan-days`.ID = @TheDay)
+ORDER BY `plan-new`.planDay, books.orderChristian, `plan-new`.sectionCode;
