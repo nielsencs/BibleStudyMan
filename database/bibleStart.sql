@@ -120,6 +120,7 @@ INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefi
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4995', 'sofronismos', 'soundness-of-mind', 'This is subtle and can mean soundness-of-mind, self-discipline, prudence, wisdom. It is only used in 2 timothy 1:7.');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5349', 'fthartos', 'temporary', 'Temporary or mortal; not lasting, perishable, impermanent.');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5509', 'chiton', 'tunic', 'Strictly a tunic but often the main or only garment worn, either by men or women. Robe; clothing; undergarment.');
+INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed');
 
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
