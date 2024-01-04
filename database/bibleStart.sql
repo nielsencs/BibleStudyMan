@@ -92,7 +92,7 @@ INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefi
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H2657', 'Hepzibah', 'MyDelightIsInHer', 'Hepzibah = \"my delight is in her\"\r\n1) the queen of King Hezekiah and mother of Manasseh\r\n2) a name for Jesusalem (fig.)');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1166', 'baal', 'Marry/Own', 'Marry/Own');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1167', 'baal', 'Husband/Master/Owner', 'Husband/Master/Owner');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 'Adon', 'Lord', 'Adon - Lord an abbreviation of Adonai<H0136>');
+INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 'adon', 'lord', 'Adon - lord or master as opposed to Adonai - MyLord');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H5633', 'ceren', 'Lord;tyrant', 'Lord/Tyrant');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0426', 'Elah', 'God', 'Elah - singular of Elohim<H0430> God or god');
 INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0026', 'agape', 'Will-Love', 'The determined active love that has more to do with willing good for others than any emotional feeling. The noun of <G0025>');
