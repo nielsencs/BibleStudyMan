@@ -45,7 +45,7 @@ INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioUR
 INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(7, 'T', 'dPWMOTAdNUk', '', '', 'Praying The Lord\'s Prayer', '');
 INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(8, 'R', 'ju6HVq4etEU', '1711829340', 'ruth', 'Ruth', 'Dramatic Reading of Ruth');
 INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(9, 'R', 'b5k1ynDATj4', '1713649059', 'bible-readings-for-day-1', 'Bible Readings for Day 1', 'Bible Reading Plan - Day 1');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(10, 'R', 'JDyj8JwFMig, '1714767735', 'bible-readings-for-day-2', 'Bible Readings for Day 2', 'Bible Reading Plan - Day 2');
+INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(10, 'R', 'JDyj8JwFMig', '1714767735', 'bible-readings-for-day-2', 'Bible Readings for Day 2', 'Bible Reading Plan - Day 2');
 
 
 DROP TABLE IF EXISTS meetings;
