@@ -15,7 +15,7 @@
               (<a href="bible.php?book=Job&chapter=19&verses=25">Job 19:25</a>).
               I'm glad to say that depression is largely behind me now, but until
               recently I still had to win a daily victory over that tendency often
-              saying that &lsquo;It&rsquo;s a bit like the recovering alcoholic that
+              saying that &lsquo;It&apos;s a bit like the recovering alcoholic that
               has to avoid alcohol altogether and the equivalent for the depression
               is I have to watch my thought life extremely carefully&rsquo;. That
               has not been my experience for several months now! By the grace of

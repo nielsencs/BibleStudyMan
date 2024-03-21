@@ -297,9 +297,9 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 
     if (empty($tBook)) {
       if (empty($tWords)) {
-        // $tOutput .= ''<p>It seems you didn&rsquo;t enter a passage - this is one of my favourites:</p>';
+        // $tOutput .= ''<p>It seems you didn&apos;t enter a passage - this is one of my favourites:</p>';
         // $tQuery = 'SELECT verseText FROM verses WHERE bookCode ="JOH" AND chapter=3 AND verseNumber=16;';
-        $tOutput .=  '<h2>I&rsquo;m sorry I don&rsquo;t understand what you want - this is the beginning of The Bible:</h2>';
+        $tOutput .=  '<h2>I&apos;m sorry I don&apos;t understand what you want - this is the beginning of The Bible:</h2>';
         $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1 AND verses.verseNumber<10;';
       }else{
         $tQuery = $tBaseQuery . ' WHERE ' . addSQLWildcards($tWords, $bExact) . ';';
@@ -341,7 +341,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
 // These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&rsquo;re deciding what to lookup, here&rsquo;s a sample:</h2>' . showVerses($tQuery, $tVerses);
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>' . showVerses($tQuery, $tVerses);
 //    $tOutput = '';
   }
   return $tOutput;
@@ -370,7 +370,7 @@ function showVerses($tQuery, $tVerses){
   $tOutput .=  '">';
 
   if ($iRows == 0) {
-    $tOutput .=  'It could be me... but I can&rsquo;t seem to find that!';
+    $tOutput .=  'It could be me... but I can&apos;t seem to find that!';
   } else {
     $tOutput .= $iRows . ' verses<br />';
     while($row = mysqli_fetch_assoc($result)) {

@@ -100,7 +100,7 @@ function showMeeting($row, $i){
   $tOutput .= '<p>This is a regular online Bible study group available on';
   $tOutput .= '  <a href="https://zoom.us" target="_blank">Zoom</a>. This is an open discussion';
   $tOutput .= '  where all opinions are free to be expressed and the only &lsquo;stupid&rsquo;';
-  $tOutput .= '  question is the one you didn&rsquo;t ask!</p>';
+  $tOutput .= '  question is the one you didn&apos;t ask!</p>';
   $tOutput .= '<input type="button" value="More" name="button' . $row['meetingID'] . '" id="button' . $row['meetingID'] . '" class="center" onclick="showHide2(\'' . $row['meetingID'] . '\');">';
   $tOutput .= '<div name="block' . $row['meetingID'] . '" id="block' . $row['meetingID'] . '" class="collapse">';
   $tOutput .= '  <p>All are welcome and you can access it online via the Zoom ';
@@ -122,7 +122,7 @@ function showMeeting($row, $i){
   $tOutput .= '    You can check when that is locally for you at';
   $tOutput .= '    <a href="https://www.thetimezoneconverter.com/?t=' . urlencode($row['meetingTime']) . '&tz=London&" target="_blank">TheTimeZoneConverter</a>';
   $tOutput .= '  </p>';
-//  $tOutput .= '  <p>When it&rsquo;s time you can do <strong>ONE</strong> of the following:';
+//  $tOutput .= '  <p>When it&apos;s time you can do <strong>ONE</strong> of the following:';
 //  $tOutput .= '    <ul>';
 //  $tOutput .= '      <li><a href="' . $row['meetingURL'] . '" target="_blank">Join the Zoom Meeting online</a> or</li>';
 //  $tOutput .= '      <li>Ring <strong>0203 695 0088</strong> or <strong>0203 051 2874</strong> in the UK and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
@@ -131,7 +131,7 @@ function showMeeting($row, $i){
 //  $tOutput .= '      <li>Ring from elsewhere in the world, <a href="https://zoom.us/u/aeejTnNTZe" target="_blank">find your local number</a> and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong></li>';
 //  $tOutput .= '    </ul>';
 //  $tOutput .= '  </p>';
-  $tOutput .= '  <p>When it&rsquo;s time you can <a href="' . $row['meetingURL'] . '" target="_blank">join the Zoom Meeting online</a>.</p>';
+  $tOutput .= '  <p>When it&apos;s time you can <a href="' . $row['meetingURL'] . '" target="_blank">join the Zoom Meeting online</a>.</p>';
   $tOutput .= '  <input type="button" value="Go there!" class="center" onclick="window.location.href = \'' . $row['meetingURL'] . '\'">';
   $tOutput .= '</div>';
   $tOutput .= '</div>';

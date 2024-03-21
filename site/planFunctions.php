@@ -76,9 +76,9 @@ function daysReadingsAsSentence($iMonth, $iDay){
   } else {
     if($iMonth === 2 && $iDay === 29){
       $tOutput .= ' let me say Happy Leap-Year-Extra-Day.</p><p><strong>Today is a special day!</strong> ';
-      $tOutput .= 'Because February 29th doesn&rsquo;t come round very often it ';
-      $tOutput .= 'can&rsquo;t sensibly be included in the regular plan. However, ';
-      $tOutput .= 'since you&rsquo;ve taken the trouble to look here today, I&rsquo;ve ';
+      $tOutput .= 'Because February 29th doesn&apos;t come round very often it ';
+      $tOutput .= 'can&apos;t sensibly be included in the regular plan. However, ';
+      $tOutput .= 'since you&apos;ve taken the trouble to look here today, I&apos;ve ';
       $tOutput .= 'prepared a little collection of shorter passages to reflect on.</p><p>';
     }
     while($row = mysqli_fetch_assoc($result)) {
@@ -88,7 +88,7 @@ function daysReadingsAsSentence($iMonth, $iDay){
       }
       //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
       if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
-          // $tOutput .= '; next it&rsquo;s ';
+          // $tOutput .= '; next it&apos;s ';
           $tOutput .= '. Follow that by reading';
       }
       if($row['sectionCode'] === '3KTV'){

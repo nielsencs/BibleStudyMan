@@ -63,7 +63,7 @@
   ?>
                 <p>You can read the passages below. If you're looking to read for
                   a different day or want to use your own Bible, then
-                <a href="planTable.php">here&rsquo;s the entire year&rsquo;s plan
+                <a href="planTable.php">here&apos;s the entire year&apos;s plan
                   as a list</a>. Enjoy!</p>
 
                 <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">

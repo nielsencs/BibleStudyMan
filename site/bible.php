@@ -63,7 +63,7 @@ You can select one of them here.">Book</abbr>&nbsp;
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pc')">
                         &nbsp;<abbr title="The books in The Bible are divided
-into chapters; once you&rsquo;ve picked a
+into chapters; once you&apos;ve picked a
 book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
