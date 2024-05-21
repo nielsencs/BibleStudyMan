@@ -36,16 +36,17 @@ CREATE TABLE media (
   PRIMARY KEY (mediaID)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(1, 'R', 'oyLkIazpF-o', '440690997', 'psalm-22', 'Psalm 22', 'Dramatic Reading of Psalm 22');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(2, 'R', 'Klx_vvcUCic', '437317959', 'psalm-23', 'Psalm 23', 'Dramatic Reading of Psalm 23');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(3, 'T', 'KMyjnIKztXA', '', '', 'Introduction to Reading The Bible', '');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(4, 'T', 'zFXDtPfsMwk', '', '', 'If There Were a God What Would They Be Like?', '');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(5, 'T', '3Cv_VI3Hg4M', '', '', 'Which Bible Translation Should I Read?', '');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(6, 'T', 'xL0tzsH-Onw', '', '', 'Introduction to the Nielsen Creed', '');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(7, 'T', 'dPWMOTAdNUk', '', '', 'Praying The Lord\'s Prayer', '');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(8, 'R', 'ju6HVq4etEU', '1711829340', 'ruth', 'Ruth', 'Dramatic Reading of Ruth');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(9, 'R', 'b5k1ynDATj4', '1713649059', 'bible-readings-for-day-1', 'Bible Readings for Day 1', 'Bible Reading Plan - Day 1');
-INSERT INTO `media` (`mediaID`, `mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES(10, 'R', 'JDyj8JwFMig', '1714767735', 'bible-readings-for-day-2', 'Bible Readings for Day 2', 'Bible Reading Plan - Day 2');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'oyLkIazpF-o', '440690997', 'psalm-22', 'Psalm 22', 'Dramatic Reading of Psalm 22');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'Klx_vvcUCic', '437317959', 'psalm-23', 'Psalm 23', 'Dramatic Reading of Psalm 23');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'IArln55M04U', '', '', 'Introduction to Reading The Bible', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'KEgWZrdjX0Q', '', '', 'If There Were a God What Would They Be Like?', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'Hbd3qtGeYMY', '', '', 'Which Bible Translation Should I Read?', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'VJcXsqQhAXg', '', '', 'Introduction to the Nielsen Creed', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'P_qblZptGgI', '', '', 'Praying The Lord\'s Prayer', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'BG3ulFMCIng', '', '', 'Bible Study Man\'s take on The Name of God', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'ju6HVq4etEU', '1711829340', 'ruth', 'Ruth', 'Dramatic Reading of Ruth');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'b5k1ynDATj4', '1713649059', 'bible-readings-for-day-1', 'Bible Readings for Day 1', 'Bible Reading Plan - Day 1');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'JDyj8JwFMig', '1714767735', 'bible-readings-for-day-2', 'Bible Readings for Day 2', 'Bible Reading Plan - Day 2');
 
 
 DROP TABLE IF EXISTS meetings;
