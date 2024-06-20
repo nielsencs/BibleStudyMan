@@ -513,8 +513,8 @@ function isSentence($text){
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   $iWordStart = 0;
-  $tTagStart = '<';
-  $tTagEnd = '>';
+  $tTagStart = '{';
+  $tTagEnd = '}';
   $iTagStart = 0;
   $iTagEnd = 0;
   $tNewValue = '';
