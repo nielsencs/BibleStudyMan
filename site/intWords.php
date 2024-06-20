@@ -9,5 +9,9 @@ can mean spirit or breath or breeze.">interesting</abbr> words:<br />
                        onclick="doSubmit()"><label>highlight them</label> 
                   <input type="checkbox" name="showOW"      id="showOW"
                   <?php if($bShowOW){echo 'checked';} ?>
-                       onclick="doSubmit()"><label>Show Hebrew/Greek</label> 
+                       onclick="doSubmit()"><label>Show Hebrew/Greek</label>
+                  <input type="checkbox" name="showTN"      id="showTN"
+                  <?php if($bShowTN){echo 'checked';} ?>
+                       onclick="doSubmit()"><label>Show Translated Names</label> 
+
                 </p>

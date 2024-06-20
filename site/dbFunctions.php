@@ -424,7 +424,7 @@ function countBooks($result){
 // ============================================================================
 function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 // ============================================================================
-  global $bHighlightSW, $bShowOW;
+  global $bHighlightSW, $bShowOW, $bShowTN;
   $tVersesExpanded = '@' . expandVerseList($tVerses);
   $tThisVerse = ',' . $row['verseNumber'] . ',';
 
@@ -436,7 +436,7 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
   }
 
   $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
-  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW)) . ' ';
+  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
 
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
     $tOutput .=  '</span>';
@@ -510,7 +510,8 @@ function isSentence($text){
 // ============================================================================
 
 // ============================================================================
-function processStrongs($tValue, $bHighlightSW, $bShowOW){
+function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
+  // todo: handle $bShowTN!
 // ============================================================================
   $iWordStart = 0;
   $iTagStart = 0;
