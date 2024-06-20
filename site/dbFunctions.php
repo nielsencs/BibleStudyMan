@@ -513,19 +513,21 @@ function isSentence($text){
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   $iWordStart = 0;
+  $tTagStart = '<';
+  $tTagEnd = '>';
   $iTagStart = 0;
   $iTagEnd = 0;
   $tNewValue = '';
   $tStrongsNo = '';
 
   do {
-    $iTagStart = strpos($tValue, '<');
+    $iTagStart = strpos($tValue, $tTagStart);
     // echo '<!-- $iTagStart:' . $iTagStart . ' -->';
     if ($iTagStart > 0) {
       $iWordStart = strrpos(substr($tValue, 0, $iTagStart), ' '); // look for preceeding space
       if (($iWordStart > 0)){$iWordStart = $iWordStart + 1;}else{$iWordStart = 0;}; // if first word - no space
       // echo '<!-- $iWordStart:' . $iWordStart . ':over 0:' . ($iWordStart > 0) . ' -->';
-      $iTagEnd = strpos(substr($tValue, 0), '>');
+      $iTagEnd = strpos(substr($tValue, 0), $tTagEnd);
       // echo '<!-- $iTagEnd:' . $iTagEnd . ' -->';
       $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - 1 - $iTagStart);
 
