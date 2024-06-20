@@ -511,12 +511,10 @@ function isSentence($text){
 
 // ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
-  // todo: handle $bShowTN!
 // ============================================================================
   $iWordStart = 0;
   $iTagStart = 0;
   $iTagEnd = 0;
-//  $iSearchEnd = 0;
   $tNewValue = '';
   $tStrongsNo = '';
 
