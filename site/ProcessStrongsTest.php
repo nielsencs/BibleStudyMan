@@ -25,17 +25,18 @@ $atStrongs += ['H3068' => 'Yahweh'];
 // H3068 Yahweh ForeverOne
 
 
-testIt('ForeverOne{H3068} God{H0430} planted a garden eastward, in Eden, and there he put the man whom he had formed.');
-// testIt('He said, \"Blessed be ForeverOne{H3068}, the God{H0430} of Shem. Let Canaan be his servant.');
+testIt('Oh ForeverOne{H3068} is God{H0430} and planted a garden eastward, in Eden, and there he put the man whom he had formed.');
+testIt('He said, \"Blessed be ForeverOne{H3068}, the God{H0430} of Shem. Let Canaan be his servant.');
 
 function testIt($tTestVerse){
   echo '<br><br><pre>' . $tTestVerse . '</pre>';
-  echo '<pre>' . '012345----10---+----20---+----30---+----40---+----50---+----60---+----70---+----80' . '</pre><br><br><br>';
-  echo processStrongs($tTestVerse, true, true, true). '<br>';
-  echo processStrongs($tTestVerse, true, true, false). '<br>';
-  echo processStrongs($tTestVerse, true, false, true). '<br>';
-  echo processStrongs($tTestVerse, true, false, false). '<br>';
-  echo processStrongs($tTestVerse, false, false, true). '<br>';
-  echo processStrongs($tTestVerse, false, false, false). '<br>';
-    
+  echo '<pre>' . '012345----10---+----20---+----30---+----40---+----50---+----60---+----70---+----80' . '</pre><br><br>';
+  echo processStrongs($tTestVerse, true, true, true). '<br><br>';
+  echo processStrongs($tTestVerse, true, true, false). '<br><br>';
+  echo processStrongs($tTestVerse, true, false, true). '<br><br>';
+  echo processStrongs($tTestVerse, true, false, false). '<br><br>';
+  echo processStrongs($tTestVerse, false, true, true). '<br><br>';
+  echo processStrongs($tTestVerse, false, true, false). '<br><br>';
+  echo processStrongs($tTestVerse, false, false, true). '<br><br>';
+  echo processStrongs($tTestVerse, false, false, false). '<br><br>';
 }
