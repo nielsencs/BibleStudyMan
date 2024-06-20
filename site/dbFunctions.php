@@ -167,12 +167,12 @@ function prepareStrongs(){
   global $link;
   $atStrongs = array();
 
-  $tQuery = 'SELECT strongsNumber, strongsOriginal, strongsEnglish FROM strongs;';
+  $tQuery = 'SELECT strongsNumber, strongsIsName, strongsOriginal, strongsEnglish FROM strongs;';
   $result = doQuery($link, $tQuery);
 
   if (mysqli_num_rows($result) > 0) {
     while($row = mysqli_fetch_assoc($result)) {
-      $atStrongs += [$row['strongsNumber'] => $row['strongsOriginal']];
+      $atStrongs += [$row['strongsNumber'] => [$row['strongsIsName'],$row['strongsOriginal']]];
     }
   } else {
     echo 'Tell Carl something went wrong with the BibleStudyMan database :(';
@@ -532,17 +532,19 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 
       $iTagEnd = strpos(substr($tValue, 0), $tTagEnd);
       $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - 1 - $iTagStart);
-
       $tNewValue = $tNewValue . substr($tValue, 0, $iWordStart);
       if ($bHighlightSW){
         $tNewValue = $tNewValue . '<span class="highlightOW">';
       }
-      if ($bShowTN){
-        $tWord1 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
-        $tWord2 = strongs($tStrongsNo);
-      }else{
-        $tWord1 = strongs($tStrongsNo);
-        $tWord2 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
+
+      $tWord1 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
+      $tWord2 = strongs($tStrongsNo)[1];
+
+      if (strongs($tStrongsNo)[0] > 0){ // is a name
+        if (!$bShowTN){ // don't show translated names
+          $tWord1 = strongs($tStrongsNo)[1];
+          $tWord2 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
+        }
       }
       $tNewValue = $tNewValue . $tWord1;
       if ($bShowOW){

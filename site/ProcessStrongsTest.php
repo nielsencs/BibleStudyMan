@@ -18,8 +18,8 @@
 require_once 'dbFunctions.php';
 $atStrongs = array();
 
-$atStrongs += ['H0430' => 'Elohim'];
-$atStrongs += ['H3068' => 'Yahweh'];
+$atStrongs += ['H0430' => ['0', 'Elohim']];
+$atStrongs += ['H3068' => ['1', 'Yahweh']];
 // strongsNumber strongsOriginal strongsEnglish	
 // H0430 Elohim God
 // H3068 Yahweh ForeverOne
