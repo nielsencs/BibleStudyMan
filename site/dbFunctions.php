@@ -519,10 +519,12 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
   $iTagEnd = 0;
   $tNewValue = '';
   $tStrongsNo = '';
+  $tWord1 = '';
+  $tWord2 = '';
 
   do {
     $iTagStart = strpos($tValue, $tTagStart);
-    // echo '<!-- $iTagStart:' . $iTagStart . ' -->';
+    echo '[$iTagStart:' . $iTagStart . ']';
     if ($iTagStart > 0) {
       $iWordStart = strrpos(substr($tValue, 0, $iTagStart), ' '); // look for preceeding space
       if (($iWordStart > 0)){$iWordStart = $iWordStart + 1;}else{$iWordStart = 0;}; // if first word - no space
@@ -535,9 +537,18 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
       if ($bHighlightSW){
         $tNewValue = $tNewValue . '<span class="highlightOW">';
       }
-      $tNewValue = $tNewValue . substr($tValue, $iWordStart, $iTagEnd + 1 - $iWordStart);
+      if ($bShowTN){
+        $tWord1 = substr($tValue, $iWordStart, $iTagStart);
+        $tWord2 = strongs($tStrongsNo);
+      }else{
+        $tWord1 = strongs($tStrongsNo);
+        $tWord2 = substr($tValue, $iWordStart, $iTagStart);
+      }
+      echo '#Word1:' . $tWord1 . '#'. '<br>';
+      echo '#Word2:' . $tWord2 . '#'. '<br>';
+      $tNewValue = $tNewValue . $tWord1;
       if ($bShowOW){
-        $tNewValue = $tNewValue . ' <sub>(' . strongs($tStrongsNo) . ')</sub>';
+        $tNewValue = $tNewValue . ' <sub>(' . $tWord2 . ')</sub>';
       }
       if ($bHighlightSW){
         $tNewValue = $tNewValue . '</span>';
