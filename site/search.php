@@ -15,7 +15,7 @@
         $tVerses = filter_input(INPUT_GET, 'verses', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
     }
   }
-  $bExact = filter_input(INPUT_GET, 'exact', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  $bExact = filter_input(INPUT_GET, 'exact', FILTER_DEFAULT, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   $tDay = filter_input(INPUT_GET, 'day', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
   if(empty($tDay)){ // in case dropdown has too few days
@@ -25,9 +25,11 @@
   if(empty($tBook . $tWords . $tMonth)){ // no search yet - 'clean' page
     $bHighlightSW = true;
     $bShowOW = true;
+    $bShowTN = true;
   }else{
-    $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
-    $bShowOW = filter_input(INPUT_GET, 'showOW', FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+    $bHighlightSW = filter_input(INPUT_GET, 'highlightSW', FILTER_DEFAULT, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+    $bShowOW =      filter_input(INPUT_GET, 'showOW',      FILTER_DEFAULT, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+    $bShowTN =      filter_input(INPUT_GET, 'showTN',      FILTER_DEFAULT, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
   }
   if(empty($tSortOrder) || !strpos('orderChristian|orderJewish|orderChron1|orderChron2', $tSortOrder)){
     $tSortOrder = 'orderChristian';

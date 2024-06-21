@@ -73,59 +73,60 @@ VALUES(2, 0, 'What Even IS The Way...', 'Skeptical? I call myself a believing sk
 DROP TABLE IF EXISTS strongs;
 CREATE TABLE strongs (
   strongsNumber varchar(7) NOT NULL,
+  strongsIsName tinyint(1) NOT NULL,
   strongsOriginal varchar(25) NOT NULL,
   strongsEnglish varchar(25) NOT NULL,
   strongsDefinition text NOT NULL,
   PRIMARY KEY (strongsNumber)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0430', 'Elohim', 'God', 'Elohim - the plural of eloah, literally \'gods\' often used for the true God');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H3068', 'Yahweh', 'ForeverOne', 'Yud-Heh-Vav-Heh (Yahweh) - The proper name for God. In Jewish circles never spoken; normally spoken as Adonai (<H136>)');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7307', 'ruach', 'spirit/breath/breeze', 'ruach - wind, breath, spirit. YET TO BE INDEXED');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 'Adonai', 'MyLord', 'Adonai - My Lord\r\n\r\nmy Lord\r\nAn emphatic form of \'adon<H0113>\'; the Lord (used as a proper name of God only) -- (my) Lord.\r\n\r\nsee HEBREW \'adon<113>\'');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7706', 'Shaddai', 'Almighty', 'Almighty - usually God almighty.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0410', 'El', 'God', 'Singular God as opposed to the plural Elohim<H0430>');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3841', 'Pantokrator', 'Almighty', 'Almighty - only applied (obviously!) to God. Equivalent to <H7706>');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1814', 'dalaq', 'hotly-pursue', 'Hotly-pursue, burn, ignite, inflame');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7291', 'radaph', 'pursue', 'Pursue, follow closely, chase');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H3050', 'Yah', 'EverOne', 'Yah - An abbreviation of the proper name for God, Yahweh<H3068>');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G1459', 'Enkataleipo', 'Abandon', 'Abandon or Forsake ');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0403', 'aken', 'surely', 'Surely, truly, sometimes emphasising a contrast: however');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0433', 'Eloah', 'God', 'Eloah - the singular of elohim<H430>, literally \'god\'.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H4756', 'mare', 'lord', 'Master;lord. Only occurs in Daniel');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1376', 'gevir', 'ruler', 'ruler, master. Not especially interesting perhaps in itself; were it not for the fact it is only used twice - in the story of Jacob as opposed to his brother, Esau - never of God or anyone else.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H2657', 'Hepzibah', 'MyDelightIsInHer', 'Hepzibah = \"my delight is in her\"\r\n1) the queen of King Hezekiah and mother of Manasseh\r\n2) a name for Jesusalem (fig.)');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1166', 'baal', 'Marry/Own', 'Marry/Own');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1167', 'baal', 'Husband/Master/Owner', 'Husband/Master/Owner');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 'adon', 'lord', 'Adon - lord or master as opposed to Adonai - MyLord');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H5633', 'ceren', 'Lord;tyrant', 'Lord/Tyrant');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0426', 'Elah', 'God', 'Elah - singular of Elohim<H0430> God or god');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0026', 'agape', 'Will-Love', 'The determined active love that has more to do with willing good for others than any emotional feeling. The noun of <G0025>');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0025', 'agapeo', 'Will-Love', 'Determined, active loving that has more to do with willing good for others than any emotional feeling. The verb of <G0026>');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0027', 'agapetos', 'dear, dear-ones', 'Beloved, recipients of the greatest love<G0026>, loved');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 'Theopneustos', 'Godbreathed', 'Literally the breath/wind/spirit-making of God. God breathed as one word. Only occurs once in 2 Timothy 3:16');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2962', 'Kurios', 'Lord', 'Lord. Notably this may stand for Yahweh<H3068> as the Jewish tradition to never say Yahweh<H3068>, and say Adonai<H0136> (Lord) instead, was in place long before the New Testament (about 300 BC)');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2634', 'katakurieuo', 'master', 'master - \'against-lord\'');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2961', 'kurieuo', 'dominate', 'master, lord, dominate');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G1203', 'Despotes', 'Master', 'Master - the English \'despot\' comes from this word.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2960', 'Kuriakos', 'Master', 'Pertaining to the Lord');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8314', 'seraphim', 'burningones', 'Fiery; Burning; burningones');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3323', 'Messias', 'Messiah', 'Greek transliteration of the Hebrew <H4899>, Mashiach, Messiah. Anointed; Messiah (in Jewish tradition not THE messiah). Only found in John 1 and 4. Equivalent to <G5547>');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2519', 'kathegetes', 'teacher', 'teacher');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5580', 'pseudokristos', 'false-christ', 'False-christ');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H6212', 'esev', 'plant', 'plant, vegetation');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5546', 'kristianos', 'christian', 'Christian; \'one belonging to Christ\'; Messianic believer;');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2209', 'zemia', 'damage', '\'damage/loss\' loss, damage');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5547', 'Kristos', 'AnointedOne', 'AnointedOne; Christ - anointed one Messiah');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H4899', 'mashiach', 'anointed', 'anointed (Messiah) ');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H4886', 'mashach', 'anoint', 'to anoint (with oil)');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0862', 'afthartos', 'permanent', 'Un-temporary; imperishable; imortal; permanent');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4550', 'sapros', 'rotten', 'This has a strongly negative meaning- not just rotten but corrupting or causing disease or being diseased.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4657', 'skubalon', 'filth', 'Disgusting rubbish; rotten; filth; refuse; dung. This can refer to any of a number of rotten, decaying things that must be disposed of. It is only used in Philippians 3:8.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4995', 'sofronismos', 'soundness-of-mind', 'This is subtle and can mean soundness-of-mind, self-discipline, prudence, wisdom. It is only used in 2 timothy 1:7.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5349', 'fthartos', 'temporary', 'Temporary or mortal; not lasting, perishable, impermanent.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5509', 'chiton', 'tunic', 'Strictly a tunic but often the main or only garment worn, either by men or women. Robe; clothing; undergarment.');
-INSERT INTO strongs (strongsNumber, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0430', 0, 'Elohim', 'God', 'Elohim - the plural of eloah, literally \'gods\' often used for the true God');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H3068', 1, 'Yahweh', 'ForeverOne', 'Yud-Heh-Vav-Heh (Yahweh) - The proper name for God. In Jewish circles never spoken; normally spoken as Adonai (<H136>)');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7307', 0, 'ruach', 'spirit/breath/breeze', 'ruach - wind, breath, spirit. YET TO BE INDEXED');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'MyLord', 'Adonai - My Lord\r\n\r\nmy Lord\r\nAn emphatic form of \'adon<H0113>\'; the Lord (used as a proper name of God only) -- (my) Lord.\r\n\r\nsee HEBREW \'adon<113>\'');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7706', 0, 'Shaddai', 'Almighty', 'Almighty - usually God almighty.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0410', 0, 'El', 'God', 'Singular God as opposed to the plural Elohim<H0430>');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3841', 0, 'Pantokrator', 'Almighty', 'Almighty - only applied (obviously!) to God. Equivalent to <H7706>');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1814', 0, 'dalaq', 'hotly-pursue', 'Hotly-pursue, burn, ignite, inflame');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7291', 0, 'radaph', 'pursue', 'Pursue, follow closely, chase');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H3050', 1, 'Yah', 'EverOne', 'Yah - An abbreviation of the proper name for God, Yahweh<H3068>');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G1459', 0, 'Enkataleipo', 'Abandon', 'Abandon or Forsake ');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0403', 0, 'aken', 'surely', 'Surely, truly, sometimes emphasising a contrast: however');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0433', 0, 'Eloah', 'God', 'Eloah - the singular of elohim<H430>, literally \'god\'.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H4756', 0, 'mare', 'lord', 'Master;lord. Only occurs in Daniel');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1376', 0, 'gevir', 'ruler', 'ruler, master. Not especially interesting perhaps in itself; were it not for the fact it is only used twice - in the story of Jacob as opposed to his brother, Esau - never of God or anyone else.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H2657', 1, 'Hepzibah', 'MyDelightIsInHer', 'Hepzibah = \"my delight is in her\"\r\n1) the queen of King Hezekiah and mother of Manasseh\r\n2) a name for Jesusalem (fig.)');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1166', 0, 'baal', 'Marry/Own', 'Marry/Own');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1167', 0, 'baal', 'Husband/Master/Owner', 'Husband/Master/Owner');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 0, 'adon', 'lord', 'Adon - lord or master as opposed to Adonai - MyLord');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H5633', 0, 'ceren', 'Lord;tyrant', 'Lord/Tyrant');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0426', 0, 'Elah', 'God', 'Elah - singular of Elohim<H0430> God or god');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0026', 0, 'agape', 'Will-Love', 'The determined active love that has more to do with willing good for others than any emotional feeling. The noun of <G0025>');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0025', 0, 'agapeo', 'Will-Love', 'Determined, active loving that has more to do with willing good for others than any emotional feeling. The verb of <G0026>');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0027', 0, 'agapetos', 'dear, dear-ones', 'Beloved, recipients of the greatest love<G0026>, loved');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 0, 'Theopneustos', 'Godbreathed', 'Literally the breath/wind/spirit-making of God. God breathed as one word. Only occurs once in 2 Timothy 3:16');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2962', 0, 'Kurios', 'Lord', 'Lord. Notably this may stand for Yahweh<H3068> as the Jewish tradition to never say Yahweh<H3068>, and say Adonai<H0136> (Lord) instead, was in place long before the New Testament (about 300 BC)');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2634', 0, 'katakurieuo', 'master', 'master - \'against-lord\'');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2961', 0, 'kurieuo', 'dominate', 'master, lord, dominate');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G1203', 0, 'Despotes', 'Master', 'Master - the English \'despot\' comes from this word.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2960', 0, 'Kuriakos', 'Master', 'Pertaining to the Lord');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8314', 0, 'seraphim', 'burningones', 'Fiery; Burning; burningones');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3323', 0, 'Messias', 'Messiah', 'Greek transliteration of the Hebrew <H4899>, Mashiach, Messiah. Anointed; Messiah (in Jewish tradition not THE messiah). Only found in John 1 and 4. Equivalent to <G5547>');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2519', 0, 'kathegetes', 'teacher', 'teacher');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5580', 0, 'pseudokristos', 'false-christ', 'False-christ');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H6212', 0, 'esev', 'plant', 'plant, vegetation');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5546', 0, 'kristianos', 'christian', 'Christian; \'one belonging to Christ\'; Messianic believer;');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2209', 0, 'zemia', 'damage', '\'damage/loss\' loss, damage');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5547', 0, 'Kristos', 'AnointedOne', 'AnointedOne; Christ - anointed one Messiah');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H4899', 0, 'mashiach', 'anointed', 'anointed (Messiah) ');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H4886', 0, 'mashach', 'anoint', 'to anoint (with oil)');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0862', 0, 'afthartos', 'permanent', 'Un-temporary; imperishable; imortal; permanent');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4550', 0, 'sapros', 'rotten', 'This has a strongly negative meaning- not just rotten but corrupting or causing disease or being diseased.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4657', 0, 'skubalon', 'filth', 'Disgusting rubbish; rotten; filth; refuse; dung. This can refer to any of a number of rotten, decaying things that must be disposed of. It is only used in Philippians 3:8.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4995', 0, 'sofronismos', 'soundness-of-mind', 'This is subtle and can mean soundness-of-mind, self-discipline, prudence, wisdom. It is only used in 2 timothy 1:7.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5349', 0, 'fthartos', 'temporary', 'Temporary or mortal; not lasting, perishable, impermanent.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5509', 0, 'chiton', 'tunic', 'Strictly a tunic but often the main or only garment worn, either by men or women. Robe; clothing; undergarment.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 0, 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed');
 
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
