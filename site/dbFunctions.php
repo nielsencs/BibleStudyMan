@@ -5,7 +5,6 @@ function doQuery($link, $tQuery){
   echo '<!-- ' . $tQuery . ' -->';
   return mysqli_query($link, $tQuery);
 }
-// ============================================================================
 
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact){
@@ -21,7 +20,6 @@ function buildLink($tBookName, $iChapter, $tWords, $bExact){
   $tReturn .= '">';
   return $tReturn;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareBookAbbs(){
@@ -43,7 +41,6 @@ function prepareBookAbbs(){
 
   return $atBookAbbs;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareBookList(){
@@ -74,7 +71,6 @@ function prepareBookList(){
   mysqli_free_result($result);
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareDropdownBookList(){
@@ -100,7 +96,6 @@ function prepareDropdownBookList(){
   mysqli_free_result($result);
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareDropdownChapterList(){
@@ -127,7 +122,6 @@ function prepareDropdownChapterList(){
   mysqli_free_result($result);
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareDropdownMonthList($iMonth){
@@ -143,7 +137,6 @@ function prepareDropdownMonthList($iMonth){
   }
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth){
@@ -159,7 +152,6 @@ function prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth){
   }
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function prepareStrongs(){
@@ -181,7 +173,6 @@ function prepareStrongs(){
 
   return $atStrongs;
 }
-// ============================================================================
 
 // ============================================================================
 function strongs($tStrongsNo){
@@ -189,7 +180,6 @@ function strongs($tStrongsNo){
   global $atStrongs;
   return $atStrongs[$tStrongsNo];
 }
-// ============================================================================
 
 // ============================================================================
 function daysInMonth($iMonth, $iYear){// calculate number of days in a month
@@ -208,7 +198,6 @@ function daysInMonth($iMonth, $iYear){// calculate number of days in a month
 // corrected by ben at sparkyb dot net
   return $iMonth === 2 ? ($iYear % 4 ? 28 : ($iYear % 100 ? 29 : ($iYear % 400 ? 28 : 29))) : (($iMonth - 1) % 7 % 2 ? 30 : 31);
 }
-// ============================================================================
 
 // ============================================================================
 function monthName($iMonth){// return text month from numeric
@@ -217,7 +206,6 @@ function monthName($iMonth){// return text month from numeric
                     "July", "August", "September", "October", "November", "December");
   return $atMonths[$iMonth];
 }
-// ============================================================================
 
 // ============================================================================
 function basicPassageQuery(){
@@ -232,7 +220,6 @@ function basicPassageQuery(){
 
   return $tBaseQuery;
 }
-// ============================================================================
 
 // ============================================================================
 function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false){
@@ -281,7 +268,6 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   }
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
@@ -346,7 +332,6 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
   }
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function showVerses($tQuery, $tVerses){
@@ -403,7 +388,6 @@ function showVerses($tQuery, $tVerses){
   $tOutput .=  '</div>' . PHP_EOL;
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function countBooks($result){
@@ -419,7 +403,6 @@ function countBooks($result){
   mysqli_data_seek($result, 0);
   return $iBooks;
 }
-// ============================================================================
 
 // ============================================================================
 function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
@@ -444,7 +427,6 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
 
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function expandVerseList($tVerses){
@@ -488,7 +470,6 @@ function expandVerseList($tVerses){
   }
   return $tVersesExpanded;
 }
-// ============================================================================
 
 // ============================================================================
 function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
@@ -499,7 +480,6 @@ function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
   }
   return $tOutput;
 }
-// ============================================================================
 
 // ============================================================================
 function isSentence($text){
@@ -507,7 +487,6 @@ function isSentence($text){
   $tLastChar = substr($text, -1);
   return (strpos('@.!?', $tLastChar)>0);
 }
-// ============================================================================
 
 // ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
@@ -559,7 +538,6 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
   } while ($iTagStart > 0);
   return $tNewValue . $tValue;
 }
-// ============================================================================
 
 // ============================================================================
 function highlightSearch($tValue){
@@ -581,7 +559,6 @@ function highlightSearch($tValue){
   }
   return '<!-- highlightSearch ' . $tWords . ' -->' . $tValue;
 }
-// ============================================================================
 
 // ============================================================================
 function highlight($needle, $haystack){
@@ -594,7 +571,6 @@ function highlight($needle, $haystack){
           highlight($needle, substr($haystack, $ind + $len));
   } else return $haystack;
 }
-// ============================================================================
 
 // ============================================================================
 function addSQLWildcards($tWords, $bExact){
@@ -615,7 +591,6 @@ return procesSearchWords($tWords, $bExact);
   }
   return $tWords;
 }
-// ============================================================================
 
 // ============================================================================
 function procesSearchWordsOld($tWords, $bExact){
@@ -627,7 +602,6 @@ function procesSearchWordsOld($tWords, $bExact){
   }
   return $tWords;
 }
-// ============================================================================
 
 // ============================================================================
 function procesSearchWords($tWords, $bExact){
@@ -657,8 +631,8 @@ function procesSearchWords($tWords, $bExact){
   }
   return $tNewWords;
 }
-// ============================================================================
 
+// V ################# POSSIBLE FUTURE SEARCH IMPROVEMENTS ################## V
 // ============================================================================
 function procesSearchWords2($tWords, $bExact){
 // ============================================================================
@@ -712,7 +686,6 @@ function procesSearchWords2($tWords, $bExact){
 */
   return $tWords;
 }
-// ============================================================================
 
 // ============================================================================
 function procesSearchWord($atWords, $i, $iLen, $bExact){
@@ -736,7 +709,7 @@ function procesSearchWord($atWords, $i, $iLen, $bExact){
 
   return $tBook . $tWords;
 }
-// ============================================================================
+// ^ ################# POSSIBLE FUTURE SEARCH IMPROVEMENTS ################## ^
 
 // ============================================================================
 function joinWords($atWords, $i, $iLen){
@@ -748,7 +721,6 @@ function joinWords($atWords, $i, $iLen){
   }
   return  trim($tWords);
 }
-// ============================================================================
 
 // ============================================================================
 function addStrongsWild($atWords, $i, $iLen, $bExact){
@@ -772,7 +744,6 @@ function addStrongsWild($atWords, $i, $iLen, $bExact){
   echo '$tWords:' . $tWords;
   return $tWords;
 }
-// ============================================================================
 
 // ============================================================================
 function videoList($tClass = 'R'){
@@ -831,5 +802,4 @@ function videoList($tClass = 'R'){
   mysqli_free_result($result);
   return $tOutput;
 }
-// ============================================================================
 ?>
