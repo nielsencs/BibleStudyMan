@@ -341,9 +341,7 @@ function showVerses($tQuery, $tVerses){
   $tOutput = '';
   $tLastBookName = '';
   $iLastChapter = 0;
-  $bLastVerseParagraph = true;
-  $bFirstParagraph = true;
-
+  
   $result = doQuery($link, $tQuery);
   $iRows = mysqli_num_rows($result);
   $iBooks = countBooks($result);
@@ -364,21 +362,8 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>' . PHP_EOL;
-        $bFirstParagraph = true;
       }
-      // just verse(s):
-      if ($bLastVerseParagraph){
-        $tOutput .= PHP_EOL . '<p>';
-      }
-
-      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph);
-      $bFirstParagraph = false; //($tOutput > '');
-
-      $bLastVerseParagraph =  isSentence($row['vt']);
-      if ($bLastVerseParagraph){
-        $tOutput .= '</p>' . PHP_EOL;
-      }
-
+      $tOutput .= showVerse($tVerses, $row);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -405,11 +390,12 @@ function countBooks($result){
 }
 
 // ============================================================================
-function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
+function showVerse($tVerses, $row){
 // ============================================================================
   global $bHighlightSW, $bShowOW, $bShowTN;
   $tVersesExpanded = '@' . expandVerseList($tVerses);
   $tThisVerse = ',' . $row['verseNumber'] . ',';
+  $tThisVerseText = $row['vt'];
 
   $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
@@ -418,8 +404,14 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
     $tOutput .=  '<span class="highlightVerse">';
   }
 
-  $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
-  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
+  if(strtolower(substr($tThisVerseText, 0, 3)) == '<p>'){ // if this verse starts a paragraph
+    $tOutput .=  '<p>';
+    $tThisVerseText = substr($tThisVerseText, 3);
+    // place it before the verse number
+  }
+
+  $tOutput .=  doVerseNumber($row['verseNumber']);
+  $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
 
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
     $tOutput .=  '</span>';
@@ -472,7 +464,7 @@ function expandVerseList($tVerses){
 }
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
+function doVerseNumber($iVerseNumber){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
