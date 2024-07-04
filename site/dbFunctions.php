@@ -341,9 +341,7 @@ function showVerses($tQuery, $tVerses){
   $tOutput = '';
   $tLastBookName = '';
   $iLastChapter = 0;
-  $bLastVerseParagraph = true;
-  $bFirstParagraph = true;
-
+  
   $result = doQuery($link, $tQuery);
   $iRows = mysqli_num_rows($result);
   $iBooks = countBooks($result);
@@ -364,21 +362,8 @@ function showVerses($tQuery, $tVerses){
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
         $tOutput .=  '</h3>' . PHP_EOL;
-        $bFirstParagraph = true;
       }
-      // just verse(s):
-      if ($bLastVerseParagraph){
-        $tOutput .= PHP_EOL . '<p>';
-      }
-
-      $tOutput .= showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph);
-      $bFirstParagraph = false; //($tOutput > '');
-
-      $bLastVerseParagraph =  isSentence($row['vt']);
-      if ($bLastVerseParagraph){
-        $tOutput .= '</p>' . PHP_EOL;
-      }
-
+      $tOutput .= showVerse($tVerses, $row);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -405,11 +390,12 @@ function countBooks($result){
 }
 
 // ============================================================================
-function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
+function showVerse($tVerses, $row){
 // ============================================================================
   global $bHighlightSW, $bShowOW, $bShowTN;
   $tVersesExpanded = '@' . expandVerseList($tVerses);
   $tThisVerse = ',' . $row['verseNumber'] . ',';
+  $tThisVerseText = $row['vt'];
 
   $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
@@ -418,8 +404,14 @@ function showVerse($tVerses, $row, $bLastVerseParagraph, $bFirstParagraph){
     $tOutput .=  '<span class="highlightVerse">';
   }
 
-  $tOutput .=  doVerseNumber($row['verseNumber'], $bLastVerseParagraph, $bFirstParagraph);
-  $tOutput .=  highlightSearch(processStrongs($row['vt'], $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
+  if(strtolower(substr($tThisVerseText, 0, 3)) == '<p>'){ // if this verse starts a paragraph
+    $tOutput .=  '<p>';
+    $tThisVerseText = substr($tThisVerseText, 3);
+    // place it before the verse number
+  }
+
+  $tOutput .=  doVerseNumber($row['verseNumber']);
+  $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
 
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
     $tOutput .=  '</span>';
@@ -472,7 +464,7 @@ function expandVerseList($tVerses){
 }
 
 // ============================================================================
-function doVerseNumber($iVerseNumber, $bLastVerseParagraph, $bFirstParagraph){
+function doVerseNumber($iVerseNumber){
 // ============================================================================
   $tOutput =  '';
   if ($iVerseNumber > 0) {
@@ -631,85 +623,6 @@ function procesSearchWords($tWords, $bExact){
   }
   return $tNewWords;
 }
-
-// V ################# POSSIBLE FUTURE SEARCH IMPROVEMENTS ################## V
-// ============================================================================
-function procesSearchWords2($tWords, $bExact){
-// ============================================================================
-  $atWords = explode(' ', $tWords);
-  $tWord = '';
-  $iLen = count($atWords);
-
-  if ($iLen === 1){
-    //treat 1 word differently
-  }
-
-
-
-
-
-  $i = 0;
-
-    for($j = $i;$j < $iLen; $j++) {
-      $tWord = $atWords[$j];
-      if ($j < $iLen){
-      $tValue = procesSearchWord($atWords, $j, $iLen, $bExact);
-      }else{
-        $tValue = procesSearchWord($atWords, 0);
-      }
-    }
-    if($bExact){
-      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
-    }else{
-      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
-//    }else{
-      // if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
-        $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
-      // }else {
-    }
-
-/*
-  if($bExact){
-    if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
-//      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
-      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '%  %', $tWords) . '%"';
-    }else {
-      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
-    }
-  }else{
-    // if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
-      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
-    // }else {
-    // }
-  }
-
-*/
-  return $tWords;
-}
-
-// ============================================================================
-function procesSearchWord($atWords, $i, $iLen, $bExact){
-// ============================================================================
-  $tBook = '';
-  $tWords = '';
-  $atBookFound = findBibleBook($atWords, $i, $iLen);
-  $i = $atBookFound[1];
-  if (strlen($atBookFound[0]) > 0){ // first few words is a book
-    $tBook .= 'books.bookName = "' . $atBookFound[0] . '"';
-    if(is_numeric ($atWords[$i])){// is next word a chapter?
-      $tBook .= ' AND verses.chapter = "' . $atBookFound[$i] . '"';
-    }
-  }else{
-//    addStrongsWild($atWords, $i, $iLen)
-  }
-  $tWords = joinWords($atWords, $i, $iLen);
-  echo '$tBook  NOW:' . $tBook;
-  echo '$tWords NOW:' . $tWords;
-  $tWords = $tWords . addStrongsWild($atWords, $i, $iLen, $bExact);
-
-  return $tBook . $tWords;
-}
-// ^ ################# POSSIBLE FUTURE SEARCH IMPROVEMENTS ################## ^
 
 // ============================================================================
 function joinWords($atWords, $i, $iLen){
