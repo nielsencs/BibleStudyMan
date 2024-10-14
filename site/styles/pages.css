@@ -146,6 +146,11 @@
   margin-top: 21pt;
 }
 
+.bibleText p {
+  text-indent: 28pt;
+  text-align: justify;
+}
+
 .spanAll p {
   column-span: all;
 }
