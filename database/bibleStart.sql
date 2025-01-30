@@ -129,6 +129,9 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 0, 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0444', 0, 'anthropos', 'people', 'Often translated \'men\' but is not gender specific - so humans, people, humankind.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3126', 0, 'mammon', 'your-savings', 'TrustTreasure - what you rely on, your-savings, investment.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2823', 0, 'klibanos', 'fire-oven', 'This was an earthenware pot for baking bread. It was broader at the bottom than at the top, and with a fire lit inside, the dough was baked by being spread on the outside.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3107', 0, 'makarios', 'happier', 'Often translated Blessed, a bit old fashioned now, it is an emphatic form of happy.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3339', 0, 'metamorfoo', 'transformed', 'This is the Greek root word for the English word Metamorphose.');
 
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
