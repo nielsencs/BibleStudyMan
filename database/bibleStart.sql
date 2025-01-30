@@ -126,7 +126,9 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4995', 0, 'sofronismos', 'soundness-of-mind', 'This is subtle and can mean soundness-of-mind, self-discipline, prudence, wisdom. It is only used in 2 timothy 1:7.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5349', 0, 'fthartos', 'temporary', 'Temporary or mortal; not lasting, perishable, impermanent.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5509', 0, 'chiton', 'tunic', 'Strictly a tunic but often the main or only garment worn, either by men or women. Robe; clothing; undergarment.');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 0, 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 0, 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0444', 0, 'anthropos', 'people', 'Often translated \'men\' but is not gender specific - so humans, people, humankind.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3126', 0, 'mammon', 'your-savings', 'TrustTreasure - what you rely on, your-savings, investment.');
 
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
