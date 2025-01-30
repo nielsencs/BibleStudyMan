@@ -70,3 +70,52 @@ FROM `plan-new`
 INNER JOIN books ON `plan-new`.bookCode=books.bookCode
 WHERE (SELECT `plan-days`.`planDate` FROM `plan-new`, `plan-days` WHERE `plan-days`.ID = @TheDay)
 ORDER BY `plan-new`.planDay, books.orderChristian, `plan-new`.sectionCode;
+
+
+SELECT
+`plan-new`.planID, 
+books.bookName, 
+books.bookCode, 
+`plan-new`.startChapter, 
+books.bookChapters, 
+`plan-new`.startVerse, 
+`plan-new`.endChapter, 
+`plan-new`.endVerse 
+FROM 
+`plan-new` INNER JOIN books ON `plan-new`.bookCode=books.bookCode 
+WHERE 
+`plan-new`.sectionCode = "1TOR" 
+ORDER BY 
+books.orderChristian, 
+`plan-new`.planDay;
+
+
+SELECT *, DATE_FORMAT(planDate,"%b %e") as planDateFormatted
+ FROM `plan-new` INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID
+ INNER JOIN books ON `plan-new`.bookCode=books.bookCode
+
+
+
+SELECT *, planDate, books.bookCode,
+`plan-new`.`startChapter`, 
+`plan-new`.`startVerse`, 
+`plan-new`.`endChapter`, 
+`plan-new`.`endVerse`,
+
+`verses`.`bookCode`,
+`verses`.`chapter`,
+`verses`.`verseNumber`,
+`verses`.`verseText`
+
+FROM `plan-new` 
+INNER JOIN `plan-days` ON `plan-new`.planDay=`plan-days`.ID
+INNER JOIN books ON `plan-new`.bookCode=books.bookCode
+INNER JOIN `verses` ON `verses`.`bookCode`=books.bookCode
+ 
+WHERE `verses`.`bookCode` = books.bookCode
+AND `verses`.`chapter`>= `plan-new`.`startChapter`
+AND `verses`.`chapter`<= `plan-new`.`endChapter`
+AND `verses`.`verseNumber`>= `plan-new`.`startVerse`
+AND `verses`.`verseNumber`<= `plan-new`.`endVerse`
+
+ORDER BY planDate;
