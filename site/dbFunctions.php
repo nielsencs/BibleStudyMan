@@ -543,10 +543,7 @@ function highlightSearch($tValue){
       $tValue = highlight($tWords, $tValue);
     }else {
       $atSearch = explode (' ', $tWords);
-      foreach ($atSearch as $tWordsWord) {
-        // $tValue = str_ireplace($tWordsWord, '<span class="highlightWord">' . $tWordsWord . '</span>', $tValue);
-        $tValue = highlight($tWordsWord, $tValue);
-      }
+      $tValue = highlightWords($atSearch, $tValue);
     }
   }
   return '<!-- highlightSearch ' . $tWords . ' -->' . $tValue;
@@ -562,6 +559,24 @@ function highlight($needle, $haystack){
          substr($haystack, $ind, $len) .'</span>' .
           highlight($needle, substr($haystack, $ind + $len));
   } else return $haystack;
+}
+
+// ============================================================================
+function highlightWords(array $words, string $haystack): string {
+// ============================================================================
+    $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
+    $words = array_filter($words);
+
+    if (empty($words)) {
+        return $haystack;
+    }
+
+    $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
+    return preg_replace_callback(
+        $pattern,
+        fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
+        $haystack
+    );
 }
 
 // ============================================================================
