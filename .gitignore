@@ -37,3 +37,7 @@ sqlCon.php
 
 # as the name suggests!
 /ProbableJunk!/
+
+# Environmental configuration
+.env
+
