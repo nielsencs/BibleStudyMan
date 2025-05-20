@@ -1,8 +1,8 @@
 <?php
-  $host = 'localhost';
-  $db   = 'bible';
-  $user = 'root';
-  $pass = '';
+  $host = getenv('DB_HOST') ?: 'localhost';
+  $db   = getenv('DB_NAME') ?: 'bible';
+  $user = getenv('DB_USER') ?: 'root';
+  $pass = getenv('DB_PASSWORD') ?: 'mypass';
   $charset = 'utf8mb4';
 
   mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
