@@ -244,3 +244,39 @@ GROUP BY
 ORDER BY 
     `plan-days`.`planDate`, 
     `plan-new`.`sectionCode`;
+-- ============================================================================
+-- ============================================================================
+-- Remove common punctuation + , <> & {}
+-- ----------------------------------------------------------------------------
+UPDATE `verses-stripped`
+SET verseText = REGEXP_REPLACE(verseText, '\'s{.....}|<p>|</p>|<br>|n\'t|[.,;:!?()"\']', '');
+-- ============================================================================
+-- query to get word count
+-- ----------------------------------------------------------------------------
+WITH RECURSIVE word_split AS (
+  -- Anchor member: get the first word from each verseText
+  SELECT
+    verseID,
+    TRIM(SUBSTRING_INDEX(verseText, ' ', 1)) AS word,
+    SUBSTRING(verseText, LENGTH(SUBSTRING_INDEX(verseText, ' ', 1)) + 2) AS rest
+  FROM `verses-stripped`
+  WHERE verseText IS NOT NULL
+
+  UNION ALL
+
+  -- Recursive member: get the next word from the rest
+  SELECT
+    verseID,
+    TRIM(SUBSTRING_INDEX(rest, ' ', 1)) AS word,
+    SUBSTRING(rest, LENGTH(SUBSTRING_INDEX(rest, ' ', 1)) + 2)
+  FROM word_split
+  WHERE rest <> ''
+)
+SELECT
+  LOWER(word) AS word,
+  COUNT(*) AS frequency
+FROM word_split
+WHERE word <> ''
+GROUP BY LOWER(word)
+ORDER BY frequency DESC, word;
+-- ============================================================================
