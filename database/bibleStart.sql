@@ -1234,10 +1234,10 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 522, 157, '2NV1', '2KI', 14, 1, 14, 24);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 523, 158, '2NV1', '2KI', 14, 25, 15, 22);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 524, 159, '2NV1', '2KI', 15, 23, 16, 9);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 525, 160, '2NV1', '2KI', 16, 10, 17, 14);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 526, 161, '2NV1', '2KI', 17, 15, 17, 35);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 527, 162, '2NV1', '2KI', 17, 36, 18, 20);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 528, 163, '2NV1', '2KI', 18, 21, 19, 4);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 525, 160, '2NV1', '2KI', 16, 10, 17, 18);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 526, 161, '2NV1', '2KI', 17, 19, 17, 41);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 527, 162, '2NV1', '2KI', 18, 1, 18, 25);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 528, 163, '2NV1', '2KI', 18, 26, 19, 4);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 529, 164, '2NV1', '2KI', 19, 5, 19, 28);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 530, 165, '2NV1', '2KI', 19, 29, 20, 17);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 531, 166, '2NV1', '2KI', 20, 18, 21, 22);
@@ -1964,9 +1964,9 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1252, 157, '5NCV', 'JOH', 13, 18, 13, 38);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1253, 158, '5NCV', 'JOH', 14, 1, 14, 26);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1254, 159, '5NCV', 'JOH', 14, 27, 15, 17);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1255, 160, '5NCV', 'JOH', 15, 18, 16, 15);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1256, 161, '5NCV', 'JOH', 16, 16, 17, 3);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1257, 162, '5NCV', 'JOH', 17, 4, 17, 26);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1255, 160, '5NCV', 'JOH', 15, 18, 16, 11);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1256, 161, '5NCV', 'JOH', 16, 12, 16, 33);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1257, 162, '5NCV', 'JOH', 17, 0, 0, 0);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1258, 163, '5NCV', 'JOH', 18, 1, 18, 18);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1259, 164, '5NCV', 'JOH', 18, 19, 18, 40);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1260, 165, '5NCV', 'JOH', 19, 1, 19, 18);
