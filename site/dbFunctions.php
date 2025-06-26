@@ -78,7 +78,15 @@ function prepareDropdownBookList(){
   global $link, $tBook;
   $tOutput = '';
 
-  $tQuery = 'SELECT bookName FROM books ORDER BY bookName;';
+  $tQuery = <<<SQL
+    SELECT
+      `bookName`
+    FROM
+      `books`
+    ORDER BY
+      TRIM(LEADING ' ' FROM REGEXP_REPLACE(bookName, '^[0-9 &]+ ', '')),
+      CAST(SUBSTRING_INDEX(bookName, ' ', 1) AS UNSIGNED)
+    SQL;
   $result = doQuery($link, $tQuery);
 
   if (mysqli_num_rows($result) > 0) {
