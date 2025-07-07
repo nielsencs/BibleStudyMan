@@ -250,9 +250,7 @@ ORDER BY
 -- ----------------------------------------------------------------------------
 UPDATE `verses-stripped`
 SET verseText = REGEXP_REPLACE(verseText, '\'s{.....}|<p>|</p>|<br>|n\'t|[.,;:!?()"\']', '');
--- ============================================================================
--- query to get word count
--- ----------------------------------------------------------------------------
+-- ============================== get word count ==============================
 WITH RECURSIVE word_split AS (
   -- Anchor member: get the first word from each verseText
   SELECT
@@ -279,4 +277,9 @@ FROM word_split
 WHERE word <> ''
 GROUP BY LOWER(word)
 ORDER BY frequency DESC, word;
--- ============================================================================
+-- ============================== get word count ==============================
+-- ============================= verses by length =============================
+SELECT bookCode, chapter, verseNumber, LENGTH(verseText) as verselen, verseText
+FROM `verses` 
+ORDER BY verselen DESC;
+-- ============================= verses by length =============================
