@@ -3,6 +3,7 @@
   require_once 'dbFunctions.php';
   require_once 'search.php';
 
+  // I'm adding this comment to see if it goes to Jules
   if (!isset($_GET['highlightSW']) && !isset($_GET['showOW']) && !isset($_GET['showTN'])) {
     $bHighlightSW = true;
     $bShowOW = true;
