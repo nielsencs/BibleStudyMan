@@ -2,6 +2,13 @@
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'search.php';
+
+  if (!isset($_GET['highlightSW']) && !isset($_GET['showOW']) && !isset($_GET['showTN'])) {
+    $bHighlightSW = true;
+    $bShowOW = true;
+    $bShowTN = true;
+  }
+
   $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
   if($atBookChapSearch[0] > ''){ // book found in search
     $tBook = $atBookChapSearch[0];
