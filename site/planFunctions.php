@@ -545,6 +545,7 @@ function PTBuild($result1, $result2, $result3, $result4){ // build the HTML tabl
     $date->add(new DateInterval('P1D'));
   }
   $tOutput .= '</tr></table>';
+  $tOutput .= '<script src="scripts/plan.js"></script>';
 
   return $tOutput;
 }
@@ -560,7 +561,7 @@ function PTAddSection($row) { // add a section column to the plan table
   $tOutput .= '<td>';
   $tOutput .= '<a href="bible.php?book=';
   $tOutput .= $row['bookName'];
-  $tOutput .= '">';
+  $tOutput .= '" class="plan-link">';
   $tOutput .= $row['bookName'];
   $tOutput .= '</a> ';
 
@@ -569,7 +570,7 @@ function PTAddSection($row) { // add a section column to the plan table
     $tOutput .= $row['bookName'];
     $tOutput .= '&chapter=';
     $tOutput .= $row['startChapter'];
-    $tOutput .= '">';
+    $tOutput .= '" class="plan-link">';
     $tOutput .= $row['startChapter'];
     $tOutput .= '</a>';
     if ($row['endChapter'] > 0 && !$bChaptersOnly){
@@ -589,7 +590,7 @@ function PTAddSection($row) { // add a section column to the plan table
         $tOutput .= $row['bookName'];
         $tOutput .= '&chapter=';
         $tOutput .= $row['endChapter'];
-        $tOutput .= '">';
+        $tOutput .= '" class="plan-link">';
         $tOutput .= $row['endChapter'];
         $tOutput .= '</a> ';
       }
