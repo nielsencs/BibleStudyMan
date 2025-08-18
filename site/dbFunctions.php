@@ -548,6 +548,8 @@ function highlightSearch($text): string {
         return $text;
     }
 
+    $text = strip_tags($text);
+
     if ($bExact) {
         // Exact phrase match
         $pattern = '/\b(' . preg_quote($tWords) . ')\b/i';
