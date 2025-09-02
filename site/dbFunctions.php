@@ -540,35 +540,50 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 }
 
 // ============================================================================
-function highlightSearch($text): string {
+function highlightSearch($tValue){
 // ============================================================================
     global $tWords, $bExact;
     
-    if (empty($tWords)) {
-        return $text;
+  if ($tWords > ''){
+//    if (! $bExact){
+    if ($bExact){
+      // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
+      $tValue = highlight($tWords, $tValue);
+    }else {
+      $atSearch = explode (' ', $tWords);
+      $tValue = highlightWords($atSearch, $tValue);
+    }
+  }
+  return '<!-- highlightSearch ' . $tWords . ' -->' . $tValue;
     }
 
-    $text = strip_tags($text);
+// ============================================================================
+function highlight($needle, $haystack){
+// ============================================================================
+  $ind = stripos($haystack, $needle);
+  $len = strlen($needle);
+  if($ind){
+      return substr($haystack, 0, $ind) . '<span class="highlightWord">' .
+         substr($haystack, $ind, $len) .'</span>' .
+          highlight($needle, substr($haystack, $ind + $len));
+  } else return $haystack;
+}
 
-    if ($bExact) {
-        // Exact phrase match
-        $pattern = '/\b(' . preg_quote($tWords) . ')\b/i';
-    } else {
-        // Individual word matches
-        $words = array_filter(array_unique(array_map(
-            fn($word) => trim($word),
-            explode(' ', $tWords)
-        )));
+// ============================================================================
+function highlightWords(array $words, string $haystack): string {
+// ============================================================================
+    $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
+    $words = array_filter($words);
+
         if (empty($words)) {
-            return $text;
-        }
-        $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
+        return $haystack;
     }
 
+    $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
     return preg_replace_callback(
         $pattern,
         fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
-        $text
+        $haystack
     );
 }
 

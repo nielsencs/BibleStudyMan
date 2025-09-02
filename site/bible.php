@@ -3,12 +3,6 @@
   require_once 'dbFunctions.php';
   require_once 'search.php';
 
-  if (!isset($_GET['highlightSW']) && !isset($_GET['showOW']) && !isset($_GET['showTN'])) {
-    $bHighlightSW = true;
-    $bShowOW = true;
-    $bShowTN = true;
-  }
-
   $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
   if($atBookChapSearch[0] > ''){ // book found in search
     $tBook = $atBookChapSearch[0];
@@ -321,7 +315,7 @@ function intToWords($x) {
       if ($r > 0) {
         $tNWord .= ' ';
         if ($r < 100) {
-          $tNWordord .= $atNWords['separator'] . ' ';
+          $tNWord .= $atNWords['separator'] . ' ';
         }
         $tNWord .= intToWords($r);
       }
