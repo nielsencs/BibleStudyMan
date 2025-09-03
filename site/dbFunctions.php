@@ -560,8 +560,12 @@ function highlightSearch($tValue){
 // ============================================================================
 function highlight($needle, $haystack){
 // ============================================================================
-  $pattern = '/\b(' . preg_quote($needle, '/') . ')\b/i';
-  return preg_replace($pattern, '<span class="highlightWord">$1</span>', $haystack);
+  // This is a pragmatic fix. Instead of trying to highlight the exact phrase
+  // across HTML tags (which is very complex), we highlight the individual
+  // words of the phrase. The SQL query has already ensured that all these
+  // words are present in the result.
+  $words = explode(' ', $needle);
+  return highlightWords($words, $haystack);
 }
 
 // ============================================================================
@@ -570,27 +574,16 @@ function highlightWords(array $words, string $haystack): string {
     $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
     $words = array_filter($words);
 
-    if (empty($words)) {
+        if (empty($words)) {
         return $haystack;
     }
 
-    $parts = preg_split('/(<[^>]*>)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
     $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
-    $result = '';
-
-    foreach ($parts as $i => $part) {
-        if ($i % 2 == 0) { // Text content
-            $result .= preg_replace_callback(
-                $pattern,
-                fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
-                $part
-            );
-        } else { // HTML tag
-            $result .= $part;
-        }
-    }
-
-    return $result;
+    return preg_replace_callback(
+        $pattern,
+        fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
+        $haystack
+    );
 }
 
 // ============================================================================
