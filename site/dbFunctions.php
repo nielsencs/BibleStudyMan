@@ -493,23 +493,36 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
     $tTagStart = '{';
     $tTagEnd = '}';
-    $tNewValue = '';
+    $finalOutput = '';
 
-    while (($iTagStart = strpos($tValue, $tTagStart)) !== false) {
-        $iTagEnd = strpos($tValue, $tTagEnd, $iTagStart);
-        if ($iTagEnd === false) {
-            // Unmatched opening tag, stop processing
+    while (true) {
+        $iTagStart = strpos($tValue, $tTagStart);
+
+        // No more tags found, append the rest of the string and finish.
+        if ($iTagStart === false) {
+            $finalOutput .= $tValue;
             break;
         }
 
-        // Extract the part before the tag and the word itself
+        $iTagEnd = strpos($tValue, $tTagEnd, $iTagStart);
+
+        // Malformed tag (unclosed), append the rest of the string and finish.
+        if ($iTagEnd === false) {
+            $finalOutput .= $tValue;
+            break;
+        }
+
+        // --- We have a valid tag, process the parts ---
+
+        // 1. Append the text before the word associated with the tag.
         $textBeforeTag = substr($tValue, 0, $iTagStart);
         $iWordStart = strrpos(' ' . $textBeforeTag, ' ');
-        
-        $tNewValue .= substr($textBeforeTag, 0, $iWordStart);
+        $finalOutput .= substr($textBeforeTag, 0, $iWordStart);
 
+        // 2. Build the highlighted word and its associated tags.
+        $processedWord = '';
         if ($bHighlightSW) {
-            $tNewValue .= '<span class="highlightOW">';
+            $processedWord .= '<span class="highlightOW">';
         }
 
         $tWord1 = substr($textBeforeTag, $iWordStart);
@@ -523,20 +536,23 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
             $tWord2 = $tWord1_orig;
         }
 
-        $tNewValue .= $tWord1;
+        $processedWord .= $tWord1;
 
         if ($bShowOW) {
-            $tNewValue .= ' <sub>(' . $tWord2 . ')</sub>';
+            $processedWord .= ' <sub>(' . $tWord2 . ')</sub>';
         }
 
         if ($bHighlightSW) {
-            $tNewValue .= '</span>';
+            $processedWord .= '</span>';
         }
         
+        $finalOutput .= $processedWord;
+
+        // 3. Update the remaining value of tValue for the next loop iteration.
         $tValue = substr($tValue, $iTagEnd + 1);
     }
 
-    return $tNewValue . $tValue;
+    return $finalOutput;
 }
 
 // ============================================================================
