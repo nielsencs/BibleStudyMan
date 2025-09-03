@@ -560,13 +560,8 @@ function highlightSearch($tValue){
 // ============================================================================
 function highlight($needle, $haystack){
 // ============================================================================
-  $ind = stripos($haystack, $needle);
-  $len = strlen($needle);
-  if($ind){
-      return substr($haystack, 0, $ind) . '<span class="highlightWord">' .
-         substr($haystack, $ind, $len) .'</span>' .
-          highlight($needle, substr($haystack, $ind + $len));
-  } else return $haystack;
+  $pattern = '/\b(' . preg_quote($needle, '/') . ')\b/i';
+  return preg_replace($pattern, '<span class="highlightWord">$1</span>', $haystack);
 }
 
 // ============================================================================
