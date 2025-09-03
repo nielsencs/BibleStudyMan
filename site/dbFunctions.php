@@ -491,52 +491,52 @@ function isSentence($text){
 // ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $iWordStart = 0;
-  $tTagStart = '{';
-  $tTagEnd = '}';
-  $iTagStart = 0;
-  $iTagEnd = 0;
-  $tNewValue = '';
-  $tStrongsNo = '';
-  $tWord1 = '';
-  $tWord2 = '';
+    $tTagStart = '{';
+    $tTagEnd = '}';
+    $tNewValue = '';
 
-  $i = 0;
-
-  do {
-    $i++;
-    $iTagStart = strpos($tValue, $tTagStart);
-    if ($iTagStart > 0) {
-      $iWordStart = strrpos(substr(' ' . $tValue, 0, $iTagStart), ' '); // look for preceeding space
-
-      $iTagEnd = strpos(substr($tValue, 0), $tTagEnd);
-      $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - 1 - $iTagStart);
-      $tNewValue = $tNewValue . substr($tValue, 0, $iWordStart);
-      if ($bHighlightSW){
-        $tNewValue = $tNewValue . '<span class="highlightOW">';
-      }
-
-      $tWord1 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
-      $tWord2 = strongs($tStrongsNo)[1];
-
-      if (strongs($tStrongsNo)[0] > 0){ // is a name
-        if (!$bShowTN){ // don't show translated names
-          $tWord1 = strongs($tStrongsNo)[1];
-          $tWord2 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
+    while (($iTagStart = strpos($tValue, $tTagStart)) !== false) {
+        $iTagEnd = strpos($tValue, $tTagEnd, $iTagStart);
+        if ($iTagEnd === false) {
+            // Unmatched opening tag, stop processing
+            break;
         }
-      }
-      $tNewValue = $tNewValue . $tWord1;
-      if ($bShowOW){
-        $tNewValue = $tNewValue . ' <sub>(' . $tWord2 . ')</sub>';
-      }
-      if ($bHighlightSW){
-        $tNewValue = $tNewValue . '</span>';
-      }
 
-      $tValue = substr($tValue, $iTagEnd + 1);
+        // Extract the part before the tag and the word itself
+        $textBeforeTag = substr($tValue, 0, $iTagStart);
+        $iWordStart = strrpos(' ' . $textBeforeTag, ' ');
+        
+        $tNewValue .= substr($textBeforeTag, 0, $iWordStart);
+
+        if ($bHighlightSW) {
+            $tNewValue .= '<span class="highlightOW">';
+        }
+
+        $tWord1 = substr($textBeforeTag, $iWordStart);
+        $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - $iTagStart - 1);
+        $strongsData = strongs($tStrongsNo);
+        $tWord2 = $strongsData[1];
+
+        if ($strongsData[0] > 0 && !$bShowTN) { // is a name and don't show translated
+            $tWord1_orig = $tWord1;
+            $tWord1 = $tWord2;
+            $tWord2 = $tWord1_orig;
+        }
+
+        $tNewValue .= $tWord1;
+
+        if ($bShowOW) {
+            $tNewValue .= ' <sub>(' . $tWord2 . ')</sub>';
+        }
+
+        if ($bHighlightSW) {
+            $tNewValue .= '</span>';
+        }
+        
+        $tValue = substr($tValue, $iTagEnd + 1);
     }
-  } while ($iTagStart > 0);
-  return $tNewValue . $tValue;
+
+    return $tNewValue . $tValue;
 }
 
 // ============================================================================
@@ -570,16 +570,27 @@ function highlightWords(array $words, string $haystack): string {
     $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
     $words = array_filter($words);
 
-        if (empty($words)) {
+    if (empty($words)) {
         return $haystack;
     }
 
+    $parts = preg_split('/(<[^>]*>)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
     $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
-    return preg_replace_callback(
-        $pattern,
-        fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
-        $haystack
-    );
+    $result = '';
+
+    foreach ($parts as $i => $part) {
+        if ($i % 2 == 0) { // Text content
+            $result .= preg_replace_callback(
+                $pattern,
+                fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
+                $part
+            );
+        } else { // HTML tag
+            $result .= $part;
+        }
+    }
+
+    return $result;
 }
 
 // ============================================================================
