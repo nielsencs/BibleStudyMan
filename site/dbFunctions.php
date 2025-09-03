@@ -491,66 +491,64 @@ function isSentence($text){
 // ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-    $tTagStart = '{';
-    $tTagEnd = '}';
+    // This function is complex because it modifies a string based on finding
+    // markers, but must be careful not to break HTML that might already be
+    // in the string. This new version processes the string linearly to avoid
+    // the bugs in the original implementation, and uses a regex to correctly
+    // identify the word before the tag, as per user guidance.
+
     $finalOutput = '';
+    $lastPos = 0;
 
-    while (true) {
-        $iTagStart = strpos($tValue, $tTagStart);
-
-        // No more tags found, append the rest of the string and finish.
-        if ($iTagStart === false) {
-            $finalOutput .= $tValue;
-            break;
-        }
-
-        $iTagEnd = strpos($tValue, $tTagEnd, $iTagStart);
-
-        // Malformed tag (unclosed), append the rest of the string and finish.
-        if ($iTagEnd === false) {
-            $finalOutput .= $tValue;
-            break;
-        }
-
-        // --- We have a valid tag, process the parts ---
-
-        // 1. Append the text before the word associated with the tag.
-        $textBeforeTag = substr($tValue, 0, $iTagStart);
-        $iWordStart = strrpos(' ' . $textBeforeTag, ' ');
-        $finalOutput .= substr($textBeforeTag, 0, $iWordStart);
-
-        // 2. Build the highlighted word and its associated tags.
-        $processedWord = '';
-        if ($bHighlightSW) {
-            $processedWord .= '<span class="highlightOW">';
-        }
-
-        $tWord1 = substr($textBeforeTag, $iWordStart);
-        $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - $iTagStart - 1);
-        $strongsData = strongs($tStrongsNo);
-        $tWord2 = $strongsData[1];
-
-        if ($strongsData[0] > 0 && !$bShowTN) { // is a name and don't show translated
-            $tWord1_orig = $tWord1;
-            $tWord1 = $tWord2;
-            $tWord2 = $tWord1_orig;
-        }
-
-        $processedWord .= $tWord1;
-
-        if ($bShowOW) {
-            $processedWord .= ' <sub>(' . $tWord2 . ')</sub>';
-        }
-
-        if ($bHighlightSW) {
-            $processedWord .= '</span>';
-        }
+    // The regex finds a word (alphanumeric + apostrophe) followed by a Strong's tag like {H1234}
+    while (preg_match('/([a-zA-Z0-9\']+)\{([HG]\d+)\}/', $tValue, $matches, PREG_OFFSET_CAPTURE, $lastPos)) {
         
-        $finalOutput .= $processedWord;
+        $fullMatchInfo = $matches[0];
+        $wordInfo = $matches[1];
+        $strongsNoInfo = $matches[2];
 
-        // 3. Update the remaining value of tValue for the next loop iteration.
-        $tValue = substr($tValue, $iTagEnd + 1);
+        $matchStartPosition = $fullMatchInfo[1];
+        $word = $wordInfo[0];
+        $strongsNo = $strongsNoInfo[0];
+
+        // 1. Append the text between the last match and this current one.
+        $finalOutput .= substr($tValue, $lastPos, $matchStartPosition - $lastPos);
+
+        // 2. Process the matched word and Strong's number.
+        $strongsData = strongs($strongsNo);
+        if (!isset($strongsData[0]) || !isset($strongsData[1])) {
+            // If Strong's data is missing, just append the original matched word and tag to be safe.
+            $finalOutput .= $fullMatchInfo[0];
+        } else {
+            $tWord1 = $word;
+            $tWord2 = $strongsData[1];
+    
+            if ($strongsData[0] > 0 && !$bShowTN) { // is a name and don't show translated
+                $tWord1_orig = $tWord1;
+                $tWord1 = $tWord2;
+                $tWord2 = $tWord1_orig;
+            }
+    
+            $processedWord = '';
+            if ($bHighlightSW) {
+                $processedWord .= '<span class="highlightOW">';
+            }
+            $processedWord .= $tWord1;
+            if ($bShowOW) {
+                $processedWord .= ' <sub>(' . $tWord2 . ')</sub>';
+            }
+            if ($bHighlightSW) {
+                $processedWord .= '</span>';
+            }
+            $finalOutput .= $processedWord;
+        }
+
+        // 3. Update the last position to search from after this match.
+        $lastPos = $matchStartPosition + strlen($fullMatchInfo[0]);
     }
+
+    // 4. Append any remaining part of the string after the last match.
+    $finalOutput .= substr($tValue, $lastPos);
 
     return $finalOutput;
 }
