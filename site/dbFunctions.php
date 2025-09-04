@@ -408,21 +408,30 @@ function showVerse($tVerses, $row){
   $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
 
-  if ($bVerseSearched){ //if verse searched for highlight the whole verse
-    $tOutput .=  '<span class="highlightVerse">';
-  }
-
   if(strtolower(substr($tThisVerseText, 0, 3)) == '<p>'){ // if this verse starts a paragraph
     $tOutput .=  '<p>';
     $tThisVerseText = substr($tThisVerseText, 3);
     // place it before the verse number
+  }
+  
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '<span class="highlightVerse">';
   }
 
   $tOutput .=  doVerseNumber($row['verseNumber']);
   $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
 
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>'; // if this verse ends a paragraph
+    if($bEndPara){
+      $tThisVerseText = substr($tThisVerseText, 0, -4);
+      // place it after any highlighting
+    }
     $tOutput .=  '</span>';
+    if($bEndPara){
+      $tOutput .=  '</p>';
+      // place it after any highlighting
+    }
   }
 
   return $tOutput;
