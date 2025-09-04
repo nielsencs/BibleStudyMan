@@ -63,7 +63,7 @@ function getDayReadingQueryWhere($iMonth, $iDay, $iSection = 0){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsSentence($iMonth, $iDay){
+function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $link;
   $tOutput = '';
@@ -107,7 +107,7 @@ function daysReadingsAsSentence($iMonth, $iDay){
       $bChaptersOnly = isChaptersOnly($row);
       $bSameChapter = isSameChapter($row);
 
-      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly && ! $bSameChapter );
+      $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly && ! $bSameChapter, $bHighlightSW, $bShowOW, $bShowTN);
 
       $tOutput .= ' ' . $row['startChapter'];
       if($row['startVerse'] > 0){
@@ -146,7 +146,7 @@ function daysReadingsAsSentence($iMonth, $iDay){
 // ============================================================================
 
 // ============================================================================
-function daysSectionReading($iMonth, $iDay, $iSection){
+function daysSectionReading($iMonth, $iDay, $iSection, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $link;
   $tOutput = '';
@@ -163,7 +163,7 @@ function daysSectionReading($iMonth, $iDay, $iSection){
       $bChaptersOnly = isChaptersOnly($row);
       $bSameChapter = isSameChapter($row);
 
-      $tOutput .= bookNameOrPsalm($row['bookName'], -1, false, $bChaptersOnly && ! $bSameChapter );
+      $tOutput .= bookNameOrPsalm($row['bookName'], -1, false, $bChaptersOnly && ! $bSameChapter, $bHighlightSW, $bShowOW, $bShowTN);
 
       $tOutput .= $row['startChapter'];
       if($row['startVerse'] > 0){
@@ -213,7 +213,7 @@ function isSameChapter($row){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVerses($iMonth, $iDay){
+function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $link;
   $tOutput = '';
@@ -241,7 +241,7 @@ function daysReadingsAsVerses($iMonth, $iDay){
 //        $tOutput .=  '<p class="centerText">' . $readingList[$i]['bookName'];
 //        $tOutput .=  ' ' . $readingList[$i]['startChapter'] . ':' .  $readingList[$i]['startVerse'];
 //        $tOutput .=  ' - ' . $readingList[$i]['endChapter'] . ':' .  $readingList[$i]['endVerse'] . '</p>';
-        $tOutput .=  '<p class="centerText">' . daysSectionReading($iMonth, $iDay, $i + 1) . '</p>';
+        $tOutput .=  '<p class="centerText">' . daysSectionReading($iMonth, $iDay, $i + 1, $bHighlightSW, $bShowOW, $bShowTN) . '</p>';
 
         $tAudio = 'media/' . $readingList[$i]['bookCode'] . '_' . $readingList[$i]['startChapter'];
         $tAudio .= '_' .  $readingList[$i]['startVerse'] . '-' . $readingList[$i]['endChapter'];
@@ -252,7 +252,7 @@ function daysReadingsAsVerses($iMonth, $iDay){
           $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br />';
           $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . $tAudio . '"></audio>';
         }
-        $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
+        $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse'], $bHighlightSW, $bShowOW, $bShowTN);
     }
     $tOutput .=  '</form>';
     $tOutput .=  '</section>';
@@ -262,7 +262,7 @@ function daysReadingsAsVerses($iMonth, $iDay){
 // ============================================================================
 
 // ============================================================================
-function daysReadingsAsVersesNoAudio($iMonth, $iDay){
+function daysReadingsAsVersesNoAudio($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $link;
   $tOutput = '';
@@ -285,7 +285,7 @@ function daysReadingsAsVersesNoAudio($iMonth, $iDay){
     $tOutput .=  '<section class="search-result">';
     for ($i=0; $i < $readCount; $i++) {
       $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
-      $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
+      $tOutput .=  showReading($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse'], $bHighlightSW, $bShowOW, $bShowTN);
     }
     $tOutput .=  '</section>';
   }
@@ -294,10 +294,10 @@ function daysReadingsAsVersesNoAudio($iMonth, $iDay){
 // ============================================================================
 
 // ============================================================================
-function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
+function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   $tQuery =  buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse);
-  return showVerses($tQuery, '');
+  return showVerses($tQuery, '', $bHighlightSW, $bShowOW, $bShowTN);
 }
 // ============================================================================
 

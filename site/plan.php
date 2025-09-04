@@ -59,7 +59,7 @@
                 <h2>Readings for <?php echo monthName($iMonth) . ' ' . $iDay; ?>:</h2>
   <?php
     $tOutput = planTable($tSortOrder);
-    echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay);
+    echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
   ?>
                 <p>You can read the passages below. If you're looking to read for
                   a different day or want to use your own Bible, then
@@ -105,7 +105,7 @@
                 
                 
   <?php
-    echo daysReadingsAsVerses($iMonth, $iDay);
+    echo daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
     include_once 'bibleDisclaimer.html';
   ?>
               </div>

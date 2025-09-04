@@ -84,7 +84,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact);
+  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN);
   include_once 'bibleDisclaimer.html';
 ?>
             </div>

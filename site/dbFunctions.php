@@ -7,15 +7,24 @@ function doQuery($link, $tQuery){
 }
 
 // ============================================================================
-function buildLink($tBookName, $iChapter, $tWords, $bExact){
+function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $tReturn = '<a href="bible.php?book=' . $tBookName; // we might be in plan.php and we want to look up a bible passage!
+  $tReturn = '<a href="bible?book=' . $tBookName; // we might be in plan.php and we want to look up a bible passage!
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }
   $tReturn .= '&words=' . str_replace(' ', '+', $tWords);
   if($bExact){
     $tReturn .= '&exact=on';
+  }
+  if ($bHighlightSW){
+    $tReturn .= '&highlightSW=on';
+  }
+  if ($bShowOW){
+    $tReturn .= '&showOW=on';
+  }
+  if ($bShowTN){
+    $tReturn .= '&showTN=on';
   }
   $tReturn .= '">';
   return $tReturn;
@@ -230,7 +239,7 @@ function basicPassageQuery(){
 }
 
 // ============================================================================
-function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false){
+function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $tWords, $bExact;
 
@@ -243,7 +252,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   }
 
   if($bShowLinks){ // link to book only
-    $tOutput .= buildLink($tBookName, 0, $tWords, $bExact);
+    $tOutput .= buildLink($tBookName, 0, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN);
   }
   if($tBookName === 'Psalms'){
     $tOutput .= 'Psalm';
@@ -256,7 +265,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
   if ($iBookChapters > 1){
     $tOutput .= ' ';
     if($bShowLinks){ // link to book and chapter
-      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact);
+      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN);
     }
     if ($iChapter > -1){
     if($tBookName != 'Psalms'){
@@ -278,7 +287,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = f
 }
 
 // ============================================================================
-function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
+function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
 
@@ -330,19 +339,19 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact){
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput .= showVerses($tQuery, $tVerses);
+    $tOutput .= showVerses($tQuery, $tVerses, $bHighlightSW, $bShowOW, $bShowTN);
   }else{
 // These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName ="Genesis" AND verses.chapter=1;';
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>' . showVerses($tQuery, $tVerses);
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>' . showVerses($tQuery, $tVerses, $bHighlightSW, $bShowOW, $bShowTN);
 //    $tOutput = '';
   }
   return $tOutput;
 }
 
 // ============================================================================
-function showVerses($tQuery, $tVerses){
+function showVerses($tQuery, $tVerses, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $link;
 
@@ -368,7 +377,8 @@ function showVerses($tQuery, $tVerses){
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
         $tOutput .=  PHP_EOL . '<h3>';
-        $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true);
+        $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bPluralChapter = false, $bHighlightSW, $bShowOW, $bShowTN);
+
         $tOutput .=  '</h3>' . PHP_EOL;
       }
       $tOutput .= showVerse($tVerses, $row);
