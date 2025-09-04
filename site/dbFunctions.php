@@ -408,21 +408,30 @@ function showVerse($tVerses, $row){
   $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
 
-  if ($bVerseSearched){ //if verse searched for highlight the whole verse
-    $tOutput .=  '<span class="highlightVerse">';
-  }
-
   if(strtolower(substr($tThisVerseText, 0, 3)) == '<p>'){ // if this verse starts a paragraph
     $tOutput .=  '<p>';
     $tThisVerseText = substr($tThisVerseText, 3);
     // place it before the verse number
+  }
+  
+  if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $tOutput .=  '<span class="highlightVerse">';
   }
 
   $tOutput .=  doVerseNumber($row['verseNumber']);
   $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
 
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
+    $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>'; // if this verse ends a paragraph
+    if($bEndPara){
+      $tThisVerseText = substr($tThisVerseText, 0, -4);
+      // place it after any highlighting
+    }
     $tOutput .=  '</span>';
+    if($bEndPara){
+      $tOutput .=  '</p>';
+      // place it after any highlighting
+    }
   }
 
   return $tOutput;
@@ -491,52 +500,66 @@ function isSentence($text){
 // ============================================================================
 function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $iWordStart = 0;
-  $tTagStart = '{';
-  $tTagEnd = '}';
-  $iTagStart = 0;
-  $iTagEnd = 0;
-  $tNewValue = '';
-  $tStrongsNo = '';
-  $tWord1 = '';
-  $tWord2 = '';
+    // This function is complex because it modifies a string based on finding
+    // markers, but must be careful not to break HTML that might already be
+    // in the string. This new version processes the string linearly to avoid
+    // the bugs in the original implementation, and uses a regex to correctly
+    // identify the word before the tag, as per user guidance.
 
-  $i = 0;
+    $finalOutput = '';
+    $lastPos = 0;
 
-  do {
-    $i++;
-    $iTagStart = strpos($tValue, $tTagStart);
-    if ($iTagStart > 0) {
-      $iWordStart = strrpos(substr(' ' . $tValue, 0, $iTagStart), ' '); // look for preceeding space
+    // The regex finds a word (alphanumeric + apostrophe) followed by a Strong's tag like {H1234}
+    while (preg_match('/([a-zA-Z0-9\']+)\{([HG]\d+)\}/', $tValue, $matches, PREG_OFFSET_CAPTURE, $lastPos)) {
+        
+        $fullMatchInfo = $matches[0];
+        $wordInfo = $matches[1];
+        $strongsNoInfo = $matches[2];
 
-      $iTagEnd = strpos(substr($tValue, 0), $tTagEnd);
-      $tStrongsNo = substr($tValue, $iTagStart + 1, $iTagEnd - 1 - $iTagStart);
-      $tNewValue = $tNewValue . substr($tValue, 0, $iWordStart);
-      if ($bHighlightSW){
-        $tNewValue = $tNewValue . '<span class="highlightOW">';
-      }
+        $matchStartPosition = $fullMatchInfo[1];
+        $word = $wordInfo[0];
+        $strongsNo = $strongsNoInfo[0];
 
-      $tWord1 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
-      $tWord2 = strongs($tStrongsNo)[1];
+        // 1. Append the text between the last match and this current one.
+        $finalOutput .= substr($tValue, $lastPos, $matchStartPosition - $lastPos);
 
-      if (strongs($tStrongsNo)[0] > 0){ // is a name
-        if (!$bShowTN){ // don't show translated names
-          $tWord1 = strongs($tStrongsNo)[1];
-          $tWord2 = substr($tValue, $iWordStart, $iTagStart - $iWordStart);
+        // 2. Process the matched word and Strong's number.
+        $strongsData = strongs($strongsNo);
+        if (!isset($strongsData[0]) || !isset($strongsData[1])) {
+            // If Strong's data is missing, just append the original matched word and tag to be safe.
+            $finalOutput .= $fullMatchInfo[0];
+        } else {
+            $tWord1 = $word;
+            $tWord2 = $strongsData[1];
+    
+            if ($strongsData[0] > 0 && !$bShowTN) { // is a name and don't show translated
+                $tWord1_orig = $tWord1;
+                $tWord1 = $tWord2;
+                $tWord2 = $tWord1_orig;
+            }
+    
+            $processedWord = '';
+            if ($bHighlightSW) {
+                $processedWord .= '<span class="highlightOW">';
+            }
+            $processedWord .= $tWord1;
+            if ($bShowOW) {
+                $processedWord .= ' <sub>(' . $tWord2 . ')</sub>';
+            }
+            if ($bHighlightSW) {
+                $processedWord .= '</span>';
+            }
+            $finalOutput .= $processedWord;
         }
-      }
-      $tNewValue = $tNewValue . $tWord1;
-      if ($bShowOW){
-        $tNewValue = $tNewValue . ' <sub>(' . $tWord2 . ')</sub>';
-      }
-      if ($bHighlightSW){
-        $tNewValue = $tNewValue . '</span>';
-      }
 
-      $tValue = substr($tValue, $iTagEnd + 1);
+        // 3. Update the last position to search from after this match.
+        $lastPos = $matchStartPosition + strlen($fullMatchInfo[0]);
     }
-  } while ($iTagStart > 0);
-  return $tNewValue . $tValue;
+
+    // 4. Append any remaining part of the string after the last match.
+    $finalOutput .= substr($tValue, $lastPos);
+
+    return $finalOutput;
 }
 
 // ============================================================================
@@ -560,13 +583,12 @@ function highlightSearch($tValue){
 // ============================================================================
 function highlight($needle, $haystack){
 // ============================================================================
-  $ind = stripos($haystack, $needle);
-  $len = strlen($needle);
-  if($ind){
-      return substr($haystack, 0, $ind) . '<span class="highlightWord">' .
-         substr($haystack, $ind, $len) .'</span>' .
-          highlight($needle, substr($haystack, $ind + $len));
-  } else return $haystack;
+  // This is a pragmatic fix. Instead of trying to highlight the exact phrase
+  // across HTML tags (which is very complex), we highlight the individual
+  // words of the phrase. The SQL query has already ensured that all these
+  // words are present in the result.
+  $words = explode(' ', $needle);
+  return highlightWords($words, $haystack);
 }
 
 // ============================================================================

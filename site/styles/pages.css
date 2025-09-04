@@ -223,16 +223,16 @@
 }
 
 .highlightWord {
-  background-color: #ffffaa;
-}
-
-.highlightVerse {
-  background-color: #ffcccc;
+  background-color: #ffdd0050;
 }
 
 .highlightOW{
-  background-color: #ccccff;
+  background-color: #7700ff30;
 }
+
+.highlightVerse {
+  background-color: #00ff0030;
+}  
 
 .plan {
   border: 3px solid #4ab54a;
