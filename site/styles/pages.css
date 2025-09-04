@@ -226,13 +226,13 @@
   background-color: #ffff0077;
 }
 
-.highlightVerse {
-  background-color: #ffcccc;
-}
-
 .highlightOW{
   background-color: #7700ff55;
 }
+
+.highlightVerse {
+  background-color: #ffcccc;
+}  
 
 .plan {
   border: 3px solid #4ab54a;
