@@ -2,7 +2,7 @@
 My Bible study website
 
 - MySQL is required - build the database from files in the 'database' folder
-- sqlCon.php must be modified to suit your local configuration
+- The application is configured using environment variables. Copy `.env.example` to `.env` and modify it with your database credentials.
 
 ## Local Environment Setup with Docker
 ### Prerequisites

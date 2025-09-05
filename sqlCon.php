@@ -1,16 +1,24 @@
 <?php
-  $host = getenv('DB_HOST') ?: 'localhost';
-  $db   = getenv('DB_NAME') ?: 'bible';
-  $user = getenv('DB_USER') ?: 'root';
-  $pass = getenv('DB_PASSWORD') ?: 'mypass';
+  $host = getenv('DB_HOST');
+  $db   = getenv('DB_NAME');
+  $user = getenv('DB_USER');
+  $pass = getenv('DB_PASSWORD');
   $charset = 'utf8mb4';
 
-  mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
-  try {
-      $link = mysqli_connect($host, $user, $pass, $db);
-      mysqli_set_charset($link, $charset);
-  } catch (\mysqli_sql_exception $e) {
-       throw new \mysqli_sql_exception($e->getMessage(), $e->getCode());
+  if ($host === false || $db === false || $user === false || $pass === false) {
+    die('Please set the required environment variables: DB_HOST, DB_NAME, DB_USER, DB_PASSWORD');
   }
-  unset($host, $db, $user, $pass, $charset); // we don't need them anymore
+
+  $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+  $options = [
+      PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+      PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+      PDO.ATTR_EMULATE_PREPARES   => false,
+  ];
+
+  try {
+       $pdo = new PDO($dsn, $user, $pass, $options);
+  } catch (\PDOException $e) {
+       throw new \PDOException($e->getMessage(), (int)$e->getCode());
+  }
 ?>
