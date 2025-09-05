@@ -89,9 +89,12 @@ function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowT
         }
         foreach($rows as $row) {
             if($row['sectionCode'] === '1TOR'){
+                // $tOutput .= ' first, ';
                 $tOutput .= '';
             }
+            //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
             if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
+                // $tOutput .= '; next it&apos;s ';
                 $tOutput .= '. Follow that by reading';
             }
             if($row['sectionCode'] === '3KTV'){
@@ -101,6 +104,7 @@ function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowT
                 $tOutput .= '; and lastly';
             }
             $tOutput .= ' <strong>';
+// -------------- if whole chapter no from... to ------------
             if($row['endVerse'] > 0){
                 if($row['startChapter'] != $row['endChapter']){
                     $tOutput .= 'from';
@@ -137,6 +141,7 @@ function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowT
                     }
                 }
             }
+// -------------- if whole chapter no from... to ------------
             $tOutput .= '</strong>';
         }
     }
@@ -197,6 +202,7 @@ function daysSectionReading($iMonth, $iDay, $iSection, $bHighlightSW, $bShowOW, 
 // ============================================================================
 function isChaptersOnly($row){
 // ============================================================================
+//  return ($row['startChapter'] != $row['endChapter']) & (intval($row['startVerse']) === 0) & (intval($row['endVerse']) === 0);
     return (intval($row['startVerse']) === 0) && (intval($row['endVerse']) === 0);
 }
 // ============================================================================
@@ -226,6 +232,10 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
             $tOutput .=  '<form class="" action="" method="post" onsubmit="return false">';
             for ($i=0; $i < $readCount; $i++) {
                 $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
+
+//        $tOutput .=  '<p class="centerText">' . $readingList[$i]['bookName'];
+//        $tOutput .=  ' ' . $readingList[$i]['startChapter'] . ':' .  $readingList[$i]['startVerse'];
+//        $tOutput .=  ' - ' . $readingList[$i]['endChapter'] . ':' .  $readingList[$i]['endVerse'] . '</p>';
                 $tOutput .=  '<p class="centerText">' . daysSectionReading($iMonth, $iDay, $i + 1, $bHighlightSW, $bShowOW, $bShowTN) . '</p>';
 
                 $tAudio = 'media/' . $readingList[$i]['bookCode'] . '_' . $readingList[$i]['startChapter'];
@@ -234,7 +244,7 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
 
                 $tOutput .=  '<!-- ' . htmlspecialchars($tAudio, ENT_QUOTES, 'UTF-8') . ' -->';
                 if (file_exists($tAudio)){
-                    $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br />';
+                    $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause('Reading' . $i . '');"><br />';
                     $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . htmlspecialchars($tAudio, ENT_QUOTES, 'UTF-8') . '"></audio>';
                 }
                 list($passageQuery, $passageParams) = buildPassageQueryNew($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
@@ -255,6 +265,85 @@ function showReading($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iE
     return showVerses($tQuery, $params, '', $bHighlightSW, $bShowOW, $bShowTN);
 }
 // ============================================================================
+
+/*
+// ============================================================================
+function buildPassageQuery($tBookCode, $tPassageStart, $tPassageEnd){
+// ============================================================================
+// sort out beginning to end for psalms
+  $iCommaA = stripos($tPassageStart, ',');
+  $iCommaB = strripos($tPassageEnd, ',');
+
+  // if ($iCommaA > 0){
+  //     $tPassageStart = substr($tPassageStart, 0, $iCommaA);
+  // }
+  //
+  // if ($iCommaB > 0){
+  //     $tPassageEnd = substr($tPassageEnd, $iCommaB+1);
+  // }
+
+  return buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd);
+}
+// ============================================================================
+
+// ============================================================================
+function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
+// ============================================================================
+  $iColonA = stripos($tPassageStart, ':');
+  $iColonB = stripos($tPassageEnd, ':');
+  $tQuery = basicPassageQuery();
+
+  if($tBookCode === '23J'){
+    $tQuery .=' WHERE (books.bookCode = "2JO" OR books.bookCode = "3JO")';
+  }else{
+    $tQuery .=' WHERE books.bookCode = "' . $tBookCode . '"';
+  }
+
+  if ($iColonA > 0){
+      $tChapterA = substr($tPassageStart, 0, $iColonA);
+      $tVerseA = substr($tPassageStart, $iColonA+1);
+  }else{
+      $tChapterA = $tPassageStart;
+      $tVerseA = '0';
+  }
+
+  if ($iColonB > 0){
+      $tChapterB = substr($tPassageEnd, 0, $iColonB);
+      $tVerseB = substr($tPassageEnd, $iColonB+1);
+  }else{
+      $tChapterB = $tPassageEnd;
+      $tVerseB = '0';
+  }
+
+  if ($tChapterA === $tChapterB || $tChapterB === ''){ // one chapter
+    if($tVerseA > ''){
+      $tQuery .= ' AND verses.chapter = ' . $tChapterA;
+    }else {
+      $tQuery .= ' AND verses.chapter = ' . $tChapterA;
+      $tQuery .= ' AND verses.verseNumber >=' . $tVerseA;
+      $tQuery .= ' AND verses.verseNumber <=' . $tVerseB;
+    }
+  } else {
+      $tQuery .= ' AND (';
+      $tQuery .= '(verses.chapter = ' . $tChapterA;
+      $tQuery .= ' AND verses.verseNumber >=' . $tVerseA . ')';
+      $tQuery .= ' OR ';
+      $tQuery .= ' (verses.chapter = ' . $tChapterB;
+      $tQuery .= ' AND verses.verseNumber <=' . $tVerseB . ')';
+      if ($tChapterB === $tChapterA + 1){
+          $tQuery .= ')';
+      } else {
+      $tQuery .= ' OR ';
+          $tQuery .= ' (verses.chapter >' . $tChapterA;
+          $tQuery .= ' AND verses.chapter <' . $tChapterB . '))';
+      }
+  }
+  $tQuery .= ' ORDER BY bookName, chapter, verseNumber ASC';
+
+  return $tQuery;
+}
+// ============================================================================
+*/
 
 // ============================================================================
 function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndChapter, $iEndVerse){
@@ -323,7 +412,13 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
 // ============================================================================
 
 // ============================================================================
-function sectionQuery($sectionCode, $tSortOrder){
+function sectionQuery($sectionCode, $tSortOrder){ // build query to get 1 sorted section
+  /*
+  > $sectionCode should be one of '1TOR', '2NV1', '3KTV', '5NCV' (4 is a throwback
+    to when I split Neviim in two) from TABLE 'sections'
+  > $tSortOrder should be one of 'orderChristian', 'orderJewish', 'orderChron1',
+    'orderChron2' from TABLE books
+  */
 // ============================================================================
     $tQuery = 'SELECT ';
     $tQuery .= '`plan-new`.planID, ';
@@ -349,7 +444,7 @@ function sectionQuery($sectionCode, $tSortOrder){
 // ============================================================================
 
 // ============================================================================
-function planTable($tSortOrder = 'orderChristian'){
+function planTable($tSortOrder = 'orderChristian'){// build HTML table of the years reading plan
 // ============================================================================
     global $pdo;
     $tOutput = '';
@@ -390,6 +485,7 @@ function PTBuild($result1, $result2, $result3, $result4){ // build the HTML tabl
     $tOutput .= '<th>Section 2</th>';
     $tOutput .= '<th>Section 3</th>';
     $tOutput .= '<th>Section 4</th>';
+    // $tOutput .= '<th>Read it!</th>';
     $tOutput .= '</tr>';
 
     $date = new DateTime('2001-01-01');
@@ -410,6 +506,8 @@ function PTBuild($result1, $result2, $result3, $result4){ // build the HTML tabl
         $tOutput .= PTAddSection($row2);
         $tOutput .= PTAddSection($row3);
         $tOutput .= PTAddSection($row4);
+
+        // $tOutput .= '<td><input type="checkbox"></td>';
 
         $date->add(new DateInterval('P1D'));
         $tOutput .= '</tr>';

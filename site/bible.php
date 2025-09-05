@@ -12,6 +12,7 @@
         $tVerses = $atBookChapSearch[2];
       }
     }
+//    $tWords = $atBookChapSearch[3];
   }
   $tWords = $atBookChapSearch[3];
 ?>
@@ -49,12 +50,16 @@ exact word.">Exact</abbr></label>
 You can select one of them here.">Book</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nb')">
                         <br />
+                        <!--<input type="text" name="book" id="book" value="" list="books">-->
+                        <!--<datalist name="books" id="books">-->
                         <select name="book" id="book"  onchange="doSubmit('book')">
                          <option value=""></option>
 <?php
   echo prepareDropdownBookList();
 ?>
+                        <!--</datalist>-->
                         </select>
+                        <!--<input type="button" value="Clear" onclick="clearField('book')">-->
                       </td>
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pc')">
@@ -70,6 +75,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
   echo prepareDropdownChapterList();
 ?>
                         </select>
+                        <!--<input type="button" value="Clear" onclick="clearField('chapter')">-->
                       </td>
                     </tr>
                   </tbody>
@@ -153,6 +159,9 @@ function beginsWithBook($atWords, $iLen){
 // ============================================================================
 function findBook($atWords, $i, $iLen){
 // ============================================================================
+//  abbreviations with or without fullstop
+  // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
+  // 1 cor vs 1cor
   global $atBookAbbs;
   $tMayBeBook = '';
   if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
@@ -183,18 +192,18 @@ function findChapterVerse($atWords, $i, $iLen){
   $tVerses = '';
 
   for ($j=$i;$j < $iLen; $j++){
-    if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){
+    if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // is first remaining 'word' a chapter?
       $tChapter .= $atWords[$j];
       $iKeep = $iKeep+1;
       $iColon = strpos($tChapter, ':');
-      if($iColon > 0){
+      if($iColon > 0){ // verses
         $tVerses = substr($tChapter, $iColon+1);
         $tChapter = substr($tChapter, 0, $iColon);
         $iKeep = $iKeep+1;
       }
     }
-    if($j>$i){
-      if($atWords[$j] === ':' || strtolower($atWords[$j]) === 'vv'){
+    if($j>$i){ // on to the rest
+      if($atWords[$j] === ':' || strtolower($atWords[$j]) === 'vv'){ // verses
         if($iColonCount === 0){
           $tChapter .= $atWords[$i];
           $iKeep = $iKeep+1;
@@ -215,7 +224,7 @@ function findChapterVerse($atWords, $i, $iLen){
 // ============================================================================
 function getBookName($tWord, $atBookAbbs){
 // ============================================================================
-  foreach ($atBookAbbs as $tAbbr => $tName)
+  foreach ($atBookAbbs as $tAbbr => $tName) // as list($tAbbr, $tName) )
   {
     if(strtolower($tWord) === strtolower($tAbbr)){
       return $tName;
@@ -275,21 +284,22 @@ function intToWords($x) {
     } else {
       $tNWord = '';
     }
-    if ($x < 21) {
+    // ... now $x is a non-negative integer.
+    if ($x < 21) {  // 0 to 20
       $tNWord .= $atNWords[$x];
-    } else if ($x < 100) {
+    } else if ($x < 100) {  // 21 to 99
       $tNWord .= $atNWords[10 * floor($x / 10)];
       $r = fmod($x, 10);
       if ($r > 0) {
         $tNWord .= '-' . $atNWords[$r];
       }
-    } else if ($x < 1000) {
+    } else if ($x < 1000) {  // 100 to 999
       $tNWord .= $atNWords[floor($x / 100)] . ' ' . $atNWords['hundred'];
       $r = fmod($x, 100);
       if ($r > 0) {
         $tNWord .= ' ' . $atNWords['separator'] . ' ' . intToWords($r);
       }
-    } else if ($x < 1000000) {
+    } else if ($x < 1000000) {  // 1000 to 999999
       $tNWord .= intToWords(floor($x / 1000)) . ' ' . $atNWords['thousand'];
       $r = fmod($x, 1000);
       if ($r > 0) {
@@ -299,7 +309,7 @@ function intToWords($x) {
         }
         $tNWord .= intToWords($r);
       }
-    } else {
+    } else {    //  millions
       $tNWord .= intToWords(floor($x / 1000000)) . ' ' . $atNWords['million'];
       $r = fmod($x, 1000000);
       if ($r > 0) {
