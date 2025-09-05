@@ -215,7 +215,7 @@ function basicPassageQuery(){
   $tBaseQuery .= ', books.bookName ';
   $tBaseQuery .= 'FROM verses INNER JOIN books ON verses.bookCode=books.bookCode ';
 
-  return $tBaseQuery;
+  return [$tBaseQuery, []];
 }
 
 // ============================================================================
@@ -271,8 +271,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
 
   $tOutput = '';
-  $tBaseQuery = basicPassageQuery();
-  $params = [];
+  list($tBaseQuery, $params) = basicPassageQuery();
 
   if ($bProcessRequest) {
     if (empty($tBook)) {
