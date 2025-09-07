@@ -1,8 +1,8 @@
 <?php
-  require_once __DIR__ . '/../vendor/autoload.php';
+  require_once __DIR__ . '/vendor/autoload.php';
 
   try {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
   } catch (\Dotenv\Exception\InvalidPathException $e) {
     die('Could not find .env file. Please create one in the root directory.');

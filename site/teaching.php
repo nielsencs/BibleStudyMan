@@ -2,64 +2,6 @@
   require_once 'header.php';
   require_once 'dbFunctions.php';
 
-  $atMeetings = getMeetings();
-  $iNumMeetings = sizeof($atMeetings);
-
-  $tTime = 'today 9:00 am';                        // determine if BST part 1 - php
-  $tZone = 'Europe/London';                        // determine if BST part 1 - php
-  $iZoneMillis = strtotime($tTime . ' ' . $tZone); // determine if BST part 1 - php
-  $iUTCMillis = strtotime($tTime . ' ' . 'UTC');   // determine if BST part 1 - php
-?>
-
-<script src="scripts/showHide.js"></script>
-<script src="scripts/countdown.js"></script>
-
-<script type="text/javascript">
-  var oDate = new Date();
-  var oTarget = [];
-  var iEarliest = 7; // earliest time can join meeting in minutes
-  var iLatest = 30;
-
-  var iZoneMillis = '<?php echo $iZoneMillis; ?>'; // determine if BST part 2 - js
-  var iUTCMillis = '<?php echo $iUTCMillis; ?>';   // determine if BST part 2 - js
-  var iBST = 0;                                    // determine if BST part 2 - js
-  if (iZoneMillis !== iUTCMillis){iBST = 1;}       // determine if BST part 2 - js
-<?php
-  for($i = 0; $i < $iNumMeetings; $i++){
-?>
-
-  oTarget.push(nextMeeting(oDate,     // a date object
-                            <?php echo $atMeetings[$i]['meetingDay'];?>,         // 2=Tuesday
-                            <?php echo substr($atMeetings[$i]['meetingTime'],0,2);?>,        // 19=7pm
-                            iLatest,   // last time can join meeting in minutes
-                            iBST));     // summer time
-//  setInterval(function(){countDown(<?php echo $i;?>, '');}, 1000);
-  setInterval(function(){countDown(<?php echo $i;?>, '<?php echo htmlspecialchars($atMeetings[$i]['meetingURL'], ENT_QUOTES, 'UTF-8');?>');}, 1000);
-
-<?php
-  }
-?>
-</script>
-
-  <div class="main teaching">
-    <h1>Online Teaching Sessions</h1>
-<?php
-  for($i = 0; $i < $iNumMeetings; $i++){
-    echo showMeeting($atMeetings[$i], $i);
-  }
-?>
-    <div class="subMain sectGeneral">
-      <h2>Teaching Videos</h2>
-      <div>
-<?php
-  echo videoList('T');
-?>
-      </div>
-    </div>
-  </div>
-<?php
-  require_once 'footer.php';
-
 // ============================================================================
 function getMeetings(){
 // ============================================================================
@@ -126,4 +68,62 @@ function showMeeting($row, $i){
   return $tOutput;
 }
 // ============================================================================
+
+  $atMeetings = getMeetings();
+  $iNumMeetings = sizeof($atMeetings);
+
+  $tTime = 'today 9:00 am';                        // determine if BST part 1 - php
+  $tZone = 'Europe/London';                        // determine if BST part 1 - php
+  $iZoneMillis = strtotime($tTime . ' ' . $tZone); // determine if BST part 1 - php
+  $iUTCMillis = strtotime($tTime . ' ' . 'UTC');   // determine if BST part 1 - php
+?>
+
+<script src="scripts/showHide.js"></script>
+<script src="scripts/countdown.js"></script>
+
+<script type="text/javascript">
+  var oDate = new Date();
+  var oTarget = [];
+  var iEarliest = 7; // earliest time can join meeting in minutes
+  var iLatest = 30;
+
+  var iZoneMillis = '<?php echo $iZoneMillis; ?>'; // determine if BST part 2 - js
+  var iUTCMillis = '<?php echo $iUTCMillis; ?>';   // determine if BST part 2 - js
+  var iBST = 0;                                    // determine if BST part 2 - js
+  if (iZoneMillis !== iUTCMillis){iBST = 1;}       // determine if BST part 2 - js
+<?php
+  for($i = 0; $i < $iNumMeetings; $i++){
+?>
+
+  oTarget.push(nextMeeting(oDate,     // a date object
+                            <?php echo $atMeetings[$i]['meetingDay'];?>,         // 2=Tuesday
+                            <?php echo substr($atMeetings[$i]['meetingTime'],0,2);?>,        // 19=7pm
+                            iLatest,   // last time can join meeting in minutes
+                            iBST));     // summer time
+//  setInterval(function(){countDown(<?php echo $i;?>, '');}, 1000);
+  setInterval(function(){countDown(<?php echo $i;?>, '<?php echo htmlspecialchars($atMeetings[$i]['meetingURL'], ENT_QUOTES, 'UTF-8');?>');}, 1000);
+
+<?php
+  }
+?>
+</script>
+
+  <div class="main teaching">
+    <h1>Online Teaching Sessions</h1>
+<?php
+  for($i = 0; $i < $iNumMeetings; $i++){
+    echo showMeeting($atMeetings[$i], $i);
+  }
+?>
+    <div class="subMain sectGeneral">
+      <h2>Teaching Videos</h2>
+      <div>
+<?php
+  echo videoList('T');
+?>
+      </div>
+    </div>
+  </div>
+<?php
+  require_once 'footer.php';
 ?>
