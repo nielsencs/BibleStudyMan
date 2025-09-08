@@ -563,6 +563,14 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 }
 
 // ============================================================================
+function get_search_words(string $tWords): array {
+// ============================================================================
+    $words = explode(' ', $tWords);
+    // no unique, no lower
+    return array_filter(array_map('trim', $words));
+}
+
+// ============================================================================
 function highlightSearch($tValue){
 // ============================================================================
     global $tWords, $bExact;
@@ -573,7 +581,7 @@ function highlightSearch($tValue){
       // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
-      $atSearch = explode (' ', $tWords);
+      $atSearch = get_search_words($tWords);
       $tValue = highlightWords($atSearch, $tValue);
     }
   }
@@ -587,21 +595,21 @@ function highlight($needle, $haystack){
   // across HTML tags (which is very complex), we highlight the individual
   // words of the phrase. The SQL query has already ensured that all these
   // words are present in the result.
-  $words = explode(' ', $needle);
+  $words = get_search_words($needle);
   return highlightWords($words, $haystack);
 }
 
 // ============================================================================
 function highlightWords(array $words, string $haystack): string {
 // ============================================================================
-    $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
-    $words = array_filter($words);
+    $processedWords = array_unique(array_map('strtolower', $words));
+    $processedWords = array_filter($processedWords);
 
-        if (empty($words)) {
+    if (empty($processedWords)) {
         return $haystack;
     }
 
-    $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
+    $pattern = '/(' . implode('|', array_map('preg_quote', $processedWords)) . ')/i';
     return preg_replace_callback(
         $pattern,
         fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
@@ -643,7 +651,7 @@ function procesSearchWordsOld($tWords, $bExact){
 // ============================================================================
 function procesSearchWords($tWords, $bExact){
 // ============================================================================
-  $atWords = explode(' ', $tWords);
+  $atWords = get_search_words($tWords);
   $iLen = count($atWords);
   $tNewWords = '';
   $params = [];
@@ -651,7 +659,7 @@ function procesSearchWords($tWords, $bExact){
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
     if ($iLen === 1){ //treat 1 word differently
       $tNewWords = 'verses.verseText REGEXP ?';
-      $params[] = $tWords . '{1}[ \.\,\:\;]';
+      $params[] = $atWords[0] . '{1}[ \.\,\:\;]';
     }else {
       $tNewWords .= 'verses.verseText LIKE ?';
       $params[] = '%' . $tWords . '%';
@@ -659,7 +667,7 @@ function procesSearchWords($tWords, $bExact){
   }else {
     if ($iLen === 1){ //treat 1 word differently
       $tNewWords .= 'verses.verseText LIKE ?';
-      $params[] = '%' . $tWords . '%';
+      $params[] = '%' . $atWords[0] . '%';
     } else {
       $conditions = [];
       foreach ($atWords as $tWord) {
