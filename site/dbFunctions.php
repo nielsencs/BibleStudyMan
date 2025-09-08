@@ -563,14 +563,6 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 }
 
 // ============================================================================
-function get_search_words(string $tWords): array {
-// ============================================================================
-    $words = explode(' ', $tWords);
-    // no unique, no lower
-    return array_filter(array_map('trim', $words));
-}
-
-// ============================================================================
 function highlightSearch($tValue){
 // ============================================================================
     global $tWords, $bExact;
@@ -581,7 +573,7 @@ function highlightSearch($tValue){
       // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
       $tValue = highlight($tWords, $tValue);
     }else {
-      $atSearch = get_search_words($tWords);
+      $atSearch = explode (' ', $tWords);
       $tValue = highlightWords($atSearch, $tValue);
     }
   }
@@ -595,26 +587,39 @@ function highlight($needle, $haystack){
   // across HTML tags (which is very complex), we highlight the individual
   // words of the phrase. The SQL query has already ensured that all these
   // words are present in the result.
-  $words = get_search_words($needle);
+  $words = explode(' ', $needle);
   return highlightWords($words, $haystack);
 }
 
 // ============================================================================
 function highlightWords(array $words, string $haystack): string {
 // ============================================================================
-    $processedWords = array_unique(array_map('strtolower', $words));
-    $processedWords = array_filter($processedWords);
+    $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
+    $words = array_filter($words);
 
-    if (empty($processedWords)) {
+    if (empty($words)) {
         return $haystack;
     }
 
-    $pattern = '/(' . implode('|', array_map('preg_quote', $processedWords)) . ')/i';
-    return preg_replace_callback(
-        $pattern,
-        fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
-        $haystack
-    );
+    // The pattern for the words to highlight (without word boundaries)
+    $highlightPattern = '/(' . implode('|', array_map('preg_quote', $words)) . ')/i';
+    $replacementCallback = fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>";
+
+    // Split the haystack into text nodes and HTML tags
+    $parts = preg_split('/(<[^>]*>)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
+
+    $newHaystack = '';
+    foreach ($parts as $part) {
+        // If the part is not an HTML tag, run the highlighting on it
+        if (isset($part[0]) && $part[0] !== '<') {
+            $newHaystack .= preg_replace_callback($highlightPattern, $replacementCallback, $part);
+        } else {
+            // Otherwise, it's a tag, so append it without changes
+            $newHaystack .= $part;
+        }
+    }
+
+    return $newHaystack;
 }
 
 // ============================================================================
@@ -651,7 +656,7 @@ function procesSearchWordsOld($tWords, $bExact){
 // ============================================================================
 function procesSearchWords($tWords, $bExact){
 // ============================================================================
-  $atWords = get_search_words($tWords);
+  $atWords = explode(' ', $tWords);
   $iLen = count($atWords);
   $tNewWords = '';
   $params = [];
@@ -659,7 +664,7 @@ function procesSearchWords($tWords, $bExact){
   if($bExact){ // 'Exact' was 'checked' regardless of number of words
     if ($iLen === 1){ //treat 1 word differently
       $tNewWords = 'verses.verseText REGEXP ?';
-      $params[] = $atWords[0] . '{1}[ \.\,\:\;]';
+      $params[] = $tWords . '{1}[ \.\,\:\;]';
     }else {
       $tNewWords .= 'verses.verseText LIKE ?';
       $params[] = '%' . $tWords . '%';
@@ -667,7 +672,7 @@ function procesSearchWords($tWords, $bExact){
   }else {
     if ($iLen === 1){ //treat 1 word differently
       $tNewWords .= 'verses.verseText LIKE ?';
-      $params[] = '%' . $atWords[0] . '%';
+      $params[] = '%' . $tWords . '%';
     } else {
       $conditions = [];
       foreach ($atWords as $tWord) {
