@@ -7,7 +7,7 @@
 
   $todaysVerses = '';
 
-  if (strlen($tMonth) > 0){
+  if (strlen((string)$tMonth) > 0){
     if ($tMonth > 12){
       $iMonth = 12;
     }elseif ($tMonth < 1){
@@ -19,7 +19,7 @@
 
   $iDaysInMonth = daysInMonth($iMonth, $iYear);
 
-  if (strlen($tDay) > 0){
+  if (strlen((string)$tDay) > 0){
     if ($tDay > $iDaysInMonth){
       $iDay = $iDaysInMonth;
     }elseif ($tDay < 1){
@@ -28,18 +28,11 @@
       $iDay = intval($tDay);
     }
   }
-  echo '<!-- ';
-  echo '$tMonth:' . $tMonth;
-  echo '$tDay:' . $tDay;
-  echo '$iMonth:' . $iMonth;
-  echo '$iDay:' . $iDay;
-  echo '-->';
 ?>
   <script type="text/javascript">
 // ============================================================================
     function audioPlayPause(tAudioID){
 // ============================================================================
-      // alert(document.getElementById('b' + tAudioID).value);
       if(document.getElementById('b' + tAudioID).value === 'listen' || document.getElementById('b' + tAudioID).value === 'continue'){
         document.getElementById('b' + tAudioID).value = 'stop';
         document.getElementById('a' + tAudioID).play();
@@ -56,7 +49,7 @@
           <div class="main plan">
               <h1>The Bible Reading Plan</h1>
               <div class="subMain sectGeneral">
-                <h2>Readings for <?php echo monthName($iMonth) . ' ' . $iDay; ?>:</h2>
+                <h2>Readings for <?php echo htmlspecialchars(monthName($iMonth) . ' ' . $iDay, ENT_QUOTES, 'UTF-8'); ?>:</h2>
   <?php
     $tOutput = planTable($tSortOrder);
     echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
@@ -66,7 +59,7 @@
                 <a href="planTable.php">here&apos;s the entire year&apos;s plan
                   as a list</a>. Enjoy!</p>
 
-                <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
+                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
                   <tr>
@@ -88,22 +81,11 @@
                       <input type="button" value="&gt;" onclick="dayDirection('nd')">
                     </td>
                   </tr>
-<!--                  <tr>
-                    <td colspan="2">
-                      Sort Order
-                      <select name="sortOrder" onchange="doSubmit('sortOrder')">
-                        <option value="orderChristian"<?php if($tSortOrder === 'orderChristian'){echo ' selected';} ?>>Traditional Christian</option>
-                        <option value="orderJewish"<?php if($tSortOrder === 'orderJewish'){echo ' selected';} ?>>Traditional Jewish</option>
-                        <option value="orderChron1"<?php if($tSortOrder === 'orderChron1'){echo ' selected';} ?>>Chronological A</option>
-                        <option value="orderChron2"<?php if($tSortOrder === 'orderChron2'){echo ' selected';} ?>>Chronological B</option>
-                      </select>
-                    </td>
-                  </tr> -->
                 </table>
 <?php require_once 'intWords.php'; ?>
               </form>
-                
-                
+
+
   <?php
     echo daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
     include_once 'bibleDisclaimer.html';

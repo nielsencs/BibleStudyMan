@@ -20,16 +20,16 @@
         <div class="main Bible">
             <h1>The Bible</h1>
             <div class="subMain sectGeneral">
-                <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
+                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
                   <tbody>
                     <tr>
                       <td colspan="2">
                         Search by word or book or both<br />
-                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo $tWords; ?>">
+                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords, ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
-                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to 
+                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to
 get fewer results as it treats the
 words to the left as a phrase if
 there are more than one or as the
@@ -80,7 +80,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                     </tr>
                   </tbody>
                 </table>
-                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo $tVerses;} ?>">
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses, ENT_QUOTES, 'UTF-8');} ?>">
 <?php require_once 'intWords.php'; ?>
               </form>
 <?php
@@ -128,7 +128,7 @@ function bookChapSearch($tWords, $tBook, $tChapter){
         $tWords = '';
       }else{
         $tWords = joinWords($atWords, $i, $iLen);
-      }      
+      }
     }
   }
   return [$tBook, $tChapter, $tVerses, $tWords];
@@ -190,7 +190,7 @@ function findChapterVerse($atWords, $i, $iLen){
   $iColonCount = 0;
   $tChapter = '';
   $tVerses = '';
-  
+
   for ($j=$i;$j < $iLen; $j++){
     if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // is first remaining 'word' a chapter?
       $tChapter .= $atWords[$j];
