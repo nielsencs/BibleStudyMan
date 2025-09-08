@@ -2,73 +2,6 @@
   require_once 'header.php';
   require_once 'dbFunctions.php';
 
-// ============================================================================
-function getMeetings(){
-// ============================================================================
-  global $pdo;
-  $tQuery = 'SELECT * FROM meetings WHERE meetingActive = 1;';
-  $stmt = doQuery($pdo, $tQuery);
-  return $stmt->fetchAll();
-}
-// ============================================================================
-
-// ============================================================================
-function showMeeting($row, $i){
-// ============================================================================
-  $tOutput = '';
-  $tOutput .= '<div class="subMain plain">';
-  $tOutput .= '<h2>' . htmlspecialchars($row['meetingName'], ENT_QUOTES, 'UTF-8') . '</h2>';
-  $tOutput .= '<p class="centerText"><strong>';
-  $tOutput .= jddayofweek($row['meetingDay']-1, 1) . 's at ' . htmlspecialchars($row['meetingTime'], ENT_QUOTES, 'UTF-8') . ' UK time.'; // which is usually 7am Pacific Time,';
-  $tOutput .= '</strong></p>';
-
-  $tOutput .= '<p>Zoom Meeting ID: <strong>' . htmlspecialchars($row['meetingRoom'], ENT_QUOTES, 'UTF-8') . '</strong>';
-  $tOutput .= ' Password: <strong>' . htmlspecialchars($row['meetingPassword'], ENT_QUOTES, 'UTF-8') . '</strong></p>';
-  $tOutput .= '<h3 class="centerText" id="counter' . $i . '">_</h3>';
-  $tOutput .= '<p>' . htmlspecialchars($row['meetingDescription'], ENT_QUOTES, 'UTF-8') . '</p>';
-  $tOutput .= '<p>This is a regular online Bible study group available on';
-  $tOutput .= '  <a href="https://zoom.us" target="_blank">Zoom</a>. This is an open discussion';
-  $tOutput .= '  where all opinions are free to be expressed and the only &lsquo;stupid&rsquo;';
-  $tOutput .= '  question is the one you didn&apos;t ask!</p>';
-  $tOutput .= '<input type="button" value="More" name="button' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" id="button' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" class="center" onclick="showHide2('' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '');">';
-  $tOutput .= '<div name="block' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" id="block' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" class="collapse">';
-  $tOutput .= '  <p>All are welcome and you can access it online via the Zoom ';
-  $tOutput .= '    <a href="' . htmlspecialchars($row['meetingURL'], ENT_QUOTES, 'UTF-8') . '" target="_blank">website</a>';
-//  $tOutput .= '    incliding video or by phone for just the sound.';
-//  $tOutput .= '     I would encourage you to have a Bible ready (you can use the one on this site) and';
-  $tOutput .= '    Feel free to join in or just listen - whatever you feel most comfortable with.</p>';
-  $tOutput .= '  <p>I may record these (with your permission) and post some parts';
-  $tOutput .= '    of them here for others to learn from. Subjects covered include:</p>';
-
-  $tOutput .= htmlspecialchars($row['meetingDetails'], ENT_QUOTES, 'UTF-8');
-
-  $tOutput .= '  <p>';
-  $tOutput .= 'Time: ' . jddayofweek($row['meetingDay']-1, 1) . 's at ' . htmlspecialchars($row['meetingTime'], ENT_QUOTES, 'UTF-8') . ' UK time.'; // which is usually 7am Pacific Time,';
-
-//  $tOutput .= '    Time: Tuesdays at 3pm UK time which is usually 7am Pacific Time,';
-//  $tOutput .= '    10am Eastern Time (but may differ by an hour either way a week or';
-//  $tOutput .= '    so either side of changes to Daylight Saving). You can check it accurately at';
-  $tOutput .= '    You can check when that is locally for you at';
-  $tOutput .= '    <a href="https://www.thetimezoneconverter.com/?t=' . urlencode($row['meetingTime']) . '&tz=London&" target="_blank">TheTimeZoneConverter</a>';
-  $tOutput .= '  </p>';
-//  $tOutput .= '  <p>When it&apos;s time you can do <strong>ONE</strong> of the following:';
-//  $tOutput .= '    <ul>';
-//  $tOutput .= '      <li><a href="' . $row['meetingURL'] . '" target="_blank">Join the Zoom Meeting online</a> or</li>';
-//  $tOutput .= '      <li>Ring <strong>0203 695 0088</strong> or <strong>0203 051 2874</strong> in the UK and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
-//  $tOutput .= '      <li>Ring <strong>+1 646 558 8656</strong> (New York) in the US and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
-//  $tOutput .= '      <li>Ring <strong>+1 408 638 0968</strong> (San Jose) in the US and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
-//  $tOutput .= '      <li>Ring from elsewhere in the world, <a href="https://zoom.us/u/aeejTnNTZe" target="_blank">find your local number</a> and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong></li>';
-//  $tOutput .= '    </ul>';
-//  $tOutput .= '  </p>';
-  $tOutput .= '  <p>When it&apos;s time you can <a href="' . htmlspecialchars($row['meetingURL'], ENT_QUOTES, 'UTF-8') . '" target="_blank">join the Zoom Meeting online</a>.</p>';
-  $tOutput .= '  <input type="button" value="Go there!" class="center" onclick="window.location.href = '' . htmlspecialchars($row['meetingURL'], ENT_QUOTES, 'UTF-8') . ''">';
-  $tOutput .= '</div>';
-  $tOutput .= '</div>';
-
-  return $tOutput;
-}
-// ============================================================================
-
   $atMeetings = getMeetings();
   $iNumMeetings = sizeof($atMeetings);
 
@@ -126,4 +59,71 @@ function showMeeting($row, $i){
   </div>
 <?php
   require_once 'footer.php';
+
+// ============================================================================
+function getMeetings(){
+// ============================================================================
+  global $pdo;
+  $tQuery = 'SELECT * FROM meetings WHERE meetingActive = 1;';
+  $stmt = doQuery($pdo, $tQuery);
+  return $stmt->fetchAll();
+}
+// ============================================================================
+
+// ============================================================================
+function showMeeting($row, $i){
+// ============================================================================
+  $tOutput = '';
+  $tOutput .= '<div class="subMain plain">';
+  $tOutput .= '<h2>' . htmlspecialchars($row['meetingName'], ENT_QUOTES, 'UTF-8') . '</h2>';
+  $tOutput .= '<p class="centerText"><strong>';
+  $tOutput .= jddayofweek($row['meetingDay']-1, 1) . 's at ' . htmlspecialchars($row['meetingTime'], ENT_QUOTES, 'UTF-8') . ' UK time.'; // which is usually 7am Pacific Time,';
+  $tOutput .= '</strong></p>';
+
+  $tOutput .= '<p>Zoom Meeting ID: <strong>' . htmlspecialchars($row['meetingRoom'], ENT_QUOTES, 'UTF-8') . '</strong>';
+  $tOutput .= ' Password: <strong>' . htmlspecialchars($row['meetingPassword'], ENT_QUOTES, 'UTF-8') . '</strong></p>';
+  $tOutput .= '<h3 class="centerText" id="counter' . $i . '">_</h3>';
+  $tOutput .= '<p>' . htmlspecialchars($row['meetingDescription'], ENT_QUOTES, 'UTF-8') . '</p>';
+  $tOutput .= '<p>This is a regular online Bible study group available on';
+  $tOutput .= '  <a href="https://zoom.us" target="_blank">Zoom</a>. This is an open discussion';
+  $tOutput .= '  where all opinions are free to be expressed and the only &lsquo;stupid&rsquo;';
+  $tOutput .= '  question is the one you didn&apos;t ask!</p>';
+  $tOutput .= '<input type="button" value="More" name="button' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" id="button' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" class="center" onclick="showHide2(\'' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '\');">';
+  $tOutput .= '<div name="block' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" id="block' . htmlspecialchars($row['meetingID'], ENT_QUOTES, 'UTF-8') . '" class="collapse">';
+  $tOutput .= '  <p>All are welcome and you can access it online via the Zoom ';
+  $tOutput .= '    <a href="' . htmlspecialchars($row['meetingURL'], ENT_QUOTES, 'UTF-8') . '" target="_blank">website</a>';
+//  $tOutput .= '    incliding video or by phone for just the sound.';
+//  $tOutput .= '     I would encourage you to have a Bible ready (you can use the one on this site) and';
+  $tOutput .= '    Feel free to join in or just listen - whatever you feel most comfortable with.</p>';
+  $tOutput .= '  <p>I may record these (with your permission) and post some parts';
+  $tOutput .= '    of them here for others to learn from. Subjects covered include:</p>';
+
+  $tOutput .= htmlspecialchars($row['meetingDetails'], ENT_QUOTES, 'UTF-8');
+
+  $tOutput .= '  <p>';
+  $tOutput .= 'Time: ' . jddayofweek($row['meetingDay']-1, 1) . 's at ' . htmlspecialchars($row['meetingTime'], ENT_QUOTES, 'UTF-8') . ' UK time.'; // which is usually 7am Pacific Time,';
+
+//  $tOutput .= '    Time: Tuesdays at 3pm UK time which is usually 7am Pacific Time,';
+//  $tOutput .= '    10am Eastern Time (but may differ by an hour either way a week or';
+//  $tOutput .= '    so either side of changes to Daylight Saving). You can check it accurately at';
+  $tOutput .= '    You can check when that is locally for you at';
+  $tOutput .= '    <a href="https://www.thetimezoneconverter.com/?t=' . urlencode($row['meetingTime']) . '&tz=London&" target="_blank">TheTimeZoneConverter</a>';
+  $tOutput .= '  </p>';
+//  $tOutput .= '  <p>When it&apos;s time you can do <strong>ONE</strong> of the following:';
+//  $tOutput .= '    <ul>';
+//  $tOutput .= '      <li><a href="' . $row['meetingURL'] . '" target="_blank">Join the Zoom Meeting online</a> or</li>';
+//  $tOutput .= '      <li>Ring <strong>0203 695 0088</strong> or <strong>0203 051 2874</strong> in the UK and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
+//  $tOutput .= '      <li>Ring <strong>+1 646 558 8656</strong> (New York) in the US and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
+//  $tOutput .= '      <li>Ring <strong>+1 408 638 0968</strong> (San Jose) in the US and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong> or</li>';
+//  $tOutput .= '      <li>Ring from elsewhere in the world, <a href="https://zoom.us/u/aeejTnNTZe" target="_blank">find your local number</a> and enter the Meeting ID <strong>' . $row['meetingRoom'] . '</strong></li>';
+//  $tOutput .= '    </ul>';
+//  $tOutput .= '  </p>';
+  $tOutput .= '  <p>When it&apos;s time you can <a href="' . htmlspecialchars($row['meetingURL'], ENT_QUOTES, 'UTF-8') . '" target="_blank">join the Zoom Meeting online</a>.</p>';
+  $tOutput .= '  <input type="button" value="Go there!" class="center" onclick="window.location.href = \'' . htmlspecialchars($row['meetingURL'], ENT_QUOTES, 'UTF-8') . '\'">';
+  $tOutput .= '</div>';
+  $tOutput .= '</div>';
+
+  return $tOutput;
+}
+// ============================================================================
 ?>
