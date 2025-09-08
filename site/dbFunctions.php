@@ -64,7 +64,7 @@ function prepareBookList(){
   while($row = $stmt->fetch()) {
     $tOutput .=  ', ["' . htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8') . '", ';
     $tOutput .=  $row['bookChapters'] . ']';
-    if(strtoupper($row['bookName']) === strtoupper($tBook)){
+    if(strtoupper((string)$row['bookName']) === strtoupper((string)$tBook)){
       $iBook = $row['orderChristian'];
     }
   }
@@ -222,7 +222,7 @@ function basicPassageQuery(){
 }
 
 // ============================================================================
-function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bPluralChapter = false, $bHighlightSW, $bShowOW, $bShowTN){
+function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bShowOW, $bShowTN, $bPluralChapter = false){
 // ============================================================================
   global $tWords, $bExact;
 
@@ -370,7 +370,7 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
         $tOutput .=  PHP_EOL . '<h3>';
-        $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bPluralChapter = false, $bHighlightSW, $bShowOW, $bShowTN);
+        $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bHighlightSW, $bShowOW, $bShowTN, $bPluralChapter = false);
         $tOutput .=  '</h3>' . PHP_EOL;
       }
       $tOutput .= showVerse($tVerses, $row);
@@ -510,7 +510,7 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
     $lastPos = 0;
 
     // The regex finds a word (alphanumeric + apostrophe) followed by a Strong's tag like {H1234}
-    while (preg_match('/([a-zA-Z0-9']+)\{([HG]\d+)\}/', $tValue, $matches, PREG_OFFSET_CAPTURE, $lastPos)) {
+    while (preg_match('/([a-zA-Z0-9\']+)\{([HG]\d+)\}/', $tValue, $matches, PREG_OFFSET_CAPTURE, $lastPos)) {
         
         $fullMatchInfo = $matches[0];
         $wordInfo = $matches[1];
@@ -601,10 +601,10 @@ function highlightWords(array $words, string $haystack): string {
         return $haystack;
     }
 
-    $pattern = '/(' . implode('|', array_map('preg_quote', $words)) . ')/i';
+    $pattern = '/\b(' . implode('|', array_map('preg_quote', $words)) . ')\b/i';
     return preg_replace_callback(
         $pattern,
-        fn($match) => "<span class="highlightWord">{$match[0]}</span>",
+        fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>",
         $haystack
     );
 }
