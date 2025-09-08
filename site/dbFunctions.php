@@ -278,21 +278,21 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
   $tOutput = '';
   list($tBaseQuery, $params) = basicPassageQuery();
 
-  if ($bProcessRequest) {
-  // if (true) {
-    // $tLastBookName = '';
-    // $iLastChapter = 0;
+  $highlightWords = [];
+  $highlightIsExact = false;
 
+  if ($bProcessRequest) {
     if (empty($tBook)) {
       if (empty($tWords)) {
-        // $tOutput .= ''<p>It seems you didn&apos;t enter a passage - this is one of my favourites:</p>';
-        // $tQuery = 'SELECT verseText FROM verses WHERE bookCode ="JOH" AND chapter=3 AND verseNumber=16;';
         $tOutput .=  '<h2>I&apos;m sorry I don&apos;t understand what you want - this is the beginning of The Bible:</h2>';
         $tQuery = $tBaseQuery . ' WHERE books.bookName = ? AND verses.chapter=1 AND verses.verseNumber<10;';
         $params[] = "Genesis";
       }else{
-        list($whereClause, $params) = addSQLWildcards($tWords, $bExact);
-        $tQuery = $tBaseQuery . ' WHERE ' . $whereClause . ';';
+        $searchStrategy = get_search_strategy($tWords, $bExact);
+        $tQuery = $tBaseQuery . ' WHERE ' . $searchStrategy['sql_where'] . ';';
+        $params = $searchStrategy['sql_params'];
+        $highlightWords = $searchStrategy['highlight_words'];
+        $highlightIsExact = $searchStrategy['highlight_is_exact'];
       }
     } else {
       if ($tBook === '2 & 3 John') {
@@ -306,44 +306,31 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
       if (empty($tChapter))
       {
         if (!empty($tWords)) {
-            list($whereClause, $wordParams) = addSQLWildcards($tWords, $bExact);
-            $tQuery .= ' AND ' . $whereClause;
-            $params = array_merge($params, $wordParams);
+            $searchStrategy = get_search_strategy($tWords, $bExact);
+            $tQuery .= ' AND ' . $searchStrategy['sql_where'];
+            $params = array_merge($params, $searchStrategy['sql_params']);
+            $highlightWords = $searchStrategy['highlight_words'];
+            $highlightIsExact = $searchStrategy['highlight_is_exact'];
         }
       }else{
-        // ---- NOT searching down to verse level - keep commented in case I change my mind!
-        // if (empty($tVerses))
-        // {
           $tQuery .= ' AND verses.chapter = ?';
           $params[] = $tChapter;
-        // }else{
-        //     $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '" AND verses.chapter=' . $tChapter . ' AND verses.verseNumber=' . $tVerse . ';';
-        // }
-        // ---- NOT searching down to verse level - keep commented in case I change my mind!
-
-        // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
-        // if (empty($tWords)) {
-          // $tQuery = $tQuery . ';';
-        // }else{
-          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bExact) . ';';
-        // }
-        // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
-    $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN);
+    $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact);
   }else{
 // These two lines could be exchanged for the one below to give sample text when
 // blank search criteria eg on opening bible.php for the first time.
     $tQuery = $tBaseQuery . ' WHERE books.bookName = ? AND verses.chapter=1;';
     $params[] = "Genesis";
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>' . showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN);
+    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>' . showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
 //    $tOutput = '';
   }
   return $tOutput;
 }
 
 // ============================================================================
-function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN){
+function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords = [], $highlightIsExact = false){
 // ============================================================================
   global $pdo;
 
@@ -373,7 +360,7 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bHighlightSW, $bShowOW, $bShowTN, $bPluralChapter = false);
         $tOutput .=  '</h3>' . PHP_EOL;
       }
-      $tOutput .= showVerse($tVerses, $row);
+      $tOutput .= showVerse($tVerses, $row, $highlightWords, $highlightIsExact);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
     }
@@ -398,7 +385,7 @@ function countBooks($rows){
 }
 
 // ============================================================================
-function showVerse($tVerses, $row){
+function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = false){
 // ============================================================================
   global $bHighlightSW, $bShowOW, $bShowTN;
   $tVersesExpanded = '@' . expandVerseList($tVerses);
@@ -419,7 +406,7 @@ function showVerse($tVerses, $row){
   }
 
   $tOutput .=  doVerseNumber($row['verseNumber']);
-  $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN)) . ' ';
+  $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . ' ';
 
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
     $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>'; // if this verse ends a paragraph
@@ -563,36 +550,16 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
 }
 
 // ============================================================================
-function highlightSearch($tValue){
+function highlightSearch($tValue, $highlightWords = [], $highlightIsExact = false){
 // ============================================================================
-    global $tWords, $bExact;
-    
-  if ($tWords > ''){
-//    if (! $bExact){
-    if ($bExact){
-      // $tValue = str_ireplace($tWords, '<span class="highlightWord">' . $tWords . '</span>', $tValue);
-      $tValue = highlight($tWords, $tValue);
-    }else {
-      $atSearch = explode (' ', $tWords);
-      $tValue = highlightWords($atSearch, $tValue);
+    if (!empty($highlightWords)) {
+        $tValue = highlightWords($highlightWords, $tValue, $highlightIsExact);
     }
-  }
-  return '<!-- highlightSearch ' . htmlspecialchars($tWords, ENT_QUOTES, 'UTF-8') . ' -->' . $tValue;
-    }
-
-// ============================================================================
-function highlight($needle, $haystack){
-// ============================================================================
-  // This is a pragmatic fix. Instead of trying to highlight the exact phrase
-  // across HTML tags (which is very complex), we highlight the individual
-  // words of the phrase. The SQL query has already ensured that all these
-  // words are present in the result.
-  $words = explode(' ', $needle);
-  return highlightWords($words, $haystack);
+    return $tValue;
 }
 
 // ============================================================================
-function highlightWords(array $words, string $haystack): string {
+function highlightWords(array $words, string $haystack, bool $exactMatch = false): string {
 // ============================================================================
     $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
     $words = array_filter($words);
@@ -601,8 +568,11 @@ function highlightWords(array $words, string $haystack): string {
         return $haystack;
     }
 
-    // The pattern for the words to highlight (without word boundaries)
-    $highlightPattern = '/(' . implode('|', array_map('preg_quote', $words)) . ')/i';
+    // Conditionally add word boundaries for exact matching
+    $boundary = $exactMatch ? '\\b' : '';
+
+    // The pattern for the words to highlight
+    $highlightPattern = '/' . $boundary . '(' . implode('|', array_map('preg_quote', $words)) . ')' . $boundary . '/i';
     $replacementCallback = fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>";
 
     // Split the haystack into text nodes and HTML tags
@@ -623,66 +593,46 @@ function highlightWords(array $words, string $haystack): string {
 }
 
 // ============================================================================
-function addSQLWildcards($tWords, $bExact){
+function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
-return procesSearchWords($tWords, $bExact);
+    $words = array_values(array_filter(explode(' ', trim($searchTerms))));
+    $sqlWhereClause = '';
+    $sqlParams = [];
+    $highlightWords = [];
+    $highlightIsExact = false;
 
-  if($bExact){ // 'Exact' was 'checked' regardless of number of words
-    if (strpos($tWords, ' ') > 0){ // spaces present - probably more than one word!
-      $tWords = 'verses.verseText LIKE "%' . $tWords . '%"';
-    }else {
-      $tWords = '(verses.verseText LIKE "' . $tWords . '%"' . ' OR verses.verseText LIKE "% ' . $tWords . '%")';
+    if ($isExact) {
+        if (count($words) === 1) {
+            // Use MySQL's word boundary regex for a single exact word.
+            $sqlWhereClause = 'verses.verseText REGEXP ?';
+            $sqlParams[] = '[[:<:]]' . $words[0] . '[[:>:]]';
+        } else {
+            // For an exact phrase, search for the whole string.
+            $sqlWhereClause = 'verses.verseText LIKE ?';
+            $sqlParams[] = '%' . $searchTerms . '%';
+        }
+        $highlightWords = $words;
+        $highlightIsExact = true;
+
+    } else { // Not an exact search
+        if (count($words) > 0) {
+            $conditions = [];
+            foreach ($words as $word) {
+                $conditions[] = 'verses.verseText LIKE ?';
+                $sqlParams[] = '%' . $word . '%';
+            }
+            $sqlWhereClause = implode(' AND ', $conditions);
+        }
+        $highlightWords = $words;
+        $highlightIsExact = false;
     }
-  }else {
-    // if (strpos($tWords, ' ') > 0){ // spaces present - more than one word!
-      $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
-    // }else {
-    // }
-  }
-  return $tWords;
-}
 
-// ============================================================================
-function procesSearchWordsOld($tWords, $bExact){
-// ============================================================================
-  if($bExact){ // 'Exact' was 'checked' regardless of number of words
-    $tWords = 'verses.verseText REGEXP "' . $tWords . '{1}[ \.\,\:\;]"';
-  }else {
-    $tWords = 'verses.verseText LIKE "%' . str_replace(' ', '% %', $tWords) . '%"';
-  }
-  return $tWords;
-}
-
-// ============================================================================
-function procesSearchWords($tWords, $bExact){
-// ============================================================================
-  $atWords = explode(' ', $tWords);
-  $iLen = count($atWords);
-  $tNewWords = '';
-  $params = [];
-
-  if($bExact){ // 'Exact' was 'checked' regardless of number of words
-    if ($iLen === 1){ //treat 1 word differently
-      $tNewWords = 'verses.verseText REGEXP ?';
-      $params[] = $tWords . '{1}[ \.\,\:\;]';
-    }else {
-      $tNewWords .= 'verses.verseText LIKE ?';
-      $params[] = '%' . $tWords . '%';
-    }
-  }else {
-    if ($iLen === 1){ //treat 1 word differently
-      $tNewWords .= 'verses.verseText LIKE ?';
-      $params[] = '%' . $tWords . '%';
-    } else {
-      $conditions = [];
-      foreach ($atWords as $tWord) {
-        $conditions[] = 'verses.verseText LIKE ?';
-        $params[] = '%' . $tWord . '%';
-      }
-      $tNewWords = implode(' AND ', $conditions);
-    }
-  }
-  return [$tNewWords, $params];
+    return [
+        'sql_where' => $sqlWhereClause,
+        'sql_params' => $sqlParams,
+        'highlight_words' => $highlightWords,
+        'highlight_is_exact' => $highlightIsExact,
+    ];
 }
 
 // ============================================================================
