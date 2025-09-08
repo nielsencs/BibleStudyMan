@@ -244,7 +244,7 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
 
                 $tOutput .=  '<!-- ' . htmlspecialchars($tAudio, ENT_QUOTES, 'UTF-8') . ' -->';
                 if (file_exists($tAudio)){
-                    $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause('Reading' . $i . '');"><br />';
+                    $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br />';
                     $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . htmlspecialchars($tAudio, ENT_QUOTES, 'UTF-8') . '"></audio>';
                 }
                 list($passageQuery, $passageParams) = buildPassageQueryNew($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
