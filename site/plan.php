@@ -7,7 +7,7 @@
 
   $todaysVerses = '';
 
-  if (strlen($tMonth) > 0){
+  if (strlen((string)$tMonth) > 0){
     if ($tMonth > 12){
       $iMonth = 12;
     }elseif ($tMonth < 1){
@@ -19,7 +19,7 @@
 
   $iDaysInMonth = daysInMonth($iMonth, $iYear);
 
-  if (strlen($tDay) > 0){
+  if (strlen((string)$tDay) > 0){
     if ($tDay > $iDaysInMonth){
       $iDay = $iDaysInMonth;
     }elseif ($tDay < 1){
