@@ -96,42 +96,29 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
 // ============================================================================
 function bookChapSearch($tWords, $tBook, $tChapter){
 // ============================================================================
-  $tVerses = '';
-  if(is_numeric($tWords)){
-    if(empty($tBook)){ // treat as number
-      $tWords = intToWords($tWords);
-    } else {
-      if(empty($tChapter)){
-        $tChapter = $tWords;
-      } else {
-        $tVerses = $tWords;
-      }
-      $tWords = '';
-    }
-  }elseif(is_numeric(substr($tWords, 0, 1))) {
-    if(strpos($tWords, '-')>0 || strpos($tWords, ',')>0){
-      $tVerses = $tWords;
-    }
-  } else {
+    $tVerses = '';
+
     $atWords = explode(' ', $tWords);
     $iLen = count($atWords);
 
-    $atBeginsWithBook = beginsWithBook($atWords, $iLen);
-    $tBookNew = $atBeginsWithBook[0];
-    if(empty($tBook) || $tBookNew !== $tBook){
-      $tBook = $tBookNew;
-      $tChapter = $atBeginsWithBook[1];
-      $tVerses = $atBeginsWithBook[2];
-      $i = $atBeginsWithBook[3];
+    if ($iLen > 0 && $atWords[0] !== '') {
+        $atBeginsWithBook = beginsWithBook($atWords, $iLen);
+        $tBookNew = $atBeginsWithBook[0];
 
-      if ($i === $iLen){ // done!
-        $tWords = '';
-      }else{
-        $tWords = joinWords($atWords, $i, $iLen);
-      }
+        // If a book was successfully parsed from the beginning of the string
+        if ($tBookNew > '') {
+            $tBook = $tBookNew;
+            $tChapter = $atBeginsWithBook[1];
+            $tVerses = $atBeginsWithBook[2];
+            $wordsConsumed = $atBeginsWithBook[3];
+
+            // The rest of the string becomes the new search term
+            $tWords = joinWords($atWords, $wordsConsumed, $iLen);
+        }
+        // If no book was found, we do nothing, so the original $tWords is used for a text search.
     }
-  }
-  return [$tBook, $tChapter, $tVerses, $tWords];
+
+    return [$tBook, $tChapter, $tVerses, $tWords];
 }
 // ============================================================================
 
