@@ -141,45 +141,72 @@ function beginsWithBook($atWords, $iLen){
   $tBook = '';
   $tChapter = '';
   $tVerses = '';
+  $i = 0; // Default to 0 words consumed
 
   $atFindBook = findBook($atWords, 0, $iLen);
-  $i = $atFindBook[1];
+  $potentialBook = $atFindBook[0];
+  $wordsConsumedByBook = $atFindBook[1];
 
-  if (strlen($atFindBook[0]) > 0){ // first few words is a book
-    $tBook = $atFindBook[0];
-    $atFindChapterVerse = findChapterVerse($atWords, $i, $iLen);
-    $tChapter = $atFindChapterVerse[0];
-    $tVerses = $atFindChapterVerse[1];
-    $i = $atFindChapterVerse[2];
+  if (strlen($potentialBook) > 0) { // We found a potential book
+    $atFindChapterVerse = findChapterVerse($atWords, $wordsConsumedByBook, $iLen);
+    $potentialChapter = $atFindChapterVerse[0];
+    $potentialVerses = $atFindChapterVerse[1];
+    $wordsConsumedTotal = $atFindChapterVerse[2];
+
+    // Condition: Is it a real book reference?
+    // It is if a chapter was found, OR if the whole search query was just the book name.
+    if ($potentialChapter > '' || $wordsConsumedByBook === $iLen) {
+        $tBook = $potentialBook;
+        $tChapter = $potentialChapter;
+        $tVerses = $potentialVerses;
+        $i = $wordsConsumedTotal;
+    }
+    // ELSE: It was a false alarm (e.g., "mat" in a sentence), so we return empty values
+    // and the original search string will be used for a text search.
   }
+
   return [$tBook, $tChapter, $tVerses, $i];
 }
 // ============================================================================
 
 // ============================================================================
-function findBook($atWords, $i, $iLen){
+function findBook($atWords, $i, $iLen) {
 // ============================================================================
-//  abbreviations with or without fullstop
-  // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
-  // 1 cor vs 1cor
-  global $atBookAbbs;
-  $tMayBeBook = '';
-  if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
-    if ($iLen >= 1){
-      $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
-      $i ++;
+    global $atBookAbbs;
+
+    // Attempt 1: Multi-word book names like "Song of Songs" or "1 John"
+    if ($iLen >= 2) {
+        $two_words = $atWords[0] . ' ' . $atWords[1];
+        $tBook = getBookName($two_words, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 2];
+        }
     }
-  } else {
-    $tMayBeBook = $atWords[0];
-  }
-  $atSongs = isItSongs($tMayBeBook, $atWords, $i, $iLen);
-  $tMayBeBook = $atSongs[0];
-  $i = $atSongs[1];
-  $tBook = getBookName($tMayBeBook, $atBookAbbs);
-  if($tBook > ''){
-    $i = $i + 1;
-  }
-  return [$tBook, $i];
+    if ($iLen >= 3) { // For "Song of Songs"
+        $three_words = $atWords[0] . ' ' . $atWords[1] . ' ' . $atWords[2];
+        $tBook = getBookName($three_words, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 3];
+        }
+    }
+
+    // Attempt 2: Single word, which might be a combined abbreviation like "1jn"
+    $firstWord = $atWords[0];
+    if (preg_match('/^([0-9]+)([a-zA-Z].*)$/', $firstWord, $matches)) {
+        $reconstructed = $matches[1] . ' ' . $matches[2];
+        $tBook = getBookName($reconstructed, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 1];
+        }
+    }
+
+    // Attempt 3: Single word, simple abbreviation like "jn" or "Genesis"
+    $tBook = getBookName($firstWord, $atBookAbbs);
+    if ($tBook > '') {
+        return [$tBook, 1];
+    }
+
+    return ['', 0];
 }
 // ============================================================================
 
@@ -234,32 +261,6 @@ function getBookName($tWord, $atBookAbbs){
 }
 // ============================================================================
 
-// ============================================================================
-function isItSongs($tBook, $atWords, $i, $iLen){
-// ============================================================================
-  if (strtolower($atWords[0]) === 'song' || substr((strtolower($atWords[0])), 0, 4) === 'cant'){
-    $tBook = 'Song of Songs';
-    if ($iLen > 1){
-      if (strtolower($atWords[1]) === 'of'){
-        $i = $i + 1;
-        if ($iLen >= 2){
-          if (substr((strtolower($atWords[2])), 0, 4) === 'cant' || substr((strtolower($atWords[2])), 0, 2) === 'so'){
-            $i = $i + 1;
-          }
-        }
-      } else {
-        if (strtolower($atWords[1]) === 'of'){
-          $i = $i + 2;
-        } else {
-          $tBook = 'Song of Songs';
-          $i++;
-        }
-      }
-    }
-  }
-  return [$tBook, $i];
-}
-// ============================================================================
 
 // ============================================================================
 function intToWords($x) {
