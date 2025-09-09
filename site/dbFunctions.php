@@ -313,8 +313,23 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
             $highlightIsExact = $searchStrategy['highlight_is_exact'];
         }
       }else{
+        // ---- NOT searching down to verse level - keep commented in case I change my mind!
+        // if (empty($tVerses))
+        // {
           $tQuery .= ' AND verses.chapter = ?';
           $params[] = $tChapter;
+        // }else{
+        //     $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '" AND verses.chapter=' . $tChapter . ' AND verses.verseNumber=' . $tVerse . ';';
+        // }
+        // ---- NOT searching down to verse level - keep commented in case I change my mind!
+
+        // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
+        // if (empty($tWords)) {
+          // $tQuery = $tQuery . ';';
+        // }else{
+          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bExact) . ';';
+        // }
+        // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
       }
     }
     $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact);
