@@ -334,12 +334,27 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
     }
     $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact);
   }else{
-// These two lines could be exchanged for the one below to give sample text when
-// blank search criteria eg on opening bible.php for the first time.
-    $tQuery = $tBaseQuery . ' WHERE books.bookName = ? AND verses.chapter=1;';
-    $params[] = "Genesis";
-    $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>' . showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
-//    $tOutput = '';
+    $tQuery = $tBaseQuery . ' INNER JOIN (
+    SELECT bookCode, chapter, verseStart, verseEnd 
+    FROM (
+        SELECT "Genesis" as book, 1 as chapter, 1 as verseStart, 5 as verseEnd
+        UNION SELECT "Psalm", 23, 1, 6
+        UNION SELECT "Isaiah", 40, 28, 31
+        UNION SELECT "Jeremiah", 29, 11, 12
+        UNION SELECT "Matthew", 11, 28, 30
+        UNION SELECT "John", 3, 16, 17
+        UNION SELECT "Philippians", 4, 6, 7
+        UNION SELECT "Romans", 8, 28, 31
+        ORDER BY RAND()
+        LIMIT 1
+    ) encouragingVerses 
+    INNER JOIN books ON books.bookName = encouragingVerses.book
+) AS selected_passage ON books.bookCode = selected_passage.bookCode 
+WHERE verses.chapter = selected_passage.chapter 
+AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.verseEnd;';
+
+      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. Here&apos;s an encouraging passage to get you started:</h2>' . 
+                   showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
   }
   return $tOutput;
 }
