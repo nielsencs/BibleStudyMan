@@ -527,7 +527,7 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
     $lastPos = 0;
 
     // The regex finds a word (alphanumeric + apostrophe) followed by a Strong's tag like {H1234}
-    while (preg_match('/([a-zA-Z0-9\']+)\{([HG]\d+)\}/', $tValue, $matches, PREG_OFFSET_CAPTURE, $lastPos)) {
+    while (preg_match('/([a-zA-Z\-]+)\{([HG]\d+)\}/', $tValue, $matches, PREG_OFFSET_CAPTURE, $lastPos)) {
         
         $fullMatchInfo = $matches[0];
         $wordInfo = $matches[1];
