@@ -12,7 +12,6 @@
         $tVerses = $atBookChapSearch[2];
       }
     }
-//    $tWords = $atBookChapSearch[3];
   }
   $tWords = $atBookChapSearch[3];
 ?>
