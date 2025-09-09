@@ -174,7 +174,14 @@ function findBook($atWords, $i, $iLen) {
 // ============================================================================
     global $atBookAbbs;
 
-    // Attempt 1: Multi-word book names like "Song of Songs" or "1 John"
+    // Attempt 1: Multi-word book names (most specific)
+    if ($iLen >= 3) {
+        $three_words = $atWords[0] . ' ' . $atWords[1] . ' ' . $atWords[2];
+        $tBook = getBookName($three_words, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 3];
+        }
+    }
     if ($iLen >= 2) {
         $two_words = $atWords[0] . ' ' . $atWords[1];
         $tBook = getBookName($two_words, $atBookAbbs);
@@ -182,28 +189,21 @@ function findBook($atWords, $i, $iLen) {
             return [$tBook, 2];
         }
     }
-    if ($iLen >= 3) { // For "Song of Songs"
-        $three_words = $atWords[0] . ' ' . $atWords[1] . ' ' . $atWords[2];
-        $tBook = getBookName($three_words, $atBookAbbs);
-        if ($tBook > '') {
-            return [$tBook, 3];
-        }
+
+    // Attempt 2: Direct single-word match (e.g., "1Jn", "Genesis")
+    $firstWord = $atWords[0];
+    $tBook = getBookName($firstWord, $atBookAbbs);
+    if ($tBook > '') {
+        return [$tBook, 1];
     }
 
-    // Attempt 2: Single word, which might be a combined abbreviation like "1jn"
-    $firstWord = $atWords[0];
+    // Attempt 3: Reconstructed single-word match (e.g., "1jn" -> "1 jn")
     if (preg_match('/^([0-9]+)([a-zA-Z].*)$/', $firstWord, $matches)) {
         $reconstructed = $matches[1] . ' ' . $matches[2];
         $tBook = getBookName($reconstructed, $atBookAbbs);
         if ($tBook > '') {
             return [$tBook, 1];
         }
-    }
-
-    // Attempt 3: Single word, simple abbreviation like "jn" or "Genesis"
-    $tBook = getBookName($firstWord, $atBookAbbs);
-    if ($tBook > '') {
-        return [$tBook, 1];
     }
 
     return ['', 0];
