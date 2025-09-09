@@ -280,6 +280,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', '1John');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', '1st John');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', 'First John');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', 'I J');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', 'I Jhn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', 'I Jn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1JO', 'I Jo');
@@ -339,8 +340,8 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', '1Thessalonians');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', '1st Thess');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', '1st Thessalonians');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 'First Thessalonians');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 'First Thess');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 'First Thessalonians');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 'I Th');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 'I Thes');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1TH', 'I Thess');
@@ -370,8 +371,8 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 'II Ch');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 'II Chr');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 'II Chron');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 'Second Chronicles');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 'Second Chron');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CH', 'Second Chronicles');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CO', '2 Co');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CO', '2 Cor');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2CO', '2 Corinthians');
@@ -394,6 +395,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', '2Joh');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', '2John');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', '2nd John');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', 'II J');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', 'II Jhn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', 'II Jn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2JO', 'II Jo');
@@ -436,14 +438,14 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2 Sm');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2S');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2Sa');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2Sm');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2Sam');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2Sm');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2nd Sam');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', '2nd Samuel');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', 'II Sa');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', 'II Sam');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', 'Second Samuel');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', 'Second Sam');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2SM', 'Second Samuel');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', '2 Th');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', '2 Thes');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', '2 Thess');
@@ -458,8 +460,8 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 'II Thes');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 'II Thess');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 'II Thessalonians');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 'Second Thessalonians');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 'Second Thess');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TH', 'Second Thessalonians');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', '2 Ti');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', '2 Tim');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', '2 Timothy');
@@ -471,8 +473,8 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 'II Ti');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 'II Tim');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 'II Timothy');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 'Second Timothy');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 'Second Tim');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('2TI', 'Second Timothy');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', '3 J');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', '3 Jhn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', '3 Jn');
@@ -484,6 +486,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', '3Joh');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', '3John');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', '3rd John');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', 'III J');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', 'III Jhn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', 'III Jn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('3JO', 'III Jo');
@@ -643,6 +646,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('OBA', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('OBA', 'Oba');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('OBA', 'Obad');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('OBA', 'Obadiah');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHM', 'Phile');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHM', 'Philem');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHM', 'Philemon');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHM', 'Phm');
@@ -650,6 +654,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHM', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHM', 'Pn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHP', 'Ph');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHP', 'Phil');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHP', 'Phili');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHP', 'Philippians');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHP', 'Php');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PHP', 'Pp');
@@ -681,6 +686,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'Canticle of Canticles');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'Canticles');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'SOS');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'SS');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'So');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'Solomon');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('SON', 'Son');
