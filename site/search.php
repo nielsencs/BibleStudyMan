@@ -106,6 +106,11 @@
       iChapter = 0;
     }
     if(tDirection === 'pc'){ //prev chapter
+      // because of my special 2 & 3 John book (needed for the reading plan)
+      if(atBooks[iBook][0] === 'Jude'){
+        iBook--;
+        iChapter = 1;
+      }  
       if(iChapter === 0 || iChapter === 1){
         iBook = wrapNum(iBook, iLastBook, -1);
         iChapter = atBooks[iBook][1]; // last chapter in book
@@ -114,6 +119,11 @@
       }
     }
     if(tDirection === 'nc'){ //next chapter
+      // because of my special 2 & 3 John book (needed for the reading plan)
+      if(atBooks[iBook][0] === '3 John'){
+        iBook++;
+        iChapter = 1;
+      }  
       if(iChapter === atBooks[iBook][1]){ // last chapter in book
         iBook = wrapNum(iBook, iLastBook, +1);
         iChapter = 1;
