@@ -108,16 +108,19 @@
     if(tDirection === 'pc'){ //prev chapter
       if(iChapter === 0 || iChapter === 1){
         iBook = wrapNum(iBook, iLastBook, -1);
-        iChapter = atBooks[iBook][1];
+        iChapter = atBooks[iBook][1]; // last chapter in book
       }else {
         iChapter--;
       }
     }
     if(tDirection === 'nc'){ //next chapter
-      if(iChapter === 0 || iChapter === atBooks[iBook][1]){
+      if(iChapter === atBooks[iBook][1]){ // last chapter in book
         iBook = wrapNum(iBook, iLastBook, +1);
         iChapter = 1;
       }else {
+        if(iChapter === 0){
+          iChapter = 1;
+        }
         iChapter = wrapNum(iChapter, atBooks[iBook][1], +1);
       }
     }
