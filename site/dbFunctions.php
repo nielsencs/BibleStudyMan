@@ -338,7 +338,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
     SELECT bookCode, chapter, verseStart, verseEnd 
     FROM (
         SELECT "Genesis" as book, 1 as chapter, 1 as verseStart, 5 as verseEnd
-        UNION SELECT "Psalm", 23, 1, 6
+        UNION SELECT "Psalms", 23, 1, 6
         UNION SELECT "Isaiah", 40, 28, 31
         UNION SELECT "Jeremiah", 29, 11, 12
         UNION SELECT "Matthew", 11, 28, 30
