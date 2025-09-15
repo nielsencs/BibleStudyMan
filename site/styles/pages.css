@@ -211,17 +211,6 @@
   background-color: white;
 }
 
-.teaching {
-  border: 3px solid #4a4ab5;
-  background-color: #9494ff;
-  overflow: hidden;
-}
-
-.readings {
-  border: 3px solid #4ab5b5;
-  background-color: #94ffff;
-}
-
 .highlightWord {
   background-color: #ffdd0050;
 }
@@ -233,6 +222,17 @@
 .highlightVerse {
   background-color: #00ff0030;
 }  
+
+.teaching {
+  border: 3px solid #4a4ab5;
+  background-color: #9494ff;
+  overflow: hidden;
+}
+
+.readings {
+  border: 3px solid #4ab5b5;
+  background-color: #94ffff;
+}
 
 .plan {
   border: 3px solid #4ab54a;
