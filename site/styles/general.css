@@ -326,7 +326,8 @@ tr:nth-child(odd) td:nth-child(even){
 .menu {
   width: 100%;
   display: block;
-  padding: 0;
+  padding: 1% 0;
+  background-color: #4F3F49;
 }
 
 .logo {
@@ -360,7 +361,6 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .nav {
-  background-color: #4F3F49;
   color: Gainsboro;
   list-style: none;
   text-align: right;
