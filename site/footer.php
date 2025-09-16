@@ -17,6 +17,17 @@
   </ul>
 </div>
 </div>
+<script type="text/javascript">
+// window.onpopstate = function(event) {
+//     document.getElementById('waitHint').style.display = 'none';
+// };
+// window.addEventListener('popstate', function(event) {
+//     document.getElementById('waitHint').style.display = 'none';
+// });
+// window.addEventListener('popstate', function(event) { 
+//   document.querySelector('.modal').style.display = 'none';
+// });
+</script>
 </body>
 </html>
 <?php $pdo = null;?>
