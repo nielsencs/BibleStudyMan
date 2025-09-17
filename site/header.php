@@ -66,7 +66,7 @@
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
     <div class="menu">
-      <a href="https://www.BibleStudyMan.co.uk"><img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo"></a>
+      <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
 
       <ul class="nav">
         <li><a href="home">Home</a></li>
