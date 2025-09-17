@@ -2,7 +2,7 @@
     transition: all 0.3s ease-in-out;
     position: fixed;
     top: 30%;
-    left: 1%;
+    left: 2%;
     width: 300px;
     height: 300px;
     z-index: 3;
@@ -10,6 +10,7 @@
     border-radius: 14px;
     background-color: #fff;
     overflow: hidden;
+    filter: drop-shadow(7px 7px 7px #00000077);
 }
 
 #controlPanel.collapsed {
@@ -20,8 +21,8 @@
 
 #panelToggle {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1px;
+    right: 1px;
     cursor: pointer;
     background: #ffff94;
     border: none;
