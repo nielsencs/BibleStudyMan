@@ -360,7 +360,7 @@ AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.
       }else{
         $tOutput .= ' above';
       }
-      $tOutput .= '. Here&apos;s an encouraging passage to get you started:</h2>';
+      $tOutput .= '. While your deciding what to lookup, here&apos;s a sample:</h2>';
       $tOutput .=  showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
   }
   return $tOutput;
