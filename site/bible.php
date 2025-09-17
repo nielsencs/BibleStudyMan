@@ -1,4 +1,6 @@
 <?php
+  $bFloaty = true; // is the control panel 'floaty'?
+
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'search.php';
@@ -14,13 +16,16 @@
     }
   }
   $tWords = $atBookChapSearch[3];
+  if ($bFloaty) {
+    echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
+  }
 ?>
-
         <div class="main Bible">
             <h1>The Bible</h1>
             <div class="subMain sectGeneral">
               <div id="controlPanel">
-                <button id="panelToggle" title="Toggle search panel">&lt;</button>
+<?php if ($bFloaty) {echo '<button id="panelToggle" title="Toggle search panel">&lt;</button>' . PHP_EOL;} ?>
+                <!-- <button id="panelToggle" title="Toggle search panel">&lt;</button> -->
                 <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
@@ -86,7 +91,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
               </form>
             </div><!-- controlPanel -->
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN);
+  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
   include_once 'bibleDisclaimer.html';
 ?>
             </div>

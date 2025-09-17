@@ -1,29 +1,28 @@
 #controlPanel {
     transition: all 0.3s ease-in-out;
     position: fixed;
-    top: 220px;
-    left: 0;
-    width: 400px;
+    top: 30%;
+    left: 1%;
+    width: 300px;
     height: 300px;
     z-index: 3;
     border: 7px solid #ffff94;
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
-    border-left: none;
+    border-radius: 14px;
     background-color: #fff;
     overflow: hidden;
 }
 
 #controlPanel.collapsed {
-    left: -370px;
+    width: 50px;
+    height: 50px;
+    top:3%
 }
 
 #panelToggle {
     position: absolute;
-    right: 5px;
-    top: 5px;
+    top: 0;
+    right: 0;
     cursor: pointer;
-    padding: 8px;
     background: #ffff94;
     border: none;
     border-radius: 50%;
