@@ -10,7 +10,7 @@
                 <!-- <iframe src="https://www.youtube.com/embed/LyPfQ-in8-g" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
                 <div class="infoBox">
                   <p>This is still very much a work in progress (if you want to help
-                    out then please check out the &lsquo;<a href="support.php">Support
+                    out then please check out the &lsquo;<a href="support">Support
                       Me</a>&rsquo; page).</p><!-- I do plan to develop the code to:</p>
                   <ul>
                     <li>Enable a checklist so you can &lsquo;mark as read&rsquo;</li>

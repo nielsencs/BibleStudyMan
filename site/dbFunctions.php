@@ -11,7 +11,7 @@ function doQuery($pdo, $tQuery, $params = []){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $tReturn = '<a href="bible?book=' . htmlspecialchars($tBookName, ENT_QUOTES, 'UTF-8'); // we might be in plan.php and we want to look up a bible passage!
+  $tReturn = '<a href="bible?book=' . htmlspecialchars($tBookName, ENT_QUOTES, 'UTF-8'); // we might be in /plan and we want to look up a bible passage!
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }

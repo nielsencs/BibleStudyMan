@@ -13,7 +13,7 @@
     <li><a rel="noreferrer" href="https://www.facebook.com/BibleStudyCarl/" target="_blank">Facebook</a></li>
     <li><a rel="noreferrer" href="https://www.patreon.com/BibleStudyMan/" target="_blank">Patreon</a></li>
     <li><a href="mailto:carl@BibleStudyMan.co.uk">Email</a></li> 
-    <li><a href="privacy.php">Privacy Policy</a></li>
+    <li><a href="privacy">Privacy Policy</a></li>
   </ul>
 </div>
 </div>

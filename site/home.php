@@ -8,7 +8,7 @@
   <script src="scripts/showHide.js"></script>
 
   <div class='intro'>
-    <a href="about.php"><img class="mugshot" src="images/BSMMugshot_Trimmed_280x280.jpg" alt="mugshot of Carl"/></a>
+    <a href="about"><img class="mugshot" src="images/BSMMugshot_Trimmed_280x280.jpg" alt="mugshot of Carl"/></a>
     <p>Welcome to the <strong>Bible Study Man</strong> website where I
       hope we can learn together what The Bible has to teach us. My aim
       is to bring this <strong>amazing book alive</strong> in a
@@ -26,7 +26,7 @@
   <div class="main home">
     <h1>The Four Main Sections</h1>
     <div class="subMain teaching">
-      <a href="teaching.php"><h2>1. Online Teaching Sessions</h2></a>
+      <a href="teaching"><h2>1. Online Teaching Sessions</h2></a>
       <p>Would you think I&apos;ve learnt anything by reading The Bible from-cover-to-cover many times over several years?</p>
       <input type="button" value="More" name="button1" id="button1" class="center" onclick="showHide2('1');">
       <div name="block1" id="block1" class="collapse">
@@ -40,11 +40,11 @@
         <p>I unpack this and other subjects in this growing library of video and
           audio sessions.</p>
         <p>On the live sessions interaction is encouraged.</p>
-        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'teaching.php'">
+        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'teaching'">
       </div>
     </div>
     <div class="subMain readings">
-      <a href="readings.php"><h2>2. Dramatic Bible Readings</h2></a>
+      <a href="readings"><h2>2. Dramatic Bible Readings</h2></a>
       <p>Have you noticed that people often read The Bible without emotion?</p>
       <input type="button" value="More" name="button2" id="button2" class="center" onclick="showHide2('2');">
       <div name="block2" id="block2" class="collapse">
@@ -62,11 +62,11 @@
           readings. I doubt my interpretation accurately reflects the mood or emotional
           tone of the original, but I think it&apos;s an interesting and sometimes
           enlightening alternative to the usual formal reading style.</p>
-        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'readings.php'">
+        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'readings'">
       </div>
     </div>
     <div class="subMain plan">
-      <a href="plan.php"><h2>3. Bible Reading Plan</h2></a>
+      <a href="plan"><h2>3. Bible Reading Plan</h2></a>
       <p>Have you ever tried to read The Bible from cover to cover?</p>
       <input type="button" value="More" name="button3" id="button3" class="center" onclick="showHide2('3');">
       <div name="block3" id="block3" class="collapse">
@@ -83,12 +83,12 @@
     echo '<p>A sample of one day&apos;s sections to read: <strong> Exodus Chapter 20 verses 1 to 17</strong>. Follow that by reading <strong> 1 Kings Chapter 10</strong>. The third part is <strong> Psalm  8 verses 4 to 5</strong>; and lastly <strong>from Luke Chapter 21 verse 25 to Chapter 22 verse 6</strong> Enjoy!</p>';
   }
 ?>
-        <!-- p>If you'd rather read from your own Bible (there&apos;s nothing quite like a real book is there?) click here for <a href="planTable.php">the entire year&apos;s readings as a list.</a></p -->
-        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'plan.php'">
+        <!-- p>If you'd rather read from your own Bible (there&apos;s nothing quite like a real book is there?) click here for <a href="planTable">the entire year&apos;s readings as a list.</a></p -->
+        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'plan'">
       </div>
     </div>
     <div class="subMain Bible">
-      <a href="bible.php"><h2>4. The Bible</h2></a>
+      <a href="bible"><h2>4. The Bible</h2></a>
       <p>Do you know the difference between &lsquo;God&rsquo;, &lsquo;
       <span class="small-caps">The Lord</span>&rsquo; (as opposed to &lsquo;The
       Lord&rsquo;) & &lsquo;God Almighty&rsquo;?</p>
@@ -121,7 +121,7 @@
           for God and others of special interest. This is a growing list and I
           Welcome any suggestions for investigation and possible inclusion.
         </p -->
-        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'bible.php'">
+        <input type="button" value="Go there!" class="center" onclick="window.location.href = 'bible'">
       </div>
     </div>
   </div>
