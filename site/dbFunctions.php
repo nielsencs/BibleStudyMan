@@ -270,7 +270,8 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
 }
 
 // ============================================================================
-function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
+function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, 
+                  $bHighlightSW, $bShowOW, $bShowTN, $bFloaty){
 // ============================================================================
   global $pdo;
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
@@ -353,8 +354,14 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $
 WHERE verses.chapter = selected_passage.chapter 
 AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.verseEnd;';
 
-      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box above. Here&apos;s an encouraging passage to get you started:</h2>' . 
-                   showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
+      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box';
+      if($bFloaty){
+        $tOutput .= ' to the left';
+      }else{
+        $tOutput .= ' above';
+      }
+      $tOutput .= '. Here&apos;s an encouraging passage to get you started:</h2>';
+      $tOutput .=  showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
   }
   return $tOutput;
 }
