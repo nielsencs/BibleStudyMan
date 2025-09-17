@@ -160,6 +160,7 @@
   /* background-color: bisque; */
   background-color: Gainsboro;
   overflow: hidden;
+  padding: 1%;
 }
 
 .home>a {
