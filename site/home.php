@@ -77,8 +77,8 @@
           The Prophets (Neviim); The Writings or Poetry (Ktuviim) and The
           New Testament.</p>
 <?php
-  if ($link) {
-    echo '<p>As a sample, today&apos;s sections to read are ' . daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN) . '. Enjoy!</p>';
+  if ($pdo) {
+    echo '<p>As a sample, today&apos;s sections to read are ' . daysReadingsAsSentence($iMonth, $iDay, true, true, true) . '. Enjoy!</p>';
   } else {
     echo '<p>A sample of one day&apos;s sections to read: <strong> Exodus Chapter 20 verses 1 to 17</strong>. Follow that by reading <strong> 1 Kings Chapter 10</strong>. The third part is <strong> Psalm  8 verses 4 to 5</strong>; and lastly <strong>from Luke Chapter 21 verse 25 to Chapter 22 verse 6</strong> Enjoy!</p>';
   }
