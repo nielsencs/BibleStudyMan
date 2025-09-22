@@ -324,15 +324,20 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  display: block;
+
   padding: 1% 0;
   background-color: #4F3F49;
 }
 
 .logo {
-  margin: 3px;
+  height: 50px;
+  object-fit: contain;
   padding: 0 0 0 14px;
+  /* margin: 3px;
   float: left;
   display: block;
 
@@ -344,13 +349,13 @@ tr:nth-child(odd) td:nth-child(even){
   min-width: 98px;
   min-height: 26px;
 
-  font-family: 'Londrina Solid', sans-serif;
+  font-family: 'Londrina Solid', sans-serif; */
   /* font-family: 'Overlock', cursive; */
-  color: goldenrod;
+  /* color: goldenrod; */
   /* #FFF0CC; */
   /* padding: 17px 0 0 10px; */
-  font-size: 21px;
-  /* font-weight: bold; */
+  /* font-size: 21px;
+  font-weight: bold; */
 }
 
 .logo a {
