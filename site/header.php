@@ -70,10 +70,10 @@
 
       <ul class="nav">
         <li><a href="home">Home</a></li>
-        <li><a href="teaching">Teaching</a></li>
-        <li><a href="readings">Readings</a></li>
-        <li><a href="plan">Plan</a></li>
         <li><a href="bible">Bible</a></li>
+        <li><a href="plan">Plan</a></li>
+        <li><a href="readings">Readings</a></li>
+        <li><a href="teaching">Teaching</a></li>
         <li><a href="pricing">Pricing</a></li>
         <li><a href="supportMe">Support Me</a></li>
       </ul>
