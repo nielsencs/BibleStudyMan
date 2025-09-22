@@ -35,43 +35,13 @@
         The other &lsquo;The Lord&rsquo; is &lsquo;Adonai&rsquo; which is a title of respect rather than a name.
         I believe God wants his name to be <strong>revealed</strong> and not hidden behind one of his titles.
       </p>
-      <!-- <p>No? neither do I! Well that's a bit strong; what I mean is, it's not
-        obvious which relates to the original words for God; and the differences are interesting. I&apos;m more clued up about &lsquo;elohim&rsquo; -
-        the closest to our English &lsquo;god&rsquo;; &lsquo;Adonai&rsquo; - &lsquo;The Lord&rsquo;; &lsquo;YAHWEH&rsquo; - The name of God (the one
-        that&apos;s often rendered &lsquo;<span class="small-caps">The Lord</span>&rsquo; with the small caps) which I am rendering ForeverOne.</p> -->
-      <!-- <p>Then there&apos;s &lsquo;Jesus&rsquo; - the English form of the Greek &lsquo;Iesous&rsquo; which is itself a rendering of the Hebrew &rsquo;Yehoshua&rsquo;
-        meaning &lsquo;ForeverOne is salvation&rsquo; - so I&apos;m using &lsquo;ForeverOneSaves&rsquo;.</p> -->
       <p>And then there are different Greek words for love, the two main ones being
         selfless-love (agape) and deep-friendship (fileo) that are usually treated the same as simply &lsquo;love&rsquo; transforming the meaning.</p>
-      <!-- <p>I wanted a translation that brought these interesting differences to light
-        but couldn&apos;t find anything that worked for me. The interlinear
-        texts which seemed so promising to begin with turned out to be way too
-        clumsy to actually use on a daily basis it seemed to me; I am not an expert in Hebrew
-        or Greek but have some knowledge and lots of resources to draw upon. Anyway I discovered there was
-        a public domain modern English translation and realised I could build
-        it myself from that... Easier said than done!</p>  -->
       <p>I wanted a translation that brought out these nuances, but existing interlinear texts were too clumsy
         for daily use. So I created a minor adaptation of the public-domain World English Bible. My version highlights these distinctions - 
         divine names, place names, and other key terms.
       </p>
       <p>That’s why I now render YHWH as ForeverOne and Adonai as LordOfMine. So the words can breathe again, as they were first spoken.</p>
-        <!-- <p>I wanted a translation that highlighted these nuances, but existing interlinear texts were too clumsy
-          for daily use. I’m no expert in Hebrew or Greek, but with some knowledge and plenty of resources, 
-          I realized I could adapt a translation myself.</p>
-        <p>So I’ve created a minor adaptation of the public-domain World English Bible, enriching it with these 
-          nuanced renderings of key words — names of God, place names, and others of special interest.
-          The list is growing, and I welcome suggestions for further exploration and inclusion.</p> -->
-        <!-- <p>So what I have is a minor adaptation of the World English Bible which
-          includes nuanced meanings of particular ancient words for placenames,
-          for God and others of special interest. This is a growing list and I
-          welcome any suggestions for investigation and possible inclusion.</p> -->
-        <!-- p>So what I have started (will I ever finish?) is a minor adaptation of
-          the World English Bible which already differentiates Agape and Yahweh
-          and others. It
-          includes nuanced meanings of particular ancient words for placenames,
-          for God and others of special interest. This is a growing list and I
-          Welcome any suggestions for investigation and possible inclusion.
-        </p -->
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'bible'">
     </div>
 
