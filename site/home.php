@@ -30,30 +30,27 @@
       <p>Well, in <strong>English</strong> there isn't much! Especially, if you&apos;re dyslexic like me, you might have missed that the first one is in
         <span class="small-caps">small caps</span> and the second one isn&apos;t. But in the original <strong>Hebrew</strong>,
         the difference is huge. &lsquo;<span class="small-caps">The Lord</span>&rsquo; (small caps) is <em>Yahweh</em> -
-        The special name of God which which he revealed to Moses in the famous <strong>I AM</strong> passage in
+        The <strong>special name</strong> of God which which he revealed to Moses in the famous <strong>I AM</strong> passage in
         <a href="bible?book=Exodus&chapterNext=&chapter=3&verses=14-16&highlightSW=on&showOW=on&showTN=on">Exodus 3:14-16</a>.
         The other &lsquo;The Lord&rsquo; is &lsquo;Adonai&rsquo; which is a title of respect rather than a name.
-        I believe God wants his name to be <strong>revealed</strong> and not hidden behind one of his titles.
-      </p>
-      <p>And then there are different Greek words for love, the two main ones being
-        selfless-love (agape) and deep-friendship (fileo) that are usually treated the same as simply &lsquo;love&rsquo; transforming the meaning.</p>
+        I believe God wants his name to be <strong>revealed</strong> and not hidden behind one of his titles.</p>
+      <p>And then there are the Greek words for love, most often <em>agape</em> (<strong>selfless love</strong>) and <em>phileo</em> (<strong>deep friendship</strong>),
+        usually treated the same in English, though they carry very different meanings.</p>
       <p>I wanted a translation that brought out these nuances, but existing interlinear texts were too clumsy
         for daily use. So I created a minor adaptation of the public-domain World English Bible. My version highlights these distinctions - 
-        divine names, place names, and other key terms.
-      </p>
-      <p>That’s why I now render YHWH as ForeverOne and Adonai as LordOfMine. So the words can breathe again, as they were first spoken.</p>
+        divine names, place names, and other key terms.</p>
+      <p>That&apos;s why I now render <em>YHWH</em> as <strong><em>ForeverOne</em></strong> and <em>Adonai</em> as <strong><em>LordOfMine</em></strong>. 
+        So the words can breathe again, as they were first spoken.</p>
         <input type="button" value="Go there!" class="center" onclick="window.location.href = 'bible'">
     </div>
 
     <div class="subMain plan">
       <a href="plan"><h2>Bible Reading Plan</h2></a>
       <p>Have you ever tried to read The Bible from cover to cover?</p>
-        <p>If not and you&apos;d like to, then this day-by-day plan will help you
-          to read the entire Bible in one year. It takes less than half an hour
-          a day even if you&apos;re a slow reader like me!</p>
-        <p>The plan is based on four traditional sections - The Law (Torah or Pentateuch);
-          The Prophets (Neviim); The Writings or Poetry (Ktuviim) and The
-          New Testament.</p>
+      <p>If not and you&apos;d like to, then this <strong>day-by-day plan</strong> will help you to read the entire Bible <strong>in one year</strong>.
+        It takes less than half an hour a day even if you&apos;re a slow reader like me!</p>
+      <p>The plan is based around <strong>four traditional sections</strong> - <em>The Law</em> (Torah or Pentateuch); <em>The Prophets</em> (Neviim);
+        <em>The Writings or Poetry</em> (Ktuviim) and <em>The New Testament</em>.</p>
 <?php
   if ($pdo) {
     echo '<p>As a sample, today&apos;s sections to read are ' . daysReadingsAsSentence($iMonth, $iDay, true, true, true) . '. Enjoy!</p>';
@@ -87,7 +84,7 @@
       <p class="centerText"><strong>I am His</strong></p>
       <p class="centerText">and <strong>He is mine</strong></p>
       <p>I unpack this and other subjects in this growing library of video and audio sessions.</p>
-      <p>On the live sessions interaction is encouraged.</p>
+      <p>On the live sessions <strong>interaction is encouraged</strong>.</p>
       <input type="button" value="Go there!" class="center" onclick="window.location.href = 'teaching'">
     </div>
     
