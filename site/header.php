@@ -75,6 +75,6 @@
         <li><a href="readings">Readings</a></li>
         <li><a href="teaching">Teaching</a></li>
         <li><a href="pricing">Pricing</a></li>
-        <li><a href="supportMe">Support Me</a></li>
+        <li><a href="supportMe">Support&nbsp;Me</a></li>
       </ul>
     </div>
