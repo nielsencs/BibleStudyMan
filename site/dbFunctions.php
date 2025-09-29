@@ -226,10 +226,10 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
 // ============================================================================
   global $tWords, $bExact;
 
+  $bPluralChapter = false; // always false for now
+
   $tOutput = '';
   $iBookChapters = 2; // not important to get actual chapters in book unless only 1
-  // if(strpos('Obadiah|Philemon|2 John|3 John|Jude', $tBookName)>0){
-    // if($tBookName != 'John'){
   if(in_array($tBookName, array('Obadiah', 'Philemon', '2 John', '3 John', 'Jude')) ) {
     $iBookChapters = 1; // if only one chapter in book don't say 'chapter'!
   }
@@ -354,13 +354,16 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
 WHERE verses.chapter = selected_passage.chapter 
 AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.verseEnd;';
 
-      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the box';
+      $tOutput = ''; // start with a blank output so subsequent lines all have .=
       if($bFloaty){
-        $tOutput .= ' to the left';
-      }else{
-        $tOutput .= ' above';
+        $tOutput .= '<br><br><br><br><br><br><br>'; // fudge to allow for the floaty box
       }
-      $tOutput .= '. While your deciding what to lookup, here&apos;s a sample:</h2>';
+      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the ';
+      if($bFloaty){
+        $tOutput .= 'collapsible ';
+      }
+      $tOutput .= 'box.<br>';
+      $tOutput .= 'While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>';
       $tOutput .=  showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
   }
   return $tOutput;
@@ -379,6 +382,8 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
   $rows = $stmt->fetchAll();
   $iRows = count($rows);
   $iBooks = countBooks($rows);
+  $iChapters = countChapters($rows);
+  echo '<!-- iRows: ' . $iRows . ' iBooks: ' . $iBooks . ' iChapters: ' . $iChapters . ' -->' . PHP_EOL;
 
   $tOutput .=  '<div class="bibleText';
   if ($iBooks > 1 || $iRows < 7){
@@ -389,12 +394,12 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&apos;t seem to find that!';
   } else {
-    $tOutput .= $iRows . ' verses<br />';
+    $tOutput .= $iRows . ' verses<br>' . PHP_EOL;
     foreach($rows as $row) {
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
         $tOutput .=  PHP_EOL . '<h3>';
-        $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bHighlightSW, $bShowOW, $bShowTN, $bPluralChapter = false);
+        $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bHighlightSW, $bShowOW, $bShowTN, $iChapters > 1);
         $tOutput .=  '</h3>' . PHP_EOL;
       }
       $tOutput .= showVerse($tVerses, $row, $highlightWords, $highlightIsExact);
@@ -419,6 +424,20 @@ function countBooks($rows){
     }
   }
   return $iBooks;
+}
+
+// ============================================================================
+function countChapters($rows){
+// ============================================================================
+  $iChapters = 0;
+  $iLastChapter = 0;
+  foreach ($rows as $row) {
+    if ($row['chapter'] != $iLastChapter){
+      $iChapters++;
+      $iLastChapter = $row['chapter'];
+    }
+  }
+  return $iChapters;
 }
 
 // ============================================================================
