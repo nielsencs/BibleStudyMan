@@ -1,9 +1,13 @@
 #controlPanel {
     transition: all 0.3s ease-in-out;
     position: fixed;
-    top: 30%;
-    left: 2%;
-    width: 300px;
+    /* top: 3%; */
+    /* top: 1rem; */
+    top: 14px;
+    /* left: 2%; */
+    /* left: 1rem; */
+    left: 14px;
+    width: 270px;
     height: 300px;
     z-index: 3;
     border: 7px solid #ffff94;
@@ -16,7 +20,6 @@
 #controlPanel.collapsed {
     width: 50px;
     height: 50px;
-    top:3%
 }
 
 #panelToggle {
