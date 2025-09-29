@@ -62,7 +62,7 @@
   float: none;
   clear: both;
   overflow: visible;
-  height: 80%;
+  /* min-height: 590px; */
 }
 
 .footer {
@@ -154,18 +154,10 @@
   max-width: 1200px;
   margin: 1% auto;
   padding: 1%;
-  display: grid;
+  display: table;
   background-color: white;
   border-radius: 14px;
   box-shadow: 3px 3px 7px #4F3F49;
-}
-
-.collapse {
-  display: none;
-  /* height: 0; */
-  height: auto;
-  /* background-color: white; */
-  /* transition: height 3s ease-in-out; */
 }
 
 .plain {
@@ -188,26 +180,30 @@
 .teaching {
   /* border: 3px solid #4a4ab5; */
   background-color: #9494ff;
-  padding: 1%;
+  background: linear-gradient(#9494ff,  #ddddff);
+  padding: 10px;
   overflow: hidden;
 }
 
 .readings {
   /* border: 3px solid #4ab5b5; */
   background-color: #94ffff;
-  padding: 1%;
+  background: linear-gradient(#94ffff,  #ddffff);
+  padding: 10px;
 }
 
 .plan {
   /* border: 3px solid #4ab54a; */
   background-color: #94ff94;
-  padding: 1%;
+  background: linear-gradient(#94ff94,  #ddffdd);
+  padding: 10px;
 }
 
 .Bible {
   /* border: 3px solid #b5b54a; */
   background-color: #ffff94;
-  padding: 1%;
+  background: linear-gradient(#ffff94,  #ffffdd);
+  padding: 10px;
 }
 
 .sectGeneral {
