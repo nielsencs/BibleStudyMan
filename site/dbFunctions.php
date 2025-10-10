@@ -457,6 +457,12 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
     // place it before the verse number
   }
   
+  if(strtolower(substr($tThisVerseText, 0, 4)) == '<br>'){ // if this verse starts with a break
+    $tOutput .=  '<br>';
+    $tThisVerseText = substr($tThisVerseText, 4);
+    // place it before the verse number
+  }
+  
   if ($bVerseSearched){ //if verse searched for highlight the whole verse
     $tOutput .=  '<span class="highlightVerse">';
   }
