@@ -26,14 +26,14 @@
               <div id="controlPanel">
 <?php if ($bFloaty) {echo '<button id="panelToggle" title="Toggle search panel">&lt;</button>' . PHP_EOL;} ?>
                 <!-- <button id="panelToggle" title="Toggle search panel">&lt;</button> -->
-                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
+                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] ?? '', ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
                   <tbody>
                     <tr>
                       <td colspan="2">
                         Search by word or book or both<br />
-                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords, ENT_QUOTES, 'UTF-8'); ?>">
+                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
                                onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to
 get fewer results as it treats the
@@ -86,7 +86,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                     </tr>
                   </tbody>
                 </table>
-                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses, ENT_QUOTES, 'UTF-8');} ?>">
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
 <?php require_once 'intWords.php'; ?>
               </form>
             </div><!-- controlPanel -->

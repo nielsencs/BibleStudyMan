@@ -11,11 +11,11 @@ function doQuery($pdo, $tQuery, $params = []){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $tReturn = '<a href="bible?book=' . htmlspecialchars($tBookName, ENT_QUOTES, 'UTF-8'); // we might be in /plan and we want to look up a bible passage!
+  $tReturn = '<a href="bible?book=' . htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8'); // we might be in /plan and we want to look up a bible passage!
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }
-  $tReturn .= '&words=' . str_replace(' ', '+', htmlspecialchars($tWords, ENT_QUOTES, 'UTF-8'));
+  $tReturn .= '&words=' . str_replace(' ', '+', htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'));
   if($bExact){
     $tReturn .= '&exact=on';
   }
@@ -62,7 +62,7 @@ function prepareBookList(){
   $tOutput .=  '0]';
 
   while($row = $stmt->fetch()) {
-    $tOutput .=  ', ["' . htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8') . '", ';
+    $tOutput .=  ', ["' . htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8') . '", ';
     $tOutput .=  $row['bookChapters'] . ']';
     if(strtoupper((string)$row['bookName']) === strtoupper((string)$tBook)){
       $iBook = $row['orderChristian'];
@@ -94,11 +94,11 @@ function prepareDropdownBookList(){
 
   while($row = $stmt->fetch()) {
     // $tOutput .= '<option value="' . $row['bookName'] . '">';
-    $tOutput .= '<option value="' . htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8') . '"';
+    $tOutput .= '<option value="' . htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8') . '"';
      if ($row['bookName'] === $tBook) {
        $tOutput .= ' selected';
      }
-    $tOutput .= '>' . htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8') . '</option>';
+    $tOutput .= '>' . htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8') . '</option>';
   }
   return $tOutput;
 }
@@ -204,7 +204,7 @@ function monthName($iMonth){// return text month from numeric
 // ============================================================================
   $atMonths = array("Oops", "January", "February", "March", "April", "May", "June",
                     "July", "August", "September", "October", "November", "December");
-  return $atMonths[$iMonth];
+  return $atMonths[$iMonth] ?? '';
 }
 
 // ============================================================================
@@ -240,7 +240,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
   if($tBookName === 'Psalms'){
     $tOutput .= 'Psalm';
   }else {
-    $tOutput .= htmlspecialchars($tBookName, ENT_QUOTES, 'UTF-8');
+    $tOutput .= htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8');
   }
   if($bShowLinks){
     $tOutput .= '</a>';
@@ -591,9 +591,9 @@ function processStrongs($tValue, $bHighlightSW, $bShowOW, $bShowTN){
             if ($bHighlightSW) {
                 $processedWord .= '<span class="highlightOW">';
             }
-            $processedWord .= htmlspecialchars($tWord1, ENT_QUOTES, 'UTF-8');
+            $processedWord .= htmlspecialchars($tWord1 ?? '', ENT_QUOTES, 'UTF-8');
             if ($bShowOW) {
-                $processedWord .= ' <sub>(' . htmlspecialchars($tWord2, ENT_QUOTES, 'UTF-8') . ')</sub>';
+                $processedWord .= ' <sub>(' . htmlspecialchars($tWord2 ?? '', ENT_QUOTES, 'UTF-8') . ')</sub>';
             }
             if ($bHighlightSW) {
                 $processedWord .= '</span>';
@@ -727,7 +727,7 @@ function addStrongsWild($atWords, $i, $iLen, $bExact){
       $tWords = $tWords . $atWords[$i] . '' . $tWild . ' ';
     }
   }
-  echo '$tWords:' . htmlspecialchars($tWords, ENT_QUOTES, 'UTF-8');
+  echo '$tWords:' . htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8');
   return $tWords;
 }
 
@@ -747,12 +747,12 @@ function videoList($tClass = 'R'){
   $stmt = doQuery($pdo, $tQuery, $params);
 
   if ($stmt->rowCount() == 0) {
-    $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery, ENT_QUOTES, 'UTF-8') . '"';
+    $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery ?? '', ENT_QUOTES, 'UTF-8') . '"';
   } else {
     while ($row = $stmt->fetch()) {
       $tOutput .= '<div class="media">';
       if(! empty($row["audioURL"])){
-        $tOutput .= '<p class="centerText">' . htmlspecialchars($row["mediaName"], ENT_QUOTES, 'UTF-8') . '</p>';
+        $tOutput .= '<p class="centerText">' . htmlspecialchars($row["mediaName"] ?? '', ENT_QUOTES, 'UTF-8') . '</p>';
         $tOutput .= '<br />';
 //        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
 //        $tOutput .= $row["audioURL"];
@@ -763,7 +763,7 @@ function videoList($tClass = 'R'){
 //        $tOutput .= '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
         $tOutput .= '<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
 //        $tOutput .= '<iframe scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
-        $tOutput .= htmlspecialchars($row["audioTrack"], ENT_QUOTES, 'UTF-8');
+        $tOutput .= htmlspecialchars($row["audioTrack"] ?? '', ENT_QUOTES, 'UTF-8');
         $tOutput .= '&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>';
         $tOutput .= '<br />';
       }
@@ -776,7 +776,7 @@ function videoList($tClass = 'R'){
 //        $tOutput .= '<br />';
 
         $tOutput .= '<iframe width = "' . $tWidth . '" height = "' . $tHeight . '" src="https://www.youtube.com/embed/';
-        $tOutput .= htmlspecialchars($row["videoURL"], ENT_QUOTES, 'UTF-8');
+        $tOutput .= htmlspecialchars($row["videoURL"] ?? '', ENT_QUOTES, 'UTF-8');
 //        $tOutput .= '?controls=1&modestbranding=0"';
         $tOutput .= '?rel=0" frameborder="1" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
       }

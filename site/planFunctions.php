@@ -78,7 +78,7 @@ function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowT
     $rows = $stmt->fetchAll();
 
     if (count($rows) === 0) {
-        $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery, ENT_QUOTES, 'UTF-8') . '"';
+        $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery ?? '', ENT_QUOTES, 'UTF-8') . '"';
     } else {
         if($iMonth === 2 && $iDay === 29){
             $tOutput .= ' let me say Happy Leap-Year-Extra-Day.</p><p><strong>Today is a special day!</strong> ';
@@ -160,7 +160,7 @@ function daysSectionReading($iMonth, $iDay, $iSection, $bHighlightSW, $bShowOW, 
     $rows = $stmt->fetchAll();
 
     if (count($rows) === 0) {
-        $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery, ENT_QUOTES, 'UTF-8') . '"';
+        $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery ?? '', ENT_QUOTES, 'UTF-8') . '"';
     } else {
         foreach($rows as $row) {
             $bChaptersOnly = isChaptersOnly($row);
@@ -224,7 +224,7 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
     $readingList = $stmt->fetchAll();
 
     if (count($readingList) == 0) {
-        $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery, ENT_QUOTES, 'UTF-8') . '"';
+        $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery ?? '', ENT_QUOTES, 'UTF-8') . '"';
     } else {
         $readCount = count($readingList);
         if ($readCount > 0){
@@ -242,10 +242,10 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
                 $tAudio .= '_' .  $readingList[$i]['startVerse'] . '-' . $readingList[$i]['endChapter'];
                 $tAudio .= '_' . $readingList[$i]['endVerse'] . '.ogg';
 
-                $tOutput .=  '<!-- ' . htmlspecialchars($tAudio, ENT_QUOTES, 'UTF-8') . ' -->';
+                $tOutput .=  '<!-- ' . htmlspecialchars($tAudio ?? '', ENT_QUOTES, 'UTF-8') . ' -->';
                 if (file_exists($tAudio)){
                     $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br />';
-                    $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . htmlspecialchars($tAudio, ENT_QUOTES, 'UTF-8') . '"></audio>';
+                    $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . htmlspecialchars($tAudio ?? '', ENT_QUOTES, 'UTF-8') . '"></audio>';
                 }
                 list($passageQuery, $passageParams) = buildPassageQueryNew($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
                 $tOutput .=  showVerses($passageQuery, $passageParams, '', $bHighlightSW, $bShowOW, $bShowTN);
@@ -526,14 +526,14 @@ function PTAddSection($row) { // add a section column to the plan table
 
     $tOutput .= '<td>';
     $tOutput .= '<a href="bible.php?book=';
-    $tOutput .= htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8');
+    $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
     $tOutput .= '">';
-    $tOutput .= htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8');
+    $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
     $tOutput .= '</a> ';
 
     if ($row['bookChapters'] > 1){
         $tOutput .= '<a href="bible.php?book=';
-        $tOutput .= htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8');
+        $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
         $tOutput .= '&chapter=';
         $tOutput .= $row['startChapter'];
         $tOutput .= '">';
@@ -553,7 +553,7 @@ function PTAddSection($row) { // add a section column to the plan table
             $tOutput .= ' - ';
             if ($row['endChapter'] != $row['startChapter']){
                 $tOutput .= '<a href="bible.php?book=';
-                $tOutput .= htmlspecialchars($row['bookName'], ENT_QUOTES, 'UTF-8');
+                $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
                 $tOutput .= '&chapter=';
                 $tOutput .= $row['endChapter'];
                 $tOutput .= '">';

@@ -34,7 +34,7 @@
                             iLatest,   // last time can join meeting in minutes
                             iBST));     // summer time
 //  setInterval(function(){countDown(<?php echo $i;?>, '');}, 1000);
-  setInterval(function(){countDown(<?php echo $i;?>, '<?php echo htmlspecialchars($atMeetings[$i]['meetingURL'], ENT_QUOTES, 'UTF-8');?>');}, 1000);
+  setInterval(function(){countDown(<?php echo $i;?>, '<?php echo htmlspecialchars($atMeetings[$i]['meetingURL'] ?? '', ENT_QUOTES, 'UTF-8');?>');}, 1000);
 
 <?php
   }

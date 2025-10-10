@@ -37,17 +37,17 @@ foreach ($rows as $r) {
 ?>
 
 <?php foreach ($byYear as $year => $items): ?>
-    <h3><?= htmlspecialchars($year) ?></h3>
+    <h3><?= htmlspecialchars($year ?? '') ?></h3>
     <ul>
         <?php foreach ($items as $it): ?>
             <li>
                 <a href="/updates/<?= urlencode($it['slug']) ?>">
-                    <?= htmlspecialchars($it['label']) ?>
+                    <?= htmlspecialchars($it['label'] ?? '') ?>
                 </a>
                 <?php if (!empty($it['emailoctopus_url'])): ?>
-                    &nbsp;— <a href="<?= htmlspecialchars($it['emailoctopus_url']) ?>" rel="noopener">Original Email</a>
+                    &nbsp;— <a href="<?= htmlspecialchars($it['emailoctopus_url'] ?? '') ?>" rel="noopener">Original Email</a>
                 <?php endif; ?>
-                <br><small><?= htmlspecialchars($it['summary']) ?></small>
+                <br><small><?= htmlspecialchars($it['summary'] ?? '') ?></small>
             </li>
         <?php endforeach; ?>
     </ul>
