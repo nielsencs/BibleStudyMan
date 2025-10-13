@@ -331,6 +331,12 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
           // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bExact) . ';';
         // }
         // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
+        // If there are search words, prepare them for highlighting, but don't filter the query with them.
+        if (!empty($tWords)) {
+            $searchStrategy = get_search_strategy($tWords, $bExact);
+            $highlightWords = $searchStrategy['highlight_words'];
+            $highlightIsExact = $searchStrategy['highlight_is_exact'];
+        }
       }
     }
     $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact);
