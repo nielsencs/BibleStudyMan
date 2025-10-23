@@ -33,7 +33,7 @@
       <p>And then there are the Greek words for love, most often <em>agape</em> (<strong>selfless love</strong>) and <em>phileo</em> (<strong>deep friendship</strong>),
         usually treated the same in English, though they carry very different meanings.</p>
       <p>I wanted a translation that brought out these nuances, but existing interlinear texts were too clumsy
-        for daily use. So I created a minor adaptation of the public-domain World English Bible. My version highlights these distinctions - 
+        for daily use. So I created an adaptation of the public-domain World English Bible. My version highlights these distinctions - 
         divine names, place names, and other key terms.</p>
       <p>That&apos;s why I now render <em>YHWH</em> as <strong><em>ForeverOne</em></strong> and <em>Adonai</em> as <strong><em>LordOfMine</em></strong>. 
         So the words can breathe again, as they were first spoken.</p>
