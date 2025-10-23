@@ -330,7 +330,19 @@ tr:nth-child(odd) td:nth-child(even){
   width: 100%;
 
   padding: 1% 0;
-  background-color: #4F3F49;
+  /* background-color: #4F3F49; /* original */
+  background-color: #22101BCC; /* try to match original but with transparency */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  transition: box-shadow 0.3s ease-in-out;
+  backdrop-filter: blur(3px);
+}
+
+/* Add subtle shadow when menu is sticky */
+.menu.sticky {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo {
