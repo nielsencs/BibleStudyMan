@@ -334,7 +334,7 @@ tr:nth-child(odd) td:nth-child(even){
   background-color: #22101BCC; /* try to match original but with transparency */
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1;
 
   transition: box-shadow 0.3s ease-in-out;
   backdrop-filter: blur(3px);
