@@ -8,7 +8,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 -- Uncomment ONLY if you are creating a FRESH INSTALLATION
--- CREATE DATABASE IF NOT EXISTS bible DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+-- CREATE DATABASE IF NOT EXISTS bible DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci;
 -- USE bible;
 
 DROP TABLE IF EXISTS sections;
@@ -17,7 +17,7 @@ CREATE TABLE sections (
   sectionName varchar(25) NOT NULL,
   sectionEnglish varchar(25) NOT NULL,
   PRIMARY KEY (sectionCode)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('1TOR', 'Torah', 'Law');
 INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('2NV1', 'Nevi\'im', 'Prophets');
@@ -34,7 +34,7 @@ CREATE TABLE media (
   mediaName varchar(77) NOT NULL,
   mediaDescription varchar(49) NOT NULL,
   PRIMARY KEY (mediaID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'oyLkIazpF-o', '440690997', 'psalm-22', 'Psalm 22', 'Dramatic Reading of Psalm 22');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'Klx_vvcUCic', '437317959', 'psalm-23', 'Psalm 23', 'Dramatic Reading of Psalm 23');
@@ -47,7 +47,6 @@ INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaN
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'ju6HVq4etEU', '1711829340', 'ruth', 'Ruth', 'Dramatic Reading of Ruth');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'b5k1ynDATj4', '1713649059', 'bible-readings-for-day-1', 'Bible Readings for Day 1', 'Bible Reading Plan - Day 1');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'JDyj8JwFMig', '1714767735', 'bible-readings-for-day-2', 'Bible Readings for Day 2', 'Bible Reading Plan - Day 2');
-
 
 DROP TABLE IF EXISTS meetings;
 CREATE TABLE meetings (
@@ -63,7 +62,7 @@ CREATE TABLE meetings (
   meetingTime varchar(147) NOT NULL,
   meetingLength varchar(147) NOT NULL,
   PRIMARY KEY (meetingID)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO meetings (meetingID, meetingActive , meetingName, meetingDescription, meetingDetails, meetingURL, meetingRoom, meetingPassword, meetingDay, meetingTime, meetingLength)
 VALUES(1, 0, 'Further Along The Way...', 'Getting a bit deeper into the things of God. The name is inspired by the course I used to teach at CleanSlate Church from Jackie Pullinger&apos;s &lsquo;The Way&rsquo; materials.', '<ul><li>Born Again: Born of the Spirit</li><li>Forgiveness</li><li>Life and death</li><li>The Power of the Holy Spirit</li><li>What&apos;s God really like?</li><li>The Cross: He Died, He Rose Again</li><li>Jesus is Coming Back (how do we know?)</li><li>Can I really trust Jesus?</li><li>Listening & Talking to God</li><li>The Father: Knowing and Being Known</li><li>How can I be free?</li><li>Water Baptism</li><li>Breaking Bread: The Lord&apos;s Supper</li><li>Idols: Burn and Break</li><li>I don&apos;t need people to have a relationship with God!</li><li>The Generations: Sin, Curses & Blessings</li><li>Inner Healing</li><li>Go!</li><li>We&apos;re saved by Grace, so why bother? </li><li>Restitution: Paying Back & Making Amends</li><li>Leaving & Joining (sexual relationships)</li><li>Is there a hell?</li><li>What&apos;s the The Fruit of The Spirit all about?</li><li>Once saved always saved?</li><li>What does circumcision of the heart mean?</li></ul>', 'https://us04web.zoom.us/j/405426880?pwd=RER6ZXk1NVJkdjB3aUhEU0JoS3NhQT09', '405 426 880', 'letstalk', '2', '20:00', 90);
@@ -78,7 +77,7 @@ CREATE TABLE strongs (
   strongsEnglish varchar(25) NOT NULL,
   strongsDefinition text NOT NULL,
   PRIMARY KEY (strongsNumber)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 0, 'adon', 'lord', 'Adon - lord or master as opposed to Adonai{H0136}, LordOfMine');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'LordOfMine', 'Adonai - My Lord\r\n\r\nmy Lord\r\nAn emphatic form of \'adon{H0113}\'; the Lord (used as a proper name of God only) -- (my) Lord.\r\n\r\nsee HEBREW \'adon{113}\'');
@@ -177,7 +176,7 @@ CREATE TABLE books (
   testament varchar(1) NOT NULL,
   sectionCode varchar(4) NOT NULL,
   PRIMARY KEY (bookCode)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('GEN', 'Genesis',         50,  1,  1,  1,  2, 'O', '1TOR');
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('EXO', 'Exodus',          40,  2,  2,  2,  3, 'O', '1TOR');
@@ -252,7 +251,7 @@ CREATE TABLE `book-abbreviations` (
   baBookCode varchar(3) NOT NULL,
   baBookAbbreviation varchar(35) NOT NULL,
   UNIQUE KEY (baBookAbbreviation)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1CH', '1 Ch');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('1CH', '1 Chr');
@@ -727,7 +726,7 @@ CREATE TABLE `plan-new` (
   endChapter smallint(6) NOT NULL,
   endVerse smallint(6) NOT NULL,
   PRIMARY KEY (planDay,sectionCode)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(   1,   1, '1TOR', 'GEN', 1, 1, 1, 23);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(   2,   2, '1TOR', 'GEN', 1, 24, 2, 7);
@@ -2200,7 +2199,7 @@ CREATE TABLE `plan-feb-29` (
   startVerse smallint(6) NOT NULL,
   endChapter smallint(6) NOT NULL,
   endVerse smallint(6) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO `plan-feb-29` (planID, planDate, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1461, '2000-02-29', '1TOR', 'GEN', 1, 1, 0, 0);
 INSERT INTO `plan-feb-29` (planID, planDate, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1462, '2000-02-29', '2NV1', '1KI',18,41,18,46);
@@ -2217,7 +2216,7 @@ CREATE TABLE `plan-days` (
   ID smallint(6) NOT NULL AUTO_INCREMENT,
   planDate date NOT NULL,
   PRIMARY KEY (ID)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
 INSERT INTO `plan-days` (ID, planDate) VALUES(  1, '2001-01-01');
 INSERT INTO `plan-days` (ID, planDate) VALUES(  2, '2001-01-02');
