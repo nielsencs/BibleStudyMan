@@ -47,7 +47,7 @@ h3 {
 }
 
 p {
-  margin-top: 7pt;
+  margin-top: 14pt;
   font-size: 12pt;
 }
 
@@ -324,43 +324,34 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  display: block;
-  padding: 0;
+
+  padding: 1% 0;
+  /* background-color: #4F3F49; /* original */
+  background-color: #22101BCC; /* try to match original but with transparency */
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  transition: box-shadow 0.3s ease-in-out;
+  backdrop-filter: blur(3px);
+}
+
+/* Add subtle shadow when menu is sticky */
+.menu.sticky {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo {
-  margin: 3px;
+  height: 50px;
+  object-fit: contain;
   padding: 0 0 0 14px;
-  float: left;
-  display: block;
-
-  width: 14%;
-  height: auto;
-
-  max-width:293px;
-  max-height:77px;
-  min-width: 98px;
-  min-height: 26px;
-
-  font-family: 'Londrina Solid', sans-serif;
-  /* font-family: 'Overlock', cursive; */
-  color: goldenrod;
-  /* #FFF0CC; */
-  /* padding: 17px 0 0 10px; */
-  font-size: 21px;
-  /* font-weight: bold; */
-}
-
-.logo a {
-  text-decoration: none;
-  font-weight: normal;
-  color: burlywood;
-  /* #FFF0CC; */
 }
 
 .nav {
-  background-color: #4F3F49;
   color: Gainsboro;
   list-style: none;
   text-align: right;
@@ -369,14 +360,13 @@ tr:nth-child(odd) td:nth-child(even){
 
 .footNav {
   font-family: 'Londrina Solid', sans-serif;
-  /* font-family: 'Overlock', cursive; */
   text-align: center;
 }
 
 .nav li {
   display: inline-block;
-  padding: 3px;
-  font-size: 14px;
+  /* padding: 3px; */
+  /* font-size: 14px;*/
 }
 
 @media (min-width: 800px) {
@@ -389,25 +379,14 @@ tr:nth-child(odd) td:nth-child(even){
   text-decoration: none;
   font-weight: normal;
   color: Gainsboro;
-  padding: 3px;
-  /* border: 1px solid #773322; */
-  border: 1px solid #4F3F49;
+  margin: 2px;
+  padding: 1px;
+  border: 1px solid #4F3F4900;
 }
 
 .nav li a:hover {
   color: #FFF0CC;
-  padding: 3px;
+  /* padding: 3px; */
   border: 1px solid #FFF0CC;
+  border-radius: 7px;
 }
-
-/*
-.nav li a .s1 {
-    color: plum;
-    border: 1px solid purple;
-}
-
-.nav li a:hover .s1 {
-    color: plum;
-    border: 1px solid magenta;
-}
-*/

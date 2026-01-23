@@ -54,27 +54,28 @@
   <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script src="scripts/app.js"></script>
+  <!-- <script src="scripts/menu.js"></script> -->
 </head>
 
 <body>
   <div id="waitHint" class="modal"></div>
   <div class="content">
     <noscript>
-      <h1 class="centerText">It seems that you currently don&rsquo;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
+      <h1 class="centerText">It seems that you currently don&apos;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
     </noscript>
 
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
     <div class="menu">
-      <a href="https://www.BibleStudyMan.co.uk"><img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo"></a>
+      <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
 
       <ul class="nav">
         <li><a href="home">Home</a></li>
-        <li><a href="teaching">Teaching</a></li>
-        <li><a href="readings">Readings</a></li>
-        <li><a href="plan">Plan</a></li>
         <li><a href="bible">Bible</a></li>
+        <li><a href="plan">Plan</a></li>
+        <li><a href="readings">Readings</a></li>
+        <li><a href="teaching">Teaching</a></li>
         <li><a href="pricing">Pricing</a></li>
-        <li><a href="supportMe">Support Me</a></li>
+        <li><a href="supportMe">Support&nbsp;Me</a></li>
       </ul>
     </div>

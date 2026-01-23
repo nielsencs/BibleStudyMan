@@ -1,7 +1,10 @@
 <?php
+  $bFloaty = false; // is the control panel 'floaty'?
+
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'search.php';
+
   $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
   if($atBookChapSearch[0] > ''){ // book found in search
     $tBook = $atBookChapSearch[0];
@@ -11,24 +14,28 @@
         $tVerses = $atBookChapSearch[2];
       }
     }
-//    $tWords = $atBookChapSearch[3];
   }
   $tWords = $atBookChapSearch[3];
+  if ($bFloaty) {
+    echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
+  }
 ?>
-
         <div class="main Bible">
             <h1>The Bible</h1>
             <div class="subMain sectGeneral">
-                <form name="searchForm" id="searchForm" action="<?php echo filter_input(INPUT_SERVER, 'PHP_SELF');?>" method="get" onsubmit="showWait();">
+              <div id="controlPanel">
+<?php if ($bFloaty) {echo '<button id="panelToggle" title="Toggle search panel">&lt;</button>' . PHP_EOL;} ?>
+                <!-- <button id="panelToggle" title="Toggle search panel">&lt;</button> -->
+                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] ?? '', ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">
                   <tbody>
                     <tr>
                       <td colspan="2">
                         Search by word or book or both<br />
-                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo $tWords; ?>">
+                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                         <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
-                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to 
+                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to
 get fewer results as it treats the
 words to the left as a phrase if
 there are more than one or as the
@@ -63,7 +70,7 @@ You can select one of them here.">Book</abbr>&nbsp;
                       <td>
                         <input type="button" value="&lt;" onclick="doDirection('pc')">
                         &nbsp;<abbr title="The books in The Bible are divided
-into chapters; once you&rsquo;ve picked a
+into chapters; once you&apos;ve picked a
 book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
                         <br />
@@ -79,11 +86,12 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                     </tr>
                   </tbody>
                 </table>
-                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo $tVerses;} ?>">
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
 <?php require_once 'intWords.php'; ?>
               </form>
+            </div><!-- controlPanel -->
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact);
+  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
   include_once 'bibleDisclaimer.html';
 ?>
             </div>
@@ -95,42 +103,29 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
 // ============================================================================
 function bookChapSearch($tWords, $tBook, $tChapter){
 // ============================================================================
-  $tVerses = '';
-  if(is_numeric($tWords)){
-    if(empty($tBook)){ // treat as number
-      $tWords = intToWords($tWords);
-    } else {
-      if(empty($tChapter)){
-        $tChapter = $tWords;
-      } else {
-        $tVerses = $tWords;
-      }
-      $tWords = '';
-    }
-  }elseif(is_numeric(substr($tWords, 0, 1))) {
-    if(strpos($tWords, '-')>0 || strpos($tWords, ',')>0){
-      $tVerses = $tWords;
-    }
-  } else {
+    $tVerses = '';
+
     $atWords = explode(' ', $tWords);
     $iLen = count($atWords);
 
-    $atBeginsWithBook = beginsWithBook($atWords, $iLen);
-    $tBookNew = $atBeginsWithBook[0];
-    if(empty($tBook) || $tBookNew !== $tBook){
-      $tBook = $tBookNew;
-      $tChapter = $atBeginsWithBook[1];
-      $tVerses = $atBeginsWithBook[2];
-      $i = $atBeginsWithBook[3];
+    if ($iLen > 0 && $atWords[0] !== '') {
+        $atBeginsWithBook = beginsWithBook($atWords, $iLen);
+        $tBookNew = $atBeginsWithBook[0];
 
-      if ($i === $iLen){ // done!
-        $tWords = '';
-      }else{
-        $tWords = joinWords($atWords, $i, $iLen);
-      }      
+        // If a book was successfully parsed from the beginning of the string
+        if ($tBookNew > '') {
+            $tBook = $tBookNew;
+            $tChapter = $atBeginsWithBook[1];
+            $tVerses = $atBeginsWithBook[2];
+            $wordsConsumed = $atBeginsWithBook[3];
+
+            // The rest of the string becomes the new search term
+            $tWords = joinWords($atWords, $wordsConsumed, $iLen);
+        }
+        // If no book was found, we do nothing, so the original $tWords is used for a text search.
     }
-  }
-  return [$tBook, $tChapter, $tVerses, $tWords];
+
+    return [$tBook, $tChapter, $tVerses, $tWords];
 }
 // ============================================================================
 
@@ -140,45 +135,72 @@ function beginsWithBook($atWords, $iLen){
   $tBook = '';
   $tChapter = '';
   $tVerses = '';
+  $i = 0; // Default to 0 words consumed
 
   $atFindBook = findBook($atWords, 0, $iLen);
-  $i = $atFindBook[1];
+  $potentialBook = $atFindBook[0];
+  $wordsConsumedByBook = $atFindBook[1];
 
-  if (strlen($atFindBook[0]) > 0){ // first few words is a book
-    $tBook = $atFindBook[0];
-    $atFindChapterVerse = findChapterVerse($atWords, $i, $iLen);
-    $tChapter = $atFindChapterVerse[0];
-    $tVerses = $atFindChapterVerse[1];
-    $i = $atFindChapterVerse[2];
+  if (strlen($potentialBook) > 0) { // We found a potential book
+    $atFindChapterVerse = findChapterVerse($atWords, $wordsConsumedByBook, $iLen);
+    $potentialChapter = $atFindChapterVerse[0];
+    $potentialVerses = $atFindChapterVerse[1];
+    $wordsConsumedTotal = $atFindChapterVerse[2];
+
+    // Condition: Is it a real book reference?
+    // It is if a chapter was found, OR if the whole search query was just the book name.
+    if ($potentialChapter > '' || $wordsConsumedByBook === $iLen) {
+        $tBook = $potentialBook;
+        $tChapter = $potentialChapter;
+        $tVerses = $potentialVerses;
+        $i = $wordsConsumedTotal;
+    }
+    // ELSE: It was a false alarm (e.g., "mat" in a sentence), so we return empty values
+    // and the original search string will be used for a text search.
   }
+
   return [$tBook, $tChapter, $tVerses, $i];
 }
 // ============================================================================
 
 // ============================================================================
-function findBook($atWords, $i, $iLen){
+function findBook($atWords, $i, $iLen) {
 // ============================================================================
-//  abbreviations with or without fullstop
-  // Gen chapter 1 vs Gen 1 vs gn 1 vs Gn 1
-  // 1 cor vs 1cor
-  global $atBookAbbs;
-  $tMayBeBook = '';
-  if(is_numeric ($atWords[0]) || stripos($atWords[0], 'first second third i ii iii 1st 2nd 3rd') > 0){
-    if ($iLen >= 1){
-      $tMayBeBook = $atWords[0] . ' ' . $atWords[1];
-      $i ++;
+    global $atBookAbbs;
+
+    // Attempt 1: Multi-word book names (most specific)
+    if ($iLen >= 3) {
+        $three_words = $atWords[0] . ' ' . $atWords[1] . ' ' . $atWords[2];
+        $tBook = getBookName($three_words, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 3];
+        }
     }
-  } else {
-    $tMayBeBook = $atWords[0];
-  }
-  $atSongs = isItSongs($tMayBeBook, $atWords, $i, $iLen);
-  $tMayBeBook = $atSongs[0];
-  $i = $atSongs[1];
-  $tBook = getBookName($tMayBeBook, $atBookAbbs);
-  if($tBook > ''){
-    $i = $i + 1;
-  }
-  return [$tBook, $i];
+    if ($iLen >= 2) {
+        $two_words = $atWords[0] . ' ' . $atWords[1];
+        $tBook = getBookName($two_words, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 2];
+        }
+    }
+
+    // Attempt 2: Direct single-word match (e.g., "1Jn", "Genesis")
+    $firstWord = $atWords[0];
+    $tBook = getBookName($firstWord, $atBookAbbs);
+    if ($tBook > '') {
+        return [$tBook, 1];
+    }
+
+    // Attempt 3: Reconstructed single-word match (e.g., "1jn" -> "1 jn")
+    if (preg_match('/^([0-9]+)([a-zA-Z].*)$/', $firstWord, $matches)) {
+        $reconstructed = $matches[1] . ' ' . $matches[2];
+        $tBook = getBookName($reconstructed, $atBookAbbs);
+        if ($tBook > '') {
+            return [$tBook, 1];
+        }
+    }
+
+    return ['', 0];
 }
 // ============================================================================
 
@@ -189,7 +211,7 @@ function findChapterVerse($atWords, $i, $iLen){
   $iColonCount = 0;
   $tChapter = '';
   $tVerses = '';
-  
+
   for ($j=$i;$j < $iLen; $j++){
     if(is_numeric(substr($atWords[$j], 0, 1)) && $j===$i){ // is first remaining 'word' a chapter?
       $tChapter .= $atWords[$j];
@@ -233,32 +255,6 @@ function getBookName($tWord, $atBookAbbs){
 }
 // ============================================================================
 
-// ============================================================================
-function isItSongs($tBook, $atWords, $i, $iLen){
-// ============================================================================
-  if (strtolower($atWords[0]) === 'song' || substr((strtolower($atWords[0])), 0, 4) === 'cant'){
-    $tBook = 'Song of Songs';
-    if ($iLen > 1){
-      if (strtolower($atWords[1]) === 'of'){
-        $i = $i + 1;
-        if ($iLen >= 2){
-          if (substr((strtolower($atWords[2])), 0, 4) === 'cant' || substr((strtolower($atWords[2])), 0, 2) === 'so'){
-            $i = $i + 1;
-          }
-        }
-      } else {
-        if (strtolower($atWords[1]) === 'of'){
-          $i = $i + 2;
-        } else {
-          $tBook = 'Song of Songs';
-          $i++;
-        }
-      }
-    }
-  }
-  return [$tBook, $i];
-}
-// ============================================================================
 
 // ============================================================================
 function intToWords($x) {
@@ -314,7 +310,7 @@ function intToWords($x) {
       if ($r > 0) {
         $tNWord .= ' ';
         if ($r < 100) {
-          $tNWordord .= $atNWords['separator'] . ' ';
+          $tNWord .= $atNWords['separator'] . ' ';
         }
         $tNWord .= intToWords($r);
       }

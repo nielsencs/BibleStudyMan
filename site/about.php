@@ -12,10 +12,10 @@
               my worst days I could no longer manage those daily readings, but
               what I had previously read was embedded in my heart and some days
               all I had was "I know that my redeemer lives".
-              (<a href="bible.php?book=Job&chapter=19&verses=25">Job 19:25</a>).
+              (<a href="bible?book=Job&chapter=19&verses=25">Job 19:25</a>).
               I'm glad to say that depression is largely behind me now, but until
               recently I still had to win a daily victory over that tendency often
-              saying that &lsquo;It&rsquo;s a bit like the recovering alcoholic that
+              saying that &lsquo;It&apos;s a bit like the recovering alcoholic that
               has to avoid alcohol altogether and the equivalent for the depression
               is I have to watch my thought life extremely carefully&rsquo;. That
               has not been my experience for several months now! By the grace of
@@ -32,14 +32,14 @@
               and previously served as a member of their board of trustees.</p>
             <p>So what? well I do believe that God has shown me by this continuous
               exposure to his word some insights into how to "correctly handle the word of truth"
-              (<a href="bible.php?book=2+Timothy&chapter=2&verses=15">2 Timothy 2:15</a>).
+              (<a href="bible?book=2+Timothy&chapter=2&verses=15">2 Timothy 2:15</a>).
               I think there can also be a tendency among believers to assume that
               whatever is spoken from the front must be right rather than to test
               it for themselves
-              (<a href="bible.php?book=1+Thessalonians&chapter=5&verses=19-22">1 Thessalonians 5:19-22</a>).
+              (<a href="bible?book=1+Thessalonians&chapter=5&verses=19-22">1 Thessalonians 5:19-22</a>).
               So let's check what the word of God really says and learn "how
               wide and long and high and deep is the love of Christ"
-              (<a href="bible.php?book=Ephesians&chapter=3&verses=18">Ephesians 3:18</a>)
+              (<a href="bible?book=Ephesians&chapter=3&verses=18">Ephesians 3:18</a>)
               for us together!</p>
             <p class="signature">Carl Nielsen, June 2020</p>
         </div>
