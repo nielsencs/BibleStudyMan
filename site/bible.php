@@ -1,5 +1,5 @@
 <?php
-  $bFloaty = true; // is the control panel 'floaty'?
+  $bFloaty = false; // is the control panel 'floaty'?
 
   require_once 'header.php';
   require_once 'dbFunctions.php';
