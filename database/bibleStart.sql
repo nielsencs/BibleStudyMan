@@ -81,7 +81,8 @@ CREATE TABLE strongs (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 0, 'adon', 'lord', 'Adon - lord or master as opposed to Adonai{H0136}, LordOfMine');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'LordOfMine', 'Adonai - My Lord\r\n\r\nmy Lord\r\nAn emphatic form of \'adon{H0113}\'; the Lord (used as a proper name of God only) -- (my) Lord.\r\n\r\nsee HEBREW \'adon{113}\'');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1254', 0, 'bara', 'create-from-nothing', 'Hebrew speakers only use this word to mean a unique god-like act of creation as opposed to a casual \'I created a meal\'.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'LordOfMine', 'Only ever applied to God in the hebrew Bible it essentially means My Lord. An emphatic form of \'adon{H0113}\'.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0403', 0, 'aken', 'surely', 'Surely, truly, sometimes emphasising a contrast: however');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0410', 0, 'El', 'God', 'Singular God as opposed to the plural Elohim{H0430}');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0426', 0, 'Elah', 'God', 'Elah - singular of Elohim{H0430} God or god');
