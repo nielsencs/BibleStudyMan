@@ -179,6 +179,11 @@ function strongs($tStrongsNo){
 // ============================================================================
   global $atStrongs;
   return $atStrongs[$tStrongsNo];
+  if (isset($atStrongs[$tStrongsNo])){
+    return $atStrongs[$tStrongsNo];
+  } else {
+    return [0, ''];
+  }
 }
 
 // ============================================================================
