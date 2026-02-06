@@ -1,0 +1,68 @@
+              <div id="controlPanel">
+<?php if ($bFloaty) {echo '<button id="panelToggle" title="Toggle search panel">&lt;</button>' . PHP_EOL;} ?>
+                <!-- <button id="panelToggle" title="Toggle search panel">&lt;</button> -->
+                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] ?? '', ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
+
+                <table class="searchTable">
+                  <tbody>
+                    <tr>
+                      <td colspan="2">
+                        Search by word or book or both<br />
+                        <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                        <br>
+                        <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
+                               onclick="doSubmit('words')"><label><abbr title="If this is checked you'll tend to
+get fewer results as it treats the
+words to the left as a phrase if
+there are more than one or as the
+exact word.">Exact</abbr></label>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <input type="button" name="clearAll" id="clearAll" value="Clear" onclick="clearAllFields('bible')">
+                        &nbsp;&nbsp;&nbsp;
+                        <input type="submit" value="Search">
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <input type="button" value="&lt;" onclick="doDirection('pb')">
+                        &nbsp;<abbr title="The Bible is a library of books.
+You can select one of them here.">Book</abbr>&nbsp;
+                        <input type="button" value="&gt;" onclick="doDirection('nb')">
+                        <br />
+                        <!--<input type="text" name="book" id="book" value="" list="books">-->
+                        <!--<datalist name="books" id="books">-->
+                        <select name="book" id="book"  onchange="doSubmit('book')">
+                         <option value=""></option>
+<?php
+  echo prepareDropdownBookList();
+?>
+                        <!--</datalist>-->
+                        </select>
+                        <!--<input type="button" value="Clear" onclick="clearField('book')">-->
+                      </td>
+                      <td>
+                        <input type="button" value="&lt;" onclick="doDirection('pc')">
+                        &nbsp;<abbr title="The books in The Bible are divided
+into chapters; once you&apos;ve picked a
+book, you can pick a chapter here.">Chapter</abbr>&nbsp;
+                        <input type="button" value="&gt;" onclick="doDirection('nc')">
+                        <br />
+                        <input type="hidden" name="chapterNext" id="chapterNext" value="">
+                        <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
+                          <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>
+<?php
+  echo prepareDropdownChapterList();
+?>
+                        </select>
+                        <!--<input type="button" value="Clear" onclick="clearField('chapter')">-->
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
+<?php require_once 'intWords.php'; ?>
+              </form>
+            </div><!-- controlPanel -->
