@@ -78,4 +78,17 @@
         <li><a href="pricing">Pricing</a></li>
         <li><a href="supportMe">Support&nbsp;Me</a></li>
       </ul>
+
+<?php if (stripos($_SERVER['REQUEST_URI'], 'bible')){ ?>
+      <div class="bibleNavLeft">
+        <input type="button" value="&lt;B" onclick="doDirection('pb')">
+        <input type="button" value="&lt;C" onclick="doDirection('pc')">
+        <!-- <input type="button" value="&lt;D" onclick="doDirection('pd')"> -->
+      </div>
+      <div class="bibleNavRight">
+        <!-- <input type="button" value="D&gt;" onclick="doDirection('nd')"> -->
+        <input type="button" value="C&gt;" onclick="doDirection('nc')">
+        <input type="button" value="B&gt;" onclick="doDirection('nb')">
+      </div>
+<?php } ?>
     </div>
