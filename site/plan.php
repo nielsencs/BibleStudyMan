@@ -1,4 +1,6 @@
 <?php
+  $bFloaty = true; //false; // is the control panel 'floaty'?
+
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'planFunctions.php';
@@ -27,6 +29,10 @@
     }else {
       $iDay = intval($tDay);
     }
+  }
+
+  if ($bFloaty) {
+    echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
   }
 ?>
   <script type="text/javascript">
