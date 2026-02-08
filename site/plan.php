@@ -85,6 +85,7 @@
 ?>
                       </select>
                       <input type="button" value="&gt;" onclick="dayDirection('nd')">
+                      <input type="button" value="Today" onclick="dayDirection('today')">
                     </td>
                   </tr>
                 </table>

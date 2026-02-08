@@ -165,6 +165,10 @@
         iDay = 1;
       }
     }
+    if(tDirection === 'today'){ //today
+        iDay = oDate.getDate();
+        iMonth = oDate.getMonth() + 1; // because getMonth is zero-based
+    }
     document.searchForm.month.value = iMonth;
     document.searchForm.day.value = iDay;
     document.searchForm.dayNext.value = iDay; // in case dropdown has too few days
