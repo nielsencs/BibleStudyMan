@@ -1,11 +1,7 @@
 #controlPanel {
     transition: all 0.3s ease-in-out;
     position: fixed;
-    /* top: 3%; */
-    /* top: 1rem; */
     top: 14px;
-    /* left: 2%; */
-    /* left: 1rem; */
     left: 0;
     right: 0;
     margin: 0% auto;
@@ -22,7 +18,6 @@
 #controlPanel.collapsed {
     width: 50px;
     height: 50px;
-    /* margin: 0%; */
 }
 
 #panelToggle {
@@ -42,21 +37,4 @@
     font-family: "Londrina Solid", sans-serif;
     font-weight: 900;
     font-size: 18px;
-}
-
-.bibleNavLeft, .bibleNavRight {
-    position: absolute;
-    top: 100%;
-    background-color: #22101BCC;
-    backdrop-filter: blur(3px);
-    padding: 3px;
-}
-.bibleNavLeft {
-    left: 0;
-    border-radius: 0 0 8px 0;
-}
-
-.bibleNavRight {
-    right: 0;
-    border-radius: 0 0 0 8px;
 }
