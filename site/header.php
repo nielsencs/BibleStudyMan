@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Londrina+Solid:300&display=swap">
   <link rel="stylesheet" type="text/css" href="styles/general.css">
   <link rel="stylesheet" type="text/css" href="styles/pages.css">
+  <link rel="stylesheet" type="text/css" href="styles/menus.css">
 
   <!-- script src="https://cmp.osano.com/AzZcqjS44O5M21NrU/dda2dc42-5678-4e89-b7d6-c6ea02b5d890/osano.js"></script -->
 
