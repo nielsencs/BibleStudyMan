@@ -15,6 +15,9 @@
 
 <?php
   $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php');
+  $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
+  $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
+
   require_once '../sqlCon.php';
 ?>
 
@@ -66,7 +69,7 @@
 
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
-    <div class="menu">
+    <header class="menu">
       <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
 
       <ul class="nav">
@@ -79,24 +82,30 @@
         <li><a href="supportMe">Support&nbsp;Me</a></li>
       </ul>
 
-<?php if (stripos($_SERVER['REQUEST_URI'], 'bible')){ ?>
-      <div class="bibleNavLeft">
-        <input type="button" value="&lt;B" onclick="doDirection('pb')">
-        <input type="button" value="&lt;C" onclick="doDirection('pc')">
-      </div>
-      <div class="bibleNavRight">
-        <input type="button" value="C&gt;" onclick="doDirection('nc')">
-        <input type="button" value="B&gt;" onclick="doDirection('nb')">
-      </div>
+      <div class="bibleNav">
+<?php if ($bBible or $bPlan){ ?>
+        <div class="bibleNavLeft">
+  <?php if ($bPlan){ ?>
+          <button onclick="dayDirection('pd')">&lt;D</button>
+  <?php } ?>
+  <?php if ($bBible){ ?>
+          <button onclick="doDirection('pb')">&lt;B</button>
+          <button onclick="doDirection('pc')">&lt;C</button>
+  <?php } ?>
+        </div>
+        <div class="bibleNavMiddle">
+          <input type="checkbox" name="" id="" onclick=""><label>Search</label>
+          <input type="checkbox" name="" id="" onclick=""><label>Words</label>
+        </div>
+        <div class="bibleNavRight">
+  <?php if ($bBible){ ?>
+          <button onclick="doDirection('nc')">C&gt;</button>
+          <button onclick="doDirection('nb')">B&gt;</button>
+  <?php } ?>
+  <?php if ($bPlan){ ?>
+          <button onclick="dayDirection('nd')">D&gt;</button>
+  <?php } ?>
+        </div>
 <?php } ?>
-
-<?php if (stripos($_SERVER['REQUEST_URI'], 'plan')){ ?>
-      <div class="bibleNavLeft">
-        <input type="button" value="&lt;D" onclick="dayDirection('pd')">
       </div>
-      <div class="bibleNavRight">
-        <input type="button" value="D&gt;" onclick="dayDirection('nd')">
-      </div>
-<?php } ?>
-
-    </div>
+</header>
