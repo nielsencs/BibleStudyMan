@@ -71,17 +71,19 @@
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
     <header class="menu">
-      <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
-
-      <ul class="nav">
-        <li><a href="home">Home</a></li>
-        <li><a href="bible">Bible</a></li>
-        <li><a href="plan">Plan</a></li>
-        <li><a href="readings">Readings</a></li>
-        <li><a href="teaching">Teaching</a></li>
-        <li><a href="pricing">Pricing</a></li>
-        <li><a href="supportMe">Support&nbsp;Me</a></li>
-      </ul>
+      <nav class="mainNav">
+        <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
+        
+        <ul class="nav">
+          <li><a href="home">Home</a></li>
+          <li><a href="bible">Bible</a></li>
+          <li><a href="plan">Plan</a></li>
+          <li><a href="readings">Readings</a></li>
+          <li><a href="teaching">Teaching</a></li>
+          <li><a href="pricing">Pricing</a></li>
+          <li><a href="supportMe">Support&nbsp;Me</a></li>
+        </ul>
+      </nav>
 
       <div class="bibleNav">
 <?php if ($bBible or $bPlan){ ?>

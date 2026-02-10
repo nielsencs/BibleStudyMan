@@ -7,11 +7,11 @@
 
 .menu {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 
-  padding: 1% 0;
   /* background-color: #4F3F49; /* original */
   background-color: #22101BCC; /* try to match original but with transparency */
   position: sticky;
@@ -24,7 +24,7 @@
 
 /* Add subtle shadow when menu is sticky */
 .menu.sticky {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.71);
 }
 
 .logo {
@@ -40,44 +40,54 @@
   padding: 14px 7px 14px 3px;
 }
 
-.bible-nav {
+.bibleNav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-    width: 100%;
-    position: relative;
-}
-
-.bibleNavLeft, .bibleNavRight, .bibleNavMiddle  {
-    position: absolute;
-    top: 100%;
-    background-color: #22101BCC;
-    backdrop-filter: blur(3px);
-    padding: 3px;
+  width: 100%;
+  position: relative;
+  border-top: #FFF0CC solid 1px;
+  color:#FFF0CC;
 }
 
 .bibleNavMiddle {
-    left: 0;
-    right: 0;
-    width: 240px;
-    margin: 0 auto;
-    border-radius: 0 0 8px 8px;
-    color:#FFF0CC;
+  margin: 0 auto;
+  color:#FFF0CC;
+}
+
+.bibleNavDrop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 240px;
+  margin: 0 auto;
+  border-radius: 0 0 8px 8px;
+  color:#FFF0CC;
+  background-color: #22101BCC;
+  backdrop-filter: blur(3px);
+  padding: 3px;
 }
 
 .bibleNavLeft {
-    left: 0;
-    border-radius: 0 0 8px 0;
+  color:#FFF0CC;
 }
 
 .bibleNavRight {
-    right: 0;
-    border-radius: 0 0 0 8px;
+  color:#FFF0CC;
 }
 
 .footNav {
   font-family: 'Londrina Solid', sans-serif;
   text-align: center;
+}
+
+.mainNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px;
 }
 
 .nav li {
