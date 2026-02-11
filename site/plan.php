@@ -30,10 +30,6 @@
       $iDay = intval($tDay);
     }
   }
-
-  if ($bFloaty) {
-    echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
-  }
 ?>
   <script type="text/javascript">
 // ============================================================================
