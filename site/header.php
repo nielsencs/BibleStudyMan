@@ -64,10 +64,14 @@
   <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script src="scripts/app.js"></script>
+<?php
+if ($bBible || $bPlan){
+  echo '<script src="scripts/search.js"></script>' . PHP_EOL; }
+?>
 </head>
 
 <body>
-  <div id="waitOverlay"></div>
+  <div id="waitOverlay"></div><!--Used to cover the page with a transparent overlay when the user clicks 'search' to show them the search is running. -->
   <div class="content">
     <noscript>
       <h1 class="centerText">It seems that you currently don&apos;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
