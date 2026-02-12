@@ -9,6 +9,14 @@ table, th, td {
   text-align: center;
 }
 
+.searchTable {
+  margin-top: 21px;
+}
+
+.searchTable td {
+  border: 3px solid #DDDDCC;
+}
+
 .planTable table, th, tr, td {
   padding: 3px;
   vertical-align: top;
