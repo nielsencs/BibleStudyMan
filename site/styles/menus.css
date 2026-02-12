@@ -34,7 +34,7 @@
 }
 
 .nav {
-  color: Gainsboro;
+  color: antiquewhite;
   list-style: none;
   text-align: right;
   padding: 14px 7px 14px 3px;
@@ -46,16 +46,16 @@
   align-items: center;
   width: 100%;
   position: relative;
-  border-top: #FFF0CC solid 1px;
-  color:#FFF0CC;
+  border-top: antiquewhite solid 1px;
+  color:antiquewhite;
 }
 
 .bibleNavMiddle {
   margin: 0 auto;
-  color:#FFF0CC;
+  color:antiquewhite;
 }
 
-.bibleNavDrop {
+.bibleNavDrop { /* CHANGING TO controlPanel below */
   position: absolute;
   top: 100%;
   left: 0;
@@ -63,27 +63,27 @@
   width: 240px;
   margin: 0 auto;
   border-radius: 0 0 8px 8px;
-  color:#FFF0CC;
+  color:antiquewhite;
   background-color: #22101BCC;
   backdrop-filter: blur(3px);
   padding: 3px;
 }
 
 .bibleNavLeft {
-  color:#FFF0CC;
+  color:antiquewhite;
 }
 
 .bibleNavRight {
-  color:#FFF0CC;
+  color:antiquewhite;
 }
 
 #controlPanel {
     transition: all 0.3s ease-in-out;
-    position: fixed;
-    top: 180px;
+    position: absolute;
+    top: 100%;
     left: 0;
     right: 0;
-    margin: 0% auto;
+    margin: 0 auto;
     width: 270px;
     height: 320px;
     z-index: 7;
@@ -129,15 +129,15 @@
 .nav li a {
   text-decoration: none;
   font-weight: normal;
-  color: Gainsboro;
+  color: antiquewhite;
   margin: 2px;
   padding: 1px;
   border: 1px solid #4F3F4900;
 }
 
 .nav li a:hover {
-  color: #FFF0CC;
+  color: antiquewhite;
   /* padding: 3px; */
-  border: 1px solid #FFF0CC;
+  border: 1px solid antiquewhite;
   border-radius: 7px;
 }

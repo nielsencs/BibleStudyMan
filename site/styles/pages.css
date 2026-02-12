@@ -68,7 +68,7 @@
 
 .footer {
   background-color: #4F3F49;
-  color: Gainsboro;
+  color: antiquewhite;
   list-style: none;
   text-align: center;
   padding: 14px 0 14px 0;
@@ -77,7 +77,7 @@
 .footer a {
   text-decoration: none;
   font-weight: normal;
-  color: Gainsboro;
+  color: antiquewhite;
 }
 
 .footer a:hover {
@@ -139,7 +139,7 @@
 }
 
 .home {
-  background-color: Gainsboro;
+  background-color: antiquewhite;
   overflow: hidden;
   padding: 1%;
   display: grid;
