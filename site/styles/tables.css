@@ -1,13 +1,8 @@
-/* centering tables */
-/* html, body {
-    width: 100%;
-} */
-
+/* centre tables */
 table {
     margin: 0 auto;
 }
-/* centering tables */
-
+/* centre table content */
 table, th, td {
   padding: 3px;
   vertical-align: middle;
@@ -18,23 +13,14 @@ table, th, td {
   padding: 3px;
   vertical-align: top;
   font-size: 10pt;
-
-  /* background-color: PaleGoldenrod; */
 }
-
-/* .planTable tr:nth-child(even) td:nth-child(odd),
-tr:nth-child(odd) td:nth-child(even){
-
-} */
 
 .planTable tr:nth-child(odd) {
   background-color: Khaki;
-  /* background-color: Gainsboro; */
 }
 
 .planTable tr:nth-child(even) {
   background-color: Tan;
-  /* background-color: Silver; */
 }
 
 .planTable th:nth-child(1),
@@ -54,13 +40,11 @@ tr:nth-child(odd) td:nth-child(even){
 
 .planTable th:nth-child(4),
 .planTable td:nth-child(4) {
-  /* background-color: yellow; */
   background-color: rgba(0, 255, 0, 0.3);
 }
 
 .planTable th:nth-child(5),
 .planTable td:nth-child(5) {
-  /* background-color: lime; */
   background-color: rgba(0, 255, 255, 0.3);
 }
 
@@ -76,6 +60,5 @@ tr:nth-child(odd) td:nth-child(even){
 }
 
 .planTable tr:hover {
-  /* background-color: Gainsboro; */
   background-color: plum;
 }
