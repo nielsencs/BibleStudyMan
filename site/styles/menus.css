@@ -88,7 +88,8 @@
     max-height: 500px; /* Adjust as needed */
     z-index: 7;
     border-radius: 0 0 14px 14px;
-    background-color: #22101BCC;
+  /* background-color: #4F3F49; /* original */
+    background-color: #22101BCC; /* try to match original but with transparency */
     color: antiquewhite;
     overflow: hidden;
     filter: drop-shadow(7px 7px 7px #00000077);
