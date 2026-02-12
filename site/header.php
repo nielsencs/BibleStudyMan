@@ -67,7 +67,7 @@
 </head>
 
 <body>
-  <div id="waitHint" class="modal"></div>
+  <div id="waitOverlay"></div>
   <div class="content">
     <noscript>
       <h1 class="centerText">It seems that you currently don&apos;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
@@ -89,6 +89,16 @@
           <li><a href="supportMe">Support&nbsp;Me</a></li>
         </ul>
       </nav>
+
+<?php
+if ($bBible || $bPlan){
+  require_once 'dbFunctions.php';
+  require_once 'search.php';
+  }
+if ($bPlan){
+  require_once 'planFunctions.php';
+}
+?>
 
       <div class="bibleNav">
 <?php if ($bBible || $bPlan){ ?>
@@ -118,15 +128,5 @@
         </div>
 <?php } ?>
       </div>
+<?php if ($bBible){ require_once 'controlPanel.php';} ?>
     </header>
-
-<?php
-if ($bBible || $bPlan){ 
-  require_once 'dbFunctions.php';
-  require_once 'controlPanel.php';
-  require_once 'search.php';
-}
-if ($bPlan){
-  require_once 'planFunctions.php';
-}
-?>
