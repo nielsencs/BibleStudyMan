@@ -31,11 +31,12 @@
   <link rel="stylesheet" type="text/css" href="styles/general.css">
   <link rel="stylesheet" type="text/css" href="styles/pages.css">
   <link rel="stylesheet" type="text/css" href="styles/menus.css">
+<?php
   if ($bBible or $bPlan) {
     echo '<link rel="stylesheet" href="styles/tables.css">' . PHP_EOL;
     echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
   }
-  <link rel="stylesheet" type="text/css" href="styles/tables.css">
+?>
 
   <!-- script src="https://cmp.osano.com/AzZcqjS44O5M21NrU/dda2dc42-5678-4e89-b7d6-c6ea02b5d890/osano.js"></script -->
 
