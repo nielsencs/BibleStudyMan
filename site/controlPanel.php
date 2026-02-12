@@ -1,6 +1,4 @@
               <div id="controlPanel">
-<?php if ($bFloaty) {echo '<button id="panelToggle" title="Toggle search panel">&lt;</button>' . PHP_EOL;} ?>
-                <!-- <button id="panelToggle" title="Toggle search panel">&lt;</button> -->
                 <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] ?? '', ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
 
                 <table class="searchTable">

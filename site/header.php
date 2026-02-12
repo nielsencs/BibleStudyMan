@@ -19,7 +19,7 @@
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
   $bFloaty = true; //false; // is the control panel 'floaty'?
 
-  require_once '../sqlCon.php';
+  require_once '../sqlCon_H.php';
 ?>
 
 <head>
@@ -105,8 +105,8 @@
         </div>
   <?php if ($bFloaty) { ?>
         <div class="bibleNavMiddle">
-          <input type="checkbox" name="" id="" onclick=""><label>Search</label>
-          <input type="checkbox" name="" id="" onclick=""><label>Words</label>
+          <input type="checkbox" name="panelToggle" id="panelToggle" ><label for="panelToggle">Search</label>
+          <input type="checkbox" name="wordsToggle" id="wordsToggle" ><label for="wordsToggle">Words</label>
         </div>
   <?php } ?>
         <div class="bibleNavRight">

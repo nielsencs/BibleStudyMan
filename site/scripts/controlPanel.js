@@ -5,12 +5,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Restore panel state from localStorage if it exists
     if (localStorage.getItem('panelCollapsed') === 'true') {
         panel.classList.add('collapsed');
-        toggle.innerHTML = '&gt;';
+        toggle.checked = false;
     }
     
     toggle.addEventListener('click', function() {
         panel.classList.toggle('collapsed');
-        toggle.innerHTML = panel.classList.contains('collapsed') ? '&gt;' : '&lt;';
         localStorage.setItem('panelCollapsed', panel.classList.contains('collapsed'));
     });
 });
