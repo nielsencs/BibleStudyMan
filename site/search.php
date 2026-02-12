@@ -41,7 +41,7 @@
   }
 
   $iBook = 0;
-  echo prepareBookList();
+  echo prepareBookList(); // creates iBook & atBookList for the dropdown and book count for the next/prev book buttons
   $atStrongs = prepareStrongs();
   $atBookAbbs = prepareBookAbbs();
 ?>
