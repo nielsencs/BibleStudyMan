@@ -35,7 +35,6 @@
 <?php
   if ($bBible or $bPlan) {
     echo '<link rel="stylesheet" href="styles/tables.css">' . PHP_EOL;
-    echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
   }
 ?>
 
