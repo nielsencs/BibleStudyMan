@@ -5,7 +5,7 @@
                   <tbody>
                     <tr>
                       <td colspan="2">
-                        Search by word or book or both<br />
+                        Search by word or book or both<br>
                         <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                         <br>
                         <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
@@ -29,7 +29,7 @@ exact word.">Exact</abbr></label>
                         &nbsp;<abbr title="The Bible is a library of books.
 You can select one of them here.">Book</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nb')">
-                        <br />
+                        <br>
                         <!--<input type="text" name="book" id="book" value="" list="books">-->
                         <!--<datalist name="books" id="books">-->
                         <select name="book" id="book"  onchange="doSubmit('book')">
@@ -47,7 +47,7 @@ You can select one of them here.">Book</abbr>&nbsp;
 into chapters; once you&apos;ve picked a
 book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         <input type="button" value="&gt;" onclick="doDirection('nc')">
-                        <br />
+                        <br>
                         <input type="hidden" name="chapterNext" id="chapterNext" value="">
                         <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
                           <option value=""><?php if ($tBook > ''){echo 'All';} ?></option>

@@ -759,19 +759,19 @@ function videoList($tClass = 'R'){
       $tOutput .= '<div class="media">';
       if(! empty($row["audioURL"])){
         $tOutput .= '<p class="centerText">' . htmlspecialchars($row["mediaName"] ?? '', ENT_QUOTES, 'UTF-8') . '</p>';
-        $tOutput .= '<br />';
+        $tOutput .= '<br>';
 //        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
 //        $tOutput .= $row["audioURL"];
 //        $tOutput .= '" target="_blank">Play on SoundCloud.com';
 //        $tOutput .= '</a> ';
-//        $tOutput .= '<br />';
+//        $tOutput .= '<br>';
 
 //        $tOutput .= '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
         $tOutput .= '<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
 //        $tOutput .= '<iframe scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
         $tOutput .= htmlspecialchars($row["audioTrack"] ?? '', ENT_QUOTES, 'UTF-8');
         $tOutput .= '&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>';
-        $tOutput .= '<br />';
+        $tOutput .= '<br>';
       }
 
       if(! empty($row["videoURL"])){
@@ -779,7 +779,7 @@ function videoList($tClass = 'R'){
 //        $tOutput .= $row["videoURL"];
 //        $tOutput .= '" target="_blank">Play on YouTube.com';
 //        $tOutput .= '</a>';
-//        $tOutput .= '<br />';
+//        $tOutput .= '<br>';
 
         $tOutput .= '<iframe width = "' . $tWidth . '" height = "' . $tHeight . '" src="https://www.youtube.com/embed/';
         $tOutput .= htmlspecialchars($row["videoURL"] ?? '', ENT_QUOTES, 'UTF-8');
