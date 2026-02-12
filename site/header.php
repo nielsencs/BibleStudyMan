@@ -128,5 +128,5 @@ if ($bPlan){
         </div>
 <?php } ?>
       </div>
-<?php if ($bBible){ require_once 'controlPanel.php';} ?>
+<?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
     </header>
