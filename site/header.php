@@ -33,7 +33,7 @@
   <link rel="stylesheet" type="text/css" href="styles/pages.css">
   <link rel="stylesheet" type="text/css" href="styles/menus.css">
 <?php
-  if ($bBible or $bPlan) {
+  if ($bBible || $bPlan) {
     echo '<link rel="stylesheet" href="styles/tables.css">' . PHP_EOL;
   }
 ?>
@@ -91,7 +91,7 @@
       </nav>
 
       <div class="bibleNav">
-<?php if ($bBible or $bPlan){ ?>
+<?php if ($bBible || $bPlan){ ?>
         <div class="bibleNavLeft">
   <?php if ($bPlan){ ?>
           <button onclick="dayDirection('pd')">&lt;D</button>
@@ -119,3 +119,14 @@
 <?php } ?>
       </div>
     </header>
+
+<?php
+if ($bBible || $bPlan){ 
+  require_once 'dbFunctions.php';
+  require_once 'controlPanel.php';
+  require_once 'search.php';
+}
+if ($bPlan){
+  require_once 'planFunctions.php';
+}
+?>
