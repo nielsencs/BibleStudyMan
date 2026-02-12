@@ -1,6 +1,4 @@
 <?php
-  $bFloaty = true; //false; // is the control panel 'floaty'?
-
   require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'search.php';

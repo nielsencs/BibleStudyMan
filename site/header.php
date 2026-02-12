@@ -17,6 +17,7 @@
   $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php');
   $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
+  $bFloaty = true; //false; // is the control panel 'floaty'?
 
   require_once '../sqlCon.php';
 ?>
@@ -102,10 +103,12 @@
           <button onclick="doDirection('pc')">&lt;C</button>
   <?php } ?>
         </div>
+  <?php if ($bFloaty) { ?>
         <div class="bibleNavMiddle">
           <input type="checkbox" name="" id="" onclick=""><label>Search</label>
           <input type="checkbox" name="" id="" onclick=""><label>Words</label>
         </div>
+  <?php } ?>
         <div class="bibleNavRight">
   <?php if ($bBible){ ?>
           <button onclick="doDirection('nc')">C&gt;</button>
