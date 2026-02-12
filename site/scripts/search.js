@@ -1,7 +1,7 @@
 // ============================================================================
   function wordCount(tString){
 // ============================================================================
-    var iCount = 0;
+    let iCount = 0;
     if(tString > ''){
       iCount = tString.trim().indexOf(' ') + 1;
     }
@@ -19,8 +19,8 @@
 // ============================================================================
   function doDirection(tDirection) {
 // ============================================================================
-    var iLastBook = 67; // to accomodate extra '2&3 John' book!
-    var iChapter = parseInt('0' + document.searchForm.chapter.value);
+    const iLastBook = 67; // to accomodate extra '2&3 John' book!
+    let iChapter = parseInt('0' + document.searchForm.chapter.value);
     if(tDirection === 'pb'){ //prev book
       if(iBook === 0){
         iBook = 1;
@@ -75,9 +75,9 @@
 // ============================================================================
   function dayDirection(tDirection) {
 // ============================================================================
-    var oDate = new Date();
-    var iMonth = parseInt(document.searchForm.month.value);
-    var iDay = parseInt(document.searchForm.day.value);
+    const oDate = new Date();
+    let iMonth = parseInt(document.searchForm.month.value);
+    let iDay = parseInt(document.searchForm.day.value);
     if(tDirection === 'pd'){ //prev day
       if(iDay > 1){
         iDay --;

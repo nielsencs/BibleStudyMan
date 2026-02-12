@@ -58,7 +58,7 @@ function prepareBookList(){
   $stmt = doQuery($pdo, $tQuery);
 
   $tOutput .= '<script type="text/javascript">';
-  $tOutput .=  'var atBooks = [["Start from 1!",';
+  $tOutput .=  'const atBooks = [["Start from 1!",';
   $tOutput .=  '0]';
 
   while($row = $stmt->fetch()) {
@@ -69,7 +69,7 @@ function prepareBookList(){
     }
   }
   $tOutput .=  '];';
-  $tOutput .=  'var iBook=' . $iBook . ';';
+  $tOutput .=  'let iBook=' . $iBook . ';';
   $tOutput .=  '</script>';
 
   return $tOutput;
