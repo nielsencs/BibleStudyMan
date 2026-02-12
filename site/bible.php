@@ -18,7 +18,7 @@
         <div class="main Bible">
             <h1>The Bible</h1>
             <div class="subMain sectGeneral">
-<?php   require_once 'controlPanel.php'; ?>              
+<?php   require_once 'controlPanel.php'; ?>
 <?php
   echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
   include_once 'bibleDisclaimer.html';
