@@ -79,7 +79,7 @@
         clearField('chapter');
       }
     }else{
-      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';} ?>;
+      bDoit = true;
     }
     if(bDoit){
         //    if(document.searchForm.words.value > '' || bJustDoit){
