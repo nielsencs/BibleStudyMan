@@ -65,7 +65,6 @@
   <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script src="scripts/app.js"></script>
-  <!-- <script src="scripts/menu.js"></script> -->
 </head>
 
 <body>
