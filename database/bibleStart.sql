@@ -594,6 +594,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JDG', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Je');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jem');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jer');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jerm');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jeremiah');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jr');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOB', 'Jb');
