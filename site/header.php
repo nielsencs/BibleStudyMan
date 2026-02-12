@@ -19,7 +19,7 @@
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
   $bFloaty = true; //false; // is the control panel 'floaty'?
 
-  require_once '../sqlCon_H.php';
+  require_once '../sqlCon.php';
 ?>
 
 <head>
