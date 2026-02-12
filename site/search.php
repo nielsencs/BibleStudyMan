@@ -27,6 +27,26 @@
     $tDay = filter_input(INPUT_GET, 'dayNext', FILTER_UNSAFE_RAW);
   }
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_UNSAFE_RAW);
+
+  if ($bPlan) {
+    require_once 'timeStamp.php';
+    if (strlen((string)$tMonth) > 0) {
+      $iMonth = intval($tMonth);
+      if ($iMonth > 12) { $iMonth = 12; }
+      if ($iMonth < 1) { $iMonth = 1; }
+    }
+    $iDaysInMonth = daysInMonth($iMonth, $iYear);
+    if (strlen((string)$tDay) > 0) {
+      $iDay = intval($tDay);
+    }
+    if ($iDay > $iDaysInMonth) {
+      $iDay = $iDaysInMonth;
+    }
+    if ($iDay < 1) {
+      $iDay = 1;
+    }
+  }
+
   if(empty($tBook . $tWords . $tMonth)){ // no search yet - 'clean' page
     $bHighlightSW = true;
     $bShowOW = true;

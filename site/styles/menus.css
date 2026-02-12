@@ -78,14 +78,14 @@
 }
 
 #controlPanel {
-    transition: all 0.3s ease-in-out;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
     margin: 0 auto;
     width: 270px;
-    height: 320px;
+    max-height: 500px; /* Adjust as needed */
     z-index: 7;
     border-radius: 0 0 14px 14px;
   /* background-color: #4F3F49; /* original */
@@ -96,9 +96,24 @@
 }
 
 #controlPanel.collapsed {
-    width: 0;
-    height: 0;
+    max-height: 0;
+    opacity: 0;
     visibility: hidden;
+}
+
+#searchSection, #wordsSection {
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 400px;
+}
+
+#searchSection.collapsed, #wordsSection.collapsed {
+    max-height: 0;
+    opacity: 0;
+}
+
+#searchSection:not(.collapsed) ~ #wordsSection:not(.collapsed) {
+    border-top: 1px solid #ffffff33;
 }
 
 .footNav {

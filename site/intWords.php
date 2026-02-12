@@ -1,4 +1,4 @@
-<div class="searchOptions">
+<div id="wordsSection" class="searchOptions">
                 <p>For certain <abbr
                    title="Things like the various words for God
 and words that can have a variety of
