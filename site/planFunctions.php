@@ -525,14 +525,14 @@ function PTAddSection($row) { // add a section column to the plan table
     $bChaptersOnly = isChaptersOnly($row);
 
     $tOutput .= '<td>';
-    $tOutput .= '<a href="bible.php?book=';
+    $tOutput .= '<a href="bible?book=';
     $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
     $tOutput .= '">';
     $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
     $tOutput .= '</a> ';
 
     if ($row['bookChapters'] > 1){
-        $tOutput .= '<a href="bible.php?book=';
+        $tOutput .= '<a href="bible?book=';
         $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
         $tOutput .= '&chapter=';
         $tOutput .= $row['startChapter'];
@@ -552,7 +552,7 @@ function PTAddSection($row) { // add a section column to the plan table
         if ($row['endChapter'] > 0){
             $tOutput .= ' - ';
             if ($row['endChapter'] != $row['startChapter']){
-                $tOutput .= '<a href="bible.php?book=';
+                $tOutput .= '<a href="bible?book=';
                 $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
                 $tOutput .= '&chapter=';
                 $tOutput .= $row['endChapter'];
