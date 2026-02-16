@@ -1,5 +1,5 @@
               <div id="controlPanel">
-                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'] ?? '', ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
+                <form name="searchForm" id="searchForm" action="<?php if ($bBible) { echo'bible'; } else { echo'plan'; } ?>" method="get" onsubmit="showWait();">
 
                 <div id="searchSection">
 <?php if ($bBible) { ?>
