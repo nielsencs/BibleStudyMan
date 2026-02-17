@@ -5,15 +5,18 @@
   /* background-size: cover; */
 }
 
+.menu-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
 .menu {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  top: 0;
-  z-index: 1;
-  position: sticky;
   transition: box-shadow 0.3s ease-in-out;
 }
 

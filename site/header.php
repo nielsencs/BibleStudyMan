@@ -80,6 +80,7 @@ if ($bBible || $bPlan){
 
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
+    <div class="menu-wrapper">
     <header class="menu">
       <nav class="mainNav">
         <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
@@ -133,5 +134,6 @@ if ($bPlan){
         </div>
 <?php } ?>
       </div>
-<?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
     </header>
+<?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
+    </div><!-- menu-wrapper -->
