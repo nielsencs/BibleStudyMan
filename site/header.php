@@ -66,8 +66,9 @@
   <meta name="theme-color" content="#ffffff">
   <script src="scripts/app.js"></script>
 <?php
-if ($bBible || $bPlan){
-  echo '<script src="scripts/search.js"></script>' . PHP_EOL; }
+  if ($bBible || $bPlan){
+    echo '<script src="scripts/search.js"></script>' . PHP_EOL;
+  }
 ?>
 </head>
 
