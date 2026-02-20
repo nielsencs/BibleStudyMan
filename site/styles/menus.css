@@ -20,15 +20,11 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.menu, #controlPanel {
+.menu-wrapper, #controlPanel {
   /* background-color: #4F3F49; /* original */
   background-color: #22101BCC; /* try to match original but with transparency */
   backdrop-filter: blur(3px);
-}
-
-/* Add subtle shadow when menu is sticky */
-.menu.sticky {
-  box-shadow: 0 2px 4px rgba(0,0,0,0.71);
+  filter: drop-shadow(7px 7px 7px #00000077);
 }
 
 .logo {
@@ -79,7 +75,6 @@
     border-radius: 0 0 14px 14px;
     color: antiquewhite;
     overflow: hidden;
-    filter: drop-shadow(7px 7px 7px #00000077);
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
