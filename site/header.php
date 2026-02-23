@@ -17,6 +17,7 @@
   $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php');
   $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
+
   $bFloaty = true; //false; // is the control panel 'floaty'?
 
   require_once '../sqlCon.php';
@@ -111,11 +112,11 @@ if ($bPlan){
 <?php if ($bBible || $bPlan){ ?>
         <div class="bibleNavLeft">
   <?php if ($bPlan){ ?>
-          <button onclick="dayDirection('pd')">&lt;D</button>
+          <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
   <?php } ?>
   <?php if ($bBible){ ?>
-          <button onclick="doDirection('pb')">&lt;B</button>
-          <button onclick="doDirection('pc')">&lt;C</button>
+          <button class="Bible" onclick="doDirection('pb')">&lt;B</button>
+          <button class="Bible" onclick="doDirection('pc')">&lt;C</button>
   <?php } ?>
         </div>
   <?php if ($bFloaty) { ?>
@@ -126,11 +127,11 @@ if ($bPlan){
   <?php } ?>
         <div class="bibleNavRight">
   <?php if ($bBible){ ?>
-          <button onclick="doDirection('nc')">C&gt;</button>
-          <button onclick="doDirection('nb')">B&gt;</button>
+          <button class="Bible" onclick="doDirection('nc')">C&gt;</button>
+          <button class="Bible" onclick="doDirection('nb')">B&gt;</button>
   <?php } ?>
   <?php if ($bPlan){ ?>
-          <button onclick="dayDirection('nd')">D&gt;</button>
+          <button class="plan" onclick="dayDirection('nd')">D&gt;</button>
   <?php } ?>
         </div>
 <?php } ?>

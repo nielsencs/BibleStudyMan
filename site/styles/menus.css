@@ -20,11 +20,12 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.menu-wrapper, #controlPanel {
+/* .menu-wrapper, #controlPanel { */
+.menu, #controlPanel {
   /* background-color: #4F3F49; /* original */
-  background-color: #22101BCC; /* try to match original but with transparency */
+  background-color: #22101BCC; /* matches original but with transparency */
   backdrop-filter: blur(3px);
-  filter: drop-shadow(7px 7px 7px #00000077);
+  /* filter: drop-shadow(7px 7px 7px #00000077); /* DON'T USE - darkens overall because of the above transparency */
 }
 
 .logo {
@@ -69,11 +70,10 @@
     left: 0;
     right: 0;
     margin: 0 auto;
-    width: 270px;
+    /* width: 270px; */
     max-height: 500px; /* Adjust as needed */
     z-index: 7;
     border-radius: 0 0 14px 14px;
-    color: antiquewhite;
     overflow: hidden;
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
