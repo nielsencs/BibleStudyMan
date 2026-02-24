@@ -5,7 +5,11 @@
 
 .content {
   flex: 1 0 auto;
-  overflow: hidden;
+  /* height: 100%; */
+  overflow: clip;
+
+  /* min-height: 1000px; */
+  /* height: 1090px; */
 }
 
 .mugshot {
