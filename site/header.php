@@ -86,7 +86,7 @@
     <header class="menu">
       <nav class="mainNav">
         <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
-        
+
         <ul class="nav">
           <li><a href="home">Home</a></li>
           <li><a href="bible">Bible</a></li>
@@ -121,8 +121,8 @@ if ($bPlan){
         </div>
   <?php if ($bFloaty) { ?>
         <div class="bibleNavMiddle">
-          <input type="checkbox" name="panelToggle" id="panelToggle" checked><label for="panelToggle">Search</label>
-          <input type="checkbox" name="wordsToggle" id="wordsToggle" checked><label for="wordsToggle">Words</label>
+          <label for="panelToggle" style="white-space: nowrap;"><input type="checkbox" name="panelToggle" id="panelToggle" checked>Search</label>
+          <label for="wordsToggle" style="white-space: nowrap;"><input type="checkbox" name="wordsToggle" id="wordsToggle" checked>Words</label>
         </div>
   <?php } ?>
         <div class="bibleNavRight">
