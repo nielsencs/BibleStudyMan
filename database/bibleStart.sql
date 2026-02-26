@@ -81,7 +81,7 @@ CREATE TABLE strongs (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 0, 'adon', 'lord', 'Adon - lord or master as opposed to Adonai{H0136}, LordOfMine');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'LordOfMine', 'Adonai - My Lord\r\n\r\nmy Lord\r\nAn emphatic form of \'adon{H0113}\'; the Lord (used as a proper name of God only) -- (my) Lord.\r\n\r\nsee HEBREW \'adon{113}\'');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'LordOfMine', 'Only ever applied to God in the hebrew Bible it essentially means My Lord. An emphatic form of \'adon{H0113}\'.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0403', 0, 'aken', 'surely', 'Surely, truly, sometimes emphasising a contrast: however');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0410', 0, 'El', 'God', 'Singular God as opposed to the plural Elohim{H0430}');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0426', 0, 'Elah', 'God', 'Elah - singular of Elohim{H0430} God or god');
@@ -89,8 +89,10 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0433', 0, 'Eloah', 'God', 'Eloah - the singular of elohim{H430}, literally \'god\'.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0543', 0, 'amen', 'Absolutely', 'Amen! Absolutely! Most-certainly! Mark The Words. So be it. Emphatic YES! So let it be written, so let it be done. Truly. With all emphasis. Listen! If you get *one* thing... The Hebrew root amen also conveys meanings of firmness, reliability, and faithfulness.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0776', 0, 'erets', 'ground', '\"earth\", land, ground. In Hebrew this word never means earth as in soil, but land, ground etc.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0922', 0, 'vohu', 'waste', 'Usually translated void, the Hebrew really means waste, like a desert or wasteland.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1166', 0, 'baal', 'Marry/Own', 'Marry/Own');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1167', 0, 'baal', 'Husband/Master/Owner', 'Husband/Master/Owner');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1254', 0, 'bara', 'create-from-nothing', 'Hebrew speakers only use this word to mean a unique god-like act of creation as opposed to a casual \'I created a meal\'.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1376', 0, 'gevir', 'ruler', 'ruler, master. Not especially interesting perhaps in itself; were it not for the fact it is only used twice - in the story of Jacob as opposed to his brother, Esau - never of God or anyone else.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H1814', 0, 'dalaq', 'hotly-pursue', 'Hotly-pursue, burn, ignite, inflame');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H2657', 1, 'Hepzibah', 'MyDelightIsInHer', 'Hepzibah = \"my delight is in her\"\r\n1) the queen of King Hezekiah and mother of Manasseh\r\n2) a name for Jesusalem (fig.)');
@@ -112,6 +114,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8064', 0, 'shamayim', 'sky', '\"heavens\", sky, skies. The Hebrew is plural and usually conveys the physical sky above our heads.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8314', 1, 'seraphim', 'BurningOnes', 'Fiery; Burning; burning ones');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H8392', 0, 'tevah', 'vessel', 'The ark - the vessel which Noah built; the basket vessel in which Moses was placed.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0005', 0, 'Abba', 'Daddy', 'Aramaic for father used to this day in Jewish circles as the most intimate word for father.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0025', 0, 'agapeo', 'selflessly-love', 'Determined, active loving that has more to do with willing good for others than any emotional feeling. The verb of {G0026}');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0026', 0, 'agape', 'selfelss-love', 'The determined active love that has more to do with willing good for others than any emotional feeling. The noun of {G0025}');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0027', 0, 'agapetos', 'dear, dear-ones', 'Beloved, recipients of the greatest love{G0026}, loved.');
@@ -152,8 +155,8 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3841', 0, 'Pantokrator', 'Almighty', 'Almighty - only applied (obviously!) to God. Equivalent to {H7706}.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3985', 0, 'peirazo', 'temptation', 'Most often translated temptation. Testing, trial, trap.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G3986', 0, 'peirasmos', 'testing', 'Often translated temptation. Testing, trial, trap.');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4100', 0, 'pisteuo', 'trust', 'Often translated faith, but it's trusting a person, not just faith in an idea.');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4102', 0, 'pistis', 'trust', 'Often translated faith, but it's trusting a person, not just faith in an idea.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4100', 0, 'pisteuo', 'trust', 'Often translated faith, but it&apos;s trusting a person, not just faith in an idea.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4102', 0, 'pistis', 'trust', 'Often translated faith, but it&apos;s trusting a person, not just faith in an idea.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4550', 0, 'sapros', 'rotten', 'This has a strongly negative meaning- not just rotten but corrupting or causing disease or being diseased.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4657', 0, 'skubalon', 'filth', 'Disgusting rubbish; rotten; filth; refuse; dung. This can refer to any of a number of rotten, decaying things that must be disposed of. It is only used in Philippians 3:8.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G4995', 0, 'sofronismos', 'soundness-of-mind', 'This is subtle and can mean soundness-of-mind, self-discipline, prudence, wisdom. It is only used in 2 timothy 1:7.');
@@ -592,6 +595,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JDG', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Je');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jem');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jer');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jerm');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jeremiah');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jr');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOB', 'Jb');
@@ -1489,8 +1493,8 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 758, 28,  '3KTV', '1CH', 13, 9, 14, 12);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 759, 29,  '3KTV', '1CH', 14, 13, 15, 15);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 760, 30,  '3KTV', '1CH', 15, 16, 16, 3);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 761, 31,  '3KTV', '1CH', 16, 4, 16, 29);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 762, 32,  '3KTV', '1CH', 16, 30, 17, 6);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 761, 31,  '3KTV', '1CH', 16, 4, 16, 36);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 762, 32,  '3KTV', '1CH', 16, 37, 17, 6);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 763, 33,  '3KTV', '1CH', 17, 7, 17, 23);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 764, 34,  '3KTV', '1CH', 17, 24, 18, 13);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 765, 35,  '3KTV', '1CH', 18, 14, 19, 15);
@@ -1878,8 +1882,8 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1147, 52, '5NCV', 'MAR', 2, 21, 3, 12);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1148, 53, '5NCV', 'MAR', 3, 13, 3, 35);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1149, 54, '5NCV', 'MAR', 4, 1, 4, 25);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1150, 55, '5NCV', 'MAR', 4, 26, 5, 5);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1151, 56, '5NCV', 'MAR', 5, 6, 5, 30);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1150, 55, '5NCV', 'MAR', 4, 26, 5, 8);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1151, 56, '5NCV', 'MAR', 5, 9, 5, 30);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1152, 57, '5NCV', 'MAR', 5, 31, 6, 6);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1153, 58, '5NCV', 'MAR', 6, 7, 6, 29);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES(1154, 59, '5NCV', 'MAR', 6, 30, 6, 56);
