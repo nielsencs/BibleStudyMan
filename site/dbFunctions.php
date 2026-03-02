@@ -457,6 +457,9 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
   $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
 
+  // Compose a unique id for this verse
+  $verseId = 'verse-' . preg_replace('/[^a-zA-Z0-9]/', '', $row['bookName']) . '-' . $row['chapter'] . '-' . $row['verseNumber'];
+
   if(strtolower(substr($tThisVerseText, 0, 3)) == '<p>'){ // if this verse starts a paragraph
     $tOutput .=  '<p>';
     $tThisVerseText = substr($tThisVerseText, 3);
@@ -469,23 +472,23 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
     // place it before the verse number
   }
   
-  if ($bVerseSearched){ //if verse searched for highlight the whole verse
-    $tOutput .=  '<span class="highlightVerse">';
+  // Always wrap each verse in a span with id
+  $tOutput .= '<span id="' . $verseId . '"';
+  if ($bVerseSearched) {
+    $tOutput .= ' class="highlightVerse"';
   }
+  $tOutput .= '>';
 
   $tOutput .=  doVerseNumber($row['verseNumber']);
   $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . ' ';
 
-  if ($bVerseSearched){ //if verse searched for highlight the whole verse
-    $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>'; // if this verse ends a paragraph
-    if($bEndPara){
-      $tThisVerseText = substr($tThisVerseText, 0, -4);
-      // place it after any highlighting
-    }
-    $tOutput .=  '</span>';
+  $tOutput .= '</span>';
+
+  // If the verse was searched for and ends a paragraph, close the paragraph after the span
+  if ($bVerseSearched) {
+    $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>';
     if($bEndPara){
       $tOutput .=  '</p>';
-      // place it after any highlighting
     }
   }
 

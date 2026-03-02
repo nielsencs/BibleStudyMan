@@ -22,6 +22,25 @@
 ?>
             </div>
         </div>
+
+<?php
+// Output JS to scroll to first searched verse if $tBook, $tChapter, $tVerses are set
+if (!empty($tBook) && !empty($tChapter) && !empty($tVerses)) {
+    // Get the first verse number from $tVerses (handles comma/dash lists)
+    $firstVerse = preg_replace('/[^0-9,-]/', '', $tVerses);
+    $firstVerseNum = '';
+    if (preg_match('/(\d+)/', $firstVerse, $m)) {
+        $firstVerseNum = $m[1];
+    }
+    $verseId = 'verse-' . preg_replace('/[^a-zA-Z0-9]/', '', $tBook) . '-' . $tChapter . '-' . $firstVerseNum;
+    echo "<script>\n";
+    echo "window.addEventListener('DOMContentLoaded', function() {\n";
+    echo "  var el = document.getElementById('" . $verseId . "');\n";
+    echo "  if (el) { el.scrollIntoView({behavior: 'smooth', block: 'center'}); }\n";
+    echo "});\n";
+    echo "</script>\n";
+}
+?>
 <?php
 
   require_once 'footer.php';
