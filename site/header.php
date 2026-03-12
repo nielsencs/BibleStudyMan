@@ -122,7 +122,7 @@ if ($bPlan){
   <?php if ($bFloaty) { ?>
         <div class="bibleNavMiddle">
           <label for="panelToggle" style="white-space: nowrap;"><input type="checkbox" name="panelToggle" id="panelToggle" checked>Search</label>
-          <label for="wordsToggle" style="white-space: nowrap;"><input type="checkbox" name="wordsToggle" id="wordsToggle" checked>Words</label>
+          <label for="wordsToggle" style="white-space: nowrap;"><input type="checkbox" name="wordsToggle" id="wordsToggle" checked>Options</label>
         </div>
   <?php } ?>
         <div class="bibleNavRight">
