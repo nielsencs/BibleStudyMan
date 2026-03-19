@@ -1,0 +1,36 @@
+.plan {
+  background: #94ff94;
+  background: linear-gradient(#94ff94,  #ddffdd);
+  padding: 10px;
+}
+
+.Bible {
+  background: #ffff94;
+  background: linear-gradient(#ffff94,  #ffffdd);
+  padding: 10px;
+}
+
+.TCSB {
+  background: #bd94ff;
+  background: #443656;
+  background: linear-gradient(#bd94ff,  #ecddff);
+  background: linear-gradient(#443656,  #876aab);
+  padding: 10px;
+}
+
+.TCSB h1{
+  color: #fff6c8;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.menu, #controlPanel, .footer {
+  background-color: #302342;
+}
+
+#waitOverlay {
+  background: rgb(210 148 255 / 30%);
+}
+
+.logo {
+  height: auto;
+}
