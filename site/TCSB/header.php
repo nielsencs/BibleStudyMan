@@ -19,7 +19,7 @@
   } else {
     $bBible = $bPlan = false;
   }
-  
+
   $bFloaty = true; //false; // is the control panel 'floaty'?
 
   $tPriority = filter_input(INPUT_GET, 'priority', FILTER_UNSAFE_RAW);
@@ -96,7 +96,7 @@
 if ($bBible || $bPlan){
   require_once '../timeStamp.php';
   require_once '../dbFunctions.php';
-  require_once '../search.php';
+  require_once 'search.php';
   require_once '../planFunctions.php';
 }
 ?>
