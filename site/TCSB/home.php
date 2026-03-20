@@ -47,6 +47,7 @@
                 <a href="planTable">here&apos;s the entire year&apos;s plan
                   as a list</a>. Enjoy!</p> -->
 <?php
+    echo daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
   }else{
     echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
   }
