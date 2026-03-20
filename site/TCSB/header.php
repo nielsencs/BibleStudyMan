@@ -36,33 +36,33 @@
   <link rel="stylesheet" type="text/css" href="../styles/tables.css">
   <link rel="stylesheet" type="text/css" href="styles/TCSB.css">
 
-  <script src="scripts/jquery-3.5.1.min.js"></script>
+  <script src="../scripts/jquery-3.5.1.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
 
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-  <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192"  href="icons/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
-  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="57x57" href="../icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="../icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="../icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="../icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
+  <link rel="manifest" href="../manifest.webmanifest">
   <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+  <meta name="msapplication-TileImage" content="../icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script src="../scripts/app.js"></script>
 <?php
   if ($bBible || $bPlan){
-    echo '<script src="../scripts/search.js"></script>' . PHP_EOL;
+    echo '<script src="scripts/search.js"></script>' . PHP_EOL;
 
   }
 ?>
@@ -76,7 +76,7 @@
     </noscript>
 
     <div class="menu-wrapper">
-    <header class="menu">
+      <header class="menu">
       <nav class="mainNav">
         <img class="logo" src="images/TCSBLogoSmall.png" alt="TCSB logo">
 
@@ -89,10 +89,9 @@
 
 <?php
 if ($bBible || $bPlan){
+  require_once '../timeStamp.php';
   require_once '../dbFunctions.php';
   require_once '../search.php';
-  }
-if ($bPlan){
   require_once '../planFunctions.php';
 }
 ?>
@@ -102,24 +101,21 @@ if ($bPlan){
         <div class="bibleNavLeft">
   <?php if ($bBible || $bPlan){ ?>
           <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
-  <?php } ?>
-  <?php if ($bBible || $bPlan){ ?>
           <button class="Bible" onclick="doDirection('pb')">&lt;B</button>
           <button class="Bible" onclick="doDirection('pc')">&lt;C</button>
   <?php } ?>
         </div>
   <?php if ($bFloaty) { ?>
         <div class="bibleNavMiddle">
-          <label for="panelToggle" style="white-space: nowrap;"><input type="checkbox" name="panelToggle" id="panelToggle" checked>Search</label>
-          <label for="wordsToggle" style="white-space: nowrap;"><input type="checkbox" name="wordsToggle" id="wordsToggle" checked>Options</label>
+          <label for="planToggle" style="white-space: nowrap;"><input type="checkbox" name="planToggle" id="planToggle" checked>Plan</label>
+          <label for="findToggle" style="white-space: nowrap;"><input type="checkbox" name="findToggle" id="findToggle" checked>Find</label>
+          <label for="prefsToggle" style="white-space: nowrap;"><input type="checkbox" name="prefsToggle" id="prefsToggle">Prefs</label>
         </div>
   <?php } ?>
         <div class="bibleNavRight">
   <?php if ($bBible || $bPlan){ ?>
           <button class="Bible" onclick="doDirection('nc')">C&gt;</button>
           <button class="Bible" onclick="doDirection('nb')">B&gt;</button>
-  <?php } ?>
-  <?php if ($bBible || $bPlan){ ?>
           <button class="plan" onclick="dayDirection('nd')">D&gt;</button>
   <?php } ?>
         </div>
