@@ -29,7 +29,7 @@
   $tSortOrder = filter_input(INPUT_GET, 'sortOrder', FILTER_UNSAFE_RAW);
 
   if ($bPlan) {
-    require_once 'timeStamp.php';
+    require_once '../timeStamp.php';
     if (strlen((string)$tMonth) > 0) {
       $iMonth = intval($tMonth);
       if ($iMonth > 12) { $iMonth = 12; }
