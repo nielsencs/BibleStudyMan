@@ -69,7 +69,7 @@
 <script type="text/javascript" src="scripts/controlPanel.js"></script>
 <script type="text/javascript">
 // ============================================================================
-  function doSubmit(tField) {
+  function doSubmit(tField) { // this Javascript function MUST remin here (see below)
 // ============================================================================
     bDoit = false;
     if(tField > ''){
@@ -79,7 +79,7 @@
         clearField('chapter');
       }
     }else{
-      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';} ?>;
+      bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';} ?>; // this PHP is why it must remain here
     }
     if(bDoit){
       document.searchForm.priority.value = 'Bible';
