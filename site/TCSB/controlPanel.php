@@ -1,7 +1,8 @@
               <div id="controlPanel">
-                <form name="searchForm" id="searchForm" action="<?php if ($bBible) { echo'bible'; } else { echo'plan'; } ?>" method="get" onsubmit="showWait();">
+                <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="showWait();">
+                <input type="hidden" name="priority" id="priority" value="Plan">
 
-                <div id="searchSection">
+                <div id="planSection">
                   <table class="searchTable">
                     <tbody class="plan">
                       <tr>
@@ -25,6 +26,10 @@
                         </td>
                       </tr>
                     </tbody>
+                  </table>
+                  </div>
+                  <div id="findSection">
+                  <table class="searchTable">
                     <tbody class="Bible">
                       <tr>
                         <td colspan="3">
@@ -50,11 +55,11 @@ exact word.">Exact</abbr></label>
                         <td>
                           <input type="button" value="&lt;" onclick="doDirection('pb')">
                           &nbsp;<abbr title="The Bible is a library of books.
-You can select one of them here.">Book</abbr>&nbsp;
+                          You can select one of them here.">Book</abbr>&nbsp;
                           <input type="button" value="&gt;" onclick="doDirection('nb')">
                           <br>
                           <select name="book" id="book"  onchange="doSubmit('book')">
-                           <option value=""></option>
+                            <option value=""></option>
 <?php
   echo prepareDropdownBookList();
 ?>
@@ -63,8 +68,8 @@ You can select one of them here.">Book</abbr>&nbsp;
                         <td colspan="2">
                           <input type="button" value="&lt;" onclick="doDirection('pc')">
                           &nbsp;<abbr title="The books in The Bible are divided
-into chapters; once you&apos;ve picked a
-book, you can pick a chapter here.">Chapter</abbr>&nbsp;
+                          into chapters; once you&apos;ve picked a
+                          book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                           <input type="button" value="&gt;" onclick="doDirection('nc')">
                           <br>
                           <input type="hidden" name="chapterNext" id="chapterNext" value="">
@@ -77,11 +82,26 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
                         </td>
                       </tr>
                     </tbody>
+                  </div>
                   </table>
+                  <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
+                  <div id="prefsSection" class="searchOptions">
+                  <p>For certain <abbr
+                    title="Things like the various words for God
+and words that can have a variety of
+translations. For example in both
+Hebrew and Greek a certain word 
+can mean spirit or breath or breeze.">interesting</abbr> words:<br>
+                    <input type="checkbox" name="highlightSW" id="highlightSW"
+                    <?php if($bHighlightSW){echo 'checked';} ?>
+                        onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">highlight</span> them</label><br>
+                    <input type="checkbox" name="showOW"      id="showOW"
+                    <?php if($bShowOW){echo 'checked';} ?>
+                        onclick="doSubmit()"><label for="showOW">Show Hebrew/Greek</label><br>
+                    <input type="checkbox" name="showTN"      id="showTN"
+                    <?php if($bShowTN){echo 'checked';} ?>
+                        onclick="doSubmit()"><label for="showTN">Show Translated Names</label><br>
+                  </p>
                 </div>
-<?php if ($bBible) { ?>
-                <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
-<?php } ?>
-<?php require_once '../intWords.php'; ?>
               </form>
             </div><!-- controlPanel -->

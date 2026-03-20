@@ -1,32 +1,42 @@
 document.addEventListener('DOMContentLoaded', function() {
     const panel = document.getElementById('controlPanel');
-    const searchSection = document.getElementById('searchSection');
-    const wordsSection = document.getElementById('wordsSection');
+    const planSection = document.getElementById('planSection');
+    const findSection = document.getElementById('findSection');
+    const prefsSection = document.getElementById('prefsSection');
     
-    const panelToggle = document.getElementById('panelToggle');
-    const wordsToggle = document.getElementById('wordsToggle');
+    const planToggle = document.getElementById('planToggle');
+    const findToggle = document.getElementById('findToggle');
+    const prefsToggle = document.getElementById('prefsToggle');
 
-    if (!panelToggle || !wordsToggle || !panel) {
+    if (!planToggle || !findToggle || !prefsToggle || !panel) {
         return;
     }
 
     function refreshPanel() {
-        const showSearch = panelToggle.checked;
-        const showWords = wordsToggle.checked;
+        // const showSearch = planToggle.checked || findToggle.checked; // Show search section if either plan or find is checked
+        const showPlan = planToggle.checked;
+        const showFind = findToggle.checked;
+        const showPrefs = prefsToggle.checked;
 
-        if (showSearch) {
-            searchSection.classList.remove('collapsed');
+        if (showPlan) {
+            planSection.classList.remove('collapsed');
         } else {
-            searchSection.classList.add('collapsed');
+            planSection.classList.add('collapsed');
         }
 
-        if (showWords) {
-            wordsSection.classList.remove('collapsed');
+        if (showFind) {
+            findSection.classList.remove('collapsed');
         } else {
-            wordsSection.classList.add('collapsed');
+            findSection.classList.add('collapsed');
         }
 
-        if (!showSearch && !showWords) {
+        if (showPrefs) {
+            prefsSection.classList.remove('collapsed');
+        } else {
+            prefsSection.classList.add('collapsed');
+        }
+
+        if (!showPlan && !showFind && !showPrefs) {
             panel.classList.add('collapsed');
         } else {
             panel.classList.remove('collapsed');
@@ -35,21 +45,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Restore states from localStorage
     if (localStorage.getItem('searchVisible') !== null) {
-        panelToggle.checked = localStorage.getItem('searchVisible') === 'true';
+        // panelToggle.checked = localStorage.getItem('searchVisible') === 'true';
+        planToggle.checked = localStorage.getItem('planVisible') === 'true';
+        findToggle.checked = localStorage.getItem('findVisible') === 'true';
     }
-    if (localStorage.getItem('wordsVisible') !== null) {
-        wordsToggle.checked = localStorage.getItem('wordsVisible') === 'true';
+    if (localStorage.getItem('prefsVisible') !== null) {
+        prefsToggle.checked = localStorage.getItem('prefsVisible') === 'true';
     }
 
     refreshPanel();
 
-    panelToggle.addEventListener('change', function() {
-        localStorage.setItem('searchVisible', panelToggle.checked);
+    planToggle.addEventListener('change', function() {
+        localStorage.setItem('planVisible', planToggle.checked);
         refreshPanel();
     });
 
-    wordsToggle.addEventListener('change', function() {
-        localStorage.setItem('wordsVisible', wordsToggle.checked);
+    findToggle.addEventListener('change', function() {
+        localStorage.setItem('findVisible', findToggle.checked);
+        refreshPanel();
+    });
+
+    prefsToggle.addEventListener('change', function() {
+        localStorage.setItem('prefsVisible', prefsToggle.checked);
         refreshPanel();
     });
 });
