@@ -16,7 +16,10 @@
 <?php
   if (strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php')){
     $bBible = $bPlan = true;
+  } else {
+    $bBible = $bPlan = false;
   }
+  
   $bFloaty = true; //false; // is the control panel 'floaty'?
 
   $tPriority = filter_input(INPUT_GET, 'priority', FILTER_UNSAFE_RAW);
@@ -41,10 +44,10 @@
   <script src="../scripts/jquery-3.5.1.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
 
-  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
 
-  <link rel="apple-touch-icon" sizes="57x57" href="../icons/apple-icon-57x57.png">
+  <!-- <link rel="apple-touch-icon" sizes="57x57" href="../icons/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="../icons/apple-icon-60x60.png">
   <link rel="apple-touch-icon" sizes="72x72" href="../icons/apple-icon-72x72.png">
   <link rel="apple-touch-icon" sizes="76x76" href="../icons/apple-icon-76x76.png">
@@ -56,7 +59,7 @@
   <link rel="icon" type="image/png" sizes="192x192"  href="../icons/android-icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="../icons/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png"> -->
   <link rel="manifest" href="../manifest.webmanifest">
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="../icons/ms-icon-144x144.png">
