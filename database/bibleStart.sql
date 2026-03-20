@@ -107,6 +107,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H5542', 1, 'selah', 'SolidRock', 'The meaning of this word is unclear. It is used in psalms as some form of exclamation or perhaps a musical instruction. I have chosen SolidRock as a non-transliterative placeholder.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H5633', 0, 'ceren', 'Lord;tyrant', 'Lord/Tyrant');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H6212', 0, 'esev', 'plant', 'plant, vegetation');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H6635', 0, 'tsavah', 'armies', 'multitudes, hordes, hosts, armies. A crowd or large group of people, often soldiers. Used figuratively for a mass of things.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7291', 0, 'radaph', 'pursue', 'Pursue, follow closely, chase');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7307', 0, 'ruach', 'spirit/breath/breeze', 'ruach - wind, breath, spirit.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7706', 0, 'Shaddai', 'Almighty', 'Almighty - usually God almighty.');
