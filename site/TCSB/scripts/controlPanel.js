@@ -1,36 +1,59 @@
 document.addEventListener('DOMContentLoaded', function () {
     const panel = document.getElementById('controlPanel');
+    const planSection = document.getElementById('planSection');
+    const findSection = document.getElementById('findSection');
+    const prefsSection = document.getElementById('prefsSection');
 
-    const sections = [
-        { button: document.getElementById('planToggle'),  section: document.getElementById('planSection'),  key: 'planVisible' },
-        { button: document.getElementById('findToggle'),  section: document.getElementById('findSection'),  key: 'findVisible' },
-        { button: document.getElementById('prefsToggle'), section: document.getElementById('prefsSection'), key: 'prefsVisible' }
-    ];
+    const planToggle = document.getElementById('planToggle');
+    const findToggle = document.getElementById('findToggle');
+    const prefsToggle = document.getElementById('prefsToggle');
 
-    if (!panel) {
+    if (!panel || !planSection || !findSection || !prefsSection ||
+        !planToggle || !findToggle || !prefsToggle) {
         return;
     }
 
-    sections.forEach(function (item, index) {
-        if (!item.button || !item.section) {
-            return;
-        }
+    function setSectionVisible(section, visible) {
+        section.classList.toggle('collapsed', !visible);
+    }
 
-        let isOpen = localStorage.getItem(item.key);
-        if (isOpen === null) {
-            isOpen = (index === 0); // default: Plan open, others closed
-        } else {
-            isOpen = (isOpen === 'true');
-        }
+    function refreshPanel() {
+        const showPlan = !!planToggle.checked;
+        const showFind = !!findToggle.checked;
+        const showPrefs = !!prefsToggle.checked;
 
-        item.button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        item.section.classList.toggle('collapsed', !isOpen);
+        setSectionVisible(planSection, showPlan);
+        setSectionVisible(findSection, showFind);
+        setSectionVisible(prefsSection, showPrefs);
 
-        item.button.addEventListener('click', function () {
-            const nowOpen = item.button.getAttribute('aria-expanded') !== 'true';
-            item.button.setAttribute('aria-expanded', nowOpen ? 'true' : 'false');
-            item.section.classList.toggle('collapsed', !nowOpen);
-            localStorage.setItem(item.key, nowOpen);
-        });
+        panel.classList.toggle('collapsed', !showPlan && !showFind && !showPrefs);
+    }
+
+    function restoreToggle(toggle, storageKey, defaultValue) {
+        const saved = localStorage.getItem(storageKey);
+        toggle.checked = (saved === null) ? defaultValue : (saved === 'true');
+    }
+
+    function saveAndRefresh(toggle, storageKey) {
+        localStorage.setItem(storageKey, toggle.checked ? 'true' : 'false');
+        refreshPanel();
+    }
+
+    restoreToggle(planToggle, 'planVisible', true);
+    restoreToggle(findToggle, 'findVisible', true);
+    restoreToggle(prefsToggle, 'prefsVisible', false);
+
+    refreshPanel();
+
+    planToggle.addEventListener('change', function () {
+        saveAndRefresh(planToggle, 'planVisible');
+    });
+
+    findToggle.addEventListener('change', function () {
+        saveAndRefresh(findToggle, 'findVisible');
+    });
+
+    prefsToggle.addEventListener('change', function () {
+        saveAndRefresh(prefsToggle, 'prefsVisible');
     });
 });
