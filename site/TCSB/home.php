@@ -37,7 +37,7 @@
             <div class="subMain sectGeneral">
 <?php
   $emptyBibleSearch = empty($tBook) && empty($tChapter) && empty($tVerses) && empty($tWords);
-  if($emptyBibleSearch || !empty($tMonth)){ // no Bible search or month specified, show today's verses
+  if($emptyBibleSearch || $tPriority === 'Plan'){ // no Bible search or month specified, show today's verses
     echo "<h2>Readings for " . htmlspecialchars(monthName($iMonth) . ' ' . $iDay, ENT_QUOTES, 'UTF-8') . ":</h2>";
     $tOutput = planTable($tSortOrder);
     echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);

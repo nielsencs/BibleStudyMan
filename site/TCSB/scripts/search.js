@@ -64,6 +64,7 @@
         iChapter = wrapNum(iChapter, atBooks[iBook][1], +1);
       }
     }
+    document.searchForm.priority.value = 'Bible';
     document.searchForm.book.value = atBooks[iBook][0];
     document.searchForm.chapter.value = iChapter;
     document.searchForm.chapterNext.value = iChapter; // if chapter dropdown too small
@@ -98,6 +99,7 @@
         iDay = oDate.getDate();
         iMonth = oDate.getMonth() + 1; // because getMonth is zero-based
     }
+    document.searchForm.priority.value = 'Plan';
     document.searchForm.month.value = iMonth;
     document.searchForm.day.value = iDay;
     document.searchForm.dayNext.value = iDay; // in case dropdown has too few days

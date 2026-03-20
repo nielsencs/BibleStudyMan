@@ -1,6 +1,6 @@
 <div id="controlPanel">
   <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="showWait();">
-    <input type="hidden" name="priority" id="priority" value="Plan">
+    <input type="hidden" name="priority" id="priority" value="<?php echo htmlspecialchars($tPriority ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
     <div id="planSection" class="panelStageSection">
       <table class="searchTable">
