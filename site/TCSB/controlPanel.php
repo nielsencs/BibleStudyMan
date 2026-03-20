@@ -2,9 +2,6 @@
   <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="showWait();">
     <input type="hidden" name="priority" id="priority" value="Plan">
 
-    <!-- <button type="button" class="panelStageToggle" id="planToggle" aria-expanded="true"> -->
-      <!-- Plan -->
-    <!-- </button> -->
     <div id="planSection" class="panelStageSection">
       <table class="searchTable">
         <tbody class="plan">
@@ -32,9 +29,6 @@
       </table>
     </div>
 
-    <!-- <button type="button" class="panelStageToggle" id="findToggle" aria-expanded="false">
-      Find
-    </button> -->
     <div id="findSection" class="panelStageSection collapsed">
       <table class="searchTable">
         <tbody class="Bible">
@@ -93,9 +87,6 @@ exact word.">Exact</abbr></label>
       <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
     </div>
 
-    <!-- <button type="button" class="panelStageToggle" id="prefsToggle" aria-expanded="false">
-      Prefs
-    </button> -->
     <div id="prefsSection" class="panelStageSection collapsed searchOptions">
       <p>For certain <abbr
         title="Things like the various words for God

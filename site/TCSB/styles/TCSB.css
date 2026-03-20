@@ -36,24 +36,6 @@
   height: auto;
 }
 
-.panelStageToggle {
-  display: block;
-  width: 100%;
-  margin: 0;
-  padding: 10px 12px;
-  border: 0;
-  border-top: 1px solid rgb(255 255 255 / 12%);
-  background: transparent;
-  color: #fff6c8;
-  font-weight: bold;
-  text-align: left;
-  cursor: pointer;
-}
-
-.panelStageToggle:hover {
-  background: rgb(255 255 255 / 8%);
-}
-
 .panelStageSection {
   overflow: hidden;
   transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
@@ -67,6 +49,5 @@
 }
 
 #controlPanel .searchTable {
-  width: 100%;
   border-collapse: collapse;
 }
