@@ -82,7 +82,7 @@
       bDoit = <?php if($tBook . $tWords . $tMonth . $tDay . $tSortOrder > ''){echo 'true';}else{echo 'false';} ?>;
     }
     if(bDoit){
-        //    if(document.searchForm.words.value > '' || bJustDoit){
+      document.searchForm.priority.value = 'Bible';
       showWait();
       document.searchForm.submit();
     }
