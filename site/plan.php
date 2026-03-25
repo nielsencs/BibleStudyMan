@@ -1,7 +1,5 @@
 <?php
   require_once 'header.php';
-
-  $todaysVerses = '';
 ?>
   <script type="text/javascript">
 // ============================================================================
