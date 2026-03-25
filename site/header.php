@@ -137,5 +137,20 @@ if ($bPlan){
 <?php } ?>
       </div>
     </header>
+<?php
+if ($bBible) {
+  $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
+  if($atBookChapSearch[0] > ''){ // book found in search
+    $tBook = $atBookChapSearch[0];
+    if($atBookChapSearch[1] > ''){ // chapter found in search
+      $tChapter = $atBookChapSearch[1];
+      if($atBookChapSearch[2] > ''){ // verses found in search
+        $tVerses = $atBookChapSearch[2];
+      }
+    }
+  }
+  $tWords = $atBookChapSearch[3];
+}
+?>
 <?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
     </div><!-- menu-wrapper -->

@@ -1,17 +1,5 @@
 <?php
   require_once 'header.php';
-
-  $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
-  if($atBookChapSearch[0] > ''){ // book found in search
-    $tBook = $atBookChapSearch[0];
-    if($atBookChapSearch[1] > ''){ // chapter found in search
-      $tChapter = $atBookChapSearch[1];
-      if($atBookChapSearch[2] > ''){ // verses found in search
-        $tVerses = $atBookChapSearch[2];
-      }
-    }
-  }
-  $tWords = $atBookChapSearch[3];
 ?>
         <div class="main Bible">
             <h1>The Bible</h1>
