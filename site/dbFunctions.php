@@ -11,7 +11,12 @@ function doQuery($pdo, $tQuery, $params = []){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $tReturn = '<a href="bible?book=' . htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8'); // we might be in /plan and we want to look up a bible passage!
+  global $bTCSB;
+  $tActionPage = 'bible'; // we might be in /plan and we want to look up a bible passage!
+  if (isset($bTCSB) && $bTCSB) { // if we're in the TCSB app, stay there when we click a link
+    $tActionPage = 'home';
+  }
+  $tReturn = '<a href="' . $tActionPage . '?book=' . htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8');
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }

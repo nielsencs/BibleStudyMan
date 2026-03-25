@@ -21,6 +21,7 @@
   }
 
   $bFloaty = true; //false; // is the control panel 'floaty'?
+  $bTCSB = true; //false; // Are we in the TCSB app'?
 
   $tPriority = filter_input(INPUT_GET, 'priority', FILTER_UNSAFE_RAW);
 
