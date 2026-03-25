@@ -15,10 +15,10 @@
 }
 
 .TCSB {
-  background: #bd94ff;
+  /* background: #bd94ff; */
   background: #443656;
-  background: linear-gradient(#bd94ff,  #ecddff);
-  background: linear-gradient(#443656,  #876aab);
+  /* background: linear-gradient(#bd94ff,  #ecddff); */
+  background: linear-gradient(#5b4677,  #997bbe);
   padding: 14px;
 }
 
@@ -29,7 +29,7 @@
 
 .menu, #controlPanel, .footer {
   /* background-color: #302342; /* original */
-  background-color: #100027dd; /* matches original but with transparency over white */
+  background-color: #12002dcc; /* matches original but with transparency over white */
 }
 
 #waitOverlay {
@@ -54,4 +54,8 @@
 
 #controlPanel .searchTable {
   border-collapse: collapse;
+}
+
+input {
+    accent-color: #04a4af;
 }
