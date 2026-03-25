@@ -21,7 +21,7 @@
   }
 ?>
         <div class="main Bible">
-            <h1>The Bible</h1>
+            <h1>The CleanSlate Bible</h1>
             <div class="subMain sectGeneral">
               <div id="controlPanel">
 <?php if ($bFloaty) {echo '<button id="panelToggle" title="Toggle search panel">&lt;</button>' . PHP_EOL;} ?>
