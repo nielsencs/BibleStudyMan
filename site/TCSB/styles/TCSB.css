@@ -54,6 +54,10 @@
   margin: 0 auto;
 }
 
+#prefsSection{
+  border-radius: 7px;
+}
+
 #controlPanel .searchTable {
   border-collapse: collapse;
 }
