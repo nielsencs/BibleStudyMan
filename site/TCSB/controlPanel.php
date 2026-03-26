@@ -3,30 +3,32 @@
     <input type="hidden" name="priority" id="priority" value="<?php echo htmlspecialchars($tPriority ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
     <div id="planSection" class="panelStageSection">
+      <button class="plan" onclick="dayDirection('pd')" style="display:none">&nbsp;&lt;&nbsp;</button>
       <table class="searchTable">
         <tbody class="plan">
           <tr>
             <td colspan="2">
+              <input type="button" value="&lt;" class="dayButton" onclick="dayDirection('pd')">
               <select name="month" id="month" onchange="doSubmit('month')">
 <?php
   echo prepareDropdownMonthList($iMonth);
 ?>
               </select>
-              <input type="button" value="&lt;" onclick="dayDirection('pd')">
               <input type="hidden" name="dayNext" id="dayNext" value="">
               <select name="day" id="day" onchange="doSubmit('day')">
 <?php
   echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);
 ?>
               </select>
-              <input type="button" value="&gt;" onclick="dayDirection('nd')">
             </td>
             <td>
               <input type="button" value="Today" onclick="dayDirection('today')">
+              <input type="button" value="&gt;" class="dayButton" onclick="dayDirection('nd')">
             </td>
           </tr>
         </tbody>
       </table>
+      <button class="plan" onclick="dayDirection('nd')" style="display:none">&nbsp;&gt;&nbsp;</button>
     </div>
 
     <div id="findSection" class="panelStageSection collapsed">
@@ -54,10 +56,10 @@ exact word.">Exact</abbr></label>
           </tr>
           <tr>
             <td>
-              <input type="button" value="&lt;" onclick="doDirection('pb')">
+              <input type="button" value="&lt;" onclick="doDirection('pb')" style="display:none">
               &nbsp;<abbr title="The Bible is a library of books.
               You can select one of them here.">Book</abbr>&nbsp;
-              <input type="button" value="&gt;" onclick="doDirection('nb')">
+              <input type="button" value="&gt;" onclick="doDirection('nb')" style="display:none">
               <br>
               <select name="book" id="book" onchange="doSubmit('book')">
                 <option value=""></option>
@@ -67,11 +69,11 @@ exact word.">Exact</abbr></label>
               </select>
             </td>
             <td colspan="2">
-              <input type="button" value="&lt;" onclick="doDirection('pc')">
+              <input type="button" value="&lt;" onclick="doDirection('pc')" style="display:none">
               &nbsp;<abbr title="The books in The Bible are divided
               into chapters; once you&apos;ve picked a
               book, you can pick a chapter here.">Chapter</abbr>&nbsp;
-              <input type="button" value="&gt;" onclick="doDirection('nc')">
+              <input type="button" value="&gt;" onclick="doDirection('nc')" style="display:none">
               <br>
               <input type="hidden" name="chapterNext" id="chapterNext" value="">
               <select name="chapter" id="chapter" onchange="doSubmit('chapter')">

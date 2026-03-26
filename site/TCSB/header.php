@@ -106,23 +106,24 @@ if ($bBible || $bPlan){
 <?php if ($bBible || $bPlan){ ?>
         <div class="bibleNavLeft">
   <?php if ($bBible || $bPlan){ ?>
-          <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
-          <button class="Bible" onclick="doDirection('pb')">&lt;B</button>
-          <button class="Bible" onclick="doDirection('pc')">&lt;C</button>
+          <!-- <button class="plan" onclick="dayDirection('pd')">&lt;D</button> -->
+          <button class="Bible" onclick="doDirection('pb')">&lt;&lt;</button>
+          <button class="Bible" onclick="doDirection('pc')">&lt;</button>
   <?php } ?>
         </div>
   <?php if ($bFloaty) { ?>
         <div class="bibleNavMiddle">
-          <label for="planToggle" style="white-space: nowrap;"><input type="checkbox" name="planToggle" id="planToggle" checked>Plan</label>
-          <label for="findToggle" style="white-space: nowrap;"><input type="checkbox" name="findToggle" id="findToggle" checked>Find</label>
-          <label for="prefsToggle" style="white-space: nowrap;"><input type="checkbox" name="prefsToggle" id="prefsToggle">Prefs</label>
+          <!-- <label for="planToggle" style="white-space: nowrap;"><input type="checkbox" name="planToggle" id="planToggle" checked>Plan</label> -->
+          <input type="checkbox" name="planToggle" id="planToggle" checked style="display:none">
+          <label for="findToggle" style="white-space: nowrap;"><input type="checkbox" name="findToggle" id="findToggle" checked>Search</label>
+          <label for="prefsToggle" style="white-space: nowrap;"><input type="checkbox" name="prefsToggle" id="prefsToggle">Options</label>
         </div>
   <?php } ?>
         <div class="bibleNavRight">
   <?php if ($bBible || $bPlan){ ?>
-          <button class="Bible" onclick="doDirection('nc')">C&gt;</button>
-          <button class="Bible" onclick="doDirection('nb')">B&gt;</button>
-          <button class="plan" onclick="dayDirection('nd')">D&gt;</button>
+          <button class="Bible" onclick="doDirection('nc')">&gt;</button>
+          <button class="Bible" onclick="doDirection('nb')">&gt;&gt;</button>
+          <!-- <button class="plan" onclick="dayDirection('nd')">D&gt;</button> -->
   <?php } ?>
         </div>
 <?php } ?>

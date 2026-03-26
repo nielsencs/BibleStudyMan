@@ -1,4 +1,4 @@
-.Bible {
+/* .Bible {
   background: #94ff94;
   background: linear-gradient(#94ff94,  #ddffdd);
   padding: 10px;
@@ -8,7 +8,7 @@
   background: #ffff94;
   background: linear-gradient(#ffff94,  #ffffdd);
   padding: 10px;
-}
+} */
 
 .bibleNav button {
   padding: 7px;
@@ -36,9 +36,9 @@
   background: rgb(210 148 255 / 30%);
 }
 
-.logo {
+/* .logo {
   height: auto;
-}
+} */
 
 .panelStageSection {
   overflow: hidden;
@@ -50,6 +50,8 @@
 .panelStageSection.collapsed {
   max-height: 0;
   opacity: 0;
+  padding: 3px 0 0 0;
+  margin: 0 auto;
 }
 
 #controlPanel .searchTable {
@@ -58,4 +60,13 @@
 
 input {
     accent-color: #04a4af;
+}
+
+input[type="button"] {
+    padding: 3px;
+    margin: 3px;
+} 
+
+.dayButton {
+  width: 23px;
 }
