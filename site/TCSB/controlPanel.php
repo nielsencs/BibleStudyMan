@@ -37,7 +37,6 @@
           <tr>
             <td colspan="3">
               <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-              <br>
               <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
                      onclick="doSubmit('words')">
               <label for="exact"><abbr title="If this is checked you'll tend to
