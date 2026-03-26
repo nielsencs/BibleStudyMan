@@ -62,7 +62,7 @@ input {
     accent-color: #04a4af;
 }
 
-input[type="button"] {
+input[type="button"] input[type="submit"] {
     padding: 3px;
     margin: 3px;
 } 
