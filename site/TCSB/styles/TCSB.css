@@ -1,23 +1,13 @@
-/* .Bible {
-  background: #94ff94;
-  background: linear-gradient(#94ff94,  #ddffdd);
-  padding: 10px;
+.bibleNavRight, .bibleNavLeft {
+  display: flex;
 }
-
-.plan {
-  background: #ffff94;
-  background: linear-gradient(#ffff94,  #ffffdd);
-  padding: 10px;
-} */
 
 .bibleNav button {
   padding: 7px;
 }
 
 .TCSB {
-  /* background: #bd94ff; */
   background: #443656;
-  /* background: linear-gradient(#bd94ff,  #ecddff); */
   background: linear-gradient(#5b4677,  #997bbe);
   padding: 14px;
 }
@@ -35,10 +25,6 @@
 #waitOverlay {
   background: rgb(210 148 255 / 30%);
 }
-
-/* .logo {
-  height: auto;
-} */
 
 .panelStageSection {
   overflow: hidden;
