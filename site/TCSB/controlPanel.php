@@ -50,7 +50,7 @@ exact word.">Exact</abbr></label>
             <td colspan="3">
               <input type="button" name="clearAll" id="clearAll" value="Clear" onclick="clearAllFields('bible')">
               &nbsp;&nbsp;&nbsp;
-              <input type="submit" value="Search">
+              <input type="submit" value="Search" onclick="document.searchForm.priority.value = 'Bible';">
             </td>
           </tr>
           <tr>
@@ -89,22 +89,20 @@ exact word.">Exact</abbr></label>
     </div>
 
     <div id="prefsSection" class="panelStageSection collapsed searchOptions">
-      <p>For certain <abbr
+      <input type="checkbox" name="highlightSW" id="highlightSW"
+      <?php if($bHighlightSW){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">Highlight</span> <abbr
         title="Things like the various words for God
 and words that can have a variety of
 translations. For example in both
 Hebrew and Greek a certain word 
-can mean spirit or breath or breeze.">interesting</abbr> words:<br>
-        <input type="checkbox" name="highlightSW" id="highlightSW"
-        <?php if($bHighlightSW){echo 'checked';} ?>
-            onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">highlight</span> them</label><br>
-        <input type="checkbox" name="showOW" id="showOW"
-        <?php if($bShowOW){echo 'checked';} ?>
-            onclick="doSubmit()"><label for="showOW">Show Hebrew/Greek</label><br>
-        <input type="checkbox" name="showTN" id="showTN"
-        <?php if($bShowTN){echo 'checked';} ?>
-            onclick="doSubmit()"><label for="showTN">Show Translated Names</label><br>
-      </p>
+can mean spirit or breath or breeze.">significant</abbr> words</label><br>
+      <input type="checkbox" name="showOW" id="showOW"
+      <?php if($bShowOW){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="showOW">Show their source language</label><br>
+      <input type="checkbox" name="showTN" id="showTN"
+      <?php if($bShowTN){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="showTN">Prefer translated names</label>
     </div>
   </form>
 </div>
