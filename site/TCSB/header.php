@@ -69,7 +69,7 @@
 <?php
   if ($bBible || $bPlan){
     echo '<script src="scripts/search.js"></script>' . PHP_EOL;
-
+    echo '<script src="scripts/controlPanel.js"></script>' . PHP_EOL;
   }
 ?>
 </head>
