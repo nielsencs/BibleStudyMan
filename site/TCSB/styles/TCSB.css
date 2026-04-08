@@ -49,6 +49,11 @@
   border-collapse: collapse;
 }
 
+#controlPanel .searchTable, #prefsSection{
+  width: 280px;
+  padding: 0;
+}
+
 input {
     accent-color: #04a4af;
 }
@@ -60,4 +65,13 @@ input[type="button"] input[type="submit"] {
 
 .dayButton {
   width: 23px;
+}
+
+.mainNav {
+  padding: 3px;
+}
+
+.logo {
+  height: auto;
+  padding: 0 0 0 3px;
 }
