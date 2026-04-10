@@ -13,9 +13,12 @@
   padding: 14px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lexend', sans-serif;
+}
+
 .TCSB h1{
   color: #fff6c8;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .menu, #controlPanel, .footer {
@@ -74,4 +77,8 @@ input[type="button"] input[type="submit"] {
 .logo {
   height: auto;
   padding: 0 0 0 3px;
+}
+
+.search-result__title {
+  padding: 7rem 0 0 0;
 }
