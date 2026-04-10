@@ -1,5 +1,5 @@
 <div id="controlPanel">
-  <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="showWait();">
+  <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="doSubmit('');">
     <input type="hidden" name="priority" id="priority" value="<?php echo htmlspecialchars($tPriority ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
     <div id="planSection" class="panelStageSection">
@@ -36,7 +36,7 @@
         <tbody class="Bible">
           <tr>
             <td colspan="3">
-              <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+              <input type="search" name="words" id="words" placeholder="Search..." value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
               <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
                      onclick="doSubmit('words')">
               <label for="exact"><abbr title="If this is checked you'll tend to
