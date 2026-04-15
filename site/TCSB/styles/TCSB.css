@@ -1,3 +1,7 @@
+body{
+  font-family: Geist, sans-serif;
+}
+
 .bibleNavRight, .bibleNavMiddle, .bibleNavLeft {
   display: flex;
 }
@@ -13,7 +17,7 @@
   padding: 14px;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, .footNav {
   font-family: 'Lexend', sans-serif;
 }
 
