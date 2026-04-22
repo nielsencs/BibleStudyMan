@@ -39,12 +39,13 @@ h1, h2, h3, h4, h5, h6, .footNav {
   transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
   max-height: 1000px;
   opacity: 1;
+  padding: 0 0 3px 0;
 }
 
 .panelStageSection.collapsed {
   max-height: 0;
   opacity: 0;
-  padding: 7px 0 0 0;
+  padding: 0;
   margin: 0 auto;
 }
 
@@ -57,8 +58,7 @@ h1, h2, h3, h4, h5, h6, .footNav {
 }
 
 #controlPanel .searchTable, #prefsSection{
-  width: 280px;
-  padding: 0;
+  width: 290px;
 }
 
 input {
@@ -84,5 +84,5 @@ input[type="button"] input[type="submit"] {
 }
 
 .search-result__title {
-  padding: 7rem 0 0 0;
+  padding: 5rem 0 0 0;
 }
