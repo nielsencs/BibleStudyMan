@@ -152,6 +152,10 @@
   font-weight: normal;
 }
 
+.home>h1 {
+  color: var(--border);
+}
+
 .subMain {
   max-width: 1400px;
   margin: 1% auto;
@@ -188,35 +192,39 @@
   background: #00ff0030;
 }  
 
+.teaching, .readings, .plan, .Bible {
+  background: whitesmoke;
+  color: darkslategrey;
+}
+
 .teaching {
-  background: #9494ff;
-  background: linear-gradient(#9494ff,  #ddddff);
+  background: var(--teaching);
+  background: linear-gradient(var(--teaching),  var(--teachingL));
   padding: 10px;
   overflow: hidden;
 }
 
 .readings {
-  background: #94ffff;
-  background: linear-gradient(#94ffff,  #ddffff);
+  background: var(--readings);
+  background: linear-gradient(var(--readings),  var(--readingsL));
   padding: 10px;
 }
 
 .plan {
-  background: #94ff94;
-  background: linear-gradient(#94ff94,  #ddffdd);
+  background: var(--plan);
+  background: linear-gradient(var(--plan),  var(--planL));
   padding: 10px;
 }
 
 .Bible {
-  background: #ffff94;
-  background: linear-gradient(#ffff94,  #ffffdd);
+  background: var(--Bible);
+  background: linear-gradient(var(--Bible),  var(--BibleL));
   padding: 10px;
 }
 
 .sectGeneral {
   width: 97%;
   margin: auto;
-  /* border: 3px solid #4F3F49; */
 }
 
 .infoBox {

@@ -8,6 +8,18 @@
   --text: black;
   --anchor: #000080;
   --anchorHover: #800080;
+  --heading: #4F3F49;
+  --teaching: #9494ff;
+  --teachingL: #ddddff;
+  --readings: #94ffff;
+  --readingsL: #ddddff;
+  --plan: #94ff94;
+  --planL: #ddffdd;
+  --Bible: #ffff94;
+  --BibleL: #ffffdd;
+
+  --border: #4F3F49;
+
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,6 +28,16 @@
     --text: #fff6e5;
     --anchor: #80a0ff;
     --anchorHover: #aa00aa;
+    /* --heading: #dbcfdb; */
+    /* --teaching: #291f41;
+    --teachingL: #514769;
+    --readings: #294141;
+    --readingsL: #516969;
+    --plan: #294129;
+    --planL: #516951;
+    --Bible: #967300;
+    --BibleL: #a78000;
+    --BibleL: #967300aa; */
   }
 }
 
@@ -31,7 +53,7 @@ body {
 
 body {
   font-family: 'Lato', sans-serif;
-  border: 3px solid #4F3F49;
+  border: 3px solid var(--heading);
 }
 
 h1 {
@@ -41,7 +63,7 @@ h1 {
   margin-bottom: 7px;
   font-size: 21pt;
   text-align: center;
-  color: #4F3F49;
+  color: var(--heading);
 }
 
 h2 {
@@ -51,7 +73,7 @@ h2 {
   margin-bottom: 7px;
   font-size: 16pt;
   text-align: center;
-  color: #4F3F49;
+  color: var(--heading);
 }
 
 h3 {
