@@ -3,6 +3,27 @@
     Author     : Carl Nielsen
 */
 
+:root {
+  --bg: white;
+  --text: black;
+  --anchor: #000080;
+  --anchorHover: #800080;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #100f10;
+    --text: #fff6e5;
+    --anchor: #80a0ff;
+    --anchorHover: #aa00aa;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -53,12 +74,12 @@ ol, ul {
 
 a {
     text-decoration: none;
-    color: navy;
+    color: var(--anchor);
     font-weight: bold;
 }
 
 a:hover {
-    color: purple;
+    color: var(--anchorHover);
 }
 
 sup {
