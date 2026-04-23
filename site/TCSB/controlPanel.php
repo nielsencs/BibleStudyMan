@@ -1,32 +1,34 @@
 <div id="controlPanel">
-  <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="showWait();">
+  <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="doSubmit('');">
     <input type="hidden" name="priority" id="priority" value="<?php echo htmlspecialchars($tPriority ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
     <div id="planSection" class="panelStageSection">
+      <button class="plan" onclick="dayDirection('pd')" style="display:none">&nbsp;&lt;&nbsp;</button>
       <table class="searchTable">
         <tbody class="plan">
           <tr>
             <td colspan="2">
+              <input type="button" value="&lt;" class="dayButton" onclick="dayDirection('pd')">
               <select name="month" id="month" onchange="doSubmit('month')">
 <?php
   echo prepareDropdownMonthList($iMonth);
 ?>
               </select>
-              <input type="button" value="&lt;" onclick="dayDirection('pd')">
               <input type="hidden" name="dayNext" id="dayNext" value="">
               <select name="day" id="day" onchange="doSubmit('day')">
 <?php
   echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);
 ?>
               </select>
-              <input type="button" value="&gt;" onclick="dayDirection('nd')">
             </td>
             <td>
               <input type="button" value="Today" onclick="dayDirection('today')">
+              <input type="button" value="&gt;" class="dayButton" onclick="dayDirection('nd')">
             </td>
           </tr>
         </tbody>
       </table>
+      <button class="plan" onclick="dayDirection('nd')" style="display:none">&nbsp;&gt;&nbsp;</button>
     </div>
 
     <div id="findSection" class="panelStageSection collapsed">
@@ -34,8 +36,7 @@
         <tbody class="Bible">
           <tr>
             <td colspan="3">
-              <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
-              <br>
+              <input type="search" name="words" id="words" placeholder="Search..." value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
               <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
                      onclick="doSubmit('words')">
               <label for="exact"><abbr title="If this is checked you'll tend to
@@ -49,15 +50,15 @@ exact word.">Exact</abbr></label>
             <td colspan="3">
               <input type="button" name="clearAll" id="clearAll" value="Clear" onclick="clearAllFields('bible')">
               &nbsp;&nbsp;&nbsp;
-              <input type="submit" value="Search">
+              <input type="submit" value="Search" onclick="document.searchForm.priority.value = 'Bible';">
             </td>
           </tr>
           <tr>
             <td>
-              <input type="button" value="&lt;" onclick="doDirection('pb')">
+              <input type="button" value="&lt;" onclick="doDirection('pb')" style="display:none">
               &nbsp;<abbr title="The Bible is a library of books.
               You can select one of them here.">Book</abbr>&nbsp;
-              <input type="button" value="&gt;" onclick="doDirection('nb')">
+              <input type="button" value="&gt;" onclick="doDirection('nb')" style="display:none">
               <br>
               <select name="book" id="book" onchange="doSubmit('book')">
                 <option value=""></option>
@@ -67,11 +68,11 @@ exact word.">Exact</abbr></label>
               </select>
             </td>
             <td colspan="2">
-              <input type="button" value="&lt;" onclick="doDirection('pc')">
+              <input type="button" value="&lt;" onclick="doDirection('pc')" style="display:none">
               &nbsp;<abbr title="The books in The Bible are divided
               into chapters; once you&apos;ve picked a
               book, you can pick a chapter here.">Chapter</abbr>&nbsp;
-              <input type="button" value="&gt;" onclick="doDirection('nc')">
+              <input type="button" value="&gt;" onclick="doDirection('nc')" style="display:none">
               <br>
               <input type="hidden" name="chapterNext" id="chapterNext" value="">
               <select name="chapter" id="chapter" onchange="doSubmit('chapter')">
@@ -88,22 +89,20 @@ exact word.">Exact</abbr></label>
     </div>
 
     <div id="prefsSection" class="panelStageSection collapsed searchOptions">
-      <p>For certain <abbr
+      <input type="checkbox" name="highlightSW" id="highlightSW"
+      <?php if($bHighlightSW){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">Highlight</span> <abbr
         title="Things like the various words for God
 and words that can have a variety of
 translations. For example in both
 Hebrew and Greek a certain word 
-can mean spirit or breath or breeze.">interesting</abbr> words:<br>
-        <input type="checkbox" name="highlightSW" id="highlightSW"
-        <?php if($bHighlightSW){echo 'checked';} ?>
-            onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">highlight</span> them</label><br>
-        <input type="checkbox" name="showOW" id="showOW"
-        <?php if($bShowOW){echo 'checked';} ?>
-            onclick="doSubmit()"><label for="showOW">Show Hebrew/Greek</label><br>
-        <input type="checkbox" name="showTN" id="showTN"
-        <?php if($bShowTN){echo 'checked';} ?>
-            onclick="doSubmit()"><label for="showTN">Show Translated Names</label><br>
-      </p>
+can mean spirit or breath or breeze.">significant</abbr> words</label><br>
+      <input type="checkbox" name="showOW" id="showOW"
+      <?php if($bShowOW){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="showOW">Show their source language</label><br>
+      <input type="checkbox" name="showTN" id="showTN"
+      <?php if($bShowTN){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="showTN">Prefer translated names</label>
     </div>
   </form>
 </div>
