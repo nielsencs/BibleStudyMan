@@ -225,7 +225,6 @@
 
 .searchTable {
   background: #EEEEDD;
-  border: 3px solid #FF0000;
   margin-top: 21px;
 }
 
@@ -245,4 +244,11 @@
   pointer-events: none;
   background-color: #ffff94;
   background-color: rgba(255, 255, 148, 0.3);
+}
+
+.bibleDisclaimer {
+  font-size: smaller;
+  text-align: center;
+  margin-top: 7px;
+  padding-top: 3rem;
 }
