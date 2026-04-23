@@ -1,0 +1,88 @@
+body{
+  font-family: Geist, sans-serif;
+}
+
+.bibleNavRight, .bibleNavMiddle, .bibleNavLeft {
+  display: flex;
+}
+
+.bibleNav button {
+  padding: 7px;
+  width: 32px;
+}
+
+.TCSB {
+  background: #443656;
+  background: linear-gradient(#5b4677,  #997bbe);
+  padding: 14px;
+}
+
+h1, h2, h3, h4, h5, h6, .footNav {
+  font-family: 'Lexend', sans-serif;
+}
+
+.TCSB h1{
+  color: #fff6c8;
+}
+
+.menu, #controlPanel, .footer {
+  /* background-color: #302342; /* original */
+  background-color: #12002dcc; /* matches original but with transparency over white */
+}
+
+#waitOverlay {
+  background: rgb(210 148 255 / 30%);
+}
+
+.panelStageSection {
+  overflow: hidden;
+  transition: max-height 0.25s ease, opacity 0.25s ease, padding 0.25s ease;
+  max-height: 1000px;
+  opacity: 1;
+  padding: 0 0 3px 0;
+}
+
+.panelStageSection.collapsed {
+  max-height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0 auto;
+}
+
+#prefsSection{
+  border-radius: 7px;
+}
+
+#controlPanel .searchTable {
+  border-collapse: collapse;
+}
+
+#controlPanel .searchTable, #prefsSection{
+  width: 290px;
+}
+
+input {
+    accent-color: #04a4af;
+}
+
+input[type="button"] input[type="submit"] {
+    padding: 3px;
+    margin: 3px;
+} 
+
+.dayButton {
+  width: 23px;
+}
+
+.mainNav {
+  padding: 3px;
+}
+
+.logo {
+  height: auto;
+  padding: 0 0 0 3px;
+}
+
+.search-result__title {
+  padding: 5rem 0 0 0;
+}

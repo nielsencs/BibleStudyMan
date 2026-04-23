@@ -1,0 +1,155 @@
+<?php
+	$tHeader = "";
+	$tHeader .= "Content-Security-Policy: default-src 'self';";
+	$tHeader .= " style-src 'self' 'unsafe-inline' fonts.googleapis.com;";
+	$tHeader .= " font-src 'self' fonts.googleapis.com fonts.gstatic.com;";
+	$tHeader .= " img-src 'self' www.paypalobjects.com  gallery.eo.page/tentacles/icons/v1/powered-by/otto.svg;";
+	$tHeader .= " script-src 'self' 'unsafe-inline' www.google.com www.gstatic.com;";
+	$tHeader .= " script-src-elem 'self' 'unsafe-inline' eocampaign1.com/form/7062f448-850b-11ec-9835-06b4694bee2a.js www.google.com/recaptcha/api.js www.gstatic.com/recaptcha/releases/ c6.patreon.com/becomePatronButton.bundle.js;";
+  $tHeader .= " frame-src www.youtube.com w.soundcloud.com www.patreon.com;";
+
+  header($tHeader);
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<?php
+  if (strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php')){
+    $bBible = $bPlan = true;
+  } else {
+    $bBible = $bPlan = false;
+  }
+
+  $bFloaty = true; //false; // is the control panel 'floaty'?
+  $bTCSB = true; //false; // Are we in the TCSB app'?
+
+  $tPriority = filter_input(INPUT_GET, 'priority', FILTER_UNSAFE_RAW);
+
+  require_once '../../sqlCon_H.php';
+?>
+
+<head>
+  <title>The CleanSlate Bible</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" type="text/css" href="../styles/resetRichardClark.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Londrina+Solid:300&display=swap"> -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Lexend:wght@100..900&display=swap">
+
+  <link rel="stylesheet" type="text/css" href="../styles/general.css">
+  <link rel="stylesheet" type="text/css" href="../styles/input.css">
+  <link rel="stylesheet" type="text/css" href="../styles/pages.css">
+  <link rel="stylesheet" type="text/css" href="../styles/menus.css">
+  <link rel="stylesheet" type="text/css" href="../styles/tables.css">
+  <link rel="stylesheet" type="text/css" href="styles/TCSB.css">
+
+  <script src="../scripts/jquery-3.5.1.min.js"></script>
+  <script src='https://www.google.com/recaptcha/api.js'></script>
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+  <!-- <link rel="apple-touch-icon" sizes="57x57" href="../icons/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="../icons/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="../icons/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="../icons/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="../icons/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="../icons/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="../icons/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="../icons/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192"  href="../icons/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="../icons/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png"> -->
+  <link rel="manifest" href="../manifest.webmanifest">
+  <meta name="msapplication-TileColor" content="#ffffff">
+  <meta name="msapplication-TileImage" content="../icons/ms-icon-144x144.png">
+  <meta name="theme-color" content="#ffffff">
+  <script src="../scripts/app.js"></script>
+<?php
+  if ($bBible || $bPlan){
+    echo '<script src="scripts/search.js"></script>' . PHP_EOL;
+    echo '<script src="scripts/controlPanel.js"></script>' . PHP_EOL;
+  }
+?>
+</head>
+
+<body>
+  <div id="waitOverlay"></div><!--Used to cover the page with a transparent overlay when the user clicks 'search' to show them the search is running. -->
+  <div class="content">
+    <noscript>
+      <h1 class="centerText">It seems that you currently don&apos;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
+    </noscript>
+
+    <div class="menu-wrapper">
+      <header class="menu">
+      <nav class="mainNav">
+        <img class="logo" src="images/TCSBLogoSmall.png" alt="TCSB logo">
+
+        <ul class="nav">
+          <li><a href="home">Home</a></li>
+          <li><a href="pricing">Pricing</a></li>
+          <li><a href="supportMe">Support&nbsp;Me</a></li>
+        </ul>
+      </nav>
+
+<?php
+if ($bBible || $bPlan){
+  require_once '../timeStamp.php';
+  require_once '../dbFunctions.php';
+  require_once 'search.php';
+  require_once '../planFunctions.php';
+}
+?>
+
+      <div class="bibleNav">
+<?php if ($bBible || $bPlan){ ?>
+        <div class="bibleNavLeft">
+  <?php if ($bBible || $bPlan){ ?>
+          <!-- <button class="plan" onclick="dayDirection('pd')">&lt;D</button> -->
+          <button class="Bible" onclick="doDirection('pb')">&lt;&lt;</button>
+          <button class="Bible" onclick="doDirection('pc')">&lt;</button>
+  <?php } ?>
+        </div>
+  <?php if ($bFloaty) { ?>
+        <div class="bibleNavMiddle">
+          <!-- <label for="planToggle" style="white-space: nowrap;"><input type="checkbox" name="planToggle" id="planToggle" checked>Plan</label> -->
+          <input type="checkbox" name="planToggle" id="planToggle" checked style="display:none">
+          <label for="findToggle" style="white-space: nowrap;"><input type="checkbox" name="findToggle" id="findToggle" checked>Search</label>
+          <label for="prefsToggle" style="white-space: nowrap;"><input type="checkbox" name="prefsToggle" id="prefsToggle">Options</label>
+        </div>
+  <?php } ?>
+        <div class="bibleNavRight">
+  <?php if ($bBible || $bPlan){ ?>
+          <button class="Bible" onclick="doDirection('nc')">&gt;</button>
+          <button class="Bible" onclick="doDirection('nb')">&gt;&gt;</button>
+          <!-- <button class="plan" onclick="dayDirection('nd')">D&gt;</button> -->
+  <?php } ?>
+        </div>
+<?php } ?>
+      </div>
+    </header>
+<?php
+  if ($bPlan) {
+    $todaysVerses = '';
+  }
+  if ($bBible) {
+    $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
+    if($atBookChapSearch[0] > ''){ // book found in search
+      $tBook = $atBookChapSearch[0];
+      if($atBookChapSearch[1] > ''){ // chapter found in search
+        $tChapter = $atBookChapSearch[1];
+        if($atBookChapSearch[2] > ''){ // verses found in search
+          $tVerses = $atBookChapSearch[2];
+        }
+      }
+    }
+    $tWords = $atBookChapSearch[3];
+}
+?>
+<?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
+    </div><!-- menu-wrapper -->
