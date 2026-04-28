@@ -119,7 +119,8 @@ if ($bBible || $bPlan){
         <div class="bibleNavMiddle">
           <!-- <label for="planToggle" style="white-space: nowrap;"><input type="checkbox" name="planToggle" id="planToggle" checked>Plan</label> -->
           <input type="checkbox" name="planToggle" id="planToggle" checked style="display:none">
-          <label for="findToggle" style="white-space: nowrap;"><input type="checkbox" name="findToggle" id="findToggle" checked>Search</label>
+          <!-- <label for="findToggle" style="white-space: nowrap;"><input type="checkbox" name="findToggle" id="findToggle" checked>Search</label> -->
+          <input type="checkbox" name="findToggle" id="findToggle" checked style="display:none">
           <label for="prefsToggle" style="white-space: nowrap;"><input type="checkbox" name="prefsToggle" id="prefsToggle">Options</label>
         </div>
   <?php } ?>
