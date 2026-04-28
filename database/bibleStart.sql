@@ -8,7 +8,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 -- Uncomment ONLY if you are creating a FRESH INSTALLATION
--- CREATE DATABASE IF NOT EXISTS bible DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+-- CREATE DATABASE IF NOT EXISTS bible DEFAULT CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci;
 -- USE bible;
 
 DROP TABLE IF EXISTS sections;
@@ -691,6 +691,7 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PSA', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PSA', 'Psm');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('PSA', 'Pss');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('REV', 'Re');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('REV', 'Rv');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('REV', 'Rev');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('REV', 'Revelation');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('REV', 'The Revelation');
