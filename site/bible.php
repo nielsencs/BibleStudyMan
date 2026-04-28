@@ -203,7 +203,7 @@ function intToWords($x) {
 
   if (!is_numeric($x)) {
     $tNWord = '#';
-  } else if (fmod($x, 1) != 0) {
+  } elseif (fmod($x, 1) != 0) {
     $tNWord = '#';
   } else {
     if ($x < 0) {
@@ -215,19 +215,19 @@ function intToWords($x) {
     // ... now $x is a non-negative integer.
     if ($x < 21) {  // 0 to 20
       $tNWord .= $atNWords[$x];
-    } else if ($x < 100) {  // 21 to 99
+    } elseif ($x < 100) {  // 21 to 99
       $tNWord .= $atNWords[10 * floor($x / 10)];
       $r = fmod($x, 10);
       if ($r > 0) {
         $tNWord .= '-' . $atNWords[$r];
       }
-    } else if ($x < 1000) {  // 100 to 999
+    } elseif ($x < 1000) {  // 100 to 999
       $tNWord .= $atNWords[floor($x / 100)] . ' ' . $atNWords['hundred'];
       $r = fmod($x, 100);
       if ($r > 0) {
         $tNWord .= ' ' . $atNWords['separator'] . ' ' . intToWords($r);
       }
-    } else if ($x < 1000000) {  // 1000 to 999999
+    } elseif ($x < 1000000) {  // 1000 to 999999
       $tNWord .= intToWords(floor($x / 1000)) . ' ' . $atNWords['thousand'];
       $r = fmod($x, 1000);
       if ($r > 0) {
