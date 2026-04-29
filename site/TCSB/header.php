@@ -110,7 +110,7 @@ if ($bBible || $bPlan){
 <?php if ($bBible || $bPlan){ ?>
         <div class="bibleNavLeft">
   <?php if ($bBible || $bPlan){ ?>
-          <!-- <button class="plan" onclick="dayDirection('pd')">&lt;D</button> -->
+          <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
           <button class="Bible" onclick="doDirection('pb')">&lt;&lt;</button>
           <button class="Bible" onclick="doDirection('pc')">&lt;</button>
   <?php } ?>
@@ -128,7 +128,7 @@ if ($bBible || $bPlan){
   <?php if ($bBible || $bPlan){ ?>
           <button class="Bible" onclick="doDirection('nc')">&gt;</button>
           <button class="Bible" onclick="doDirection('nb')">&gt;&gt;</button>
-          <!-- <button class="plan" onclick="dayDirection('nd')">D&gt;</button> -->
+          <button class="plan" onclick="dayDirection('nd')">D&gt;</button>
   <?php } ?>
         </div>
 <?php } ?>
