@@ -8,7 +8,7 @@
         <tbody class="plan">
           <tr>
             <td colspan="2">
-              <input type="button" value="&lt;" class="dayButton" onclick="dayDirection('pd')">
+              <!-- <input type="button" value="&lt;" class="dayButton" onclick="dayDirection('pd')"> -->
               <select name="month" id="month" onchange="doSubmit('month')">
 <?php
   echo prepareDropdownMonthList($iMonth);
@@ -23,7 +23,7 @@
             </td>
             <td>
               <input type="button" value="Today" onclick="dayDirection('today')">
-              <input type="button" value="&gt;" class="dayButton" onclick="dayDirection('nd')">
+              <!-- <input type="button" value="&gt;" class="dayButton" onclick="dayDirection('nd')"> -->
             </td>
           </tr>
         </tbody>
@@ -31,7 +31,7 @@
       <button class="plan" onclick="dayDirection('nd')" style="display:none">&nbsp;&gt;&nbsp;</button>
     </div>
 
-    <div id="findSection" class="panelStageSection collapsed">
+    <div id="findSection" class="panelStageSection">
       <table class="searchTable">
         <tbody class="Bible">
           <tr>
@@ -99,10 +99,10 @@ Hebrew and Greek a certain word
 can mean spirit or breath or breeze.">significant</abbr> words</label><br>
       <input type="checkbox" name="showOW" id="showOW"
       <?php if($bShowOW){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="showOW">Show their source language</label><br>
+          onclick="doSubmit()"><label for="showOW">Show original and English</label><br>
       <input type="checkbox" name="showTN" id="showTN"
       <?php if($bShowTN){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="showTN">Prefer translated names</label>
+          onclick="doSubmit()"><label for="showTN">Prefer English</label>
     </div>
   </form>
 </div>
