@@ -89,7 +89,7 @@ exact word.">Exact</abbr></label>
             <td>
               <input type="button" value="&lt;" onclick="doDirection('pb')" style="display:none">
               &nbsp;<abbr title="The Bible is a library of books.
-              You can select one of them here.">Book</abbr>&nbsp;
+You can select one of them here.">Book</abbr>&nbsp;
               <input type="button" value="&gt;" onclick="doDirection('nb')" style="display:none">
               <br>
               <select name="book" id="book" onchange="doSubmit('book')">
@@ -102,8 +102,8 @@ exact word.">Exact</abbr></label>
             <td colspan="2">
               <input type="button" value="&lt;" onclick="doDirection('pc')" style="display:none">
               &nbsp;<abbr title="The books in The Bible are divided
-              into chapters; once you&apos;ve picked a
-              book, you can pick a chapter here.">Chapter</abbr>&nbsp;
+into chapters; once you&apos;ve picked a
+book, you can pick a chapter here.">Chapter</abbr>&nbsp;
               <input type="button" value="&gt;" onclick="doDirection('nc')" style="display:none">
               <br>
               <input type="hidden" name="chapterNext" id="chapterNext" value="">
@@ -131,7 +131,7 @@ can mean spirit or breath or breeze.">significant</abbr> words:</p>
           onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">Highlight</span> them</label><br>
       <input type="checkbox" name="showOW" id="showOW"
       <?php if($bShowOW){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="showOW">Show original language and English</label><br>
+          onclick="doSubmit()"><label for="showOW">Show in both languages</label><br>
       <input type="checkbox" name="showTN" id="showTN"
       <?php if($bShowTN){echo 'checked';} ?>
           onclick="doSubmit()"><label for="showTN">Prefer English</label>
