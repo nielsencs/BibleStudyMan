@@ -1,4 +1,36 @@
 <div id="controlPanel">
+  <!-- abbr-tooltip.js for mobile-friendly abbr tooltips -->
+  <script src="../scripts/abbr-tooltip.js"></script>
+  <style>
+    .abbr-tooltip-box {
+      position: absolute;
+      z-index: 9999;
+      background: #fffbe8;
+      color: #222;
+      border: 1px solid #888;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px #0002;
+      padding: 0.7em 2.2em 0.7em 1em;
+      font-size: 1em;
+      max-width: 90vw;
+      min-width: 180px;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+    .abbr-tooltip-close {
+      position: absolute;
+      top: 0.2em;
+      right: 0.5em;
+      background: none;
+      border: none;
+      font-size: 1.2em;
+      color: #888;
+      cursor: pointer;
+    }
+    .abbr-tooltip-close:active {
+      color: #c00;
+    }
+  </style>
   <form name="searchForm" id="searchForm" action="home" method="get" onsubmit="doSubmit('');">
     <input type="hidden" name="priority" id="priority" value="<?php echo htmlspecialchars($tPriority ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
@@ -89,17 +121,17 @@ exact word.">Exact</abbr></label>
     </div>
 
     <div id="prefsSection" class="panelStageSection collapsed searchOptions">
-      <input type="checkbox" name="highlightSW" id="highlightSW"
-      <?php if($bHighlightSW){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">Highlight</span> <abbr
-        title="Things like the various words for God
+      <p class="centerText">For certain <abbr title="Things like the various words for God
 and words that can have a variety of
 translations. For example in both
 Hebrew and Greek a certain word 
-can mean spirit or breath or breeze.">significant</abbr> words</label><br>
+can mean spirit or breath or breeze.">significant</abbr> words:</p>
+      <input type="checkbox" name="highlightSW" id="highlightSW"
+      <?php if($bHighlightSW){echo 'checked';} ?>
+          onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">Highlight</span> them</label><br>
       <input type="checkbox" name="showOW" id="showOW"
       <?php if($bShowOW){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="showOW">Show original and English</label><br>
+          onclick="doSubmit()"><label for="showOW">Show original language and English</label><br>
       <input type="checkbox" name="showTN" id="showTN"
       <?php if($bShowTN){echo 'checked';} ?>
           onclick="doSubmit()"><label for="showTN">Prefer English</label>
