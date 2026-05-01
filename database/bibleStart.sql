@@ -127,7 +127,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0281', 0, 'amen', 'Absolutely', 'Amen! Absolutely! Most-certainly! Mark The Words. So be it. Emphatic YES! So let it be written, so let it be done. Truly. With all emphasis. Listen! If you get *one* thing... The Hebrew root amen also conveys meanings of firmness, reliability, and faithfulness.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0435', 0, 'aner', 'man', 'An adult male human.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0444', 0, 'anthropos', 'people', 'Often translated \'men\' but is not gender specific - so humans, people, humankind.');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0500', 0, 'antikristos', 'false-anointed-one', 'Christ and Messiah both mean Anointed One. An opposer of AnointedOne. Antichrist.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0500', 0, 'antikristos', 'anti-AnointedOne', 'Christ and Messiah both mean Anointed One. An opposer of AnointedOne. Antichrist.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0652', 0, 'apostolos', 'ambassador', 'Apostle is merely a transliteration of the Greek, which means \'sent out one\', \'set apart one\'. I believe ambassador is the most meaningful modern English equivalent.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G0862', 0, 'afthartos', 'permanent', 'Un-temporary; imperishable; immortal; permanent');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G1203', 0, 'Despotes', 'Master', 'Master - the English \'despot\' comes from this word.');
@@ -171,7 +171,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5509', 0, 'chiton', 'tunic', 'Strictly a tunic but often the main or only garment worn, either by men or women. Robe; clothing; undergarment.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5546', 0, 'kristianos', 'christian', 'Christian; \'one belonging to Christ\'; Messianic believer;');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5547', 0, 'Kristos', 'AnointedOne', 'Christ and Messiah both mean Anointed One');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5580', 0, 'pseudokristos', 'false-anointed-ones', 'Christ and Messiah both mean Anointed One. Ungodly imitators of Jesus Christ will come who make bold claims but are not Him.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G5580', 0, 'pseudokristos', 'false-AnointedOnes', 'Christ and Messiah both mean Anointed One. Ungodly imitators of Jesus Christ will come who make bold claims but are not Him.');
 
 DROP TABLE IF EXISTS books;
 CREATE TABLE books (
