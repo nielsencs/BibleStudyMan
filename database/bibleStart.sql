@@ -82,6 +82,7 @@ CREATE TABLE strongs (
 
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0113', 0, 'adon', 'lord', 'Adon - lord or master as opposed to Adonai{H0136}, LordOfMine');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0136', 0, 'Adonai', 'LordOfMine', 'Only ever applied to God in the hebrew Bible it essentially means My Lord. An emphatic form of \'adon{H0113}\'.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0347', 1, 'Job/Iyov', 'HatedOne', 'HatedOne. From the primitive root ayab{H0340}; to hate (as one of an opposite tribe or party); hence to be hostile - be an enemy');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0403', 0, 'aken', 'surely', 'Surely, truly, sometimes emphasising a contrast: however');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0410', 0, 'El', 'God', 'Singular God as opposed to the plural Elohim{H0430}');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H0426', 0, 'Elah', 'God', 'Elah - singular of Elohim{H0430} God or god');
@@ -142,6 +143,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2209', 0, 'zemia', 'damage', '\'damage/loss\' loss, damage');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2296', 0, 'thaumazo', 'stunned', 'To be stunned, to wonder, be (utterly) amazed, marvel, to wonder at, wonder greatly.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 0, 'Theopneustos', 'Godbreathed', 'Literally the breath/wind/spirit-making of God. God breathed as one word. Only occurs once in 2 Timothy 3:16');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 1, 'Theophilus', 'FriendOfGod', 'The name Theophilus is a contraction of Theos{2316} and philos{G5384}.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2364', 0, 'thugater', 'daughter', 'Daughter, and by extension a term of endearment, usually towards younger women');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2519', 0, 'kathegetes', 'teacher', 'teacher');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2634', 0, 'katakurieuo', 'master', 'master - \'against-lord\'');
@@ -1378,8 +1380,8 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 637, 272, '2NV1', 'JER', 51, 24, 51, 48);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 638, 273, '2NV1', 'JER', 51, 49, 52, 11);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 639, 274, '2NV1', 'JER', 52, 12, 52, 34);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 640, 275, '2NV1', 'EZE', 1, 1, 1, 27);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 641, 276, '2NV1', 'EZE', 1, 28, 3, 19);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 640, 275, '2NV1', 'EZE', 1, 0, 0, 0);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 641, 276, '2NV1', 'EZE', 2, 1, 3, 19);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 642, 277, '2NV1', 'EZE', 3, 20, 4, 17);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 643, 278, '2NV1', 'EZE', 5, 0, 0, 0);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 644, 279, '2NV1', 'EZE', 6, 1, 7, 13);
