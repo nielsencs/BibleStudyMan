@@ -20,11 +20,12 @@ services:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
+      - ./database/bibleComplete.sql:/docker-entrypoint-initdb.d/01-bibleComplete.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
       interval: 5s
       timeout: 5s
-      retries: 20
+      retries: 40
 
 volumes:
   dbdata:
