@@ -1,1 +1,1 @@
-type bibleStart.sql bibleVerses.sql > bibleComplete.sql
+type bibleStart.sql bibleCompletedVerses.sql bibleVerses.sql > bibleComplete.sql
