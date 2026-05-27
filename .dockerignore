@@ -1,0 +1,8 @@
+.git
+.env
+vendor/
+node_modules/
+nbproject/private/
+ProbableJunk!/
+media/
+*.stackdump

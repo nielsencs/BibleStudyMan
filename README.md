@@ -30,11 +30,27 @@ Docker Compose version v2.32.4
    ```
 4. Seed the database in a separate terminal:
    ```sh
-   docker exec -i biblestudyman-db-1 mysql -uroot -pmyrootpass bible < ./database/bibleComplete.sql
+   ./scripts/seed-db.sh
    ```
-   Ignore password warnings
+   Ignore password warnings from MySQL if they appear.
 5. Access the site:
    [http://localhost:8080/site/](http://localhost:8080/site/)
+
+### Safety checks
+
+Run PHP syntax checks:
+
+```sh
+./scripts/php-lint.sh
+```
+
+Run basic local smoke tests after starting and seeding the Docker environment:
+
+```sh
+python3 scripts/smoke-test.py
+```
+
+These checks are deliberately simple: they prove the old site still starts and key pages do not show obvious PHP/database fatal errors.
 
 ### Managing the Environment
 

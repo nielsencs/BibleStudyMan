@@ -35,6 +35,10 @@ test*.php
 test*.html
 sqlCon.php
 
+# Python cache
+__pycache__/
+*.pyc
+
 # as the name suggests!
 /ProbableJunk!/
 
