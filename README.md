@@ -19,7 +19,7 @@ Docker Compose version v2.32.4
 
 ### Setup Steps
 
-The lowest-faff route on Windows is PowerShell:
+The lowest-faff route on Windows is PowerShell. Start Docker Desktop first and wait until it says it is running, then:
 
 ```powershell
 ./scripts/local-up.ps1
