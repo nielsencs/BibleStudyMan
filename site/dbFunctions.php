@@ -634,18 +634,18 @@ function highlightSearch($tValue, $highlightWords = [], $highlightIsExact = fals
 // ============================================================================
 function highlightWords(array $words, string $haystack, bool $exactMatch = false): string {
 // ============================================================================
-    $words = array_unique(array_map(fn($input) => strtolower(trim($input)), $words));
-    $words = array_filter($words);
+    $words = array_values(array_filter(array_map(fn($input) => strtolower(trim($input)), $words)));
 
     if (empty($words)) {
         return $haystack;
     }
 
-    // Conditionally add word boundaries for exact matching
-    $boundary = $exactMatch ? '\\b' : '';
+    if ($exactMatch) {
+        return highlightExactWordSequence($words, $haystack);
+    }
 
-    // The pattern for the words to highlight
-    $highlightPattern = '/' . $boundary . '(' . implode('|', array_map('preg_quote', $words)) . ')' . $boundary . '/i';
+    $words = array_unique($words);
+    $highlightPattern = '/(' . implode('|', array_map('preg_quote', $words)) . ')/i';
     $replacementCallback = fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>";
 
     // Split the haystack into text nodes, HTML tags, and HTML entities. Entities
@@ -668,6 +668,82 @@ function highlightWords(array $words, string $haystack, bool $exactMatch = false
 }
 
 // ============================================================================
+function highlightExactWordSequence(array $searchWords, string $haystack): string {
+// ============================================================================
+    $parts = preg_split('/(<[^>]*>|&[a-zA-Z0-9#]+;)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
+    $tokens = [];
+
+    $insideSub = false;
+    foreach ($parts as $partIndex => $part) {
+        if (!isset($part[0])) {
+            continue;
+        }
+        if ($part[0] === '<') {
+            if (preg_match('/^<\s*sub\b/i', $part)) {
+                $insideSub = true;
+            } elseif (preg_match('/^<\s*\/\s*sub\s*>/i', $part)) {
+                $insideSub = false;
+            }
+            continue;
+        }
+        if ($part[0] === '&' || $insideSub) {
+            continue;
+        }
+
+        if (preg_match_all('/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*/', $part, $matches, PREG_OFFSET_CAPTURE)) {
+            foreach ($matches[0] as $match) {
+                $normalisedWords = array_values(array_filter(explode(' ', normalise_search_text_for_matching($match[0]))));
+                if (!empty($normalisedWords)) {
+                    $tokens[] = [
+                        'part_index' => $partIndex,
+                        'start' => $match[1],
+                        'end' => $match[1] + strlen($match[0]),
+                        'normalised_words' => $normalisedWords,
+                    ];
+                }
+            }
+        }
+    }
+
+    $highlightRangesByPart = [];
+    $tokenCount = count($tokens);
+    for ($startToken = 0; $startToken < $tokenCount; $startToken++) {
+        $matchedWords = [];
+        $matchedTokens = [];
+
+        for ($tokenIndex = $startToken; $tokenIndex < $tokenCount && count($matchedWords) < count($searchWords); $tokenIndex++) {
+            $matchedWords = array_merge($matchedWords, $tokens[$tokenIndex]['normalised_words']);
+            $matchedTokens[] = $tokens[$tokenIndex];
+        }
+
+        if ($matchedWords === $searchWords) {
+            foreach ($matchedTokens as $token) {
+                // Do not highlight a lone possessive "s" token from searches such
+                // as "God's anger"; it is only there to help matching.
+                if ($token['normalised_words'] === ['s']) {
+                    continue;
+                }
+                $highlightRangesByPart[$token['part_index']][] = [$token['start'], $token['end']];
+            }
+        }
+    }
+
+    foreach ($highlightRangesByPart as $partIndex => $ranges) {
+        usort($ranges, fn($a, $b) => $b[0] <=> $a[0]);
+        foreach ($ranges as $range) {
+            $part = $parts[$partIndex];
+            $parts[$partIndex] = substr($part, 0, $range[0])
+                . '<span class="highlightWord">'
+                . substr($part, $range[0], $range[1] - $range[0])
+                . '</span>'
+                . substr($part, $range[1]);
+        }
+    }
+
+    return implode('', $parts);
+}
+
+// ============================================================================
 function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
     $normalisedSearchTerms = normalise_search_text_for_matching($searchTerms);
@@ -684,7 +760,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
         // punctuation, HTML/Strong's markup, and TCSB forms such as "you-all".
         $sqlWhereClause = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
         $sqlParams[] = '% ' . $normalisedSearchTerms . ' %';
-        $highlightWords = $wordsToHighlight;
+        $highlightWords = $words;
         $highlightIsExact = true;
 
     } else { // Not an exact search

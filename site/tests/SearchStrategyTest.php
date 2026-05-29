@@ -51,18 +51,36 @@ assertContainsText("'-all'", $exactYouAll['sql_where'], 'exact search SQL remove
 
 $exactGodsAnger = get_search_strategy("god's anger", true);
 assertSame(['% god s anger %'], $exactGodsAnger['sql_params'], 'exact search still matches apostrophe possessive as normalised words');
-assertSame(['god', 'anger'], $exactGodsAnger['highlight_words'], 'highlighting ignores standalone possessive s');
+assertSame(['god', 's', 'anger'], $exactGodsAnger['highlight_words'], 'exact highlighting receives the same normalised words as exact search');
 
 assertSame(
     '<span class="highlightOW"><span class="highlightWord">God</span></span> <sub>(Elohim)</sub>&apos;s <span class="highlightWord">anger</span>',
-    highlightWords(['god', 'anger'], '<span class="highlightOW">God</span> <sub>(Elohim)</sub>&apos;s anger', true),
-    'highlighting preserves HTML entities around possessives'
+    highlightWords(['god', 's', 'anger'], '<span class="highlightOW">God</span> <sub>(Elohim)</sub>&apos;s anger', true),
+    'exact highlighting preserves HTML entities around possessives'
 );
 
 assertSame(
     '&apos;s',
     highlightWords(['apo'], '&apos;s', true),
     'highlighting never splits HTML entities'
+);
+
+assertSame(
+    'God scattered <span class="highlightWord">God</span> <span class="highlightWord">said</span> <span class="highlightWord">Light</span>',
+    highlightWords(['god', 'said', 'light'], 'God scattered God said Light', true),
+    'exact highlighting marks only the matched word sequence, not every word occurrence'
+);
+
+assertSame(
+    '<span class="highlightWord">You-all</span> <span class="highlightWord">are</span> <span class="highlightWord">the</span> <span class="highlightWord">light</span>',
+    highlightWords(['you', 'are', 'the', 'light'], 'You-all are the light', true),
+    'exact highlighting follows TCSB you-all normalisation'
+);
+
+assertSame(
+    '<span class="highlightWord">Selflessly-love</span> your neighbor',
+    highlightWords(['selflessly', 'love'], 'Selflessly-love your neighbor', true),
+    'exact highlighting follows hyphen normalisation'
 );
 
 $looseSelfless = get_search_strategy('selflessly love', false);
