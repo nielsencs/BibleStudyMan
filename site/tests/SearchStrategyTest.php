@@ -83,6 +83,12 @@ assertSame(
     'exact highlighting follows hyphen normalisation'
 );
 
+assertSame(
+    '<span class="highlightWord">Selflessly-love</span> <span class="highlightWord">your</span> <span class="highlightWord">neighbor</span>',
+    highlightWords(['love', 'your', 'neighbor'], 'Selflessly-love your neighbor', true),
+    'exact highlighting can start inside a hyphenated normalised token and continue across words'
+);
+
 $looseSelfless = get_search_strategy('selflessly love', false);
 assertSame(['% selflessly %', '% love %'], $looseSelfless['sql_params'], 'loose search normalises punctuation into separate words');
 assertContainsText(' AND ', $looseSelfless['sql_where'], 'loose search requires all words');
