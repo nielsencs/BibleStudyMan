@@ -28,8 +28,8 @@ function assertContainsText($needle, $haystack, $message) {
 }
 
 assertSame(
-    'god said light is and there was light',
-    normalise_search_text_for_matching('God{H0430} said, "Light is!" and there was light.'),
+    'god said light is and light became',
+    normalise_search_text_for_matching('God{H0430} said, "Light is!" and light became!'),
     'normalisation removes Strong\'s tags and punctuation for issue #178'
 );
 
