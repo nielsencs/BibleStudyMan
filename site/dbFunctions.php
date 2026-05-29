@@ -668,22 +668,19 @@ function highlightWords(array $words, string $haystack, bool $exactMatch = false
 // ============================================================================
 function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
-    $words = array_values(array_filter(explode(' ', trim($searchTerms))));
+    $normalisedSearchTerms = normalise_search_text_for_matching($searchTerms);
+    $words = array_values(array_filter(explode(' ', $normalisedSearchTerms)));
+    $normalisedVerseTextSql = normalised_verse_text_sql();
     $sqlWhereClause = '';
     $sqlParams = [];
     $highlightWords = [];
     $highlightIsExact = false;
 
     if ($isExact) {
-        if (count($words) === 1) {
-            // Use MySQL's word boundary regex for a single exact word.
-            $sqlWhereClause = 'verses.verseText REGEXP ?';
-            $sqlParams[] = '[[:<:]]' . $words[0] . '[[:>:]]';
-        } else {
-            // For an exact phrase, search for the whole string.
-            $sqlWhereClause = 'verses.verseText LIKE ?';
-            $sqlParams[] = '%' . $searchTerms . '%';
-        }
+        // User-exact search: match the requested words in order after normalising
+        // punctuation, HTML/Strong's markup, and TCSB forms such as "you-all".
+        $sqlWhereClause = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
+        $sqlParams[] = '% ' . $normalisedSearchTerms . ' %';
         $highlightWords = $words;
         $highlightIsExact = true;
 
@@ -691,8 +688,8 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
         if (count($words) > 0) {
             $conditions = [];
             foreach ($words as $word) {
-                $conditions[] = 'verses.verseText LIKE ?';
-                $sqlParams[] = '%' . $word . '%';
+                $conditions[] = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
+                $sqlParams[] = '% ' . $word . ' %';
             }
             $sqlWhereClause = implode(' AND ', $conditions);
         }
@@ -706,6 +703,33 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
         'highlight_words' => $highlightWords,
         'highlight_is_exact' => $highlightIsExact,
     ];
+}
+
+// ============================================================================
+function normalise_search_text_for_matching(string $text): string {
+// ============================================================================
+    $text = html_entity_decode(strip_tags($text), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $text = strtolower($text);
+    $text = preg_replace('/\{[hg][0-9]+\}/i', '', $text);
+    $text = str_replace('-all', '', $text);
+    $text = preg_replace('/[^a-z0-9]+/', ' ', $text);
+    $text = preg_replace('/\s+/', ' ', $text);
+    return trim($text);
+}
+
+// ============================================================================
+function normalised_verse_text_sql(): string {
+// ============================================================================
+    $text = 'LOWER(verses.verseText)';
+    $text = "REGEXP_REPLACE($text, '<[^>]*>', ' ')";
+    $text = "REGEXP_REPLACE($text, '[{][hg][0-9]+[}]', '')";
+    $text = "REPLACE($text, '&apos;', ' ')";
+    $text = "REPLACE($text, '&quot;', ' ')";
+    $text = "REPLACE($text, '&nbsp;', ' ')";
+    $text = "REPLACE($text, '-all', '')";
+    $text = "REGEXP_REPLACE($text, '[^[:alnum:]]+', ' ')";
+    $text = "REGEXP_REPLACE($text, '[[:space:]]+', ' ')";
+    return "TRIM($text)";
 }
 
 // ============================================================================
