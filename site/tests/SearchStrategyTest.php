@@ -49,6 +49,22 @@ assertSame(['% you are the light of the world %'], $exactYouAll['sql_params'], '
 assertContainsText("REPLACE(", $exactYouAll['sql_where'], 'exact search SQL includes replacements');
 assertContainsText("'-all'", $exactYouAll['sql_where'], 'exact search SQL removes TCSB -all marker');
 
+$exactGodsAnger = get_search_strategy("god's anger", true);
+assertSame(['% god s anger %'], $exactGodsAnger['sql_params'], 'exact search still matches apostrophe possessive as normalised words');
+assertSame(['god', 'anger'], $exactGodsAnger['highlight_words'], 'highlighting ignores standalone possessive s');
+
+assertSame(
+    '<span class="highlightOW"><span class="highlightWord">God</span></span> <sub>(Elohim)</sub>&apos;s <span class="highlightWord">anger</span>',
+    highlightWords(['god', 'anger'], '<span class="highlightOW">God</span> <sub>(Elohim)</sub>&apos;s anger', true),
+    'highlighting preserves HTML entities around possessives'
+);
+
+assertSame(
+    '&apos;s',
+    highlightWords(['apo'], '&apos;s', true),
+    'highlighting never splits HTML entities'
+);
+
 $looseSelfless = get_search_strategy('selflessly love', false);
 assertSame(['% selflessly %', '% love %'], $looseSelfless['sql_params'], 'loose search normalises punctuation into separate words');
 assertContainsText(' AND ', $looseSelfless['sql_where'], 'loose search requires all words');
