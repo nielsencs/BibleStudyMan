@@ -705,19 +705,25 @@ function highlightExactWordSequence(array $searchWords, string $haystack): strin
         }
     }
 
-    $highlightRangesByPart = [];
-    $tokenCount = count($tokens);
-    for ($startToken = 0; $startToken < $tokenCount; $startToken++) {
-        $matchedWords = [];
-        $matchedTokens = [];
-
-        for ($tokenIndex = $startToken; $tokenIndex < $tokenCount && count($matchedWords) < count($searchWords); $tokenIndex++) {
-            $matchedWords = array_merge($matchedWords, $tokens[$tokenIndex]['normalised_words']);
-            $matchedTokens[] = $tokens[$tokenIndex];
+    $wordStream = [];
+    foreach ($tokens as $tokenIndex => $token) {
+        foreach ($token['normalised_words'] as $word) {
+            $wordStream[] = [
+                'word' => $word,
+                'token_index' => $tokenIndex,
+            ];
         }
+    }
 
-        if ($matchedWords === $searchWords) {
-            foreach ($matchedTokens as $token) {
+    $highlightRangesByPart = [];
+    $searchWordCount = count($searchWords);
+    $wordStreamCount = count($wordStream);
+    for ($startWord = 0; $startWord <= $wordStreamCount - $searchWordCount; $startWord++) {
+        $candidateWords = array_column(array_slice($wordStream, $startWord, $searchWordCount), 'word');
+        if ($candidateWords === $searchWords) {
+            $matchedTokenIndexes = array_unique(array_column(array_slice($wordStream, $startWord, $searchWordCount), 'token_index'));
+            foreach ($matchedTokenIndexes as $tokenIndex) {
+                $token = $tokens[$tokenIndex];
                 // Do not highlight a lone possessive "s" token from searches such
                 // as "God's anger"; it is only there to help matching.
                 if ($token['normalised_words'] === ['s']) {
