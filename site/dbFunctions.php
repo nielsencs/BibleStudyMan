@@ -648,8 +648,10 @@ function highlightWords(array $words, string $haystack, bool $exactMatch = false
     $highlightPattern = '/' . $boundary . '(' . implode('|', array_map('preg_quote', $words)) . ')' . $boundary . '/i';
     $replacementCallback = fn($match) => "<span class=\"highlightWord\">{$match[0]}</span>";
 
-    // Split the haystack into text nodes and HTML tags
-    $parts = preg_split('/(<[^>]*>)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
+    // Split the haystack into text nodes, HTML tags, and HTML entities. Entities
+    // such as &apos; must stay whole; otherwise a search for possessive "s" can
+    // corrupt them into &apo<span>...</span>;.
+    $parts = preg_split('/(<[^>]*>|&[a-zA-Z0-9#]+;)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
 
     $newHaystack = '';
     foreach ($parts as $part) {
@@ -670,6 +672,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
     $normalisedSearchTerms = normalise_search_text_for_matching($searchTerms);
     $words = array_values(array_filter(explode(' ', $normalisedSearchTerms)));
+    $wordsToHighlight = highlight_words_from_search_terms($searchTerms);
     $normalisedVerseTextSql = normalised_verse_text_sql();
     $sqlWhereClause = '';
     $sqlParams = [];
@@ -681,7 +684,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
         // punctuation, HTML/Strong's markup, and TCSB forms such as "you-all".
         $sqlWhereClause = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
         $sqlParams[] = '% ' . $normalisedSearchTerms . ' %';
-        $highlightWords = $words;
+        $highlightWords = $wordsToHighlight;
         $highlightIsExact = true;
 
     } else { // Not an exact search
@@ -693,7 +696,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
             }
             $sqlWhereClause = implode(' AND ', $conditions);
         }
-        $highlightWords = $words;
+        $highlightWords = $wordsToHighlight;
         $highlightIsExact = false;
     }
 
@@ -715,6 +718,18 @@ function normalise_search_text_for_matching(string $text): string {
     $text = preg_replace('/[^a-z0-9]+/', ' ', $text);
     $text = preg_replace('/\s+/', ' ', $text);
     return trim($text);
+}
+
+// ============================================================================
+function highlight_words_from_search_terms(string $searchTerms): array {
+// ============================================================================
+    // Search matching may treat apostrophes as separators so that "God's anger"
+    // can match database text containing &apos;s. For highlighting, the possessive
+    // "s" is not useful on its own and can damage HTML entities. Highlight the
+    // meaningful words instead.
+    $termsWithoutPossessive = preg_replace('/\b([a-z0-9]+)[\'’]s\b/i', '$1', $searchTerms);
+    $normalisedHighlightTerms = normalise_search_text_for_matching($termsWithoutPossessive ?? $searchTerms);
+    return array_values(array_filter(explode(' ', $normalisedHighlightTerms)));
 }
 
 // ============================================================================
