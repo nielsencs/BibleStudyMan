@@ -122,4 +122,4 @@ scripts/sync-verses-from-bookish-lamp.sh
 scripts/sync-verses-from-bookish-lamp.bat
 ```
 
-The `.bat` version is for Carl's Windows/GitHub Desktop machine, assuming the Git CLI is available. Both scripts should follow the same safety checks rather than blindly overwriting files.
+The `.bat` version is for Carl's Windows/GitHub Desktop machine, assuming the Git CLI is available and BSM/bookish-lamp are sibling folders. It is deliberately a one-job utility with no parameters. Both scripts should follow the same safety checks rather than blindly overwriting files.
