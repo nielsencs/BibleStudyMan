@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text.
+Define the Small Repeatable Script for keeping BibleStudyMan's public Bible data aligned with Bookish Lamp. When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text. The script must also rebuild BSM's combined database file.
 
 ## 2. Background
 
@@ -18,9 +18,13 @@ This SRS covers syncing only:
 - From: `bookish-lamp/database/bibleVerses.sql`
 - To: `BibleStudyMan/database/bibleVerses.sql`
 
+It also rebuilds:
+
+- `BibleStudyMan/database/bibleComplete.sql`
+
 It does not cover:
 
-- `bibleCompletedVerses.sql`
+- changing `bibleCompletedVerses.sql`
 - paragraph data
 - generated mobile/app databases
 - live-server deployment after the BSM repository is updated
@@ -51,7 +55,21 @@ Example check:
 cmp -s ../bookish-lamp/database/bibleVerses.sql database/bibleVerses.sql
 ```
 
-### R4. Commit and push the BSM update
+### R4. Rebuild `bibleComplete.sql`
+
+After syncing `bibleVerses.sql`, the process must reproduce the effect of `database/concatenate.bat`:
+
+```bat
+type bibleStart.sql bibleCompletedVerses.sql bibleVerses.sql > bibleComplete.sql
+```
+
+On Unix-like systems this is equivalent to:
+
+```sh
+cat database/bibleStart.sql database/bibleCompletedVerses.sql database/bibleVerses.sql > database/bibleComplete.sql
+```
+
+### R5. Commit and push the BSM update
 
 If BSM changed, commit the update on BSM `develop` and push it.
 
@@ -67,9 +85,9 @@ Assistant-authored commits must use:
 Ezra <ezra@openclaw.local>
 ```
 
-### R5. Do nothing when already in sync
+### R6. Do nothing when already in sync
 
-If the files already match, no BSM commit should be made. The process should simply report that BSM is already synced with BL.
+If the files already match and regenerating `bibleComplete.sql` produces no change, no BSM commit should be made. The process should simply report that BSM is already synced with BL.
 
 ## 5. Safety Rules
 
@@ -91,15 +109,16 @@ A sync is successful when:
 1. BL and BSM repository status have been checked.
 2. Relevant remotes have been fetched/pulled or inspected safely.
 3. `BibleStudyMan/database/bibleVerses.sql` exactly matches `bookish-lamp/database/bibleVerses.sql`.
-4. The BSM change, if any, is committed and pushed to `origin/develop`.
-5. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
+4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated in the same order as `database/concatenate.bat`.
+5. The BSM change, if any, is committed and pushed to `origin/develop`.
+6. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
 
 ## 7. Future Automation
 
-A small script may later implement this process, probably under `scripts/`, but it should still follow the same safety checks rather than blindly overwriting files.
-
-Possible script name:
+The implemented script is:
 
 ```text
 scripts/sync-verses-from-bookish-lamp.sh
 ```
+
+It should follow the same safety checks rather than blindly overwriting files.
