@@ -88,15 +88,15 @@ assertSameIssue(168, 'you are the light of the world', normalise_search_text_for
 assertContainsIssue(170, 'highlightSW=on', buildLink('Matthew', 5, 'light', false, true, false, false), 'book/chapter links preserve interesting-word checkbox state');
 assertSameIssue(171, 'God said light', strip_tags(highlightWords([], 'God said light')), 'cleared search leaves page text unhighlighted');
 
-// Open issues: executable expectations are kept as XFAIL by default, and become hard failures with BSM_STRICT_ISSUE_TESTS=1.
-assertSameIssue(46, 'because foreverone your god', normalise_search_text_for_matching('Because ForeverOne{H3068} your God{H0430}'), 'exact searches can match interesting words carrying Strong tags', true);
-assertSameIssue(68, ['', '', '', 'mat'], bookChapSearch('mat', '', ''), 'mat alone is treated as a word search rather than only Matthew the book', true);
-assertSameIssue(69, 'a <span class="highlightWord">mat</span> matter mating Matred', highlightWords(['mat'], 'a mat matter mating Matred', true), 'exact single-word search highlights only the whole word', true);
-assertSameIssue(102, ['1 John', '3', '16', ''], bookChapSearch('1 JN 3:16', '', ''), 'spaced numbered abbreviation 1 JN 3:16 is recognised', true);
-assertSameIssue(102, ['1 John', '3', '16', ''], bookChapSearch('1jn 3:16', '', ''), 'compact numbered abbreviation 1jn 3:16 is recognised', true);
-assertSameIssue(121, ['Philemon', '1', '11', ''], bookChapSearch('phm 11', '', ''), 'single-chapter book reference treats bare number as verse', true);
-assertSameIssue(178, ['% god said light %'], get_search_strategy('god said light', true)['sql_params'], 'exact phrase search keeps word order while ignoring punctuation', true);
-assertSameIssue(178, 'god said light is and there was light', normalise_search_text_for_matching('God{H0430} said, "Light is!" and there was light.'), 'exact search normalisation ignores punctuation and quotes', true);
+// Formerly open search bugs that now have executable regression coverage.
+assertSameIssue(46, 'because foreverone your god', normalise_search_text_for_matching('Because ForeverOne{H3068} your God{H0430}'), 'exact searches can match interesting words carrying Strong tags');
+assertSameIssue(68, ['', '', '', 'mat'], bookChapSearch('mat', '', ''), 'mat alone is treated as a word search rather than only Matthew the book');
+assertSameIssue(69, 'a <span class="highlightWord">mat</span> matter mating Matred', highlightWords(['mat'], 'a mat matter mating Matred', true), 'exact single-word search highlights only the whole word');
+assertSameIssue(102, ['1 John', '3', '16', ''], bookChapSearch('1 JN 3:16', '', ''), 'spaced numbered abbreviation 1 JN 3:16 is recognised');
+assertSameIssue(102, ['1 John', '3', '16', ''], bookChapSearch('1jn 3:16', '', ''), 'compact numbered abbreviation 1jn 3:16 is recognised');
+assertSameIssue(121, ['Philemon', '1', '11', ''], bookChapSearch('phm 11', '', ''), 'single-chapter book reference treats bare number as verse');
+assertSameIssue(178, ['% god said light %'], get_search_strategy('god said light', true)['sql_params'], 'exact phrase search keeps word order while ignoring punctuation');
+assertSameIssue(178, 'god said light is and there was light', normalise_search_text_for_matching('God{H0430} said, "Light is!" and there was light.'), 'exact search normalisation ignores punctuation and quotes');
 
 // Search-related UI/performance issues that need browser or DB-backed tests later.
 foreach ([1, 2, 9, 12, 13, 16, 17, 36, 65, 66, 91, 134] as $issue) {

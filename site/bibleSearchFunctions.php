@@ -33,6 +33,9 @@ function bookChapSearch($tWords, $tBook, $tChapter){
             if ($potentialChapter > '') {
                 if ($tChapter > '') {
                     $tVerses = $potentialChapter;
+                } else if (isSingleChapterBook($tBook) && $potentialVerses === '') {
+                    $tChapter = '1';
+                    $tVerses = $potentialChapter;
                 } else {
                     $tChapter = $potentialChapter;
                     $tVerses = $potentialVerses;
@@ -63,6 +66,15 @@ function beginsWithBook($atWords, $iLen){
     $potentialChapter = $atFindChapterVerse[0];
     $potentialVerses = $atFindChapterVerse[1];
     $wordsConsumedTotal = $atFindChapterVerse[2];
+
+    if ($potentialChapter === '' && $wordsConsumedByBook === $iLen && isAmbiguousBookSearchWord(joinWords($atWords, 0, $wordsConsumedByBook))) {
+        return [$tBook, $tChapter, $tVerses, $i];
+    }
+
+    if ($potentialChapter > '' && $potentialVerses === '' && isSingleChapterBook($potentialBook)) {
+        $potentialVerses = $potentialChapter;
+        $potentialChapter = '1';
+    }
 
     // Condition: Is it a real book reference?
     // It is if a chapter was found, OR if the whole search query was just the book name.
@@ -169,6 +181,26 @@ function getBookName($tWord, $atBookAbbs){
     }
   }
   return '';
+}
+// ============================================================================
+
+// ============================================================================
+function isAmbiguousBookSearchWord($tWords){
+// ============================================================================
+  return in_array(strtolower(trim($tWords)), ['mat'], true);
+}
+// ============================================================================
+
+// ============================================================================
+function isSingleChapterBook($tBook){
+// ============================================================================
+  return in_array(strtolower(trim($tBook)), [
+    'obadiah',
+    'philemon',
+    '2 john',
+    '3 john',
+    'jude',
+  ], true);
 }
 // ============================================================================
 
