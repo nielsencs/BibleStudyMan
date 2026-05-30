@@ -369,7 +369,7 @@ AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.
       if($bFloaty){
         $tOutput .= '<br><br><br><br><br><br><br>'; // fudge to allow for the floaty box
       }
-      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the ';
+      $tOutput .= '<h2>You can search for words, or a phrase, or pick a book in the ';
       if($bFloaty){
         $tOutput .= 'collapsible ';
       }
