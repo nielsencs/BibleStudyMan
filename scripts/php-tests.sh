@@ -7,6 +7,7 @@ if ! command -v php >/dev/null 2>&1; then
 fi
 
 php site/tests/SearchStrategyTest.php
+php site/tests/SearchIssueRegressionTest.php
 php site/tests/ProcessStrongsTest.php >/dev/null
 
 echo "All PHP smoke tests passed"
