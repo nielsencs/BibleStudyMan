@@ -1,9 +1,9 @@
 <?php
   $bFloaty = false; // is the control panel 'floaty'?
 
-  require_once 'header.php';
   require_once 'dbFunctions.php';
   require_once 'bibleSearchFunctions.php';
+  require_once 'header.php';
   require_once 'search.php';
 
   $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
