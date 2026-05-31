@@ -19,7 +19,6 @@
   $tWords = $atBookChapSearch[3];
   if ($bFloaty) {
     echo '<link rel="stylesheet" href="styles/controlPanel.css">' . PHP_EOL;
-    echo '<script type="text/javascript" src="scripts/controlPanel.js"></script>' . PHP_EOL;
   }
 ?>
         <div class="main Bible">

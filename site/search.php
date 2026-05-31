@@ -46,6 +46,7 @@
   $atBookAbbs = prepareBookAbbs();
 ?>
 
+<script type="text/javascript" src="scripts/controlPanel.js"></script>
 <script type="text/javascript">
 // ============================================================================
   function doSubmit(tField) {
