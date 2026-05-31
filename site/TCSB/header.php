@@ -14,7 +14,9 @@
 <html lang="en">
 
 <?php
-  if (strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php')){
+  $tScriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+  $tRequestUri = $_SERVER['REQUEST_URI'] ?? '';
+  if (strpos($tScriptName, 'index.php') !== false || strpos($tScriptName, 'home.php') !== false || strpos($tRequestUri, '/home') !== false || substr($tRequestUri, -5) === 'TCSB/'){
     $bBible = $bPlan = true;
   } else {
     $bBible = $bPlan = false;
@@ -25,6 +27,7 @@
 
   $tPriority = filter_input(INPUT_GET, 'priority', FILTER_UNSAFE_RAW);
 
+  require_once '../bibleSearchFunctions.php';
   require_once '../../sqlCon_H.php';
 ?>
 

@@ -1,5 +1,8 @@
               <div id="controlPanel">
                 <form name="searchForm" id="searchForm" action="<?php if ($bBible) { echo'bible'; } else { echo'plan'; } ?>" method="get" onsubmit="showWait();">
+<?php if (isset($tFloaty) && strlen((string)$tFloaty) > 0) { ?>
+                <input type="hidden" name="floaty" value="<?php echo htmlspecialchars($tFloaty, ENT_QUOTES, 'UTF-8'); ?>">
+<?php } ?>
 
                 <div id="searchSection">
                   <table class="searchTable">

@@ -18,7 +18,8 @@
   $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
 
-  $bFloaty = true; //false; // is the control panel 'floaty'?
+  $tFloaty = filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW);
+  $bFloaty = strtolower((string)$tFloaty) !== 'off'; // is the control panel 'floaty'?
 
   require_once '../sqlCon.php';
 ?>
@@ -82,7 +83,7 @@
 
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
-    <div class="menu-wrapper">
+    <div class="menu-wrapper <?php echo $bFloaty ? 'is-floaty' : 'is-static'; ?>">
     <header class="menu">
       <nav class="mainNav">
         <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">

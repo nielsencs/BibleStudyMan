@@ -15,7 +15,7 @@
 </html>
 
 <?php
-require_once '..\dbFunctions.php';
+require_once __DIR__ . '/../dbFunctions.php';
 $atStrongs = array();
 
 $atStrongs += ['H0430' => ['0', 'Elohim']];
