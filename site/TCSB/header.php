@@ -25,7 +25,7 @@
 
   $tPriority = filter_input(INPUT_GET, 'priority', FILTER_UNSAFE_RAW);
 
-  require_once '../../sqlCon_H.php';
+  require_once '../../sqlCon.php';
 ?>
 
 <head>
