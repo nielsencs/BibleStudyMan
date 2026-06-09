@@ -1,4 +1,4 @@
-<div id="wordsSection" class="searchOptions">
+<?php if ($bFloaty) { ?><div id="wordsSection" class="searchOptions"><?php } ?>
                 <p>For certain <abbr
                    title="Things like the various words for God
 and words that can have a variety of
@@ -15,4 +15,4 @@ can mean spirit or breath or breeze.">interesting</abbr> words:<br>
                   <?php if($bShowTN){echo 'checked';} ?>
                        onclick="doSubmit()"><label for="showTN">Show Translated Names</label><br>
                 </p>
-</div>
+<?php if ($bFloaty) { ?></div><?php } ?>

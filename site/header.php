@@ -82,7 +82,7 @@
 
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
-    <div class="menu-wrapper">
+    <div class="menu-wrapper <?php echo $bFloaty ? 'is-floaty' : 'is-static'; ?>">
     <header class="menu">
       <nav class="mainNav">
         <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
@@ -109,7 +109,7 @@ if ($bPlan){
 ?>
 
       <div class="bibleNav">
-<?php if ($bBible || $bPlan){ ?>
+<?php if ($bFloaty && ($bBible || $bPlan)){ ?>
         <div class="bibleNavLeft">
   <?php if ($bPlan){ ?>
           <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
@@ -152,5 +152,5 @@ if ($bBible) {
   $tWords = $atBookChapSearch[3];
 }
 ?>
-<?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
+<?php if ($bFloaty && ($bBible || $bPlan)){ require_once 'controlPanel.php';} ?>
     </div><!-- menu-wrapper -->

@@ -4,7 +4,7 @@
   padding: 0;
 }
 
-.menu-wrapper {
+.menu-wrapper.is-floaty {
   position: sticky;
   top: 0;
   z-index: 1;
@@ -19,7 +19,7 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.menu, #controlPanel {
+.menu, .menu-wrapper.is-floaty #controlPanel {
   /* background-color: #4F3F49; /* original */
   background-color: #22101BCC; /* matches original but with transparency */
   backdrop-filter: blur(3px);
