@@ -2,7 +2,7 @@
   require_once 'header.php';
 ?>
         <div class="main Bible">
-            <h1><?php echo $bFloaty ? 'The Bible' : 'The CleanSlate Bible'; ?></h1>
+            <h1>'The CleanSlate Bible'</h1>
             <div class="subMain sectGeneral">
 <?php if (! $bFloaty) { require_once 'controlPanel.php'; } ?>
 <?php
