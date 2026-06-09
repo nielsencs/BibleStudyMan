@@ -69,6 +69,14 @@
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
+.menu-wrapper.is-static + .main.Bible #controlPanel {
+    position: sticky;
+    top: 90px;
+    z-index: 2;
+    background: white;
+    padding-bottom: 7px;
+}
+
 #controlPanel.collapsed {
     max-height: 0;
     opacity: 0;
