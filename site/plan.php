@@ -31,7 +31,7 @@
                 <a href="planTable">here&apos;s the entire year&apos;s plan
                   as a list</a>. Enjoy!</p>
 
-
+<?php if (! $bFloaty) { require_once 'controlPanel.php'; } ?>
 
   <?php
     echo daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);

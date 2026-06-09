@@ -72,6 +72,40 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
   return;
 }
 ?>
+<?php
+if (! $bFloaty && $bPlan) {
+?>
+              <div id="controlPanel">
+                <form name="searchForm" id="searchForm" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8');?>" method="get" onsubmit="showWait();">
+
+                <table class="searchTable">
+                  <tr>
+                    <td>
+                      <select name="month" id="month" onchange="doSubmit('month')">
+<?php
+  echo prepareDropdownMonthList($iMonth);
+?>
+                      </select>
+                    </td>
+                    <td>
+                      <input type="button" value="&lt;" onclick="dayDirection('pd')">
+                      <input type="hidden" name="dayNext" id="dayNext" value="">
+                      <select name="day" id="day" onchange="doSubmit('day')">
+<?php
+  echo prepareDropdownDayList($iDay, $tMonth, $iDaysInMonth);
+?>
+                      </select>
+                      <input type="button" value="&gt;" onclick="dayDirection('nd')">
+                    </td>
+                  </tr>
+                </table>
+<?php require_once 'intWords.php'; ?>
+              </form>
+            </div><!-- controlPanel -->
+<?php
+  return;
+}
+?>
               <div id="controlPanel">
                 <form name="searchForm" id="searchForm" action="<?php if ($bBible) { echo'bible'; } else { echo'plan'; } ?>" method="get" onsubmit="showWait();">
 
