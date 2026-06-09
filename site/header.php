@@ -18,7 +18,8 @@
   $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
 
-  $bFloaty = true; //false; // is the control panel 'floaty'?
+  $bFloaty = filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW , FILTER_FLAG_NO_ENCODE_QUOTES) === 'on'; // is the control panel 'floaty'?
+  $bTCSB = stripos($_SERVER['REQUEST_URI'], 'TCSB') !== false; // Are we in the TCSB app'?
 
   require_once '../sqlCon.php';
 ?>
