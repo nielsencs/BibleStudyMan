@@ -9,11 +9,6 @@ table, th, td {
   text-align: center;
 }
 
-.searchTable {
-  border-collapse: separate;
-  border-spacing: 0;
-}
-
 .searchTable td {
   border: 1px solid #4F3F4933;
   border-radius: 7px;

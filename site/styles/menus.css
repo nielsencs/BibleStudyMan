@@ -70,7 +70,8 @@
     transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.searchTable {
+
+.menu-wrapper.is-static .searchTable {
     background:#eeeedd;
 }
 
