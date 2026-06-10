@@ -11,7 +11,7 @@ table, th, td {
 
 .searchTable {
   border-collapse: separate;
-  border-spacing: 3px;
+  border-spacing: 0;
 }
 
 .searchTable td {
