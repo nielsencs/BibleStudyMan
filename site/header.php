@@ -20,6 +20,7 @@
 
   $tFloaty = filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW);
   $bFloaty = strtolower((string)$tFloaty) !== 'off'; // is the control panel 'floaty'?
+  $bTCSB = false; // Are we in the TCSB app'?
 
   require_once '../sqlCon.php';
 ?>
@@ -110,7 +111,7 @@ if ($bPlan){
 ?>
 
       <div class="bibleNav">
-<?php if ($bBible || $bPlan){ ?>
+<?php if ($bFloaty && ($bBible || $bPlan)){ ?>
         <div class="bibleNavLeft">
   <?php if ($bPlan){ ?>
           <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
@@ -153,5 +154,5 @@ if ($bBible) {
   $tWords = $atBookChapSearch[3];
 }
 ?>
-<?php if ($bBible || $bPlan){ require_once 'controlPanel.php';} ?>
+<?php if ($bFloaty && ($bBible || $bPlan)){ require_once 'controlPanel.php';} ?>
     </div><!-- menu-wrapper -->
