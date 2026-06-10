@@ -10,14 +10,6 @@
   top: 0;
 }
 
-/* .menu-wrapper.is-floaty {
-  position: sticky;
-  top: 0;
-}
-
-.menu-wrapper.is-static {
-  position: static;
-} */
 
 .menu {
   display: flex;
