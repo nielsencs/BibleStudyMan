@@ -18,7 +18,7 @@ Purpose: preserve the hard-won BSM floaty/static behaviour while integrating sea
 
 ## Measured browser check
 
-On Genesis 29, after scrolling 900px:
+Using `Ezra 10` as a search (`/bible?words=Ezra%2010...`), after scrolling 900px:
 
 | URL mode | wrapper class | computed position | wrapper top | control panel location |
 | --- | --- | --- | --- | --- |
@@ -27,11 +27,11 @@ On Genesis 29, after scrolling 900px:
 
 Screenshots were captured locally under:
 
-`/home/carl/.openclaw/workspace/bsm-screenshots/integration-sticky-check-20260610/`
+`/home/carl/.openclaw/workspace/bsm-screenshots/integration-sticky-check-ezra10-20260610/`
 
 ## Known visual tradeoff
 
-With `floaty=on`, the open floating controls occupy a large dark area over/above the passage while scrolled. That is known from verification; it is not the same issue as accidentally making non-floaty non-sticky.
+With `floaty=on`, the open floating controls occupy a large dark area under the sticky header while scrolled. This was visible in verification and appears intentional/usable; it is not the same issue as accidentally making non-floaty non-sticky.
 
 ## Why this file exists
 
