@@ -75,7 +75,7 @@ assertSameIssue(4, ['Matthew', '15', '3', ''], bookChapSearch('mat 15:3', '', ''
 $bHighlightSW = false;
 $bShowOW = false;
 $bShowTN = false;
-$verseOutput = showVerse('16', ['verseNumber' => 16, 'vt' => 'For God so loved the world'], ['god'], false);
+$verseOutput = showVerse('16', ['bookName' => 'John', 'chapter' => 3, 'verseNumber' => 16, 'vt' => 'For God so loved the world'], ['god'], false);
 assertContainsIssue(8, 'highlightVerse', $verseOutput, 'clicked-through verse is highlighted');
 assertContainsIssue(8, 'highlightWord', $verseOutput, 'search word remains highlighted in clicked-through verse');
 

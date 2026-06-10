@@ -1,0 +1,132 @@
+.banner-image {
+  width: 100%;
+  display: block;
+  padding: 0;
+}
+
+.menu-wrapper {
+  z-index: 1;
+}
+
+.menu-wrapper.is-floaty {
+  position: sticky;
+  top: 0;
+}
+
+.menu-wrapper.is-static {
+  position: static;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.menu, #controlPanel {
+  /* background-color: #4F3F49; /* original */
+  background-color: #22101BCC; /* matches original but with transparency */
+  backdrop-filter: blur(3px);
+  /* filter: drop-shadow(7px 7px 7px #00000077); /* DON'T USE - darkens overall because of the above transparency */
+}
+
+.logo {
+  height: 50px;
+  object-fit: contain;
+  padding: 0 0 0 14px;
+}
+
+.nav {
+  color: antiquewhite;
+  list-style: none;
+  text-align: right;
+  padding: 14px 7px 14px 3px;
+}
+
+.bibleNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  border-top: antiquewhite solid 1px;
+  color:antiquewhite;
+}
+
+.bibleNavMiddle {
+  margin: 0 auto;
+  color:antiquewhite;
+}
+
+.bibleNavLeft {
+  color:antiquewhite;
+}
+
+.bibleNavRight {
+  color:antiquewhite;
+}
+
+#controlPanel {
+    /*max-height: 500px; /* Adjust as needed */
+    z-index: 7;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+#controlPanel.collapsed {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+#searchSection, #wordsSection {
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+#searchSection.collapsed, #wordsSection.collapsed {
+    max-height: 0;
+    opacity: 0;
+    padding: 0;
+}
+
+.footNav {
+  font-family: 'Londrina Solid', sans-serif;
+  text-align: center;
+}
+
+.mainNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 14px;
+}
+
+.nav li {
+  display: inline-block;
+}
+
+@media (min-width: 800px) {
+  .nav li {
+    font-size: 18px;
+  }
+}
+
+.nav li a {
+  text-decoration: none;
+  font-weight: normal;
+  color: antiquewhite;
+  margin: 2px;
+  padding: 1px;
+  border: 1px solid #4F3F4900;
+}
+
+.nav li a:hover {
+  color: antiquewhite;
+  border: 1px solid antiquewhite;
+  border-radius: 7px;
+}

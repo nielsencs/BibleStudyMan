@@ -1,0 +1,69 @@
+/* centre tables */
+table {
+    margin: 0 auto;
+}
+/* centre table content */
+table, th, td {
+  padding: 3px;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.searchTable td {
+  border: 1px solid #4F3F4933;
+  border-radius: 7px;
+}
+
+.planTable table, th, tr, td {
+  padding: 3px;
+  vertical-align: top;
+  font-size: 10pt;
+}
+
+.planTable tr:nth-child(odd) {
+  background-color: Khaki;
+}
+
+.planTable tr:nth-child(even) {
+  background-color: Tan;
+}
+
+.planTable th:nth-child(1),
+.planTable td:nth-child(1) {
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.planTable th:nth-child(2),
+.planTable td:nth-child(2) {
+  background-color: rgba(255, 128, 0, 0.3);
+}
+
+.planTable th:nth-child(3),
+.planTable td:nth-child(3) {
+  background-color: rgba(255, 255, 0, 0.3);
+}
+
+.planTable th:nth-child(4),
+.planTable td:nth-child(4) {
+  background-color: rgba(0, 255, 0, 0.3);
+}
+
+.planTable th:nth-child(5),
+.planTable td:nth-child(5) {
+  background-color: rgba(0, 255, 255, 0.3);
+}
+
+.planTable th:nth-child(6),
+.planTable td:nth-child(6) {
+  background-color: rgba(0, 127, 255, 0.3);
+}
+
+
+.planTable th:nth-child(7),
+.planTable td:nth-child(7) {
+  background-color: rgba(255, 0, 255, 0.3);
+}
+
+.planTable tr:hover {
+  background-color: plum;
+}
