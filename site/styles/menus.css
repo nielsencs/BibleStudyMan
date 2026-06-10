@@ -6,16 +6,18 @@
 
 .menu-wrapper {
   z-index: 1;
+  position: sticky;
+  top: 0;
 }
 
-.menu-wrapper.is-floaty {
+/* .menu-wrapper.is-floaty {
   position: sticky;
   top: 0;
 }
 
 .menu-wrapper.is-static {
   position: static;
-}
+} */
 
 .menu {
   display: flex;
