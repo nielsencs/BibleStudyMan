@@ -29,7 +29,7 @@
                 <p>You can read the passages below. If you're looking to read for
                   a different day or want to use your own Bible, then
                 <a href="planTable">here&apos;s the entire year&apos;s plan
-                  as a list</a>. Enjoy!</p>
+                  as a list</a>. Enjoy!</p><br>
 
 <?php if (! $bFloaty) { require_once 'controlPanel.php'; } ?>
 
