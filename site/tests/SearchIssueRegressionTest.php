@@ -79,6 +79,9 @@ $verseOutput = showVerse('16', ['bookName' => 'John', 'chapter' => 3, 'verseNumb
 assertContainsIssue(8, 'highlightVerse', $verseOutput, 'clicked-through verse is highlighted');
 assertContainsIssue(8, 'highlightWord', $verseOutput, 'search word remains highlighted in clicked-through verse');
 
+$paragraphVerse = showVerse('18', ['bookName' => 'John', 'chapter' => 1, 'verseNumber' => 18, 'vt' => 'No one has seen God.</p> '], [], false);
+assertSameIssue(8, '<span id="verse-John-1-18" class="highlightVerse"><sup>18</sup>No one has seen God. </span></p>', $paragraphVerse, 'paragraph-ending verse closes paragraph outside the verse span');
+
 assertSameIssue(27, '<span class="highlightOW"><span class="highlightWord">God</span></span> <span class="highlightWord">tested</span>', highlightWords(['god', 'tested'], '<span class="highlightOW">God</span> tested', true), 'exact phrase highlighting survives interesting-word span');
 assertSameIssue(51, 'god', normalise_search_text_for_matching('God{H0430}'), 'Strong numbers are removed before text search');
 assertSameIssue(56, ['Matthew', '5', '', ''], bookChapSearch('5', 'Matthew', ''), 'number with selected book is treated as a chapter');

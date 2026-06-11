@@ -475,6 +475,11 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
     $tThisVerseText = substr($tThisVerseText, 3);
     // place it before the verse number
   }
+
+  $bEndPara = preg_match('/<\/p>\s*$/i', $tThisVerseText) === 1;
+  if($bEndPara){
+    $tThisVerseText = preg_replace('/<\/p>\s*$/i', '', $tThisVerseText);
+  }
   
   if(strtolower(substr($tThisVerseText, 0, 4)) == '<br>'){ // if this verse starts with a break
     $tOutput .=  '<br>';
@@ -494,12 +499,8 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
 
   $tOutput .= '</span>';
 
-  // If the verse was searched for and ends a paragraph, close the paragraph after the span
-  if ($bVerseSearched) {
-    $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>';
-    if($bEndPara){
-      $tOutput .=  '</p>';
-    }
+  if($bEndPara){
+    $tOutput .=  '</p>';
   }
 
   return $tOutput;
