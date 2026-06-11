@@ -11,7 +11,7 @@ function doQuery($pdo, $tQuery, $params = []){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  global $bTCSB;
+  global $bTCSB, $bFloaty;
   $tActionPage = 'bible'; // we might be in /plan and we want to look up a bible passage!
   if (isset($bTCSB) && $bTCSB) { // if we're in the TCSB app, stay there when we click a link
     $tActionPage = 'home';
@@ -21,6 +21,9 @@ function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bSho
     $tReturn .= '&chapter=' . $iChapter;
   }
   $tReturn .= '&words=' . str_replace(' ', '+', htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'));
+  if (isset($bFloaty) && $bFloaty) {
+    $tReturn .= '&floaty=on';
+  }
   if($bExact){
     $tReturn .= '&exact=on';
   }

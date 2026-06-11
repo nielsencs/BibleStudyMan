@@ -18,8 +18,9 @@
   $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
   $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
 
-  $tFloaty = filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW);
-  $bFloaty = strtolower((string)$tFloaty) !== 'off'; // is the control panel 'floaty'?
+  $tFloaty = strtolower((string)filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW));
+  $bFloaty = $tFloaty === 'on'; // is the control panel 'floaty'? Default is static; floaty is opt-in.
+  $tFloaty = $bFloaty ? 'on' : 'off';
   $bTCSB = false; // Are we in the TCSB app'?
 
   require_once '../sqlCon.php';
