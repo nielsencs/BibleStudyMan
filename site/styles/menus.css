@@ -20,11 +20,33 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.menu, .menu-wrapper.is-floaty #controlPanel {
+.menu {
   /* background-color: #4F3F49; /* original */
   background-color: #22101BCC; /* matches original but with transparency */
   backdrop-filter: blur(3px);
   /* filter: drop-shadow(7px 7px 7px #00000077); /* DON'T USE - darkens overall because of the above transparency */
+}
+
+.menu-wrapper.is-floaty #controlPanel {
+  background-color: transparent;
+  backdrop-filter: none;
+}
+
+.menu-wrapper.is-floaty .searchTable,
+.menu-wrapper.is-floaty #wordsSection {
+  background-color: #22101BCC; /* matches menu but only behind the controls */
+  border: 1px solid antiquewhite;
+  border-radius: 10px;
+  padding: 4px;
+  backdrop-filter: blur(3px);
+}
+
+.menu-wrapper.is-floaty #wordsSection {
+  color: antiquewhite;
+}
+
+.menu-wrapper.is-floaty #wordsSection abbr {
+  color: antiquewhite;
 }
 
 .logo {
@@ -57,10 +79,18 @@
 
 .bibleNavLeft {
   color:antiquewhite;
+  margin-left: clamp(6px, 2vw, 24px);
 }
 
 .bibleNavRight {
   color:antiquewhite;
+  margin-right: clamp(6px, 2vw, 24px);
+}
+
+.bibleNavLeft button,
+.bibleNavRight button {
+  min-width: clamp(28px, 8vw, 42px);
+  min-height: clamp(24px, 7vw, 36px);
 }
 
 #controlPanel {
