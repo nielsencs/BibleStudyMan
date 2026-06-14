@@ -90,8 +90,11 @@ assertSame(
 );
 
 $looseSelfless = get_search_strategy('selflessly love', false);
-assertSame(['% selflessly %', '% love %'], $looseSelfless['sql_params'], 'loose search normalises punctuation into separate words');
+assertSame(['% selflessly%', '% love%'], $looseSelfless['sql_params'], 'loose search normalises punctuation into word-start matches');
 assertContainsText(' AND ', $looseSelfless['sql_where'], 'loose search requires all words');
+
+$looseFaithHope = get_search_strategy('faith hope', false);
+assertSame(['% faith%', '% hope%'], $looseFaithHope['sql_params'], 'loose search lets hope match hoped while still requiring a word start');
 
 if ($failures > 0) {
     echo "\n$failures failure(s)\n";
