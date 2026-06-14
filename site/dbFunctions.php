@@ -774,7 +774,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
             $conditions = [];
             foreach ($words as $word) {
                 $conditions[] = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
-                $sqlParams[] = '% ' . $word . '%';
+                $sqlParams[] = '% ' . $word . ' %';
             }
             $sqlWhereClause = implode(' AND ', $conditions);
         }
