@@ -11,11 +11,19 @@ function doQuery($pdo, $tQuery, $params = []){
 // ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
-  $tReturn = '<a href="bible?book=' . htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8'); // we might be in /plan and we want to look up a bible passage!
+  global $bTCSB, $bFloaty;
+  $tActionPage = 'bible'; // we might be in /plan and we want to look up a bible passage!
+  if (isset($bTCSB) && $bTCSB) { // if we're in the TCSB app, stay there when we click a link
+    $tActionPage = 'home';
+  }
+  $tReturn = '<a href="' . $tActionPage . '?book=' . htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8');
   if($iChapter > 0){
     $tReturn .= '&chapter=' . $iChapter;
   }
   $tReturn .= '&words=' . str_replace(' ', '+', htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'));
+  if (isset($bFloaty) && $bFloaty) {
+    $tReturn .= '&floaty=on';
+  }
   if($bExact){
     $tReturn .= '&exact=on';
   }
@@ -58,7 +66,7 @@ function prepareBookList(){
   $stmt = doQuery($pdo, $tQuery);
 
   $tOutput .= '<script type="text/javascript">';
-  $tOutput .=  'var atBooks = [["Start from 1!",';
+  $tOutput .=  'const atBooks = [["Start from 1!",';
   $tOutput .=  '0]';
 
   while($row = $stmt->fetch()) {
@@ -69,7 +77,7 @@ function prepareBookList(){
     }
   }
   $tOutput .=  '];';
-  $tOutput .=  'var iBook=' . $iBook . ';';
+  $tOutput .=  'let iBook=' . $iBook . ';';
   $tOutput .=  '</script>';
 
   return $tOutput;
@@ -462,10 +470,18 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
   $bVerseSearched = (strpos($tVersesExpanded, $tThisVerse));
   $tOutput = '';
 
+  // Compose a unique id for this verse
+  $verseId = 'verse-' . preg_replace('/[^a-zA-Z0-9]/', '', $row['bookName']) . '-' . $row['chapter'] . '-' . $row['verseNumber'];
+
   if(strtolower(substr($tThisVerseText, 0, 3)) == '<p>'){ // if this verse starts a paragraph
     $tOutput .=  '<p>';
     $tThisVerseText = substr($tThisVerseText, 3);
     // place it before the verse number
+  }
+
+  $bEndPara = preg_match('/<\/p>\s*$/i', $tThisVerseText) === 1;
+  if($bEndPara){
+    $tThisVerseText = preg_replace('/<\/p>\s*$/i', '', $tThisVerseText);
   }
   
   if(strtolower(substr($tThisVerseText, 0, 4)) == '<br>'){ // if this verse starts with a break
@@ -474,24 +490,20 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
     // place it before the verse number
   }
   
-  if ($bVerseSearched){ //if verse searched for highlight the whole verse
-    $tOutput .=  '<span class="highlightVerse">';
+  // Always wrap each verse in a span with id
+  $tOutput .= '<span id="' . $verseId . '"';
+  if ($bVerseSearched) {
+    $tOutput .= ' class="highlightVerse"';
   }
+  $tOutput .= '>';
 
   $tOutput .=  doVerseNumber($row['verseNumber']);
   $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . ' ';
 
-  if ($bVerseSearched){ //if verse searched for highlight the whole verse
-    $bEndPara = strtolower(substr($tThisVerseText, -4)) == '</p>'; // if this verse ends a paragraph
-    if($bEndPara){
-      $tThisVerseText = substr($tThisVerseText, 0, -4);
-      // place it after any highlighting
-    }
-    $tOutput .=  '</span>';
-    if($bEndPara){
-      $tOutput .=  '</p>';
-      // place it after any highlighting
-    }
+  $tOutput .= '</span>';
+
+  if($bEndPara){
+    $tOutput .=  '</p>';
   }
 
   return $tOutput;
@@ -920,19 +932,19 @@ function videoList($tClass = 'R'){
       $tOutput .= '<div class="media">';
       if(! empty($row["audioURL"])){
         $tOutput .= '<p class="centerText">' . htmlspecialchars($row["mediaName"] ?? '', ENT_QUOTES, 'UTF-8') . '</p>';
-        $tOutput .= '<br />';
+        $tOutput .= '<br>';
 //        $tOutput .= ' <a href="https://soundcloud.com/user-442938965/';
 //        $tOutput .= $row["audioURL"];
 //        $tOutput .= '" target="_blank">Play on SoundCloud.com';
 //        $tOutput .= '</a> ';
-//        $tOutput .= '<br />';
+//        $tOutput .= '<br>';
 
 //        $tOutput .= '<iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
         $tOutput .= '<iframe width="100%" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
 //        $tOutput .= '<iframe scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/';
         $tOutput .= htmlspecialchars($row["audioTrack"] ?? '', ENT_QUOTES, 'UTF-8');
         $tOutput .= '&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>';
-        $tOutput .= '<br />';
+        $tOutput .= '<br>';
       }
 
       if(! empty($row["videoURL"])){
@@ -940,7 +952,7 @@ function videoList($tClass = 'R'){
 //        $tOutput .= $row["videoURL"];
 //        $tOutput .= '" target="_blank">Play on YouTube.com';
 //        $tOutput .= '</a>';
-//        $tOutput .= '<br />';
+//        $tOutput .= '<br>';
 
         $tOutput .= '<iframe width = "' . $tWidth . '" height = "' . $tHeight . '" src="https://www.youtube.com/embed/';
         $tOutput .= htmlspecialchars($row["videoURL"] ?? '', ENT_QUOTES, 'UTF-8');

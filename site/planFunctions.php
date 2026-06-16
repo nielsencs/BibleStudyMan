@@ -244,7 +244,7 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
 
                 $tOutput .=  '<!-- ' . htmlspecialchars($tAudio ?? '', ENT_QUOTES, 'UTF-8') . ' -->';
                 if (file_exists($tAudio)){
-                    $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br />';
+                    $tOutput .=  '<input type="button" id="bReading' . $i . '" name="bReading' . $i . '" value="listen" onclick="audioPlayPause(\'Reading' . $i . '\');"><br>';
                     $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . htmlspecialchars($tAudio ?? '', ENT_QUOTES, 'UTF-8') . '"></audio>';
                 }
                 list($passageQuery, $passageParams) = buildPassageQueryNew($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
@@ -525,14 +525,14 @@ function PTAddSection($row) { // add a section column to the plan table
     $bChaptersOnly = isChaptersOnly($row);
 
     $tOutput .= '<td>';
-    $tOutput .= '<a href="bible.php?book=';
+    $tOutput .= '<a href="bible?book=';
     $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
     $tOutput .= '">';
     $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
     $tOutput .= '</a> ';
 
     if ($row['bookChapters'] > 1){
-        $tOutput .= '<a href="bible.php?book=';
+        $tOutput .= '<a href="bible?book=';
         $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
         $tOutput .= '&chapter=';
         $tOutput .= $row['startChapter'];
@@ -552,7 +552,7 @@ function PTAddSection($row) { // add a section column to the plan table
         if ($row['endChapter'] > 0){
             $tOutput .= ' - ';
             if ($row['endChapter'] != $row['startChapter']){
-                $tOutput .= '<a href="bible.php?book=';
+                $tOutput .= '<a href="bible?book=';
                 $tOutput .= htmlspecialchars($row['bookName'] ?? '', ENT_QUOTES, 'UTF-8');
                 $tOutput .= '&chapter=';
                 $tOutput .= $row['endChapter'];

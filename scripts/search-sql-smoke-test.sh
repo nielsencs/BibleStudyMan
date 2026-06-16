@@ -27,6 +27,14 @@ elif [ -n "$DB_HOST" ]; then
 fi
 client_args+=("--batch" "--skip-column-names" "$DB_NAME")
 
+if ! "$DB_CLIENT" "${client_args[@]}" -e 'SELECT 1' >/dev/null 2>&1; then
+  cat >&2 <<MSG
+Cannot connect to the BSM database '$DB_NAME'.
+Start and seed the Docker/local MySQL or MariaDB environment first, or set BSM_DB_NAME, BSM_DB_USER, BSM_DB_PASSWORD, BSM_DB_HOST, or BSM_DB_SOCKET as needed.
+MSG
+  exit 1
+fi
+
 normalised_sql="TRIM(REGEXP_REPLACE(REGEXP_REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REGEXP_REPLACE(REGEXP_REPLACE(LOWER(verses.verseText), '<[^>]*>', ' '), '[{][hg][0-9]+[}]', ''), '&apos;', ' '), '&quot;', ' '), '&nbsp;', ' '), '-all', ''), '[^[:alnum:]]+', ' '), '[[:space:]]+', ' '))"
 
 run_query() {
