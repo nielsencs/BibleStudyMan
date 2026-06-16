@@ -49,6 +49,14 @@ assertSame(['% you are the light of the world %'], $exactYouAll['sql_params'], '
 assertContainsText("REPLACE(", $exactYouAll['sql_where'], 'exact search SQL includes replacements');
 assertContainsText("'-all'", $exactYouAll['sql_where'], 'exact search SQL removes TCSB -all marker');
 
+$literalYouAll = get_search_strategy('you-all', false);
+assertSame(['% youallmarker %'], $literalYouAll['sql_params'], 'loose search keeps explicit TCSB you-all distinct from ordinary you');
+assertContainsText("'you-all', 'youallmarker'", $literalYouAll['sql_where'], 'literal you-all search preserves the TCSB plural marker in SQL');
+assertSame(['you-all'], $literalYouAll['highlight_words'], 'literal you-all highlights only the explicit TCSB marker');
+
+$exactLiteralYouAll = get_search_strategy('you-all are', true);
+assertSame(['% youallmarker are %'], $exactLiteralYouAll['sql_params'], 'exact search keeps explicit TCSB you-all distinct inside phrases');
+
 $exactGodsAnger = get_search_strategy("god's anger", true);
 assertSame(['% god s anger %'], $exactGodsAnger['sql_params'], 'exact search still matches apostrophe possessive as normalised words');
 assertSame(['god', 's', 'anger'], $exactGodsAnger['highlight_words'], 'exact highlighting receives the same normalised words as exact search');
