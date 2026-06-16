@@ -40,18 +40,26 @@ assertSame(
 );
 
 $exactLight = get_search_strategy('god said light', true);
-assertSame(['% god said light %'], $exactLight['sql_params'], 'exact search preserves word order as a normalised phrase');
-assertContainsText("CONCAT(' ',", $exactLight['sql_where'], 'exact search uses padded normalised SQL text');
-assertContainsText('REGEXP_REPLACE', $exactLight['sql_where'], 'exact search ignores punctuation via SQL normalisation');
+assertSame(['%god said light%'], $exactLight['sql_params'], 'exact phrase search keeps simple literal LIKE matching');
+assertContainsText('verses.verseText LIKE ?', $exactLight['sql_where'], 'exact phrase search uses the verse text directly');
 
-$exactYouAll = get_search_strategy('you are the light of the world', true);
-assertSame(['% you are the light of the world %'], $exactYouAll['sql_params'], 'exact search can look for ordinary phrase without TCSB plural marker');
-assertContainsText("REPLACE(", $exactYouAll['sql_where'], 'exact search SQL includes replacements');
-assertContainsText("'-all'", $exactYouAll['sql_where'], 'exact search SQL removes TCSB -all marker');
+$exactYouPhrase = get_search_strategy('you are the light of the world', true);
+assertSame(
+    ['%you are the light of the world%', '%you-all are the light of the world%'],
+    $exactYouPhrase['sql_params'],
+    'exact phrase search expands ordinary you to include TCSB you-all'
+);
+
+$literalYouAll = get_search_strategy('you-all', false);
+assertSame(['%you-all%'], $literalYouAll['sql_params'], 'loose search keeps explicit TCSB you-all literal');
+assertSame(['you-all'], $literalYouAll['highlight_words'], 'literal you-all highlights the explicit TCSB marker');
+
+$ordinaryYou = get_search_strategy('you', false);
+assertSame(['%you%', '%you-all%'], $ordinaryYou['sql_params'], 'loose search expands ordinary you to include TCSB you-all');
 
 $exactGodsAnger = get_search_strategy("god's anger", true);
-assertSame(['% god s anger %'], $exactGodsAnger['sql_params'], 'exact search still matches apostrophe possessive as normalised words');
-assertSame(['god', 's', 'anger'], $exactGodsAnger['highlight_words'], 'exact highlighting receives the same normalised words as exact search');
+assertSame(['%god\'s anger%'], $exactGodsAnger['sql_params'], 'exact phrase search keeps apostrophe phrases literal');
+assertSame(['god', 's', 'anger'], $exactGodsAnger['highlight_words'], 'exact highlighting receives normalised words for display matching');
 
 assertSame(
     '<span class="highlightOW"><span class="highlightWord">God</span></span> <sub>(Elohim)</sub>&apos;s <span class="highlightWord">anger</span>',
@@ -90,7 +98,7 @@ assertSame(
 );
 
 $looseSelfless = get_search_strategy('selflessly love', false);
-assertSame(['% selflessly %', '% love %'], $looseSelfless['sql_params'], 'loose search normalises punctuation into separate words');
+assertSame(['%selflessly%', '%love%'], $looseSelfless['sql_params'], 'loose search keeps simple literal word matching');
 assertContainsText(' AND ', $looseSelfless['sql_where'], 'loose search requires all words');
 
 if ($failures > 0) {
