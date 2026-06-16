@@ -1,14 +1,43 @@
 <?php
-  require_once 'bibleSearchFunctions.php';
   require_once 'header.php';
 ?>
-        <div class="main Bible">
+  <script type="text/javascript">
+// ============================================================================
+    function audioPlayPause(tAudioID){
+// ============================================================================
+      if(document.getElementById('b' + tAudioID).value === 'listen' || document.getElementById('b' + tAudioID).value === 'continue'){
+        document.getElementById('b' + tAudioID).value = 'stop';
+        document.getElementById('a' + tAudioID).play();
+        document.getElementById('a' + tAudioID).controls = true;
+      } else {
+        document.getElementById('b' + tAudioID).value = 'continue';
+        document.getElementById('a' + tAudioID).pause();
+        document.getElementById('a' + tAudioID).controls = false;
+      }
+    }
+// ============================================================================
+  </script>
+
+        <div class="main TCSB">
             <h1>The CleanSlate Bible</h1>
             <div class="subMain sectGeneral">
-<?php if (! $bFloaty) { require_once 'controlPanel.php'; } ?>
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
-  include_once 'bibleDisclaimer.html';
+  $emptyBibleSearch = empty($tBook) && empty($tChapter) && empty($tVerses) && empty($tWords);
+  if($emptyBibleSearch || $tPriority === 'Plan'){ // no Bible search or month specified, show today's verses
+    echo "<h2>Readings for " . htmlspecialchars(monthName($iMonth) . ' ' . $iDay, ENT_QUOTES, 'UTF-8') . ":</h2>";
+    $tOutput = planTable($tSortOrder);
+    echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
+?>
+                <!-- <p>You can read the passages below. If you're looking to read for
+                  a different day or want to use your own Bible, then
+                <a href="planTable">here&apos;s the entire year&apos;s plan
+                  as a list</a>. Enjoy!</p> -->
+<?php
+    echo daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
+  }else{
+    echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
+  }
+  include_once '../bibleDisclaimer.html';
 ?>
             </div>
         </div>
@@ -49,7 +78,7 @@ function intToWords($x) {
 
   if (!is_numeric($x)) {
     $tNWord = '#';
-  } elseif (fmod($x, 1) != 0) {
+  } else if (fmod($x, 1) != 0) {
     $tNWord = '#';
   } else {
     if ($x < 0) {
@@ -61,19 +90,19 @@ function intToWords($x) {
     // ... now $x is a non-negative integer.
     if ($x < 21) {  // 0 to 20
       $tNWord .= $atNWords[$x];
-    } elseif ($x < 100) {  // 21 to 99
+    } else if ($x < 100) {  // 21 to 99
       $tNWord .= $atNWords[10 * floor($x / 10)];
       $r = fmod($x, 10);
       if ($r > 0) {
         $tNWord .= '-' . $atNWords[$r];
       }
-    } elseif ($x < 1000) {  // 100 to 999
+    } else if ($x < 1000) {  // 100 to 999
       $tNWord .= $atNWords[floor($x / 100)] . ' ' . $atNWords['hundred'];
       $r = fmod($x, 100);
       if ($r > 0) {
         $tNWord .= ' ' . $atNWords['separator'] . ' ' . intToWords($r);
       }
-    } elseif ($x < 1000000) {  // 1000 to 999999
+    } else if ($x < 1000000) {  // 1000 to 999999
       $tNWord .= intToWords(floor($x / 1000)) . ' ' . $atNWords['thousand'];
       $r = fmod($x, 1000);
       if ($r > 0) {

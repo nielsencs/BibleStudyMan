@@ -78,10 +78,22 @@ Run PHP syntax checks:
 ./scripts/php-lint.sh
 ```
 
+Run PHP-only smoke tests for search strategy and Strong's rendering helpers:
+
+```sh
+./scripts/php-tests.sh
+```
+
 Run basic local smoke tests after starting and seeding the Docker environment:
 
 ```sh
 python3 scripts/smoke-test.py
+```
+
+Run DB-backed search SQL smoke tests only when a seeded MySQL/MariaDB database is running and reachable via `BSM_DB_*` environment variables:
+
+```sh
+./scripts/search-sql-smoke-test.sh
 ```
 
 These checks are deliberately simple: they prove the old site still starts and key pages do not show obvious PHP/database fatal errors.

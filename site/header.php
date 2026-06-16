@@ -15,6 +15,14 @@
 
 <?php
   $bHome = strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'index.php') || strpos(filter_input(INPUT_SERVER, 'SCRIPT_NAME'),'home.php');
+  $bBible = stripos($_SERVER['REQUEST_URI'], 'bible');
+  $bPlan = stripos($_SERVER['REQUEST_URI'], 'plan');
+
+  $tFloaty = strtolower((string)filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW));
+  $bFloaty = $tFloaty === 'on'; // is the control panel 'floaty'? Default is static; floaty is opt-in.
+  $tFloaty = $bFloaty ? 'on' : 'off';
+  $bTCSB = false; // Are we in the TCSB app'?
+
   require_once '../sqlCon.php';
 ?>
 
@@ -26,7 +34,14 @@
   <link rel="stylesheet" type="text/css" href="styles/resetRichardClark.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato|Londrina+Solid:300&display=swap">
   <link rel="stylesheet" type="text/css" href="styles/general.css">
+  <link rel="stylesheet" type="text/css" href="styles/input.css">
   <link rel="stylesheet" type="text/css" href="styles/pages.css">
+  <link rel="stylesheet" type="text/css" href="styles/menus.css">
+<?php
+  if ($bBible || $bPlan) {
+    echo '<link rel="stylesheet" href="styles/tables.css">' . PHP_EOL;
+  }
+?>
 
   <!-- script src="https://cmp.osano.com/AzZcqjS44O5M21NrU/dda2dc42-5678-4e89-b7d6-c6ea02b5d890/osano.js"></script -->
 
@@ -54,11 +69,15 @@
   <meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
   <script src="scripts/app.js"></script>
-  <!-- <script src="scripts/menu.js"></script> -->
+<?php
+  if ($bBible || $bPlan){
+    echo '<script src="scripts/search.js"></script>' . PHP_EOL;
+  }
+?>
 </head>
 
 <body>
-  <div id="waitHint" class="modal"></div>
+  <div id="waitOverlay"></div><!--Used to cover the page with a transparent overlay when the user clicks 'search' to show them the search is running. -->
   <div class="content">
     <noscript>
       <h1 class="centerText">It seems that you currently don&apos;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
@@ -66,16 +85,75 @@
 
     <img class="banner-image" src="images/BibleBannerRainbow<?php if(! $bHome){echo 'Bot';} ?>Low.jpg" alt="pic of open Bible on desk">
 
-    <div class="menu">
-      <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
+    <div class="menu-wrapper <?php echo $bFloaty ? 'is-floaty' : 'is-static'; ?>">
+    <header class="menu">
+      <nav class="mainNav">
+        <img class="logo" src="images/BSMLogo.png" alt="BibleStudyMan logo">
 
-      <ul class="nav">
-        <li><a href="home">Home</a></li>
-        <li><a href="bible">Bible</a></li>
-        <li><a href="plan">Plan</a></li>
-        <li><a href="readings">Readings</a></li>
-        <li><a href="teaching">Teaching</a></li>
-        <li><a href="pricing">Pricing</a></li>
-        <li><a href="supportMe">Support&nbsp;Me</a></li>
-      </ul>
-    </div>
+        <ul class="nav">
+          <li><a href="home">Home</a></li>
+          <li><a href="bible">Bible</a></li>
+          <li><a href="plan">Plan</a></li>
+          <li><a href="readings">Readings</a></li>
+          <li><a href="teaching">Teaching</a></li>
+          <li><a href="pricing">Pricing</a></li>
+          <li><a href="supportMe">Support&nbsp;Me</a></li>
+        </ul>
+      </nav>
+
+<?php
+if ($bBible || $bPlan){
+  require_once 'dbFunctions.php';
+  require_once 'search.php';
+  }
+if ($bPlan){
+  require_once 'planFunctions.php';
+}
+?>
+
+      <div class="bibleNav">
+<?php if ($bFloaty && ($bBible || $bPlan)){ ?>
+        <div class="bibleNavLeft">
+  <?php if ($bPlan){ ?>
+          <button class="plan" onclick="dayDirection('pd')">&lt;D</button>
+  <?php } ?>
+  <?php if ($bBible){ ?>
+          <button class="Bible" onclick="doDirection('pb')">&lt;B</button>
+          <button class="Bible" onclick="doDirection('pc')">&lt;C</button>
+  <?php } ?>
+        </div>
+  <?php if ($bFloaty) { ?>
+        <div class="bibleNavMiddle">
+          <label for="panelToggle" style="white-space: nowrap;"><input type="checkbox" name="panelToggle" id="panelToggle" checked>Search</label>
+          <label for="wordsToggle" style="white-space: nowrap;"><input type="checkbox" name="wordsToggle" id="wordsToggle" checked>Options</label>
+        </div>
+  <?php } ?>
+        <div class="bibleNavRight">
+  <?php if ($bBible){ ?>
+          <button class="Bible" onclick="doDirection('nc')">C&gt;</button>
+          <button class="Bible" onclick="doDirection('nb')">B&gt;</button>
+  <?php } ?>
+  <?php if ($bPlan){ ?>
+          <button class="plan" onclick="dayDirection('nd')">D&gt;</button>
+  <?php } ?>
+        </div>
+<?php } ?>
+      </div>
+    </header>
+<?php
+if ($bBible) {
+  $atBookChapSearch = bookChapSearch($tWords, $tBook, $tChapter);
+  if($atBookChapSearch[0] > ''){ // book found in search
+    $tBook = $atBookChapSearch[0];
+    if($atBookChapSearch[1] > ''){ // chapter found in search
+      $tChapter = $atBookChapSearch[1];
+      if($atBookChapSearch[2] > ''){ // verses found in search
+        $tVerses = $atBookChapSearch[2];
+      }
+    }
+  }
+  $tWords = $atBookChapSearch[3];
+}
+?>
+<?php if ($bFloaty && ($bBible || $bPlan)){ require_once 'controlPanel.php';} ?>
+    </div><!-- menu-wrapper -->

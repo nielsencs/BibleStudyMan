@@ -22,6 +22,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('G
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 5, 2);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 9, 11);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 12, 12);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('EXO', 39, 32);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('LEV', 20, 14);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('DEU', 2, 21);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('DEU', 24, 22);
@@ -48,6 +49,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('J
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('JOB', 21, 2);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('JOB', 21, 3);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('JOB', 21, 4);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('JOB', 21, 31);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('JOB', 36, 27);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PSA', 7, 4);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PSA', 23, 0);
