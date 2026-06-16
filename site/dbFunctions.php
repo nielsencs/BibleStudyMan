@@ -684,7 +684,6 @@ function highlightExactWordSequence(array $searchWords, string $haystack): strin
 // ============================================================================
     $parts = preg_split('/(<[^>]*>|&[a-zA-Z0-9#]+;)/', $haystack, -1, PREG_SPLIT_DELIM_CAPTURE);
     $tokens = [];
-    $preserveYouAll = in_array('youallmarker', $searchWords, true);
 
     $insideSub = false;
     foreach ($parts as $partIndex => $part) {
@@ -705,7 +704,7 @@ function highlightExactWordSequence(array $searchWords, string $haystack): strin
 
         if (preg_match_all('/[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*/', $part, $matches, PREG_OFFSET_CAPTURE)) {
             foreach ($matches[0] as $match) {
-                $normalisedWords = array_values(array_filter(explode(' ', normalise_search_text_for_matching($match[0], $preserveYouAll))));
+                $normalisedWords = array_values(array_filter(explode(' ', normalise_search_text_for_matching($match[0]))));
                 if (!empty($normalisedWords)) {
                     $tokens[] = [
                         'part_index' => $partIndex,
@@ -765,34 +764,51 @@ function highlightExactWordSequence(array $searchWords, string $haystack): strin
 // ============================================================================
 function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
-    $preserveYouAll = search_terms_request_literal_you_all($searchTerms);
-    $normalisedSearchTerms = normalise_search_text_for_matching($searchTerms, $preserveYouAll);
-    $words = array_values(array_filter(explode(' ', $normalisedSearchTerms)));
-    $wordsToHighlight = highlight_words_from_search_terms($searchTerms, $preserveYouAll);
-    $normalisedVerseTextSql = normalised_verse_text_sql($preserveYouAll);
+    $words = search_words_from_terms($searchTerms);
     $sqlWhereClause = '';
     $sqlParams = [];
     $highlightWords = [];
     $highlightIsExact = false;
 
     if ($isExact) {
-        // User-exact search: match the requested words in order after normalising
-        // punctuation, HTML/Strong's markup, and TCSB forms such as "you-all".
-        $sqlWhereClause = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
-        $sqlParams[] = '% ' . $normalisedSearchTerms . ' %';
-        $highlightWords = $words;
+        if (count($words) === 1) {
+            $conditions = [];
+            foreach (search_word_alternatives($words[0]) as $word) {
+                if (preg_match('/^[a-z0-9]+$/i', $word)) {
+                    // Use MySQL's word boundary regex for a single exact word.
+                    $conditions[] = 'verses.verseText REGEXP ?';
+                    $sqlParams[] = '[[:<:]]' . $word . '[[:>:]]';
+                } else {
+                    $conditions[] = 'verses.verseText LIKE ?';
+                    $sqlParams[] = '%' . $word . '%';
+                }
+            }
+            $sqlWhereClause = '(' . implode(' OR ', $conditions) . ')';
+        } else {
+            $conditions = [];
+            foreach (search_phrase_alternatives($searchTerms) as $phrase) {
+                $conditions[] = 'verses.verseText LIKE ?';
+                $sqlParams[] = '%' . $phrase . '%';
+            }
+            $sqlWhereClause = '(' . implode(' OR ', $conditions) . ')';
+        }
+        $highlightWords = normalised_words_for_exact_highlight($searchTerms);
         $highlightIsExact = true;
 
     } else { // Not an exact search
         if (count($words) > 0) {
             $conditions = [];
             foreach ($words as $word) {
-                $conditions[] = "CONCAT(' ', $normalisedVerseTextSql, ' ') LIKE ?";
-                $sqlParams[] = '% ' . $word . ' %';
+                $wordConditions = [];
+                foreach (search_word_alternatives($word) as $wordAlternative) {
+                    $wordConditions[] = 'verses.verseText LIKE ?';
+                    $sqlParams[] = '%' . $wordAlternative . '%';
+                }
+                $conditions[] = '(' . implode(' OR ', $wordConditions) . ')';
             }
             $sqlWhereClause = implode(' AND ', $conditions);
         }
-        $highlightWords = $wordsToHighlight;
+        $highlightWords = highlight_words_from_search_terms($searchTerms);
         $highlightIsExact = false;
     }
 
@@ -805,57 +821,59 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
 }
 
 // ============================================================================
-function normalise_search_text_for_matching(string $text, bool $preserveYouAll = false): string {
+function search_words_from_terms(string $searchTerms): array {
+// ============================================================================
+    return array_values(array_filter(preg_split('/\s+/', trim($searchTerms)) ?: []));
+}
+
+// ============================================================================
+function search_word_alternatives(string $word): array {
+// ============================================================================
+    $alternatives = [$word];
+    if (strtolower($word) === 'you') {
+        $alternatives[] = 'you-all';
+    }
+    return array_values(array_unique($alternatives));
+}
+
+// ============================================================================
+function search_phrase_alternatives(string $searchTerms): array {
+// ============================================================================
+    $phrases = [trim($searchTerms)];
+    if (preg_match('/\byou\b/i', $searchTerms)) {
+        $phrases[] = preg_replace('/\byou\b/i', 'you-all', $searchTerms);
+    }
+    return array_values(array_unique(array_filter($phrases)));
+}
+
+// ============================================================================
+function normalised_words_for_exact_highlight(string $searchTerms): array {
+// ============================================================================
+    $normalisedSearchTerms = normalise_search_text_for_matching($searchTerms);
+    return array_values(array_filter(explode(' ', $normalisedSearchTerms)));
+}
+
+// ============================================================================
+function normalise_search_text_for_matching(string $text): string {
 // ============================================================================
     $text = html_entity_decode(strip_tags($text), ENT_QUOTES | ENT_HTML5, 'UTF-8');
     $text = strtolower($text);
     $text = preg_replace('/\{[hg][0-9]+\}/i', '', $text);
-    if ($preserveYouAll) {
-        $text = preg_replace('/\byou-all\b/i', 'youallmarker', $text);
-    } else {
-        $text = str_replace('-all', '', $text);
-    }
+    $text = str_replace('-all', '', $text);
     $text = preg_replace('/[^a-z0-9]+/', ' ', $text);
     $text = preg_replace('/\s+/', ' ', $text);
     return trim($text);
 }
 
 // ============================================================================
-function search_terms_request_literal_you_all(string $searchTerms): bool {
-// ============================================================================
-    return preg_match('/\byou-all\b/i', $searchTerms) === 1;
-}
-
-// ============================================================================
-function highlight_words_from_search_terms(string $searchTerms, bool $preserveYouAll = false): array {
+function highlight_words_from_search_terms(string $searchTerms): array {
 // ============================================================================
     // Search matching may treat apostrophes as separators so that "God's anger"
     // can match database text containing &apos;s. For highlighting, the possessive
     // "s" is not useful on its own and can damage HTML entities. Highlight the
     // meaningful words instead.
     $termsWithoutPossessive = preg_replace('/\b([a-z0-9]+)[\'’]s\b/i', '$1', $searchTerms);
-    $normalisedHighlightTerms = normalise_search_text_for_matching($termsWithoutPossessive ?? $searchTerms, $preserveYouAll);
-    $highlightWords = array_values(array_filter(explode(' ', $normalisedHighlightTerms)));
-    return array_map(fn($word) => $word === 'youallmarker' ? 'you-all' : $word, $highlightWords);
-}
-
-// ============================================================================
-function normalised_verse_text_sql(bool $preserveYouAll = false): string {
-// ============================================================================
-    $text = 'LOWER(verses.verseText)';
-    $text = "REGEXP_REPLACE($text, '<[^>]*>', ' ')";
-    $text = "REGEXP_REPLACE($text, '[{][hg][0-9]+[}]', '')";
-    $text = "REPLACE($text, '&apos;', ' ')";
-    $text = "REPLACE($text, '&quot;', ' ')";
-    $text = "REPLACE($text, '&nbsp;', ' ')";
-    if ($preserveYouAll) {
-        $text = "REPLACE($text, 'you-all', 'youallmarker')";
-    } else {
-        $text = "REPLACE($text, '-all', '')";
-    }
-    $text = "REGEXP_REPLACE($text, '[^[:alnum:]]+', ' ')";
-    $text = "REGEXP_REPLACE($text, '[[:space:]]+', ' ')";
-    return "TRIM($text)";
+    return search_words_from_terms($termsWithoutPossessive ?? $searchTerms);
 }
 
 // ============================================================================
