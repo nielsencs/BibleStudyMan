@@ -35,7 +35,7 @@
                       <tr>
                         <td colspan="3">
                           <!-- Search by word or book or both<br> -->
-                          <input type="search" name="words" id="words" placeholder="Enter phrase or word(s)" value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                          <input type="search" name="words" id="words" placeholder="Search..." value="<?php echo htmlspecialchars($tWords ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                           <br>
                           <input type="checkbox" name="exact" id="exact" <?php if($bExact){echo 'checked';}; ?>
                                  onclick="doSubmit('words')"><label for="exact"><abbr title="If this is checked you'll tend to
