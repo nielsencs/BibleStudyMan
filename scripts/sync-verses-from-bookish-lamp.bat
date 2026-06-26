@@ -2,10 +2,13 @@
 setlocal
 
 rem Sync The CleanSlate Bible verse text from sibling repo bookish-lamp into BSM,
+rem bumping the canonical TCSB text version in Bookish Lamp when verse text changed,
 rem then rebuild database\bibleComplete.sql.
 
 set "BSM_ROOT=%~dp0.."
 set "BL_ROOT=%BSM_ROOT%\..\bookish-lamp"
+set "VERSES_CHANGED=0"
+set "TCSB_VERSION="
 
 if not exist "%BL_ROOT%\database\bibleVerses.sql" (
     echo Could not find %BL_ROOT%\database\bibleVerses.sql
@@ -31,13 +34,27 @@ for /f "delims=" %%A in ('git status --porcelain') do (
 git fetch --prune origin || goto fail
 git pull --ff-only origin develop || goto fail
 
+fc /b "%BL_ROOT%\database\bibleVerses.sql" "%BSM_ROOT%\database\bibleVerses.sql" >nul
+if errorlevel 1 set "VERSES_CHANGED=1"
+
+if "%VERSES_CHANGED%"=="1" (
+    for /f "delims=" %%V in ('powershell -NoProfile -ExecutionPolicy Bypass -File "%BSM_ROOT%\scripts\bump-tcsb-version.ps1" -VersionFile "%BL_ROOT%\database\tcsbVersion.sql"') do set "TCSB_VERSION=%%V"
+    cd /d "%BL_ROOT%" || goto fail
+    git add database\tcsbVersion.sql || goto fail
+    git commit -m "Bump TCSB text version to %TCSB_VERSION%" || goto fail
+    git push origin master || goto fail
+)
+
+cd /d "%BSM_ROOT%" || goto fail
+copy /Y "%BL_ROOT%\database\tcsbVersion.sql" "%BSM_ROOT%\database\tcsbVersion.sql" || goto fail
 copy /Y "%BL_ROOT%\database\bibleVerses.sql" "%BSM_ROOT%\database\bibleVerses.sql" || goto fail
-type "%BSM_ROOT%\database\bibleStart.sql" "%BSM_ROOT%\database\bibleCompletedVerses.sql" "%BSM_ROOT%\database\bibleVerses.sql" > "%BSM_ROOT%\database\bibleComplete.sql" || goto fail
+type "%BSM_ROOT%\database\bibleStart.sql" "%BSM_ROOT%\database\bibleCompletedVerses.sql" "%BSM_ROOT%\database\tcsbVersion.sql" "%BSM_ROOT%\database\bibleVerses.sql" > "%BSM_ROOT%\database\bibleComplete.sql" || goto fail
 
 fc /b "%BL_ROOT%\database\bibleVerses.sql" "%BSM_ROOT%\database\bibleVerses.sql" >nul || goto fail
+fc /b "%BL_ROOT%\database\tcsbVersion.sql" "%BSM_ROOT%\database\tcsbVersion.sql" >nul || goto fail
 
 git status --short
-git add database\bibleVerses.sql database\bibleComplete.sql || goto fail
+git add database\tcsbVersion.sql database\bibleVerses.sql database\bibleComplete.sql || goto fail
 git diff --cached --quiet
 if not errorlevel 1 (
     echo Already synced. No commit needed.
