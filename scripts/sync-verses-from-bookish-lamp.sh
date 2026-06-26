@@ -5,13 +5,13 @@ usage() {
   cat <<'USAGE'
 Usage: scripts/sync-verses-from-bookish-lamp.sh [--no-push] [--bl-root PATH]
 
-Copies bookish-lamp/database/bibleVerses.sql and tcsbVersion.sql into
+Copies bookish-lamp/database/bibleVerses.sql and tcsbMetadata.sql into
 this BSM checkout, then rebuilds database/bibleComplete.sql using:
 
-  bibleStart.sql + bibleCompletedVerses.sql + tcsbVersion.sql + bibleVerses.sql
+  bibleStart.sql + bibleCompletedVerses.sql + tcsbMetadata.sql + bibleVerses.sql
 
 If BL verse text differs from BSM before the copy, the script first bumps
-the canonical TCSB text version in Bookish Lamp and commits it there.
+the canonical TCSB metadata in Bookish Lamp and commits it there.
 
 By default, commits any resulting BSM changes and pushes develop.
 Use --no-push to leave commits local.
@@ -124,7 +124,7 @@ SQL
 }
 
 require_file "$bl_root/database/bibleVerses.sql"
-require_file "$bl_root/database/tcsbVersion.sql"
+require_file "$bl_root/database/tcsbMetadata.sql"
 require_file "$bsm_root/database/bibleStart.sql"
 require_file "$bsm_root/database/bibleCompletedVerses.sql"
 require_file "$bsm_root/database/bibleVerses.sql"
@@ -147,10 +147,10 @@ if ! cmp -s "$bl_root/database/bibleVerses.sql" "$bsm_root/database/bibleVerses.
 fi
 
 if [[ "$verses_changed" -eq 1 ]]; then
-  version=$(write_next_tcsb_version "$bl_root/database/tcsbVersion.sql")
+  version=$(write_next_tcsb_version "$bl_root/database/tcsbMetadata.sql")
   git -C "$bl_root" config user.name "Ezra"
   git -C "$bl_root" config user.email "ezra@openclaw.local"
-  git -C "$bl_root" add database/tcsbVersion.sql
+  git -C "$bl_root" add database/tcsbMetadata.sql
   git -C "$bl_root" commit -m "Bump TCSB text version to $version"
   if [[ "$push_changes" -eq 1 ]]; then
     bl_branch=$(git -C "$bl_root" branch --show-current)
@@ -158,22 +158,25 @@ if [[ "$verses_changed" -eq 1 ]]; then
   fi
 fi
 
-cp "$bl_root/database/tcsbVersion.sql" "$bsm_root/database/tcsbVersion.sql"
+cp "$bl_root/database/tcsbMetadata.sql" "$bsm_root/database/tcsbMetadata.sql"
 cp "$bl_root/database/bibleVerses.sql" "$bsm_root/database/bibleVerses.sql"
-cat \
-  "$bsm_root/database/bibleStart.sql" \
-  "$bsm_root/database/bibleCompletedVerses.sql" \
-  "$bsm_root/database/tcsbVersion.sql" \
-  "$bsm_root/database/bibleVerses.sql" \
-  > "$bsm_root/database/bibleComplete.sql"
+{
+  cat "$bsm_root/database/bibleStart.sql"
+  printf '\n'
+  cat "$bsm_root/database/bibleCompletedVerses.sql"
+  printf '\n'
+  cat "$bsm_root/database/tcsbMetadata.sql"
+  printf '\n'
+  cat "$bsm_root/database/bibleVerses.sql"
+} > "$bsm_root/database/bibleComplete.sql"
 
 if ! cmp -s "$bl_root/database/bibleVerses.sql" "$bsm_root/database/bibleVerses.sql"; then
   echo "Post-copy verification failed: BSM bibleVerses.sql does not match BL." >&2
   exit 1
 fi
 
-if ! cmp -s "$bl_root/database/tcsbVersion.sql" "$bsm_root/database/tcsbVersion.sql"; then
-  echo "Post-copy verification failed: BSM tcsbVersion.sql does not match BL." >&2
+if ! cmp -s "$bl_root/database/tcsbMetadata.sql" "$bsm_root/database/tcsbMetadata.sql"; then
+  echo "Post-copy verification failed: BSM tcsbMetadata.sql does not match BL." >&2
   exit 1
 fi
 
@@ -184,7 +187,7 @@ fi
 
 git -C "$bsm_root" config user.name "Ezra"
 git -C "$bsm_root" config user.email "ezra@openclaw.local"
-git -C "$bsm_root" add database/tcsbVersion.sql database/bibleVerses.sql database/bibleComplete.sql scripts/bump-tcsb-version.ps1 scripts/sync-verses-from-bookish-lamp.bat scripts/sync-verses-from-bookish-lamp.sh
+git -C "$bsm_root" add database/tcsbMetadata.sql database/bibleVerses.sql database/bibleComplete.sql scripts/bump-tcsb-version.ps1 scripts/sync-verses-from-bookish-lamp.bat scripts/sync-verses-from-bookish-lamp.sh
 git -C "$bsm_root" commit -m "Version TCSB text sync metadata"
 
 if [[ "$push_changes" -eq 1 ]]; then

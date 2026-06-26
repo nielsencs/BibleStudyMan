@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)]
-    [string]$VersionFile
+    [string]$MetadataFile
 )
 
 $ErrorActionPreference = 'Stop'
@@ -8,8 +8,8 @@ $today = Get-Date -Format 'yyyy.MM.dd'
 $sqlDate = Get-Date -Format 'yyyy-MM-dd'
 $currentVersion = $null
 
-if (Test-Path -LiteralPath $VersionFile) {
-    $content = Get-Content -LiteralPath $VersionFile -Raw
+if (Test-Path -LiteralPath $MetadataFile) {
+    $content = Get-Content -LiteralPath $MetadataFile -Raw
     if ($content -match "'text_version', 'TCSB-(\d{4})\.(\d{2})\.(\d{2})\.(\d+)'") {
         $currentVersion = "TCSB-$($Matches[1]).$($Matches[2]).$($Matches[3]).$($Matches[4])"
         $currentDate = "$($Matches[1]).$($Matches[2]).$($Matches[3])"
@@ -37,5 +37,5 @@ INSERT INTO ``tcsb_text_metadata`` (``metadataKey``, ``metadataValue``) VALUES (
 INSERT INTO ``tcsb_text_metadata`` (``metadataKey``, ``metadataValue``) VALUES ('version_source', 'bookish-lamp/database/bibleVerses.sql');
 "@
 
-Set-Content -LiteralPath $VersionFile -Value $sql -Encoding UTF8
+Set-Content -LiteralPath $MetadataFile -Value $sql -Encoding UTF8
 Write-Output $nextVersion

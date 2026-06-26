@@ -2600,6 +2600,7 @@ INSERT INTO `plan-days` (ID, planDate) VALUES(363, '2001-12-29');
 INSERT INTO `plan-days` (ID, planDate) VALUES(364, '2001-12-30');
 INSERT INTO `plan-days` (ID, planDate) VALUES(365, '2001-12-31');
 
+
 DROP TABLE IF EXISTS `completed-verses`;
 CREATE TABLE `completed-verses` (
   `completed-verseID` int(11) NOT NULL AUTO_INCREMENT,
@@ -2811,6 +2812,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('C
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('HEB', 1, 3);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('HEB', 9, 28);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('1JO', 5, 13);
+
 DROP TABLE IF EXISTS `tcsb_text_metadata`;
 CREATE TABLE `tcsb_text_metadata` (
   `metadataKey` varchar(40) NOT NULL,
@@ -2821,6 +2823,7 @@ CREATE TABLE `tcsb_text_metadata` (
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', 'TCSB-2026.06.26.1');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('version_date', '2026-06-26');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('version_source', 'bookish-lamp/database/bibleVerses.sql');
+
 
 DROP TABLE IF EXISTS `verses`;
 CREATE TABLE `verses` (
