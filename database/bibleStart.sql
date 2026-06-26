@@ -143,7 +143,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2209', 0, 'zemia', 'damage', '\'damage/loss\' loss, damage');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2296', 0, 'thaumazo', 'stunned', 'To be stunned, to wonder, be (utterly) amazed, marvel, to wonder at, wonder greatly.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 0, 'Theopneustos', 'Godbreathed', 'Literally the breath/wind/spirit-making of God. God breathed as one word. Only occurs once in 2 Timothy 3:16');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 1, 'Theophilus', 'FriendOfGod', 'The name Theophilus is a contraction of Theos{2316} and philos{G5384}.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2321', 1, 'Theophilus', 'FriendOfGod', 'The name Theophilus is a contraction of Theos{2316} and philos{G5384}.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2364', 0, 'thugater', 'daughter', 'Daughter, and by extension a term of endearment, usually towards younger women');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2519', 0, 'kathegetes', 'teacher', 'teacher');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2634', 0, 'katakurieuo', 'master', 'master - \'against-lord\'');
