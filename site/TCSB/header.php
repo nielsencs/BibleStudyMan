@@ -88,7 +88,7 @@
       <h1 class="centerText">It seems that you currently don&apos;t have Javascript enabled. To get the best from this site, you will want to enable it.</h1>
     </noscript>
 
-    <div class="menu-wrapper">
+    <div class="menu-wrapper is-floaty">
       <header class="menu">
       <nav class="mainNav">
         <img class="logo" src="images/TCSBLogoSmall.png" alt="TCSB logo">
