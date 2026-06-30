@@ -120,21 +120,12 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
       <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
     </div>
 
-    <div id="prefsSection" class="panelStageSection collapsed searchOptions">
-      <p class="centerText">For certain <abbr title="Things like the various words for God
-and words that can have a variety of
-translations. For example in both
-Hebrew and Greek a certain word 
-can mean spirit or breath or breeze.">significant</abbr> words:</p>
-      <input type="checkbox" name="highlightSW" id="highlightSW"
-      <?php if($bHighlightSW){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="highlightSW"><span class="highlightOW">Highlight</span> them</label><br>
-      <input type="checkbox" name="showOW" id="showOW"
-      <?php if($bShowOW){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="showOW">Show in both languages</label><br>
-      <input type="checkbox" name="showTN" id="showTN"
-      <?php if($bShowTN){echo 'checked';} ?>
-          onclick="doSubmit()"><label for="showTN">Prefer English</label>
-    </div>
+<?php
+  $intWordsWrap = true;
+  $intWordsId = 'prefsSection';
+  $intWordsClass = 'panelStageSection collapsed searchOptions';
+  $intWordsParagraphClass = 'centerText';
+  require __DIR__ . '/../intWords.php';
+?>
   </form>
 </div>
