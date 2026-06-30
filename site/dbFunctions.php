@@ -490,17 +490,16 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
     // place it before the verse number
   }
   
-  // Always wrap each verse in a span with id
-  $tOutput .= '<span id="' . $verseId . '"';
   if ($bVerseSearched) {
-    $tOutput .= ' class="highlightVerse"';
+    $tOutput .= '<span id="' . $verseId . '" class="highlightVerse">';
   }
-  $tOutput .= '>';
 
   $tOutput .=  doVerseNumber($row['verseNumber']);
   $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . ' ';
 
-  $tOutput .= '</span>';
+  if ($bVerseSearched) {
+    $tOutput .= '</span>';
+  }
 
   if($bEndPara){
     $tOutput .=  '</p>';
