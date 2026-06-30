@@ -360,10 +360,6 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
 WHERE verses.chapter = selected_passage.chapter 
 AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.verseEnd;';
 
-      $tOutput = ''; // start with a blank output so subsequent lines all have .=
-      if($bFloaty){
-        $tOutput .= '<br><br><br><br><br><br><br>'; // fudge to allow for the floaty box
-      }
       $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the ';
       if($bFloaty){
         $tOutput .= 'collapsible ';
