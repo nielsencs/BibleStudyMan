@@ -327,24 +327,11 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
             $highlightIsExact = $searchStrategy['highlight_is_exact'];
         }
       }else{
-        // ---- NOT searching down to verse level - keep commented in case I change my mind!
-        // if (empty($tVerses))
-        // {
-          $tQuery .= ' AND verses.chapter = ?';
-          $params[] = $tChapter;
-        // }else{
-        //     $tQuery = $tBaseQuery . ' WHERE books.bookName ="' . $tBook . '" AND verses.chapter=' . $tChapter . ' AND verses.verseNumber=' . $tVerse . ';';
-        // }
-        // ---- NOT searching down to verse level - keep commented in case I change my mind!
+        $tQuery .= ' AND verses.chapter = ?';
+        $params[] = $tChapter;
 
-        // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
-        // if (empty($tWords)) {
-          // $tQuery = $tQuery . ';';
-        // }else{
-          // $tQuery = $tQuery . ' AND ' . addSQLWildcards($tWords, $bExact) . ';';
-        // }
-        // ---- NOT searching words if chapter - highlight instead - keep commented in case I change my mind!
-        // If there are search words, prepare them for highlighting, but don't filter the query with them.
+        // When a chapter is selected, show the whole chapter and highlight matching
+        // words inside it. Do not filter the chapter down to only matching verses.
         if (!empty($tWords)) {
             $searchStrategy = get_search_strategy($tWords, $bExact);
             $highlightWords = $searchStrategy['highlight_words'];
@@ -763,6 +750,10 @@ function highlightExactWordSequence(array $searchWords, string $haystack): strin
 // ============================================================================
 function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
+    // Search SQL deliberately stays simple and fast: raw LIKE/REGEXP against
+    // verses.verseText, with only small explicit alternatives such as you/you-all.
+    // Normalisation is used for highlighting/display matching, not to build a
+    // separate normalised SQL search layer.
     $words = search_words_from_terms($searchTerms);
     $sqlWhereClause = '';
     $sqlParams = [];
