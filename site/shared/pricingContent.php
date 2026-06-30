@@ -8,11 +8,11 @@
             <!-- p>It's all free! However if you feel so inclined, a donation
             will help me pay for the hosting of this site and it's future development.</p -->
 <?php
-    require $includePathPrefix . 'costs.php';
+    require __DIR__ . '/costs.php';
 ?>
                 <div class="center">
 <?php
-    require $includePathPrefix . 'PayPalButton.php';
+    require __DIR__ . '/PayPalButton.php';
 ?>
                 </div>
             </div>

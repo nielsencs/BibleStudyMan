@@ -86,7 +86,7 @@
     
   </div>
 <?php
-    require_once 'newsletterForm.php';
+    require_once __DIR__ . '/shared/newsletterForm.php';
 ?>
 <?php
   require_once 'footer.php';

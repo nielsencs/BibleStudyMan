@@ -18,7 +18,7 @@
               </div>
               <div class="center">
 <?php
-    require $includePathPrefix . 'PayPalButton.php';
+    require __DIR__ . '/PayPalButton.php';
 ?>
               </div>
               <p>Or there's <a href="https://www.patreon.com/BibleStudyMan" target="_blank">Patreon</a>
@@ -34,7 +34,7 @@
               a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
               </div>
 <?php
-    require $includePathPrefix . 'costs.php';
+    require __DIR__ . '/costs.php';
 ?>
               <p>Thanks again for visiting this page and any support you can
                 offer will be very gratefully received.</p>
