@@ -4,12 +4,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const findSection = document.getElementById('findSection');
     const prefsSection = document.getElementById('prefsSection');
 
-    const planToggle = document.getElementById('planToggle');
     const findToggle = document.getElementById('findToggle');
     const prefsToggle = document.getElementById('prefsToggle');
 
     if (!panel || !planSection || !findSection || !prefsSection ||
-        !planToggle || !findToggle || !prefsToggle) {
+        !findToggle || !prefsToggle) {
         return;
     }
 
@@ -18,15 +17,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function refreshPanel() {
-        const showPlan = !!planToggle.checked;
-        const showFind = !!findToggle.checked;
+        const showSearch = !!findToggle.checked;
         const showPrefs = !!prefsToggle.checked;
 
-        setSectionVisible(planSection, showPlan);
-        setSectionVisible(findSection, showFind);
+        setSectionVisible(planSection, showSearch);
+        setSectionVisible(findSection, showSearch);
         setSectionVisible(prefsSection, showPrefs);
 
-        panel.classList.toggle('collapsed', !showPlan && !showFind && !showPrefs);
+        panel.classList.toggle('collapsed', !showSearch && !showPrefs);
     }
 
     function restoreToggle(toggle, storageKey, defaultValue) {
@@ -39,15 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
         refreshPanel();
     }
 
-    restoreToggle(planToggle, 'planVisible', true);
     restoreToggle(findToggle, 'findVisible', true);
     restoreToggle(prefsToggle, 'prefsVisible', false);
 
     refreshPanel();
-
-    planToggle.addEventListener('change', function () {
-        saveAndRefresh(planToggle, 'planVisible');
-    });
 
     findToggle.addEventListener('change', function () {
         saveAndRefresh(findToggle, 'findVisible');
