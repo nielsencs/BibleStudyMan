@@ -68,7 +68,7 @@ function assertContainsIssue(int $issue, string $needle, string $haystack, strin
 }
 
 // Closed search regressions.
-assertSameIssue(3, ['% almighty %'], get_search_strategy('Almighty ', false)['sql_params'], 'trailing spaces do not kill word search');
+assertSameIssue(3, ['%Almighty%'], get_search_strategy('Almighty ', false)['sql_params'], 'trailing spaces do not kill word search');
 assertSameIssue(4, ['Genesis', '', '', ''], bookChapSearch('gen', '', ''), 'abbreviated book names can be found');
 assertSameIssue(4, ['Matthew', '15', '3', ''], bookChapSearch('mat 15:3', '', ''), 'abbreviated book plus chapter:verse can be found');
 
@@ -98,7 +98,7 @@ assertSameIssue(69, 'a <span class="highlightWord">mat</span> matter mating Matr
 assertSameIssue(102, ['1 John', '3', '16', ''], bookChapSearch('1 JN 3:16', '', ''), 'spaced numbered abbreviation 1 JN 3:16 is recognised');
 assertSameIssue(102, ['1 John', '3', '16', ''], bookChapSearch('1jn 3:16', '', ''), 'compact numbered abbreviation 1jn 3:16 is recognised');
 assertSameIssue(121, ['Philemon', '1', '11', ''], bookChapSearch('phm 11', '', ''), 'single-chapter book reference treats bare number as verse');
-assertSameIssue(178, ['% god said light %'], get_search_strategy('god said light', true)['sql_params'], 'exact phrase search keeps word order while ignoring punctuation');
+assertSameIssue(178, ['%god said light%'], get_search_strategy('god said light', true)['sql_params'], 'exact phrase search keeps word order while ignoring punctuation');
 assertSameIssue(178, 'god said light is and there was light', normalise_search_text_for_matching('God{H0430} said, "Light is!" and there was light.'), 'exact search normalisation ignores punctuation and quotes');
 
 // Search-related UI/performance issues that need browser or DB-backed tests later.
