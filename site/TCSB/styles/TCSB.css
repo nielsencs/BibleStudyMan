@@ -34,16 +34,6 @@ h1, h2, h3, h4, h5, h6, .footNav {
   background-color: #12002dcc; /* matches original but with transparency over white */
 }
 
-.menu-wrapper.is-floaty #controlPanel {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: fit-content;
-  max-width: 100%;
-  padding: 0 10px 3px;
-}
-
 #waitOverlay {
   background: rgb(210 148 255 / 30%);
 }

@@ -21,6 +21,7 @@
   $tFloaty = strtolower((string)filter_input(INPUT_GET, 'floaty', FILTER_UNSAFE_RAW));
   $bFloaty = $tFloaty === 'on'; // is the control panel 'floaty'? Default is static; floaty is opt-in.
   $tFloaty = $bFloaty ? 'on' : 'off';
+  $tFloatyLinkSuffix = $bFloaty ? '?floaty=on' : '';
   $bTCSB = false; // Are we in the TCSB app'?
 
   require_once '../sqlCon.php';
@@ -92,8 +93,8 @@
 
         <ul class="nav">
           <li><a href="home">Home</a></li>
-          <li><a href="bible">Bible</a></li>
-          <li><a href="plan">Plan</a></li>
+          <li><a href="bible<?php echo $tFloatyLinkSuffix; ?>">Bible</a></li>
+          <li><a href="plan<?php echo $tFloatyLinkSuffix; ?>">Plan</a></li>
           <li><a href="readings">Readings</a></li>
           <li><a href="teaching">Teaching</a></li>
           <li><a href="pricing">Pricing</a></li>

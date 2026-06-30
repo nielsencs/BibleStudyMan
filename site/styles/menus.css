@@ -27,6 +27,16 @@
   /* filter: drop-shadow(7px 7px 7px #00000077); /* DON'T USE - darkens overall because of the above transparency */
 }
 
+.menu-wrapper.is-floaty #controlPanel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: fit-content;
+  max-width: 100%;
+  padding: 0 10px 3px;
+}
+
 .logo {
   height: 50px;
   object-fit: contain;
