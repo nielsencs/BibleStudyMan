@@ -89,6 +89,6 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
 <?php if ($bBible) { ?>
                 <input type="hidden" name="verses" id="verses" value="<?php if ($tBook > ''){echo htmlspecialchars($tVerses ?? '', ENT_QUOTES, 'UTF-8');} ?>">
 <?php } ?>
-<?php require_once 'intWords.php'; ?>
+<?php require __DIR__ . '/shared/intWords.php'; ?>
               </form>
             </div><!-- controlPanel -->

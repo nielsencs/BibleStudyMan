@@ -125,7 +125,7 @@ book, you can pick a chapter here.">Chapter</abbr>&nbsp;
   $intWordsId = 'prefsSection';
   $intWordsClass = 'panelStageSection collapsed searchOptions';
   $intWordsParagraphClass = 'centerText';
-  require __DIR__ . '/../intWords.php';
+  require __DIR__ . '/../shared/intWords.php';
 ?>
   </form>
 </div>
