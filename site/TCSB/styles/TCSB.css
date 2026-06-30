@@ -35,9 +35,12 @@ h1, h2, h3, h4, h5, h6, .footNav {
 }
 
 .menu-wrapper.is-floaty #controlPanel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
   width: fit-content;
   max-width: 100%;
-  margin: 0 auto;
   padding: 0 10px 3px;
 }
 
