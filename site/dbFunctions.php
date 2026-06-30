@@ -360,13 +360,7 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
 WHERE verses.chapter = selected_passage.chapter 
 AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.verseEnd;';
 
-      $tOutput = '<h2>You can search for words, or a phrase, or pick a book in the ';
-      if($bFloaty){
-        $tOutput .= 'collapsible ';
-      }
-      $tOutput .= 'box.<br>';
-      $tOutput .= 'While you&apos;re deciding what to lookup, here&apos;s a sample:</h2>';
-      $tOutput .=  showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
+      $tOutput = showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
   }
   return $tOutput;
 }
