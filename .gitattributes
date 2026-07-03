@@ -1,0 +1,23 @@
+# Normalize text line endings in the repository.
+# This keeps GitHub diffs from showing accidental LF <-> CRLF rewrites.
+* text=auto
+
+# Source/text files should stay LF, even when edited on Windows.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.svgz binary
+*.pdf binary
+*.apk binary
+*.aab binary
+*.zip binary
+*.jar binary
+*.keystore binary
+*.jks binary
