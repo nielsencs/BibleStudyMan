@@ -143,7 +143,7 @@ INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEngli
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2209', 0, 'zemia', 'damage', '\'damage/loss\' loss, damage');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2296', 0, 'thaumazo', 'stunned', 'To be stunned, to wonder, be (utterly) amazed, marvel, to wonder at, wonder greatly.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2315', 0, 'Theopneustos', 'Godbreathed', 'Literally the breath/wind/spirit-making of God. God breathed as one word. Only occurs once in 2 Timothy 3:16');
-INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2321', 1, 'Theophilus', 'FriendOfGod', 'The name Theophilus is a contraction of Theos{2316} and philos{G5384}.');
+INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2321', 1, 'Theophilos', 'FriendOfGod', 'The name Theophilos is a contraction of Theos{2316} and philos{G5384}.');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2364', 0, 'thugater', 'daughter', 'Daughter, and by extension a term of endearment, usually towards younger women');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2519', 0, 'kathegetes', 'teacher', 'teacher');
 INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('G2634', 0, 'katakurieuo', 'master', 'master - \'against-lord\'');
@@ -927,8 +927,8 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 181, 181, '1TOR', 'LEV', 9, 15, 10, 5);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 182, 182, '1TOR', 'LEV', 10, 6, 10, 15);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 183, 183, '1TOR', 'LEV', 10, 16, 11, 12);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 184, 184, '1TOR', 'LEV', 11, 13, 11, 33);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 185, 185, '1TOR', 'LEV', 11, 34, 11, 47);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 184, 184, '1TOR', 'LEV', 11, 13, 11, 28);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 185, 185, '1TOR', 'LEV', 11, 29, 11, 47);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 186, 186, '1TOR', 'LEV', 12, 1, 13, 8);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 187, 187, '1TOR', 'LEV', 13, 9, 13, 23);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 188, 188, '1TOR', 'LEV', 13, 24, 13, 37);
@@ -2599,4 +2599,3 @@ INSERT INTO `plan-days` (ID, planDate) VALUES(362, '2001-12-28');
 INSERT INTO `plan-days` (ID, planDate) VALUES(363, '2001-12-29');
 INSERT INTO `plan-days` (ID, planDate) VALUES(364, '2001-12-30');
 INSERT INTO `plan-days` (ID, planDate) VALUES(365, '2001-12-31');
-
