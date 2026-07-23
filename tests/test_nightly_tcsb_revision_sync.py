@@ -104,6 +104,25 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
             *extra,
         ])
 
+    def test_rebuilds_bible_complete_with_metadata_between_start_and_verses(self):
+        (self.bl / "database" / "bibleVerses.sql").write_text("INSERT verse changed;\n", encoding="utf-8")
+        commit(self.bl, "change verses for complete rebuild")
+
+        result = self.run_script()
+        self.assertEqual(result.returncode, 0, result.stdout)
+        expected = "\n".join(
+            [
+                (self.bsm / "database" / "bibleStart.sql").read_text(encoding="utf-8"),
+                (self.bsm / "database" / "bibleCompletedVerses.sql").read_text(encoding="utf-8"),
+                (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8"),
+                (self.bsm / "database" / "bibleVerses.sql").read_text(encoding="utf-8"),
+            ]
+        )
+        complete = (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
+        self.assertEqual(complete, expected)
+        self.assertIn("tcsb_text_metadata", complete)
+        self.assertLess(complete.index("tcsb_text_metadata"), complete.index("INSERT verse changed"))
+
     def test_shell_wrapper_is_only_a_python_launcher(self):
         wrapper = WRAPPER.read_text(encoding="utf-8").strip().splitlines()
         self.assertEqual(wrapper[0], "#!/usr/bin/env bash")

@@ -142,9 +142,10 @@ def rebuild_bible_complete(bsm_root: Path) -> None:
         bsm_root / "database" / "bibleVerses.sql",
     ]
     with (bsm_root / "database" / "bibleComplete.sql").open("w", encoding="utf-8") as out:
-        for part in parts:
+        for index, part in enumerate(parts):
+            if index:
+                out.write("\n")
             out.write(part.read_text(encoding="utf-8"))
-            out.write("\n")
 
 
 def main(argv: list[str] | None = None) -> int:

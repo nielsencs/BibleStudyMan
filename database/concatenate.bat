@@ -1,1 +1,9 @@
-type bibleStart.sql bibleCompletedVerses.sql bibleVerses.sql > bibleComplete.sql
+(
+type bibleStart.sql
+echo.
+type bibleCompletedVerses.sql
+echo.
+type tcsbMetadata.sql
+echo.
+type bibleVerses.sql
+) > bibleComplete.sql
