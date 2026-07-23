@@ -22,6 +22,10 @@ It also rebuilds:
 
 - `BibleStudyMan/database/bibleComplete.sql`
 
+and embeds:
+
+- `BibleStudyMan/database/tcsbMetadata.sql`
+
 It does not cover:
 
 - changing `bibleCompletedVerses.sql`
@@ -57,17 +61,19 @@ cmp -s ../bookish-lamp/database/bibleVerses.sql database/bibleVerses.sql
 
 ### R4. Rebuild `bibleComplete.sql`
 
-After syncing `bibleVerses.sql`, the process must reproduce the effect of `database/concatenate.bat`:
+After syncing `bibleVerses.sql`, the process must reproduce the current database assembly order:
 
-```bat
-type bibleStart.sql bibleCompletedVerses.sql bibleVerses.sql > bibleComplete.sql
+```text
+bibleStart.sql + bibleCompletedVerses.sql + tcsbMetadata.sql + bibleVerses.sql
 ```
 
 On Unix-like systems this is equivalent to:
 
 ```sh
-cat database/bibleStart.sql database/bibleCompletedVerses.sql database/bibleVerses.sql > database/bibleComplete.sql
+cat database/bibleStart.sql database/bibleCompletedVerses.sql database/tcsbMetadata.sql database/bibleVerses.sql > database/bibleComplete.sql
 ```
+
+`bibleComplete.sql` must include the `tcsb_text_metadata` table and current `text_revision` rows.
 
 ### R5. Commit and push the BSM update
 
@@ -82,7 +88,7 @@ Sync Bible verses from Bookish Lamp
 Assistant-authored commits must use:
 
 ```text
-Ezra <ezra@openclaw.local>
+Ezra H <ezra-h@hermes.local>
 ```
 
 ### R6. Do nothing when already in sync
@@ -109,7 +115,7 @@ A sync is successful when:
 1. BL and BSM repository status have been checked.
 2. Relevant remotes have been fetched/pulled or inspected safely.
 3. `BibleStudyMan/database/bibleVerses.sql` exactly matches `bookish-lamp/database/bibleVerses.sql`.
-4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated in the same order as `database/concatenate.bat`.
+4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` included before `bibleVerses.sql`.
 5. The BSM change, if any, is committed and pushed to `origin/develop`.
 6. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
 
@@ -118,8 +124,15 @@ A sync is successful when:
 The implemented scripts are:
 
 ```text
+scripts/sync-verses-from-bookish-lamp.py
 scripts/sync-verses-from-bookish-lamp.sh
 scripts/sync-verses-from-bookish-lamp.bat
 ```
 
-The `.bat` version is for Carl's Windows/GitHub Desktop machine, assuming the Git CLI is available and BSM/bookish-lamp are sibling folders. It is deliberately a one-job utility with no parameters. Both scripts should follow the same safety checks rather than blindly overwriting files.
+The Python file is the implementation. The `.sh` and `.bat` files are only thin launchers. The `.bat` form is intentionally just:
+
+```bat
+py "%~dp0sync-verses-from-bookish-lamp.py" %*
+```
+
+The old PowerShell long-version helper is obsolete; do not use `TCSB-YYYY.MM.DD.N` for this sync.
