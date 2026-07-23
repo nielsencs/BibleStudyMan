@@ -1,8 +1,8 @@
-# SRS: Bookish Lamp to BibleStudyMan Verse Sync
+# Bookish Lamp to BibleStudyMan Sync
 
 ## 1. Purpose
 
-Define the Small Repeatable Script for keeping BibleStudyMan's public Bible data aligned with Bookish Lamp. When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text. The script must also rebuild BSM's combined database file.
+Define the repeatable process for keeping BibleStudyMan's public Bible data aligned with Bookish Lamp. When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text. The script must also rebuild BSM's combined database file.
 
 ## 2. Background
 
@@ -13,7 +13,7 @@ Define the Small Repeatable Script for keeping BibleStudyMan's public Bible data
 
 ## 3. Scope
 
-This SRS covers syncing only:
+This note covers syncing only:
 
 - From: `bookish-lamp/database/bibleVerses.sql`
 - To: `BibleStudyMan/database/bibleVerses.sql`
