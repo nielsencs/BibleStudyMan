@@ -7,7 +7,8 @@ from pathlib import Path
 
 
 REPO = Path(__file__).resolve().parents[1]
-SCRIPT = REPO / "scripts" / "nightly-tcsb-revision-sync.sh"
+SCRIPT = REPO / "scripts" / "nightly-tcsb-revision-sync.py"
+WRAPPER = REPO / "scripts" / "nightly-tcsb-revision-sync.sh"
 
 
 def run(cmd, cwd=None, check=True, env=None):
@@ -88,7 +89,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
 
     def run_script(self, *extra):
         return run([
-            "bash",
+            "python3",
             str(SCRIPT),
             "--no-push",
             "--no-pull",
@@ -102,6 +103,11 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
             "2026-07-22",
             *extra,
         ])
+
+    def test_shell_wrapper_is_only_a_python_launcher(self):
+        wrapper = WRAPPER.read_text(encoding="utf-8").strip().splitlines()
+        self.assertEqual(wrapper[0], "#!/usr/bin/env bash")
+        self.assertEqual(wrapper[1], 'exec python3 "$(dirname "$0")/nightly-tcsb-revision-sync.py" "$@"')
 
     def test_bumps_revision_when_bookish_lamp_bible_verses_changed(self):
         (self.bl / "database" / "bibleVerses.sql").write_text("INSERT verse changed;\n", encoding="utf-8")
