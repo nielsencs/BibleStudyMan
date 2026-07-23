@@ -5,7 +5,7 @@ Bumps the short TCSB text revision only when one of the revision-gate files
 changed since the last recorded metadata:
 
 - bookish-lamp/database/bibleVerses.sql
-- BibleStudyMan/database/bibleStart.sql
+- BibleStudyMan/database/bibleSchema.sql
 
 Deliberately ignored for text-revision purposes:
 
@@ -115,7 +115,7 @@ def write_metadata(path: Path, *, revision: str, revision_date: str, bl_root: Pa
         sql_insert("text_source_branch", current_branch(bl_root)),
         sql_insert("text_source_file", "database/bibleVerses.sql"),
         sql_insert("bl_bible_verses_commit", bl_commit),
-        sql_insert("bsm_bible_start_commit", bsm_commit),
+        sql_insert("bsm_bible_schema_commit", bsm_commit),
         sql_insert("generated_at", generated_at),
     ]
     path.write_text("".join(content), encoding="utf-8")
@@ -136,9 +136,10 @@ def commit_if_changed(repo: Path, message: str, paths: list[str]) -> bool:
 
 def rebuild_bible_complete(bsm_root: Path) -> None:
     parts = [
-        bsm_root / "database" / "bibleStart.sql",
-        bsm_root / "database" / "bibleCompletedVerses.sql",
+        bsm_root / "database" / "bibleImportSettings.sql",
         bsm_root / "database" / "tcsbMetadata.sql",
+        bsm_root / "database" / "bibleSchema.sql",
+        bsm_root / "database" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleVerses.sql",
     ]
     with (bsm_root / "database" / "bibleComplete.sql").open("w", encoding="utf-8") as out:
@@ -166,7 +167,8 @@ def main(argv: list[str] | None = None) -> int:
     for path in [
         bl_root / "database" / "bibleVerses.sql",
         bl_root / "database" / "tcsbMetadata.sql",
-        bsm_root / "database" / "bibleStart.sql",
+        bsm_root / "database" / "bibleImportSettings.sql",
+        bsm_root / "database" / "bibleSchema.sql",
         bsm_root / "database" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleVerses.sql",
         bsm_root / "database" / "tcsbMetadata.sql",
@@ -184,9 +186,9 @@ def main(argv: list[str] | None = None) -> int:
         pull_ff_current_branch(bsm_root, "BibleStudyMan")
 
     bl_commit = latest_commit_for_file(bl_root, "database/bibleVerses.sql")
-    bsm_commit = latest_commit_for_file(bsm_root, "database/bibleStart.sql")
+    bsm_commit = latest_commit_for_file(bsm_root, "database/bibleSchema.sql")
     recorded_bl_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bl_bible_verses_commit")
-    recorded_bsm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_start_commit")
+    recorded_bsm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_schema_commit")
 
     if bl_commit == recorded_bl_commit and bsm_commit == recorded_bsm_commit:
         print("No TCSB text revision change: tracked source commits already recorded.")
@@ -224,7 +226,10 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(f"Post-copy verification failed: bibleComplete.sql lacks text revision {revision}.")
 
     bsm_paths = [
+        "database/bibleImportSettings.sql",
         "database/tcsbMetadata.sql",
+        "database/bibleSchema.sql",
+        "database/bibleCompletedVerses.sql",
         "database/bibleVerses.sql",
         "database/bibleComplete.sql",
         "scripts/nightly-tcsb-revision-sync.py",
@@ -237,7 +242,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"Synced TCSB text revision {revision}")
     print(f"BL bibleVerses commit: {bl_commit}")
-    print(f"BSM bibleStart commit: {bsm_commit}")
+    print(f"BSM bibleSchema commit: {bsm_commit}")
     print(f"Bookish Lamp metadata commit created: {int(bl_commit_created)}")
     print(f"BibleStudyMan sync commit created: {int(bsm_commit_created)}")
     return 0

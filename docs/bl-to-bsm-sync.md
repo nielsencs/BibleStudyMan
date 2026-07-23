@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-Define the repeatable process for keeping BibleStudyMan's public Bible data aligned with Bookish Lamp. When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text. The script must also rebuild BSM's combined database file.
+Define the repeatable process for keeping BibleStudyMan's public Bible data aligned with Bookish Lamp. When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text. The script must also rebuild BSM's compiled database upload file.
 
 ## 2. Background
 
@@ -22,9 +22,13 @@ It also rebuilds:
 
 - `BibleStudyMan/database/bibleComplete.sql`
 
-and embeds:
+from these logical components:
 
+- `BibleStudyMan/database/bibleImportSettings.sql`
 - `BibleStudyMan/database/tcsbMetadata.sql`
+- `BibleStudyMan/database/bibleSchema.sql`
+- `BibleStudyMan/database/bibleCompletedVerses.sql`
+- `BibleStudyMan/database/bibleVerses.sql`
 
 It does not cover:
 
@@ -61,19 +65,19 @@ cmp -s ../bookish-lamp/database/bibleVerses.sql database/bibleVerses.sql
 
 ### R4. Rebuild `bibleComplete.sql`
 
-After syncing `bibleVerses.sql`, the process must reproduce the current database assembly order:
+After syncing `bibleVerses.sql`, the process must reproduce the current database assembly order. `bibleComplete.sql` is a compiled upload/import artefact; its source parts remain split for readability:
 
 ```text
-bibleStart.sql + bibleCompletedVerses.sql + tcsbMetadata.sql + bibleVerses.sql
+bibleImportSettings.sql + tcsbMetadata.sql + bibleSchema.sql + bibleCompletedVerses.sql + bibleVerses.sql
 ```
 
 On Unix-like systems this is equivalent to:
 
 ```sh
-cat database/bibleStart.sql database/bibleCompletedVerses.sql database/tcsbMetadata.sql database/bibleVerses.sql > database/bibleComplete.sql
+python3 scripts/nightly-tcsb-revision-sync.py --no-push --no-pull
 ```
 
-`bibleComplete.sql` must include the `tcsb_text_metadata` table and current `text_revision` rows.
+`bibleComplete.sql` must put import settings first, then the `tcsb_text_metadata` table/current `text_revision` rows near the top before the main schema/data tables.
 
 ### R5. Commit and push the BSM update
 
@@ -115,7 +119,7 @@ A sync is successful when:
 1. BL and BSM repository status have been checked.
 2. Relevant remotes have been fetched/pulled or inspected safely.
 3. `BibleStudyMan/database/bibleVerses.sql` exactly matches `bookish-lamp/database/bibleVerses.sql`.
-4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` included before `bibleVerses.sql`.
+4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` immediately after `bibleImportSettings.sql` and before `bibleSchema.sql`/`bibleVerses.sql`.
 5. The BSM change, if any, is committed and pushed to `origin/develop`.
 6. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
 
