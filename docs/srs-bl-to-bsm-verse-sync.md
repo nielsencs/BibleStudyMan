@@ -132,7 +132,7 @@ scripts/sync-verses-from-bookish-lamp.bat
 The Python file is the implementation. The `.sh` and `.bat` files are only thin launchers. The `.bat` form is intentionally just:
 
 ```bat
-py "%~dp0sync-verses-from-bookish-lamp.py" %*
+py sync-verses-from-bookish-lamp.py
 ```
 
 The old PowerShell long-version helper is obsolete; do not use `TCSB-YYYY.MM.DD.N` for this sync.
