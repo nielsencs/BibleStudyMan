@@ -25,8 +25,8 @@ INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_branch', 'master');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_file', 'database/bibleVerses.sql');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', 'd113736512081422b706b404f559a011c39625c4');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', 'dd7c986d93d3be42d98a14e268d43ea68aa4ecbb');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-07-24T03:30:31+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '40b6916e97818f9440bbb9e5454528328d07f03a');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-07-25T03:30:12+01:00');
 
 DROP TABLE IF EXISTS sections;
 CREATE TABLE sections (
@@ -1325,8 +1325,8 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 560, 195, '2NV1', 'ISA', 33, 20, 34, 17);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 561, 196, '2NV1', 'ISA', 35, 0, 36, 0);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 562, 197, '2NV1', 'ISA', 37, 1, 37, 25);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 563, 198, '2NV1', 'ISA', 37, 26, 38, 14);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 564, 199, '2NV1', 'ISA', 38, 15, 40, 8);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 563, 198, '2NV1', 'ISA', 37, 26, 38, 20);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 564, 199, '2NV1', 'ISA', 38, 21, 40, 8);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 565, 200, '2NV1', 'ISA', 40, 9, 41, 9);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 566, 201, '2NV1', 'ISA', 41, 10, 42, 9);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 567, 202, '2NV1', 'ISA', 42, 10, 43, 13);
@@ -2643,6 +2643,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('G
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 5, 2);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 9, 11);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 12, 12);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('GEN', 33, 20);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('EXO', 39, 32);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('LEV', 6, 10);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('LEV', 20, 14);

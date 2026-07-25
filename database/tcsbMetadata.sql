@@ -12,5 +12,5 @@ INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_branch', 'master');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_file', 'database/bibleVerses.sql');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', 'd113736512081422b706b404f559a011c39625c4');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', 'dd7c986d93d3be42d98a14e268d43ea68aa4ecbb');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-07-24T03:30:31+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '40b6916e97818f9440bbb9e5454528328d07f03a');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-07-25T03:30:12+01:00');
