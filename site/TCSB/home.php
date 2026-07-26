@@ -37,7 +37,7 @@
   }else{
     echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
   }
-  include_once '../bibleDisclaimer.html';
+  echo bibleDisclaimer();
 ?>
             </div>
         </div>
