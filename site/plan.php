@@ -35,7 +35,7 @@
 
   <?php
     echo daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
-    include_once 'bibleDisclaimer.html';
+    echo bibleDisclaimer();
   ?>
         </div>
       </div>

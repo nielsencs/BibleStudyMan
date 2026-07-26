@@ -9,6 +9,33 @@ function doQuery($pdo, $tQuery, $params = []){
 }
 
 // ============================================================================
+function tcsbMetadataValue(string $key): string {
+// ============================================================================
+  global $pdo;
+
+  try {
+    $stmt = $pdo->prepare("SELECT metadataValue FROM tcsb_text_metadata WHERE metadataKey = :metadataKey LIMIT 1");
+    $stmt->execute(['metadataKey' => $key]);
+    $value = $stmt->fetchColumn();
+    return is_string($value) ? $value : '';
+  } catch (Throwable $e) {
+    return '';
+  }
+}
+
+// ============================================================================
+function bibleDisclaimer(): string {
+// ============================================================================
+  $html = trim(tcsbMetadataValue('tcsb_disclaimer_html'));
+  if ($html !== '') {
+    return $html;
+  }
+
+  $fallback = __DIR__ . '/bibleDisclaimer.html';
+  return is_readable($fallback) ? file_get_contents($fallback) : '';
+}
+
+// ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $bTCSB, $bFloaty;
