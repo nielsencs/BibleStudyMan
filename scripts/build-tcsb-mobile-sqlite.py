@@ -191,23 +191,26 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--commit", action="store_true", help="Commit generated artefacts to the BSM repository")
     parser.add_argument("--push", action="store_true", help="Push the commit to origin/current branch; implies --commit")
     args = parser.parse_args(argv)
-    manifest = build_artifacts(bsm_root=args.bsm_root, mobile_root=args.mobile_root, out_dir=args.out_dir)
+    bsm_root = args.bsm_root.resolve()
+    mobile_root = args.mobile_root.resolve()
+    out_dir = args.out_dir.resolve()
+    manifest = build_artifacts(bsm_root=bsm_root, mobile_root=mobile_root, out_dir=out_dir)
     if args.commit or args.push:
         rel_paths = [
-            str((args.out_dir / manifest["sqlite"]).relative_to(args.bsm_root)),
-            str((args.out_dir / manifest["sha256_file"]).relative_to(args.bsm_root)),
-            str((args.out_dir / manifest["latest_sqlite"]).relative_to(args.bsm_root)),
-            str((args.out_dir / "latest.json").relative_to(args.bsm_root)),
+            str((out_dir / manifest["sqlite"]).relative_to(bsm_root)),
+            str((out_dir / manifest["sha256_file"]).relative_to(bsm_root)),
+            str((out_dir / manifest["latest_sqlite"]).relative_to(bsm_root)),
+            str((out_dir / "latest.json").relative_to(bsm_root)),
         ]
-        run(["git", "add", ".gitignore", *rel_paths], cwd=args.bsm_root)
-        diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=args.bsm_root, check=False)
+        run(["git", "add", ".gitignore", *rel_paths], cwd=bsm_root)
+        diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=bsm_root, check=False)
         if diff.returncode != 0:
-            run(["git", "config", "user.name", "Ezra H"], cwd=args.bsm_root)
-            run(["git", "config", "user.email", "ezra-h@hermes.local"], cwd=args.bsm_root)
-            run(["git", "commit", "-m", f"Publish TCSB mobile SQLite revision {manifest['revision']}"], cwd=args.bsm_root)
+            run(["git", "config", "user.name", "Ezra H"], cwd=bsm_root)
+            run(["git", "config", "user.email", "ezra-h@hermes.local"], cwd=bsm_root)
+            run(["git", "commit", "-m", f"Publish TCSB mobile SQLite revision {manifest['revision']}"], cwd=bsm_root)
             if args.push:
-                branch = run(["git", "branch", "--show-current"], cwd=args.bsm_root).stdout.strip()
-                run(["git", "push", "origin", branch], cwd=args.bsm_root)
+                branch = run(["git", "branch", "--show-current"], cwd=bsm_root).stdout.strip()
+                run(["git", "push", "origin", branch], cwd=bsm_root)
         elif args.push:
             print("No generated artefact changes to commit.")
     print(f"Built TCSB mobile SQLite revision {manifest['revision']}")
