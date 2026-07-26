@@ -15,6 +15,7 @@ import shutil
 import sqlite3
 import subprocess
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -183,6 +184,67 @@ def build_artifacts(*, bsm_root: Path, mobile_root: Path, out_dir: Path) -> dict
     return manifest
 
 
+def publish_github_release(*, bsm_root: Path, out_dir: Path, manifest: dict[str, object]) -> None:
+    revision = str(manifest["revision"])
+    digest = str(manifest["sha256"])
+    tag = "tcsb-mobile-db-latest"
+    branch = run(["git", "branch", "--show-current"], cwd=bsm_root).stdout.strip() or "develop"
+    sqlite_path = out_dir / str(manifest["sqlite"])
+    checksum_path = out_dir / str(manifest["sha256_file"])
+    require_file(sqlite_path)
+    require_file(checksum_path)
+    release_notes = f"""# TCSB mobile SQLite database
+
+Download the `.sqlite` asset below, then import it in the TCSB mobile app.
+
+- Revision: `{revision}`
+- Verse count: `{manifest.get('verse_count')}`
+- SHA-256: `{digest}`
+
+Use this asset for Android import:
+
+```text
+TCSB-mobile-latest.sqlite
+```
+
+The versioned source artefact is also in BibleStudyMan at:
+
+```text
+build/tcsb-mobile/tcsb-{revision}.sqlite
+```
+"""
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        tmp = Path(tmp_dir)
+        latest_asset = tmp / "TCSB-mobile-latest.sqlite"
+        versioned_asset = tmp / f"TCSB-mobile-{revision}.sqlite"
+        checksum_asset = tmp / f"TCSB-mobile-{revision}.sqlite.sha256"
+        notes_file = tmp / "release-notes.md"
+        shutil.copyfile(sqlite_path, latest_asset)
+        shutil.copyfile(sqlite_path, versioned_asset)
+        shutil.copyfile(checksum_path, checksum_asset)
+        notes_file.write_text(release_notes, encoding="utf-8")
+        run(["git", "tag", "-f", tag], cwd=bsm_root)
+        run(["git", "push", "-f", "origin", tag], cwd=bsm_root)
+        title = f"Latest TCSB mobile SQLite database ({revision})"
+        if subprocess.run(["gh", "release", "view", tag], cwd=bsm_root, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
+            run(["gh", "release", "edit", tag, "--title", title, "--notes-file", str(notes_file), "--latest"], cwd=bsm_root)
+        else:
+            run(["gh", "release", "create", tag, "--target", branch, "--title", title, "--notes-file", str(notes_file), "--latest"], cwd=bsm_root)
+        run(
+            [
+                "gh",
+                "release",
+                "upload",
+                tag,
+                f"{latest_asset}#Download latest SQLite database",
+                f"{versioned_asset}#Download revision {revision} SQLite database",
+                f"{checksum_asset}#SHA-256 checksum",
+                "--clobber",
+            ],
+            cwd=bsm_root,
+        )
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Build TCSB mobile SQLite distribution artefacts")
     parser.add_argument("--bsm-root", type=Path, default=DEFAULT_BSM_ROOT)
@@ -190,6 +252,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_BSM_ROOT / "build" / "tcsb-mobile")
     parser.add_argument("--commit", action="store_true", help="Commit generated artefacts to the BSM repository")
     parser.add_argument("--push", action="store_true", help="Push the commit to origin/current branch; implies --commit")
+    parser.add_argument("--github-release", action="store_true", help="Create/update the latest GitHub release download page")
     args = parser.parse_args(argv)
     bsm_root = args.bsm_root.resolve()
     mobile_root = args.mobile_root.resolve()
@@ -213,6 +276,8 @@ def main(argv: list[str] | None = None) -> int:
                 run(["git", "push", "origin", branch], cwd=bsm_root)
         elif args.push:
             print("No generated artefact changes to commit.")
+    if args.github_release:
+        publish_github_release(bsm_root=bsm_root, out_dir=out_dir, manifest=manifest)
     print(f"Built TCSB mobile SQLite revision {manifest['revision']}")
     print(f"SQLite: {args.out_dir / manifest['sqlite']}")
     print(f"SHA-256: {manifest['sha256']}")
