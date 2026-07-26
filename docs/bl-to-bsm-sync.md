@@ -30,12 +30,20 @@ from these logical components:
 - `BibleStudyMan/database/bibleCompletedVerses.sql`
 - `BibleStudyMan/database/bibleVerses.sql`
 
+It also now feeds a downstream mobile SQLite distribution artefact:
+
+- `BibleStudyMan/build/tcsb-mobile/tcsb-<revision>.sqlite`
+- `BibleStudyMan/build/tcsb-mobile/tcsb-<revision>.sqlite.sha256`
+- `BibleStudyMan/build/tcsb-mobile/latest.sqlite`
+- `BibleStudyMan/build/tcsb-mobile/latest.json`
+
+Those files are generated artefacts, not hand-edited source.
+
 It does not cover:
 
 - changing `bibleCompletedVerses.sql`
 - paragraph data
-- generated mobile/app databases
-- live-server deployment after the BSM repository is updated
+- live-server / public website deployment after the artefacts are generated
 - deciding whether a BL verse change is correct
 
 ## 4. Required Behaviour
@@ -95,7 +103,19 @@ Assistant-authored commits must use:
 Ezra H <ezra-h@hermes.local>
 ```
 
-### R6. Do nothing when already in sync
+### R6. Build mobile SQLite distribution artefacts
+
+After a real TCSB text revision sync, build the mobile SQLite artefacts from BSM's synced database state. The mobile app may inspect/consume these artefacts, but BSM/TCSB owns producing them.
+
+```sh
+python3 scripts/build-tcsb-mobile-sqlite.py \
+  --mobile-root ../tcsb-mobile \
+  --out-dir build/tcsb-mobile
+```
+
+The generated `latest.json` must identify the revision, source commits, SQLite filename, checksum, size, verse count, and sample-verse verification. The SQLite itself must include a `tcsb_metadata` table copied from BSM's `tcsbMetadata.sql` plus mobile SQLite generation metadata.
+
+### R7. Do nothing when already in sync
 
 If the files already match and regenerating `bibleComplete.sql` produces no change, no BSM commit should be made. The process should simply report that BSM is already synced with BL.
 

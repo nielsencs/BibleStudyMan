@@ -45,3 +45,6 @@ __pycache__/
 # Environmental configuration
 .env
 
+# Generated artefacts
+/build/
+
