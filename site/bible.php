@@ -4,6 +4,7 @@
 ?>
         <div class="main Bible">
             <h1>The CleanSlate Bible</h1>
+            <?php echo tcsbVersionNotice(); ?>
             <div class="subMain sectGeneral">
 <?php if (! $bFloaty) { require_once 'controlPanel.php'; } ?>
 <?php

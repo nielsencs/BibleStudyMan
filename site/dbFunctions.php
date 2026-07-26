@@ -36,6 +36,22 @@ function bibleDisclaimer(): string {
 }
 
 // ============================================================================
+function tcsbVersionNotice(): string {
+// ============================================================================
+  $revision = trim(tcsbMetadataValue('text_revision'));
+  $revisionDate = trim(tcsbMetadataValue('text_revision_date'));
+  if ($revision === '') {
+    return '<p class="tcsbVersion">TCSB revision unknown</p>';
+  }
+
+  $notice = 'TCSB revision ' . htmlspecialchars($revision, ENT_QUOTES, 'UTF-8');
+  if ($revisionDate !== '') {
+    $notice .= ' · ' . htmlspecialchars($revisionDate, ENT_QUOTES, 'UTF-8');
+  }
+  return '<p class="tcsbVersion">' . $notice . '</p>';
+}
+
+// ============================================================================
 function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
   global $bTCSB, $bFloaty;
