@@ -20,7 +20,6 @@
 
           <div class="main plan">
               <h1>The Bible Reading Plan</h1>
-              <?php echo tcsbVersionNotice(); ?>
               <div class="subMain sectGeneral">
                 <h2>Readings for <?php echo htmlspecialchars(monthName($iMonth) . ' ' . $iDay, ENT_QUOTES, 'UTF-8'); ?>:</h2>
 <?php

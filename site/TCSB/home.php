@@ -20,7 +20,6 @@
 
         <div class="main TCSB">
             <h1>The CleanSlate Bible</h1>
-            <?php echo tcsbVersionNotice(); ?>
             <div class="subMain sectGeneral">
 <?php
   $emptyBibleSearch = empty($tBook) && empty($tChapter) && empty($tVerses) && empty($tWords);

@@ -27,28 +27,24 @@ function tcsbMetadataValue(string $key): string {
 function bibleDisclaimer(): string {
 // ============================================================================
   $html = trim(tcsbMetadataValue('tcsb_disclaimer_html'));
-  if ($html !== '') {
+  if ($html === '') {
+    $fallback = __DIR__ . '/bibleDisclaimer.html';
+    $html = is_readable($fallback) ? file_get_contents($fallback) : '';
+  }
+
+  $revision = trim(tcsbMetadataValue('text_revision'));
+  if ($html === '' || $revision === '') {
     return $html;
   }
 
-  $fallback = __DIR__ . '/bibleDisclaimer.html';
-  return is_readable($fallback) ? file_get_contents($fallback) : '';
-}
-
-// ============================================================================
-function tcsbVersionNotice(): string {
-// ============================================================================
-  $revision = trim(tcsbMetadataValue('text_revision'));
-  $revisionDate = trim(tcsbMetadataValue('text_revision_date'));
-  if ($revision === '') {
-    return '<p class="tcsbVersion">TCSB revision unknown</p>';
-  }
-
-  $notice = 'TCSB revision ' . htmlspecialchars($revision, ENT_QUOTES, 'UTF-8');
-  if ($revisionDate !== '') {
-    $notice .= ' · ' . htmlspecialchars($revisionDate, ENT_QUOTES, 'UTF-8');
-  }
-  return '<p class="tcsbVersion">' . $notice . '</p>';
+  $revisionText = ' (revision ' . htmlspecialchars($revision, ENT_QUOTES, 'UTF-8') . ')';
+  $updated = preg_replace(
+    '/(The CleanSlate Bible)(?! \(revision )/',
+    '$1' . $revisionText,
+    $html,
+    1
+  );
+  return is_string($updated) ? $updated : $html;
 }
 
 // ============================================================================
