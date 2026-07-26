@@ -46,5 +46,10 @@ __pycache__/
 .env
 
 # Generated artefacts
-/build/
+/build/*
+!/build/tcsb-mobile/
+!/build/tcsb-mobile/latest.json
+!/build/tcsb-mobile/latest.sqlite
+!/build/tcsb-mobile/tcsb-*.sqlite
+!/build/tcsb-mobile/tcsb-*.sqlite.sha256
 

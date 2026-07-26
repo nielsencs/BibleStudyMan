@@ -124,6 +124,72 @@ class BuildTcsbMobileSqliteTests(unittest.TestCase):
             self.assertEqual(metadata["text_revision"], "260724")
             self.assertEqual(metadata["mobile_sqlite_revision"], "260724")
 
+    def test_commit_mode_tracks_generated_artefacts_in_bsm_repo(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            bsm = root / "BibleStudyMan"
+            mobile = root / "tcsb-mobile"
+            out_dir = bsm / "build" / "tcsb-mobile"
+            (bsm / "database").mkdir(parents=True)
+            (mobile / "scripts").mkdir(parents=True)
+            write_metadata(bsm / "database" / "tcsbMetadata.sql")
+            (bsm / "database" / "bibleVerses.sql").write_text("-- verses\n", encoding="utf-8")
+            (bsm / "database" / "bibleComplete.sql").write_text("-- complete\n", encoding="utf-8")
+            (bsm / ".gitignore").write_text(
+                "/build/*\n!/build/tcsb-mobile/\n!/build/tcsb-mobile/latest.json\n!/build/tcsb-mobile/latest.sqlite\n!/build/tcsb-mobile/tcsb-*.sqlite\n!/build/tcsb-mobile/tcsb-*.sqlite.sha256\n",
+                encoding="utf-8",
+            )
+            write_fake_converter(mobile / "scripts" / "convert_mysql_dumps_to_sqlite.py")
+            subprocess.run(["git", "init", "-b", "develop"], cwd=bsm, check=True, stdout=subprocess.PIPE)
+            subprocess.run(["git", "config", "user.name", "Test"], cwd=bsm, check=True)
+            subprocess.run(["git", "config", "user.email", "test@example.invalid"], cwd=bsm, check=True)
+            subprocess.run(["git", "add", "."], cwd=bsm, check=True)
+            subprocess.run(["git", "commit", "-m", "initial"], cwd=bsm, check=True, stdout=subprocess.PIPE)
+
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--bsm-root",
+                    str(bsm),
+                    "--mobile-root",
+                    str(mobile),
+                    "--out-dir",
+                    str(out_dir),
+                    "--commit",
+                ],
+                text=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                check=False,
+            )
+
+            self.assertEqual(result.returncode, 0, result.stdout)
+            tracked = subprocess.run(
+                ["git", "ls-files", "build/tcsb-mobile"],
+                cwd=bsm,
+                text=True,
+                stdout=subprocess.PIPE,
+                check=True,
+            ).stdout.splitlines()
+            self.assertEqual(
+                sorted(tracked),
+                [
+                    "build/tcsb-mobile/latest.json",
+                    "build/tcsb-mobile/latest.sqlite",
+                    "build/tcsb-mobile/tcsb-260724.sqlite",
+                    "build/tcsb-mobile/tcsb-260724.sqlite.sha256",
+                ],
+            )
+            latest_commit = subprocess.run(
+                ["git", "log", "-1", "--format=%s"],
+                cwd=bsm,
+                text=True,
+                stdout=subprocess.PIPE,
+                check=True,
+            ).stdout.strip()
+            self.assertEqual(latest_commit, "Publish TCSB mobile SQLite revision 260724")
+
 
 if __name__ == "__main__":
     unittest.main()
