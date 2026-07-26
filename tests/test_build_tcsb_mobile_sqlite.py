@@ -22,6 +22,8 @@ INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', 'bookishcommit123');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', 'bsmcommit456');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-07-25T03:30:12+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_disclaimer_text', 'TCSB disclaimer text.
+Second line.');
 """.strip()
         + "\n",
         encoding="utf-8",
@@ -123,6 +125,7 @@ class BuildTcsbMobileSqliteTests(unittest.TestCase):
                 conn.close()
             self.assertEqual(metadata["text_revision"], "260724")
             self.assertEqual(metadata["mobile_sqlite_revision"], "260724")
+            self.assertEqual(metadata["tcsb_disclaimer_text"], "TCSB disclaimer text.\nSecond line.")
 
     def test_commit_mode_tracks_generated_artefacts_in_bsm_repo(self):
         with tempfile.TemporaryDirectory() as tmp:

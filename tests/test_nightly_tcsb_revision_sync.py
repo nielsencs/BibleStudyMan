@@ -69,6 +69,11 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         init_repo(self.bsm, "develop")
         (self.bl / "database").mkdir()
         (self.bsm / "database").mkdir()
+        (self.bsm / "site").mkdir()
+        (self.bsm / "site" / "bibleDisclaimer.html").write_text(
+            '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a><br>Square brackets mark words not found in the original text.</p>\n',
+            encoding="utf-8",
+        )
         (self.bl / "database" / "bibleVerses.sql").write_text("INSERT verse old;\n", encoding="utf-8")
         (self.bl / "database" / "translationToDo.txt").write_text("todo old\n", encoding="utf-8")
         write_metadata(self.bl / "database" / "tcsbMetadata.sql")
@@ -140,6 +145,9 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         bl_metadata = (self.bl / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
         bsm_metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
         self.assertIn("('text_revision', '260722')", bl_metadata)
+        self.assertIn("`metadataValue` text NOT NULL", bl_metadata)
+        self.assertIn("('tcsb_disclaimer_html', '<p class=\"bibleDisclaimer\">", bl_metadata)
+        self.assertIn("('tcsb_disclaimer_text', 'The CleanSlate Bible is an adaptation of the WEB", bl_metadata)
         self.assertIn(f"('bl_bible_verses_commit', '{new_bl_commit}')", bl_metadata)
         self.assertEqual(bl_metadata, bsm_metadata)
         self.assertEqual(

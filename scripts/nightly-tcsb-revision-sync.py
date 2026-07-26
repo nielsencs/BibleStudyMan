@@ -15,6 +15,7 @@ Deliberately ignored for text-revision purposes:
 from __future__ import annotations
 
 import argparse
+import html
 import os
 import re
 import shutil
@@ -99,12 +100,30 @@ def sql_insert(key: str, value: str) -> str:
     return f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('{key}', '{escaped}');\n"
 
 
-def write_metadata(path: Path, *, revision: str, revision_date: str, bl_root: Path, bl_commit: str, bsm_commit: str, generated_at: str) -> None:
+def disclaimer_plain_text(disclaimer_html: str) -> str:
+    text = re.sub(r"<\s*br\s*/?\s*>", "\n", disclaimer_html, flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = html.unescape(text)
+    lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines()]
+    return "\n".join(line for line in lines if line)
+
+
+def write_metadata(
+    path: Path,
+    *,
+    revision: str,
+    revision_date: str,
+    bl_root: Path,
+    bl_commit: str,
+    bsm_commit: str,
+    generated_at: str,
+    disclaimer_html: str,
+) -> None:
     content = [
         "DROP TABLE IF EXISTS `tcsb_text_metadata`;\n",
         "CREATE TABLE `tcsb_text_metadata` (\n",
         "  `metadataKey` varchar(40) NOT NULL,\n",
-        "  `metadataValue` varchar(255) NOT NULL,\n",
+        "  `metadataValue` text NOT NULL,\n",
         "  PRIMARY KEY (`metadataKey`)\n",
         ") ENGINE=MyISAM DEFAULT CHARSET=latin1;\n",
         "\n",
@@ -117,6 +136,8 @@ def write_metadata(path: Path, *, revision: str, revision_date: str, bl_root: Pa
         sql_insert("bl_bible_verses_commit", bl_commit),
         sql_insert("bsm_bible_schema_commit", bsm_commit),
         sql_insert("generated_at", generated_at),
+        sql_insert("tcsb_disclaimer_html", disclaimer_html.strip()),
+        sql_insert("tcsb_disclaimer_text", disclaimer_plain_text(disclaimer_html)),
     ]
     path.write_text("".join(content), encoding="utf-8")
 
@@ -172,6 +193,7 @@ def main(argv: list[str] | None = None) -> int:
         bsm_root / "database" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleVerses.sql",
         bsm_root / "database" / "tcsbMetadata.sql",
+        bsm_root / "site" / "bibleDisclaimer.html",
     ]:
         require_file(path)
 
@@ -198,6 +220,7 @@ def main(argv: list[str] | None = None) -> int:
     revision = args.revision or now.strftime("%y%m%d")
     revision_date = args.revision_date or now.strftime("%Y-%m-%d")
     generated_at = now.isoformat(timespec="seconds")
+    disclaimer_html = (bsm_root / "site" / "bibleDisclaimer.html").read_text(encoding="utf-8")
 
     write_metadata(
         bl_root / "database" / "tcsbMetadata.sql",
@@ -207,6 +230,7 @@ def main(argv: list[str] | None = None) -> int:
         bl_commit=bl_commit,
         bsm_commit=bsm_commit,
         generated_at=generated_at,
+        disclaimer_html=disclaimer_html,
     )
 
     bl_commit_created = commit_if_changed(bl_root, f"Set TCSB text revision {revision}", ["database/tcsbMetadata.sql"])

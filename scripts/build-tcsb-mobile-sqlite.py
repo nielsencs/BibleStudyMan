@@ -44,11 +44,10 @@ def require_file(path: Path) -> None:
 
 
 def metadata_value(metadata_sql: Path, key: str) -> str:
-    pattern = re.compile(rf"\('{re.escape(key)}', '((?:''|[^'])*)'\)")
-    for line in metadata_sql.read_text(encoding="utf-8").splitlines():
-        match = pattern.search(line)
-        if match:
-            return match.group(1).replace("''", "'")
+    pattern = re.compile(rf"\('{re.escape(key)}', '((?:''|[^'])*)'\)", re.DOTALL)
+    match = pattern.search(metadata_sql.read_text(encoding="utf-8"))
+    if match:
+        return match.group(1).replace("''", "'")
     return ""
 
 
@@ -63,6 +62,8 @@ def read_bsm_metadata(metadata_sql: Path) -> dict[str, str]:
         "bl_bible_verses_commit",
         "bsm_bible_schema_commit",
         "generated_at",
+        "tcsb_disclaimer_html",
+        "tcsb_disclaimer_text",
     ]
     return {key: metadata_value(metadata_sql, key) for key in keys if metadata_value(metadata_sql, key)}
 
