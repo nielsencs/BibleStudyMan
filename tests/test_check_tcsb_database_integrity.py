@@ -66,6 +66,25 @@ class TcsbDatabaseIntegrityTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout)
         self.assertIn("integrity check passed", result.stdout)
 
+    def test_accepts_new_verse_plain_column_and_values(self):
+        self.verses.write_text(
+            GOOD_VERSES.replace(
+                "`verseText` text NOT NULL",
+                "`verseText` text NOT NULL,\n  `versePlain` text NOT NULL",
+            ).replace(
+                "`verseText`) VALUES ('GEN',   1,   1, '<p>At the beginning, God{H0430} created-from-nothing{H1254} the sky{H8064} and the ground{H0776}.')",
+                "`verseText`, `versePlain`) VALUES ('GEN',   1,   1, '<p>At the beginning, God{H0430} created-from-nothing{H1254} the sky{H8064} and the ground{H0776}.', 'At the beginning, God created-from-nothing the sky and the ground.')",
+            ).replace(
+                "`verseText`) VALUES ('GEN',  17,   1, '<p>When Abram was ninety-nine years old, ForeverOne{H3068} appeared to Abram and said to him, \"I am God{H0410} Almighty{H7706}. Walk before me and be blameless.')",
+                "`verseText`, `versePlain`) VALUES ('GEN',  17,   1, '<p>When Abram was ninety-nine years old, ForeverOne{H3068} appeared to Abram and said to him, \"I am God{H0410} Almighty{H7706}. Walk before me and be blameless.', 'When Abram was ninety-nine years old, ForeverOne appeared to Abram and said to him, \"I am God Almighty. Walk before me and be blameless.')",
+            ),
+            encoding="utf-8",
+        )
+
+        result = self.run_check()
+
+        self.assertEqual(result.returncode, 0, result.stdout)
+
     def test_fails_when_verse_uses_strongs_code_missing_from_table(self):
         self.complete.write_text(
             GOOD_COMPLETE.replace(

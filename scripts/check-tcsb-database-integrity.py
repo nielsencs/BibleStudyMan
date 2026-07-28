@@ -10,8 +10,8 @@ from pathlib import Path
 VERSE_INSERT_PREFIX_RE = re.compile(r"^INSERT\s+INTO\s+`?verses`?\b", re.IGNORECASE)
 VERSE_INSERT_RE = re.compile(
     r"^INSERT\s+INTO\s+`?verses`?\s*"
-    r"\(`?bookCode`?,\s*`?chapter`?,\s*`?verseNumber`?,\s*`?verseText`?\)\s*"
-    r"VALUES\s*\('([A-Z0-9]{3})',\s*(\d+),\s*(\d+),\s*'(.*)'\);\s*$",
+    r"\(`?bookCode`?,\s*`?chapter`?,\s*`?verseNumber`?,\s*`?verseText`?(?:,\s*`?versePlain`?)?\)\s*"
+    r"VALUES\s*\('([A-Z0-9]{3})',\s*(\d+),\s*(\d+),\s*'(.*?)'(?:,\s*'.*')?\);\s*$",
     re.IGNORECASE,
 )
 STRONGS_INSERT_RE = re.compile(

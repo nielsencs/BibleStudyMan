@@ -18,6 +18,7 @@ import argparse
 import html
 import os
 import re
+import importlib.util
 import shutil
 import subprocess
 import sys
@@ -155,6 +156,18 @@ def commit_if_changed(repo: Path, message: str, paths: list[str]) -> bool:
     return True
 
 
+def load_generate_verse_plain_module(bsm_root: Path):
+    script = bsm_root / "scripts" / "generate-verse-plain.py"
+    if not script.exists():
+        script = Path(__file__).with_name("generate-verse-plain.py")
+    spec = importlib.util.spec_from_file_location("generate_verse_plain", script)
+    if spec is None or spec.loader is None:
+        raise SystemExit(f"Could not load {script}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 def rebuild_bible_complete(bsm_root: Path) -> None:
     parts = [
         bsm_root / "database" / "bibleImportSettings.sql",
@@ -239,10 +252,9 @@ def main(argv: list[str] | None = None) -> int:
 
     shutil.copyfile(bl_root / "database" / "tcsbMetadata.sql", bsm_root / "database" / "tcsbMetadata.sql")
     shutil.copyfile(bl_root / "database" / "bibleVerses.sql", bsm_root / "database" / "bibleVerses.sql")
+    load_generate_verse_plain_module(bsm_root).rewrite_file(bsm_root / "database" / "bibleVerses.sql")
     rebuild_bible_complete(bsm_root)
 
-    if (bl_root / "database" / "bibleVerses.sql").read_bytes() != (bsm_root / "database" / "bibleVerses.sql").read_bytes():
-        raise SystemExit("Post-copy verification failed: BSM bibleVerses.sql does not match BL.")
     if (bl_root / "database" / "tcsbMetadata.sql").read_bytes() != (bsm_root / "database" / "tcsbMetadata.sql").read_bytes():
         raise SystemExit("Post-copy verification failed: BSM tcsbMetadata.sql does not match BL.")
     complete = (bsm_root / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
@@ -256,6 +268,7 @@ def main(argv: list[str] | None = None) -> int:
         "database/bibleCompletedVerses.sql",
         "database/bibleVerses.sql",
         "database/bibleComplete.sql",
+        "scripts/generate-verse-plain.py",
         "scripts/nightly-tcsb-revision-sync.py",
         "scripts/nightly-tcsb-revision-sync.sh",
         "tests/test_nightly_tcsb_revision_sync.py",

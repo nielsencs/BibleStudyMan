@@ -161,6 +161,36 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         self.assertIn("('text_revision', '260722')", complete)
         self.assertIn("INSERT verse changed;", complete)
 
+    def test_generates_verse_plain_when_bookish_lamp_verses_are_copied(self):
+        (self.bl / "database" / "bibleVerses.sql").write_text(
+            """
+DROP TABLE IF EXISTS `verses`;
+CREATE TABLE `verses` (
+  `verseID` int(11) NOT NULL AUTO_INCREMENT,
+  `bookCode` varchar(3) NOT NULL,
+  `chapter` smallint(4) NOT NULL,
+  `verseNumber` smallint(4) NOT NULL,
+  `verseText` text NOT NULL,
+  PRIMARY KEY (`verseID`),
+  UNIQUE KEY `book-chapter-verse` (`bookCode`,`chapter`,`verseNumber`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('GEN',   1,   1, '<p>At the beginning, God{H0430} created-from-nothing{H1254} the sky{H8064} and the ground{H0776}.');
+""".lstrip(),
+            encoding="utf-8",
+        )
+        commit(self.bl, "change verses to real insert")
+
+        result = self.run_script()
+
+        self.assertIn("Synced TCSB text revision 260722", result.stdout)
+        bsm_verses = (self.bsm / "database" / "bibleVerses.sql").read_text(encoding="utf-8")
+        self.assertIn("`versePlain` text NOT NULL", bsm_verses)
+        self.assertIn("`verseText`, `versePlain`", bsm_verses)
+        self.assertIn("'At the beginning, God created-from-nothing the sky and the ground.'", bsm_verses)
+        self.assertNotEqual((self.bl / "database" / "bibleVerses.sql").read_text(encoding="utf-8"), bsm_verses)
+        complete = (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
+        self.assertIn("`versePlain` text NOT NULL", complete)
+
     def test_bumps_revision_when_bsm_bible_schema_changed(self):
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA changed;\n", encoding="utf-8")
         new_bsm_commit = commit(self.bsm, "change bible schema")
