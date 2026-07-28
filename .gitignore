@@ -45,6 +45,11 @@ __pycache__/
 # Environmental configuration
 .env
 
+# Local machine paths
+/local_paths.json
+/local_paths.*.json
+!/local_paths.example.json
+
 # Generated artefacts
 /build/*
 !/build/tcsb-mobile/

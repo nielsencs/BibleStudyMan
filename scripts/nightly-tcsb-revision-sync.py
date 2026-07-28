@@ -16,9 +16,10 @@ from __future__ import annotations
 
 import argparse
 import html
+import importlib.util
+import json
 import os
 import re
-import importlib.util
 import shutil
 import subprocess
 import sys
@@ -156,6 +157,20 @@ def commit_if_changed(repo: Path, message: str, paths: list[str]) -> bool:
     return True
 
 
+def local_path_value(root: Path, key: str) -> Path | None:
+    path_file = root / "local_paths.json"
+    if not path_file.exists():
+        return None
+    try:
+        data = json.loads(path_file.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise SystemExit(f"Invalid JSON in {path_file}: {exc}") from exc
+    value = data.get(key)
+    if not value:
+        return None
+    return Path(str(value)).expanduser()
+
+
 def load_generate_verse_plain_module(bsm_root: Path):
     script = bsm_root / "scripts" / "generate-verse-plain.py"
     if not script.exists():
@@ -194,7 +209,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     bsm_root = args.bsm_root.resolve()
-    bl_root = args.bl_root.resolve() if args.bl_root else (bsm_root.parent / "bookish-lamp").resolve()
+    bl_root = (
+        args.bl_root
+        or local_path_value(bsm_root, "bookish_lamp_repo")
+        or (bsm_root.parent / "bookish-lamp")
+    ).resolve()
 
     ensure_git_repo(bl_root, "Bookish Lamp")
     ensure_git_repo(bsm_root, "BibleStudyMan")

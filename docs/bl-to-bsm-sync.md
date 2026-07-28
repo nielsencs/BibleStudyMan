@@ -138,12 +138,36 @@ A sync is successful when:
 
 1. BL and BSM repository status have been checked.
 2. Relevant remotes have been fetched/pulled or inspected safely.
-3. `BibleStudyMan/database/bibleVerses.sql` exactly matches `bookish-lamp/database/bibleVerses.sql`.
+3. `BibleStudyMan/database/bibleVerses.sql` has been copied from Bookish Lamp and processed for BSM-only generated fields such as `versePlain`.
 4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` immediately after `bibleImportSettings.sql` and before `bibleSchema.sql`/`bibleVerses.sql`.
 5. The BSM change, if any, is committed and pushed to `origin/develop`.
 6. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
 
-## 7. Future Automation
+## 7. Local path overrides
+
+By default, the sync looks for Bookish Lamp beside BibleStudyMan:
+
+```text
+../bookish-lamp
+```
+
+Carl's Windows layout is older and may use `D:/_WebSites` or another folder. For that case, copy:
+
+```text
+local_paths.example.json -> local_paths.json
+```
+
+and set:
+
+```json
+{
+  "bookish_lamp_repo": "D:/GitHub/bookish-lamp"
+}
+```
+
+`local_paths.json` is gitignored. Keep real machine paths there, not in committed scripts.
+
+## 8. Future Automation
 
 The implemented scripts are:
 

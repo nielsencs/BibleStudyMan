@@ -70,6 +70,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.bl / "database").mkdir()
         (self.bsm / "database").mkdir()
         (self.bsm / "site").mkdir()
+        (self.bsm / ".gitignore").write_text("/local_paths.json\n/local_paths.*.json\n", encoding="utf-8")
         (self.bsm / "site" / "bibleDisclaimer.html").write_text(
             '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a><br>Square brackets mark words not found in the original text.</p>\n',
             encoding="utf-8",
@@ -93,14 +94,14 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.tmp)
 
-    def run_script(self, *extra):
+    def run_script(self, *extra, use_default_bl=False):
+        bl_args = [] if use_default_bl else ["--bl-root", str(self.bl)]
         return run([
             "python3",
             str(SCRIPT),
             "--no-push",
             "--no-pull",
-            "--bl-root",
-            str(self.bl),
+            *bl_args,
             "--bsm-root",
             str(self.bsm),
             "--revision",
@@ -134,6 +135,21 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         wrapper = WRAPPER.read_text(encoding="utf-8").strip().splitlines()
         self.assertEqual(wrapper[0], "#!/usr/bin/env bash")
         self.assertEqual(wrapper[1], 'exec python3 "$(dirname "$0")/nightly-tcsb-revision-sync.py" "$@"')
+
+    def test_can_use_gitignored_local_paths_for_bookish_lamp_location(self):
+        other = self.tmp / "not-a-sibling" / "bookish-lamp-real"
+        shutil.copytree(self.bl, other)
+        (self.bsm / "local_paths.json").write_text(
+            '{"bookish_lamp_repo":"' + str(other).replace('\\\\', '/') + '"}\n',
+            encoding="utf-8",
+        )
+        (other / "database" / "bibleVerses.sql").write_text("INSERT verse changed elsewhere;\n", encoding="utf-8")
+        commit(other, "change verses through local paths")
+
+        result = self.run_script(use_default_bl=True)
+
+        self.assertIn("Synced TCSB text revision 260722", result.stdout)
+        self.assertIn("INSERT verse changed elsewhere;", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
 
     def test_bumps_revision_when_bookish_lamp_bible_verses_changed(self):
         (self.bl / "database" / "bibleVerses.sql").write_text("INSERT verse changed;\n", encoding="utf-8")
