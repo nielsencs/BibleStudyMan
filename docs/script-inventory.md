@@ -36,10 +36,6 @@ The real local file is:
 local_paths.json
 ```
 
-It is gitignored. If missing, scripts fall back to committed defaults:
+It is gitignored. If missing, scripts use simple built-in sibling defaults such as `../bookish-lamp`.
 
-```text
-local_paths.defaults.json
-```
-
-The defaults file keeps key names and normal sibling-path values recoverable in git. If Carl needs actual Windows paths preserved too, back up `local_paths.json` somewhere private; do not put private/local machine paths in public scripts.
+Back up real `local_paths.json` values in the private local-paths store, not in this public repo.

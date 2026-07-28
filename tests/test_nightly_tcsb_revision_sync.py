@@ -70,8 +70,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.bl / "database").mkdir()
         (self.bsm / "database").mkdir()
         (self.bsm / "site").mkdir()
-        (self.bsm / ".gitignore").write_text("/local_paths.json\n/local_paths.*.json\n!/local_paths.defaults.json\n", encoding="utf-8")
-        (self.bsm / "local_paths.defaults.json").write_text('{"bookish_lamp_repo":"../bookish-lamp"}\n', encoding="utf-8")
+        (self.bsm / ".gitignore").write_text("/local_paths.json\n", encoding="utf-8")
         (self.bsm / "site" / "bibleDisclaimer.html").write_text(
             '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a><br>Square brackets mark words not found in the original text.</p>\n',
             encoding="utf-8",

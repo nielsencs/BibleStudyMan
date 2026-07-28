@@ -48,10 +48,6 @@ __pycache__/
 # Local machine paths
 /local_paths.json
 
-# Local machine path override backups/variants
-/local_paths.*.json
-!/local_paths.defaults.json
-
 # Generated artefacts
 /build/*
 !/build/tcsb-mobile/
