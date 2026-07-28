@@ -28,10 +28,16 @@ This repo keeps Python implementations plus thin launchers for Carl-friendly Win
 
 ## Local paths
 
-Do not hard-code Carl's machine paths into scripts. If the repo layout is not sibling-style, copy:
+Do not hard-code Carl's machine paths into scripts. The committed default file is:
 
 ```text
-local_paths.example.json -> local_paths.json
+local_paths.json
 ```
 
-and edit `local_paths.json`. The real file is gitignored.
+Use it for recoverable key names and normal defaults. If one machine needs different paths, create ignored override:
+
+```text
+local_paths.local.json
+```
+
+The override wins locally, but the committed default means a fresh clone still documents the mechanism and has sensible fallback values.

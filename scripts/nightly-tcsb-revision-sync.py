@@ -158,17 +158,17 @@ def commit_if_changed(repo: Path, message: str, paths: list[str]) -> bool:
 
 
 def local_path_value(root: Path, key: str) -> Path | None:
-    path_file = root / "local_paths.json"
-    if not path_file.exists():
-        return None
-    try:
-        data = json.loads(path_file.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
-        raise SystemExit(f"Invalid JSON in {path_file}: {exc}") from exc
-    value = data.get(key)
-    if not value:
-        return None
-    return Path(str(value)).expanduser()
+    for path_file in [root / "local_paths.local.json", root / "local_paths.json"]:
+        if not path_file.exists():
+            continue
+        try:
+            data = json.loads(path_file.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            raise SystemExit(f"Invalid JSON in {path_file}: {exc}") from exc
+        value = data.get(key)
+        if value:
+            return Path(str(value)).expanduser()
+    return None
 
 
 def load_generate_verse_plain_module(bsm_root: Path):

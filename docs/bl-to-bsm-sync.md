@@ -145,19 +145,27 @@ A sync is successful when:
 
 ## 7. Local path overrides
 
-By default, the sync looks for Bookish Lamp beside BibleStudyMan:
+The sync has a committed default file:
 
 ```text
-../bookish-lamp
+local_paths.json
 ```
 
-Carl's Windows layout is older and may use `D:/_WebSites` or another folder. For that case, copy:
+It records the expected key names and the normal sibling-repo fallback:
+
+```json
+{
+  "bookish_lamp_repo": "../bookish-lamp"
+}
+```
+
+Carl's Windows layout is older and may use `D:/_WebSites` or another folder. For that case, create an ignored override:
 
 ```text
-local_paths.example.json -> local_paths.json
+local_paths.local.json
 ```
 
-and set:
+for example:
 
 ```json
 {
@@ -165,7 +173,14 @@ and set:
 }
 ```
 
-`local_paths.json` is gitignored. Keep real machine paths there, not in committed scripts.
+Precedence is:
+
+1. explicit `--bl-root` argument;
+2. `local_paths.local.json`;
+3. committed `local_paths.json`;
+4. sibling fallback `../bookish-lamp`.
+
+So the important machinery is committed and recoverable; only personal machine overrides are ignored.
 
 ## 8. Future Automation
 

@@ -45,10 +45,8 @@ __pycache__/
 # Environmental configuration
 .env
 
-# Local machine paths
-/local_paths.json
-/local_paths.*.json
-!/local_paths.example.json
+# Local machine path overrides
+/local_paths.local.json
 
 # Generated artefacts
 /build/*
