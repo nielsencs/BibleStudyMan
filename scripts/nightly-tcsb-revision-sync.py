@@ -158,7 +158,7 @@ def commit_if_changed(repo: Path, message: str, paths: list[str]) -> bool:
 
 
 def local_path_value(root: Path, key: str) -> Path | None:
-    for path_file in [root / "local_paths.local.json", root / "local_paths.json"]:
+    for path_file in [root / "local_paths.json", root / "local_paths.defaults.json"]:
         if not path_file.exists():
             continue
         try:

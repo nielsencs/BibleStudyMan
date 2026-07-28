@@ -145,13 +145,19 @@ A sync is successful when:
 
 ## 7. Local path overrides
 
-The sync has a committed default file:
+The sync reads a real local file if present:
 
 ```text
 local_paths.json
 ```
 
-It records the expected key names and the normal sibling-repo fallback:
+That file is ignored because it may contain Carl's actual machine paths. If it is missing, the sync falls back to the committed defaults file:
+
+```text
+local_paths.defaults.json
+```
+
+The defaults file records the expected key names and the normal sibling-repo fallback:
 
 ```json
 {
@@ -159,13 +165,7 @@ It records the expected key names and the normal sibling-repo fallback:
 }
 ```
 
-Carl's Windows layout is older and may use `D:/_WebSites` or another folder. For that case, create an ignored override:
-
-```text
-local_paths.local.json
-```
-
-for example:
+Carl's Windows layout is older and may use `D:/_WebSites` or another folder. Put that in `local_paths.json`, for example:
 
 ```json
 {
@@ -176,11 +176,11 @@ for example:
 Precedence is:
 
 1. explicit `--bl-root` argument;
-2. `local_paths.local.json`;
-3. committed `local_paths.json`;
+2. ignored `local_paths.json`;
+3. committed `local_paths.defaults.json`;
 4. sibling fallback `../bookish-lamp`.
 
-So the important machinery is committed and recoverable; only personal machine overrides are ignored.
+This is the unavoidable split: the *mechanism and key names* are committed, but the *actual machine-local paths* are local. If you want those backed up too, back up `local_paths.json` somewhere private, not in the public repo.
 
 ## 8. Future Automation
 

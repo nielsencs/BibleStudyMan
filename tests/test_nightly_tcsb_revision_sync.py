@@ -70,8 +70,8 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.bl / "database").mkdir()
         (self.bsm / "database").mkdir()
         (self.bsm / "site").mkdir()
-        (self.bsm / ".gitignore").write_text("/local_paths.local.json\n", encoding="utf-8")
-        (self.bsm / "local_paths.json").write_text('{"bookish_lamp_repo":"../bookish-lamp"}\n', encoding="utf-8")
+        (self.bsm / ".gitignore").write_text("/local_paths.json\n/local_paths.*.json\n!/local_paths.defaults.json\n", encoding="utf-8")
+        (self.bsm / "local_paths.defaults.json").write_text('{"bookish_lamp_repo":"../bookish-lamp"}\n', encoding="utf-8")
         (self.bsm / "site" / "bibleDisclaimer.html").write_text(
             '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a><br>Square brackets mark words not found in the original text.</p>\n',
             encoding="utf-8",
@@ -137,10 +137,10 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         self.assertEqual(wrapper[0], "#!/usr/bin/env bash")
         self.assertEqual(wrapper[1], 'exec python3 "$(dirname "$0")/nightly-tcsb-revision-sync.py" "$@"')
 
-    def test_can_use_ignored_local_override_for_bookish_lamp_location(self):
+    def test_can_use_ignored_local_paths_for_bookish_lamp_location(self):
         other = self.tmp / "not-a-sibling" / "bookish-lamp-real"
         shutil.copytree(self.bl, other)
-        (self.bsm / "local_paths.local.json").write_text(
+        (self.bsm / "local_paths.json").write_text(
             '{"bookish_lamp_repo":"' + str(other).replace('\\\\', '/') + '"}\n',
             encoding="utf-8",
         )
