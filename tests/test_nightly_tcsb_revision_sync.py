@@ -43,7 +43,7 @@ def commit(repo: Path, message: str):
     return git(repo, "rev-parse", "HEAD").stdout.strip()
 
 
-def write_metadata(path: Path, revision="260701", bl_commit="old-bl", bsm_commit="old-bsm"):
+def write_metadata(path: Path, revision="260701", bl_commit="old-bl", bsm_commit="old-bsm", bsm_strongs_commit="old-strongs"):
     path.write_text(
         "DROP TABLE IF EXISTS `tcsb_text_metadata`;\n"
         "CREATE TABLE `tcsb_text_metadata` (\n"
@@ -55,7 +55,8 @@ def write_metadata(path: Path, revision="260701", bl_commit="old-bl", bsm_commit
         f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '{revision}');\n"
         "INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-07-01');\n"
         f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '{bl_commit}');\n"
-        f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '{bsm_commit}');\n",
+        f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '{bsm_commit}');\n"
+        f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_strongs_commit', '{bsm_strongs_commit}');\n",
         encoding="utf-8",
     )
 
@@ -80,14 +81,16 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         write_metadata(self.bl / "database" / "tcsbMetadata.sql")
         (self.bsm / "database" / "bibleImportSettings.sql").write_text("SETTINGS old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA old;\n", encoding="utf-8")
+        (self.bsm / "database" / "bibleStrongs.sql").write_text("STRONGS old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleCompletedVerses.sql").write_text("COMPLETED old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleVerses.sql").write_text("INSERT verse old;\n", encoding="utf-8")
         write_metadata(self.bsm / "database" / "tcsbMetadata.sql")
         (self.bsm / "database" / "bibleComplete.sql").write_text("", encoding="utf-8")
         self.initial_bl_commit = commit(self.bl, "initial BL")
         self.initial_bsm_commit = commit(self.bsm, "initial BSM")
-        write_metadata(self.bl / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit)
-        write_metadata(self.bsm / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit)
+        initial_strongs_commit = self.initial_bsm_commit
+        write_metadata(self.bl / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit, bsm_strongs_commit=initial_strongs_commit)
+        write_metadata(self.bsm / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit, bsm_strongs_commit=initial_strongs_commit)
         commit(self.bl, "record initial metadata")
         commit(self.bsm, "record initial metadata")
 
@@ -122,6 +125,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
                 (self.bsm / "database" / "bibleImportSettings.sql").read_text(encoding="utf-8"),
                 (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8"),
                 (self.bsm / "database" / "bibleSchema.sql").read_text(encoding="utf-8"),
+                (self.bsm / "database" / "bibleStrongs.sql").read_text(encoding="utf-8"),
                 (self.bsm / "database" / "bibleCompletedVerses.sql").read_text(encoding="utf-8"),
                 (self.bsm / "database" / "bibleVerses.sql").read_text(encoding="utf-8"),
             ]
@@ -130,6 +134,8 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         self.assertEqual(complete, expected)
         self.assertIn("tcsb_text_metadata", complete)
         self.assertLess(complete.index("tcsb_text_metadata"), complete.index("SCHEMA old"))
+        self.assertLess(complete.index("SCHEMA old"), complete.index("STRONGS old"))
+        self.assertLess(complete.index("STRONGS old"), complete.index("COMPLETED old"))
 
     def test_shell_wrapper_is_only_a_python_launcher(self):
         wrapper = WRAPPER.read_text(encoding="utf-8").strip().splitlines()
@@ -165,6 +171,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         self.assertIn("('tcsb_disclaimer_html', '<p class=\"bibleDisclaimer\">", bl_metadata)
         self.assertIn("('tcsb_disclaimer_text', 'The CleanSlate Bible is an adaptation of the WEB", bl_metadata)
         self.assertIn(f"('bl_bible_verses_commit', '{new_bl_commit}')", bl_metadata)
+        self.assertIn("('bsm_bible_strongs_commit', '", bl_metadata)
         self.assertEqual(bl_metadata, bsm_metadata)
         self.assertEqual(
             (self.bl / "database" / "bibleVerses.sql").read_text(encoding="utf-8"),
@@ -173,6 +180,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         complete = (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
         self.assertIn("SETTINGS old;", complete)
         self.assertIn("SCHEMA old;", complete)
+        self.assertIn("STRONGS old;", complete)
         self.assertIn("COMPLETED old;", complete)
         self.assertIn("('text_revision', '260722')", complete)
         self.assertIn("INSERT verse changed;", complete)
@@ -206,6 +214,17 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         self.assertNotEqual((self.bl / "database" / "bibleVerses.sql").read_text(encoding="utf-8"), bsm_verses)
         complete = (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
         self.assertIn("`versePlain` text NOT NULL", complete)
+
+    def test_bumps_revision_when_bsm_bible_strongs_changed(self):
+        (self.bsm / "database" / "bibleStrongs.sql").write_text("STRONGS changed;\n", encoding="utf-8")
+        new_bsm_strongs_commit = commit(self.bsm, "change bible strongs")
+
+        result = self.run_script()
+
+        self.assertIn("Synced TCSB text revision 260722", result.stdout)
+        metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
+        self.assertIn(f"('bsm_bible_strongs_commit', '{new_bsm_strongs_commit}')", metadata)
+        self.assertIn("STRONGS changed;", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
 
     def test_bumps_revision_when_bsm_bible_schema_changed(self):
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA changed;\n", encoding="utf-8")

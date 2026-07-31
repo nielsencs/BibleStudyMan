@@ -20,7 +20,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('GEN',  17,   1, '<p>When Abram was ninety-nine years old, ForeverOne{H3068} appeared to Abram and said to him, "I am God{H0410} Almighty{H7706}. Walk before me and be blameless.');
 """.strip()
 
-GOOD_COMPLETE = """
+GOOD_STRONGS = """
 DROP TABLE IF EXISTS strongs;
 CREATE TABLE strongs (
   strongsNumber varchar(7) NOT NULL,
@@ -45,16 +45,16 @@ class TcsbDatabaseIntegrityTests(unittest.TestCase):
         self.tmpdir = tempfile.TemporaryDirectory()
         self.root = Path(self.tmpdir.name)
         self.verses = self.root / "bibleVerses.sql"
-        self.complete = self.root / "bibleComplete.sql"
+        self.strongs = self.root / "bibleStrongs.sql"
         self.verses.write_text(GOOD_VERSES + "\n", encoding="utf-8")
-        self.complete.write_text(GOOD_COMPLETE + "\n", encoding="utf-8")
+        self.strongs.write_text(GOOD_STRONGS + "\n", encoding="utf-8")
 
     def tearDown(self):
         self.tmpdir.cleanup()
 
     def run_check(self):
         return subprocess.run(
-            ["python3", str(SCRIPT), "--verses", str(self.verses), "--complete", str(self.complete)],
+            ["python3", str(SCRIPT), "--verses", str(self.verses), "--strongs", str(self.strongs)],
             check=False,
             text=True,
             stdout=subprocess.PIPE,
@@ -86,8 +86,8 @@ class TcsbDatabaseIntegrityTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout)
 
     def test_fails_when_verse_uses_strongs_code_missing_from_table(self):
-        self.complete.write_text(
-            GOOD_COMPLETE.replace(
+        self.strongs.write_text(
+            GOOD_STRONGS.replace(
                 "INSERT INTO strongs (strongsNumber, strongsIsName, strongsOriginal, strongsEnglish, strongsDefinition) VALUES('H7706', 0, 'Shaddai', 'Almighty', 'Almighty.');\n",
                 "",
             ),

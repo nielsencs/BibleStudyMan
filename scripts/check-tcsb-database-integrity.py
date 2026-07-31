@@ -140,17 +140,17 @@ def check_missing_strongs(verses_path: Path, rows: list[VerseRow], known_strongs
     return issues
 
 
-def check_paths(verses_path: Path, complete_path: Path) -> list[IntegrityIssue]:
+def check_paths(verses_path: Path, strongs_path: Path) -> list[IntegrityIssue]:
     issues: list[IntegrityIssue] = []
     if not verses_path.exists():
         issues.append(IntegrityIssue("missing-file", f"Missing verses file: {verses_path}"))
-    if not complete_path.exists():
-        issues.append(IntegrityIssue("missing-file", f"Missing complete/schema file: {complete_path}"))
+    if not strongs_path.exists():
+        issues.append(IntegrityIssue("missing-file", f"Missing strongs file: {strongs_path}"))
     if issues:
         return issues
 
     rows, verse_issues = parse_verses(verses_path)
-    strongs, strongs_issues = parse_strongs(complete_path)
+    strongs, strongs_issues = parse_strongs(strongs_path)
     issues.extend(verse_issues)
     issues.extend(strongs_issues)
     if rows:
@@ -164,10 +164,10 @@ def main(argv: list[str] | None = None) -> int:
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser(description="Check TCSB SQL files for common hand-edit/database integrity mistakes.")
     parser.add_argument("--verses", type=Path, default=root / "database" / "bibleVerses.sql", help="Path to bibleVerses.sql")
-    parser.add_argument("--complete", type=Path, default=root / "database" / "bibleComplete.sql", help="Path to bibleComplete.sql containing the strongs table")
+    parser.add_argument("--strongs", type=Path, default=root / "database" / "bibleStrongs.sql", help="Path to bibleStrongs.sql containing the strongs table")
     args = parser.parse_args(argv)
 
-    issues = check_paths(args.verses, args.complete)
+    issues = check_paths(args.verses, args.strongs)
     if issues:
         print(f"TCSB database integrity check FAILED: {len(issues)} issue(s)", file=sys.stderr)
         for issue in issues:
