@@ -6,7 +6,7 @@ changed since the last recorded metadata:
 
 - bookish-lamp/database/bibleVerses.sql
 - BibleStudyMan/database/bibleSchema.sql
-- BibleStudyMan/database/bibleStrongs.sql
+- the-cleanslate-bible/exports/bibleStrongs.sql
 
 Deliberately ignored for text-revision purposes:
 
@@ -31,6 +31,7 @@ from zoneinfo import ZoneInfo
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_BSM_ROOT = SCRIPT_DIR.parent
+DEFAULT_TCSB_ROOT = DEFAULT_BSM_ROOT.parent / "the-cleanslate-bible"
 
 
 def run(cmd: list[str], cwd: Path | None = None, input_text: str | None = None, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -119,7 +120,7 @@ def write_metadata(
     bl_root: Path,
     bl_commit: str,
     bsm_commit: str,
-    bsm_strongs_commit: str,
+    tcsb_strongs_commit: str,
     generated_at: str,
     disclaimer_html: str,
 ) -> None:
@@ -139,7 +140,7 @@ def write_metadata(
         sql_insert("text_source_file", "database/bibleVerses.sql"),
         sql_insert("bl_bible_verses_commit", bl_commit),
         sql_insert("bsm_bible_schema_commit", bsm_commit),
-        sql_insert("bsm_bible_strongs_commit", bsm_strongs_commit),
+        sql_insert("tcsb_bible_strongs_commit", tcsb_strongs_commit),
         sql_insert("generated_at", generated_at),
         sql_insert("tcsb_disclaimer_html", disclaimer_html.strip()),
         sql_insert("tcsb_disclaimer_text", disclaimer_plain_text(disclaimer_html)),
@@ -206,6 +207,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Nightly TCSB text revision sync")
     parser.add_argument("--bl-root", type=Path)
     parser.add_argument("--bsm-root", type=Path, default=DEFAULT_BSM_ROOT)
+    parser.add_argument("--tcsb-root", type=Path)
     parser.add_argument("--no-push", action="store_true")
     parser.add_argument("--no-pull", action="store_true")
     parser.add_argument("--revision")
@@ -218,15 +220,22 @@ def main(argv: list[str] | None = None) -> int:
         or local_path_value(bsm_root, "bookish_lamp_repo")
         or (bsm_root.parent / "bookish-lamp")
     ).resolve()
+    tcsb_root = (
+        args.tcsb_root
+        or local_path_value(bsm_root, "the_cleanslate_bible_repo")
+        or local_path_value(bsm_root, "tcsb_repo")
+        or DEFAULT_TCSB_ROOT
+    ).resolve()
 
     ensure_git_repo(bl_root, "Bookish Lamp")
+    ensure_git_repo(tcsb_root, "the-cleanslate-bible")
     ensure_git_repo(bsm_root, "BibleStudyMan")
     for path in [
         bl_root / "database" / "bibleVerses.sql",
         bl_root / "database" / "tcsbMetadata.sql",
         bsm_root / "database" / "bibleImportSettings.sql",
         bsm_root / "database" / "bibleSchema.sql",
-        bsm_root / "database" / "bibleStrongs.sql",
+        tcsb_root / "exports" / "bibleStrongs.sql",
         bsm_root / "database" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleVerses.sql",
         bsm_root / "database" / "tcsbMetadata.sql",
@@ -238,23 +247,25 @@ def main(argv: list[str] | None = None) -> int:
         raise SystemExit(f"BSM must be on develop; currently on {current_branch(bsm_root)}")
 
     ensure_clean_repo(bl_root, "Bookish Lamp")
+    ensure_clean_repo(tcsb_root, "the-cleanslate-bible")
     ensure_clean_repo(bsm_root, "BibleStudyMan")
 
     if not args.no_pull:
         pull_ff_current_branch(bl_root, "Bookish Lamp")
+        pull_ff_current_branch(tcsb_root, "the-cleanslate-bible")
         pull_ff_current_branch(bsm_root, "BibleStudyMan")
 
     bl_commit = latest_commit_for_file(bl_root, "database/bibleVerses.sql")
     bsm_commit = latest_commit_for_file(bsm_root, "database/bibleSchema.sql")
-    bsm_strongs_commit = latest_commit_for_file(bsm_root, "database/bibleStrongs.sql")
+    tcsb_strongs_commit = latest_commit_for_file(tcsb_root, "exports/bibleStrongs.sql")
     recorded_bl_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bl_bible_verses_commit")
     recorded_bsm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_schema_commit")
-    recorded_bsm_strongs_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_strongs_commit")
+    recorded_tcsb_strongs_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_bible_strongs_commit")
 
     if (
         bl_commit == recorded_bl_commit
         and bsm_commit == recorded_bsm_commit
-        and bsm_strongs_commit == recorded_bsm_strongs_commit
+        and tcsb_strongs_commit == recorded_tcsb_strongs_commit
     ):
         print("No TCSB text revision change: tracked source commits already recorded.")
         return 0
@@ -272,7 +283,7 @@ def main(argv: list[str] | None = None) -> int:
         bl_root=bl_root,
         bl_commit=bl_commit,
         bsm_commit=bsm_commit,
-        bsm_strongs_commit=bsm_strongs_commit,
+        tcsb_strongs_commit=tcsb_strongs_commit,
         generated_at=generated_at,
         disclaimer_html=disclaimer_html,
     )
@@ -282,6 +293,7 @@ def main(argv: list[str] | None = None) -> int:
         git(bl_root, "push", "origin", current_branch(bl_root))
 
     shutil.copyfile(bl_root / "database" / "tcsbMetadata.sql", bsm_root / "database" / "tcsbMetadata.sql")
+    shutil.copyfile(tcsb_root / "exports" / "bibleStrongs.sql", bsm_root / "database" / "bibleStrongs.sql")
     shutil.copyfile(bl_root / "database" / "bibleVerses.sql", bsm_root / "database" / "bibleVerses.sql")
     load_generate_verse_plain_module(bsm_root).rewrite_file(bsm_root / "database" / "bibleVerses.sql")
     rebuild_bible_complete(bsm_root)
@@ -312,7 +324,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Synced TCSB text revision {revision}")
     print(f"BL bibleVerses commit: {bl_commit}")
     print(f"BSM bibleSchema commit: {bsm_commit}")
-    print(f"BSM bibleStrongs commit: {bsm_strongs_commit}")
+    print(f"TCSB bibleStrongs commit: {tcsb_strongs_commit}")
     print(f"Bookish Lamp metadata commit created: {int(bl_commit_created)}")
     print(f"BibleStudyMan sync commit created: {int(bsm_commit_created)}")
     return 0

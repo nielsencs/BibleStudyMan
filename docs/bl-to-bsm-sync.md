@@ -73,7 +73,7 @@ cmp -s ../bookish-lamp/database/bibleVerses.sql database/bibleVerses.sql
 
 ### R4. Rebuild `bibleComplete.sql`
 
-After syncing `bibleVerses.sql`, the process must reproduce the current database assembly order. `bibleComplete.sql` is a compiled upload/import artefact; its source parts remain split for readability:
+After syncing `bibleVerses.sql` and copying the generated Strong's glossary SQL from `the-cleanslate-bible/exports/bibleStrongs.sql` to `BibleStudyMan/database/bibleStrongs.sql`, the process must reproduce the current database assembly order. `bibleComplete.sql` is a compiled upload/import artefact; its source parts remain split for readability:
 
 ```text
 bibleImportSettings.sql + tcsbMetadata.sql + bibleSchema.sql + bibleStrongs.sql + bibleCompletedVerses.sql + bibleVerses.sql
@@ -139,9 +139,10 @@ A sync is successful when:
 1. BL and BSM repository status have been checked.
 2. Relevant remotes have been fetched/pulled or inspected safely.
 3. `BibleStudyMan/database/bibleVerses.sql` has been copied from Bookish Lamp and processed for BSM-only generated fields such as `versePlain`.
-4. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` immediately after `bibleImportSettings.sql` and before `bibleSchema.sql`/`bibleStrongs.sql`/`bibleVerses.sql`.
-5. The BSM change, if any, is committed and pushed to `origin/develop`.
-6. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
+4. `BibleStudyMan/database/bibleStrongs.sql` has been copied from `the-cleanslate-bible/exports/bibleStrongs.sql`.
+5. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` immediately after `bibleImportSettings.sql` and before `bibleSchema.sql`/`bibleStrongs.sql`/`bibleVerses.sql`.
+6. The BSM change, if any, is committed and pushed to `origin/develop`.
+7. Final report includes the BSM commit hash or says no commit was needed because the files already matched.
 
 ## 7. Local path overrides
 
