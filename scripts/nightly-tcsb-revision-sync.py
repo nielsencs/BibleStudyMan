@@ -112,6 +112,29 @@ def latest_commit_for_files(repo: Path, file_paths: list[str]) -> str:
     return git_stdout(repo, "log", "-n", "1", "--format=%H", "--", *file_paths)
 
 
+def tcsb_source_dir(tcsb_root: Path) -> Path:
+    candidates = [path for path in sorted(tcsb_root.glob("source/tcsb-usfm_*")) if path.is_dir()]
+    if not candidates:
+        raise SystemExit(f"No TCSB USFM source directory found under {tcsb_root / 'source'}")
+    return candidates[-1]
+
+
+def regenerate_tcsb_exports_from_usfm(tcsb_root: Path, *, no_push: bool) -> bool:
+    source_dir = tcsb_source_dir(tcsb_root)
+    exporter = tcsb_root / "tools" / "plain_usfm_to_sql.py"
+    require_file(exporter)
+    output_sql = tcsb_root / "exports" / f"{source_dir.name}.sql"
+    run([sys.executable, str(exporter), str(source_dir), str(output_sql)], cwd=tcsb_root)
+    changed = commit_if_changed(
+        tcsb_root,
+        "Regenerate TCSB SQL exports from USFM",
+        [f"exports/{source_dir.name}.sql", "exports/bibleStrongs.sql"],
+    )
+    if changed and not no_push:
+        git(tcsb_root, "push", "origin", current_branch(tcsb_root))
+    return changed
+
+
 def sql_insert(key: str, value: str) -> str:
     escaped = value.replace("'", "''")
     return f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('{key}', '{escaped}');\n"
@@ -300,6 +323,11 @@ def main(argv: list[str] | None = None) -> int:
     recorded_bsm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_schema_commit")
     recorded_tcsb_strongs_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_bible_strongs_commit")
     recorded_tcsb_glossary_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_glossary_usfm_commit")
+
+    if tcsb_glossary_commit != recorded_tcsb_glossary_commit:
+        if regenerate_tcsb_exports_from_usfm(tcsb_root, no_push=args.no_push):
+            print("Generated TCSB bibleStrongs.sql from glossary source")
+        tcsb_strongs_commit = latest_commit_for_file(tcsb_root, "exports/bibleStrongs.sql")
 
     if (
         bl_commit == recorded_bl_commit

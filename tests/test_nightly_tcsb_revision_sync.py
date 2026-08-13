@@ -75,6 +75,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.tcsb / "exports").mkdir()
         (self.tcsb / "database-components").mkdir()
         (self.tcsb / "source" / "tcsb-usfm_2026-06-28").mkdir(parents=True)
+        (self.tcsb / "tools").mkdir()
         (self.bsm / "database").mkdir()
         (self.bsm / "site").mkdir()
         (self.bsm / ".gitignore").write_text("/local_paths.json\n", encoding="utf-8")
@@ -87,6 +88,20 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         write_metadata(self.bl / "database" / "tcsbMetadata.sql")
         (self.tcsb / "exports" / "bibleStrongs.sql").write_text("STRONGS source old;\n", encoding="utf-8")
         (self.tcsb / "source" / "tcsb-usfm_2026-06-28" / "97-GLOengtcsbp.usfm").write_text("\\id GLO\nold glossary\n", encoding="utf-8")
+        (self.tcsb / "tools" / "plain_usfm_to_sql.py").write_text(
+            """
+import sys
+from pathlib import Path
+
+source_dir = Path(sys.argv[1])
+output_sql = Path(sys.argv[2])
+glossary = (source_dir / '97-GLOengtcsbp.usfm').read_text(encoding='utf-8')
+output_sql.parent.mkdir(parents=True, exist_ok=True)
+output_sql.write_text('VERSES export placeholder;\\n', encoding='utf-8')
+(output_sql.parent / 'bibleStrongs.sql').write_text('GENERATED STRONGS FROM: ' + glossary, encoding='utf-8')
+""".lstrip(),
+            encoding="utf-8",
+        )
         (self.tcsb / "database-components" / "bibleCompletedVerses.sql").write_text("COMPLETED old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleImportSettings.sql").write_text("SETTINGS old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA old;\n", encoding="utf-8")
@@ -238,7 +253,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         self.assertIn("STRONGS source changed;", (self.bsm / "database" / "bibleStrongs.sql").read_text(encoding="utf-8"))
         self.assertIn("STRONGS source changed;", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
 
-    def test_bumps_revision_when_tcsb_glossary_usfm_changed_even_before_strongs_export_is_regenerated(self):
+    def test_regenerates_strongs_and_bumps_revision_when_tcsb_glossary_usfm_changed(self):
         glossary = self.tcsb / "source" / "tcsb-usfm_2026-06-28" / "97-GLOengtcsbp.usfm"
         glossary.write_text("\\id GLO\nchanged glossary source\n", encoding="utf-8")
         new_glossary_commit = commit(self.tcsb, "change glossary source")
@@ -246,6 +261,10 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         result = self.run_script()
 
         self.assertIn("Synced TCSB text revision 260722", result.stdout)
+        self.assertIn("Generated TCSB bibleStrongs.sql from glossary source", result.stdout)
+        self.assertIn("changed glossary source", (self.tcsb / "exports" / "bibleStrongs.sql").read_text(encoding="utf-8"))
+        self.assertIn("changed glossary source", (self.bsm / "database" / "bibleStrongs.sql").read_text(encoding="utf-8"))
+        self.assertIn("changed glossary source", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
         metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
         self.assertIn(f"('tcsb_glossary_usfm_commit', '{new_glossary_commit}')", metadata)
         self.assertIn("('text_revision', '260722')", metadata)
