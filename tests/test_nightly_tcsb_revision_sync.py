@@ -43,7 +43,7 @@ def commit(repo: Path, message: str):
     return git(repo, "rev-parse", "HEAD").stdout.strip()
 
 
-def write_metadata(path: Path, revision="260701", bl_commit="old-bl", bsm_commit="old-bsm", tcsb_strongs_commit="old-strongs"):
+def write_metadata(path: Path, revision="260701", bl_commit="old-bl", bsm_commit="old-bsm", tcsb_strongs_commit="old-strongs", tcsb_glossary_commit="old-glossary"):
     path.write_text(
         "DROP TABLE IF EXISTS `tcsb_text_metadata`;\n"
         "CREATE TABLE `tcsb_text_metadata` (\n"
@@ -56,7 +56,8 @@ def write_metadata(path: Path, revision="260701", bl_commit="old-bl", bsm_commit
         "INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-07-01');\n"
         f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '{bl_commit}');\n"
         f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '{bsm_commit}');\n"
-        f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', '{tcsb_strongs_commit}');\n",
+        f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', '{tcsb_strongs_commit}');\n"
+        f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_glossary_usfm_commit', '{tcsb_glossary_commit}');\n",
         encoding="utf-8",
     )
 
@@ -73,6 +74,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.bl / "database").mkdir()
         (self.tcsb / "exports").mkdir()
         (self.tcsb / "database-components").mkdir()
+        (self.tcsb / "source" / "tcsb-usfm_2026-06-28").mkdir(parents=True)
         (self.bsm / "database").mkdir()
         (self.bsm / "site").mkdir()
         (self.bsm / ".gitignore").write_text("/local_paths.json\n", encoding="utf-8")
@@ -84,6 +86,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.bl / "database" / "translationToDo.txt").write_text("todo old\n", encoding="utf-8")
         write_metadata(self.bl / "database" / "tcsbMetadata.sql")
         (self.tcsb / "exports" / "bibleStrongs.sql").write_text("STRONGS source old;\n", encoding="utf-8")
+        (self.tcsb / "source" / "tcsb-usfm_2026-06-28" / "97-GLOengtcsbp.usfm").write_text("\\id GLO\nold glossary\n", encoding="utf-8")
         (self.tcsb / "database-components" / "bibleCompletedVerses.sql").write_text("COMPLETED old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleImportSettings.sql").write_text("SETTINGS old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA old;\n", encoding="utf-8")
@@ -95,8 +98,8 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         self.initial_bl_commit = commit(self.bl, "initial BL")
         self.initial_tcsb_commit = commit(self.tcsb, "initial TCSB")
         self.initial_bsm_commit = commit(self.bsm, "initial BSM")
-        write_metadata(self.bl / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit, tcsb_strongs_commit=self.initial_tcsb_commit)
-        write_metadata(self.bsm / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit, tcsb_strongs_commit=self.initial_tcsb_commit)
+        write_metadata(self.bl / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit, tcsb_strongs_commit=self.initial_tcsb_commit, tcsb_glossary_commit=self.initial_tcsb_commit)
+        write_metadata(self.bsm / "database" / "tcsbMetadata.sql", bl_commit=self.initial_bl_commit, bsm_commit=self.initial_bsm_commit, tcsb_strongs_commit=self.initial_tcsb_commit, tcsb_glossary_commit=self.initial_tcsb_commit)
         commit(self.bl, "record initial metadata")
         commit(self.bsm, "record initial metadata")
 
@@ -234,6 +237,18 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         self.assertIn(f"('tcsb_bible_strongs_commit', '{new_tcsb_strongs_commit}')", metadata)
         self.assertIn("STRONGS source changed;", (self.bsm / "database" / "bibleStrongs.sql").read_text(encoding="utf-8"))
         self.assertIn("STRONGS source changed;", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
+
+    def test_bumps_revision_when_tcsb_glossary_usfm_changed_even_before_strongs_export_is_regenerated(self):
+        glossary = self.tcsb / "source" / "tcsb-usfm_2026-06-28" / "97-GLOengtcsbp.usfm"
+        glossary.write_text("\\id GLO\nchanged glossary source\n", encoding="utf-8")
+        new_glossary_commit = commit(self.tcsb, "change glossary source")
+
+        result = self.run_script()
+
+        self.assertIn("Synced TCSB text revision 260722", result.stdout)
+        metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
+        self.assertIn(f"('tcsb_glossary_usfm_commit', '{new_glossary_commit}')", metadata)
+        self.assertIn("('text_revision', '260722')", metadata)
 
     def test_bumps_revision_when_bsm_bible_schema_changed(self):
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA changed;\n", encoding="utf-8")

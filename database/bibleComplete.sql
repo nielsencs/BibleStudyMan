@@ -27,6 +27,7 @@ INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '7bd1fbe252574f2c7cfa3e2efed9c01e1ff1c179');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', 'ea7763fed0ad74c4055c39de1b4d8c43bfc917f2');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', '0101b9c882fc934f73dfa9212bda2884531a056c');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_glossary_usfm_commit', '696038d07c8588601969e7fc664a5ee3961de633');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-08-07T03:30:56+01:00');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_disclaimer_html', '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a>
 to include nuanced meanings of particular ancient words for placenames, God and others of special interest.

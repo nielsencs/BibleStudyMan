@@ -7,6 +7,7 @@ changed since the last recorded metadata:
 - bookish-lamp/database/bibleVerses.sql
 - BibleStudyMan/database/bibleSchema.sql
 - the-cleanslate-bible/exports/bibleStrongs.sql
+- the-cleanslate-bible/source/.../*GLO*.usfm
 
 Deliberately ignored for text-revision purposes:
 
@@ -99,6 +100,18 @@ def latest_commit_for_file(repo: Path, file_path: str) -> str:
     return git_stdout(repo, "log", "-n", "1", "--format=%H", "--", file_path)
 
 
+def tcsb_glossary_usfm_paths(tcsb_root: Path) -> list[str]:
+    paths = sorted(tcsb_root.glob("source/**/*.usfm"))
+    glossary_paths = [path.relative_to(tcsb_root).as_posix() for path in paths if "GLO" in path.name]
+    if not glossary_paths:
+        raise SystemExit(f"No TCSB glossary USFM file found under {tcsb_root / 'source'}")
+    return glossary_paths
+
+
+def latest_commit_for_files(repo: Path, file_paths: list[str]) -> str:
+    return git_stdout(repo, "log", "-n", "1", "--format=%H", "--", *file_paths)
+
+
 def sql_insert(key: str, value: str) -> str:
     escaped = value.replace("'", "''")
     return f"INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('{key}', '{escaped}');\n"
@@ -121,6 +134,7 @@ def write_metadata(
     bl_commit: str,
     bsm_commit: str,
     tcsb_strongs_commit: str,
+    tcsb_glossary_commit: str,
     generated_at: str,
     disclaimer_html: str,
 ) -> None:
@@ -141,6 +155,7 @@ def write_metadata(
         sql_insert("bl_bible_verses_commit", bl_commit),
         sql_insert("bsm_bible_schema_commit", bsm_commit),
         sql_insert("tcsb_bible_strongs_commit", tcsb_strongs_commit),
+        sql_insert("tcsb_glossary_usfm_commit", tcsb_glossary_commit),
         sql_insert("generated_at", generated_at),
         sql_insert("tcsb_disclaimer_html", disclaimer_html.strip()),
         sql_insert("tcsb_disclaimer_text", disclaimer_plain_text(disclaimer_html)),
@@ -279,14 +294,18 @@ def main(argv: list[str] | None = None) -> int:
     bl_commit = latest_commit_for_file(bl_root, "database/bibleVerses.sql")
     bsm_commit = latest_commit_for_file(bsm_root, "database/bibleSchema.sql")
     tcsb_strongs_commit = latest_commit_for_file(tcsb_root, "exports/bibleStrongs.sql")
+    tcsb_glossary_paths = tcsb_glossary_usfm_paths(tcsb_root)
+    tcsb_glossary_commit = latest_commit_for_files(tcsb_root, tcsb_glossary_paths)
     recorded_bl_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bl_bible_verses_commit")
     recorded_bsm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_schema_commit")
     recorded_tcsb_strongs_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_bible_strongs_commit")
+    recorded_tcsb_glossary_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_glossary_usfm_commit")
 
     if (
         bl_commit == recorded_bl_commit
         and bsm_commit == recorded_bsm_commit
         and tcsb_strongs_commit == recorded_tcsb_strongs_commit
+        and tcsb_glossary_commit == recorded_tcsb_glossary_commit
     ):
         if sync_completed_verses_from_tcsb(tcsb_root, bsm_root):
             bsm_commit_created = commit_if_changed(
@@ -315,6 +334,7 @@ def main(argv: list[str] | None = None) -> int:
         bl_commit=bl_commit,
         bsm_commit=bsm_commit,
         tcsb_strongs_commit=tcsb_strongs_commit,
+        tcsb_glossary_commit=tcsb_glossary_commit,
         generated_at=generated_at,
         disclaimer_html=disclaimer_html,
     )
@@ -357,6 +377,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"BL bibleVerses commit: {bl_commit}")
     print(f"BSM bibleSchema commit: {bsm_commit}")
     print(f"TCSB bibleStrongs commit: {tcsb_strongs_commit}")
+    print(f"TCSB glossary USFM commit: {tcsb_glossary_commit}")
     print(f"Bookish Lamp metadata commit created: {int(bl_commit_created)}")
     print(f"BibleStudyMan sync commit created: {int(bsm_commit_created)}")
     return 0
