@@ -72,6 +72,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         init_repo(self.bsm, "develop")
         (self.bl / "database").mkdir()
         (self.tcsb / "exports").mkdir()
+        (self.tcsb / "database-components").mkdir()
         (self.bsm / "database").mkdir()
         (self.bsm / "site").mkdir()
         (self.bsm / ".gitignore").write_text("/local_paths.json\n", encoding="utf-8")
@@ -83,6 +84,7 @@ class NightlyTcsbRevisionSyncTest(unittest.TestCase):
         (self.bl / "database" / "translationToDo.txt").write_text("todo old\n", encoding="utf-8")
         write_metadata(self.bl / "database" / "tcsbMetadata.sql")
         (self.tcsb / "exports" / "bibleStrongs.sql").write_text("STRONGS source old;\n", encoding="utf-8")
+        (self.tcsb / "database-components" / "bibleCompletedVerses.sql").write_text("COMPLETED old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleImportSettings.sql").write_text("SETTINGS old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleSchema.sql").write_text("SCHEMA old;\n", encoding="utf-8")
         (self.bsm / "database" / "bibleStrongs.sql").write_text("STRONGS source old;\n", encoding="utf-8")
@@ -244,18 +246,38 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         self.assertIn(f"('bsm_bible_schema_commit', '{new_bsm_commit}')", metadata)
         self.assertIn("SCHEMA changed;", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
 
-    def test_ignores_translation_todo_and_completed_verses_for_revision_gate(self):
-        (self.bl / "database" / "translationToDo.txt").write_text("todo changed\n", encoding="utf-8")
-        commit(self.bl, "change todo only")
-        (self.bsm / "database" / "bibleCompletedVerses.sql").write_text("COMPLETED changed;\n", encoding="utf-8")
-        commit(self.bsm, "change completed only")
+    def test_rebuilds_stale_bible_complete_when_completed_component_already_matches(self):
+        (self.bsm / "database" / "bibleComplete.sql").write_text("STALE COMPLETE\n", encoding="utf-8")
+        commit(self.bsm, "make complete stale")
 
         result = self.run_script()
 
-        self.assertIn("No TCSB text revision change", result.stdout)
+        self.assertIn("Synced TCSB completed verses without text revision change", result.stdout)
+        self.assertEqual("COMPLETED old;\n", (self.bsm / "database" / "bibleCompletedVerses.sql").read_text(encoding="utf-8"))
+        complete = (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
+        self.assertIn("COMPLETED old;", complete)
+        self.assertNotIn("STALE COMPLETE", complete)
         metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
         self.assertIn("('text_revision', '260701')", metadata)
         self.assertNotIn("260722", metadata)
+
+    def test_ignores_translation_todo_and_completed_verses_for_revision_gate(self):
+        (self.bl / "database" / "translationToDo.txt").write_text("todo changed\n", encoding="utf-8")
+        commit(self.bl, "change todo only")
+        (self.tcsb / "database-components" / "bibleCompletedVerses.sql").write_text("COMPLETED changed;\n", encoding="utf-8")
+        commit(self.tcsb, "change completed only")
+
+        result = self.run_script()
+
+        self.assertIn("Synced TCSB completed verses without text revision change", result.stdout)
+        metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
+        self.assertIn("('text_revision', '260701')", metadata)
+        self.assertNotIn("260722", metadata)
+        self.assertEqual(
+            "COMPLETED changed;\n",
+            (self.bsm / "database" / "bibleCompletedVerses.sql").read_text(encoding="utf-8"),
+        )
+        self.assertIn("COMPLETED changed;", (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":

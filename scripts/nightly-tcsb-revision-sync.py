@@ -187,8 +187,8 @@ def load_generate_verse_plain_module(bsm_root: Path):
     return module
 
 
-def rebuild_bible_complete(bsm_root: Path) -> None:
-    parts = [
+def bible_complete_parts(bsm_root: Path) -> list[Path]:
+    return [
         bsm_root / "database" / "bibleImportSettings.sql",
         bsm_root / "database" / "tcsbMetadata.sql",
         bsm_root / "database" / "bibleSchema.sql",
@@ -196,11 +196,31 @@ def rebuild_bible_complete(bsm_root: Path) -> None:
         bsm_root / "database" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleVerses.sql",
     ]
-    with (bsm_root / "database" / "bibleComplete.sql").open("w", encoding="utf-8") as out:
-        for index, part in enumerate(parts):
-            if index:
-                out.write("\n")
-            out.write(part.read_text(encoding="utf-8"))
+
+
+def bible_complete_text(bsm_root: Path) -> str:
+    return "\n".join(part.read_text(encoding="utf-8") for part in bible_complete_parts(bsm_root))
+
+
+def rebuild_bible_complete(bsm_root: Path) -> None:
+    (bsm_root / "database" / "bibleComplete.sql").write_text(bible_complete_text(bsm_root), encoding="utf-8")
+
+
+def sync_completed_verses_from_tcsb(tcsb_root: Path, bsm_root: Path) -> bool:
+    source = tcsb_root / "database-components" / "bibleCompletedVerses.sql"
+    destination = bsm_root / "database" / "bibleCompletedVerses.sql"
+    require_file(source)
+    require_file(destination)
+    changed = False
+    if source.read_bytes() != destination.read_bytes():
+        shutil.copyfile(source, destination)
+        changed = True
+    expected_complete = bible_complete_text(bsm_root)
+    complete_path = bsm_root / "database" / "bibleComplete.sql"
+    if complete_path.read_text(encoding="utf-8") != expected_complete:
+        complete_path.write_text(expected_complete, encoding="utf-8")
+        changed = True
+    return changed
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -236,6 +256,7 @@ def main(argv: list[str] | None = None) -> int:
         bsm_root / "database" / "bibleImportSettings.sql",
         bsm_root / "database" / "bibleSchema.sql",
         tcsb_root / "exports" / "bibleStrongs.sql",
+        tcsb_root / "database-components" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleCompletedVerses.sql",
         bsm_root / "database" / "bibleVerses.sql",
         bsm_root / "database" / "tcsbMetadata.sql",
@@ -267,6 +288,16 @@ def main(argv: list[str] | None = None) -> int:
         and bsm_commit == recorded_bsm_commit
         and tcsb_strongs_commit == recorded_tcsb_strongs_commit
     ):
+        if sync_completed_verses_from_tcsb(tcsb_root, bsm_root):
+            bsm_commit_created = commit_if_changed(
+                bsm_root,
+                "Sync TCSB completed verses",
+                ["database/bibleCompletedVerses.sql", "database/bibleComplete.sql"],
+            )
+            if bsm_commit_created and not args.no_push:
+                git(bsm_root, "push", "origin", "develop")
+            print("Synced TCSB completed verses without text revision change")
+            return 0
         print("No TCSB text revision change: tracked source commits already recorded.")
         return 0
 
@@ -294,6 +325,7 @@ def main(argv: list[str] | None = None) -> int:
 
     shutil.copyfile(bl_root / "database" / "tcsbMetadata.sql", bsm_root / "database" / "tcsbMetadata.sql")
     shutil.copyfile(tcsb_root / "exports" / "bibleStrongs.sql", bsm_root / "database" / "bibleStrongs.sql")
+    shutil.copyfile(tcsb_root / "database-components" / "bibleCompletedVerses.sql", bsm_root / "database" / "bibleCompletedVerses.sql")
     shutil.copyfile(bl_root / "database" / "bibleVerses.sql", bsm_root / "database" / "bibleVerses.sql")
     load_generate_verse_plain_module(bsm_root).rewrite_file(bsm_root / "database" / "bibleVerses.sql")
     rebuild_bible_complete(bsm_root)
