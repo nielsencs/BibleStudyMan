@@ -18,17 +18,17 @@ CREATE TABLE `tcsb_text_metadata` (
   PRIMARY KEY (`metadataKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '260806');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '260806');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-08-06');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '260813');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '260813');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-08-13');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_repo', 'bookish-lamp');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_branch', 'master');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_file', 'database/bibleVerses.sql');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '7bd1fbe252574f2c7cfa3e2efed9c01e1ff1c179');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '6fbf987b70aabdd26f3bdc7a349708239f83b267');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', 'ea7763fed0ad74c4055c39de1b4d8c43bfc917f2');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', '0101b9c882fc934f73dfa9212bda2884531a056c');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_glossary_usfm_commit', '696038d07c8588601969e7fc664a5ee3961de633');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-08-07T03:30:56+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-08-14T03:30:37+01:00');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_disclaimer_html', '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a>
 to include nuanced meanings of particular ancient words for placenames, God and others of special interest.
 <br>In general square brackets:[] are used to indicate words not found in the original text.
@@ -6547,7 +6547,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,   6, 'Fifty-four thousand four hundred were counted of his division.</p>', 'Fifty-four thousand four hundred were counted of his division.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,   7, '<p>\"The tribe of Zebulun: the prince of the children of Zebulun will be Eliab the son of Helon.', '"The tribe of Zebulun: the prince of the children of Zebulun will be Eliab the son of Helon.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,   8, 'Fifty-seven thousand four hundred were counted of his division.</p>', 'Fifty-seven thousand four hundred were counted of his division.');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,   9, '<p>\"All who were counted of the camp of Judah were one hundred eighty-six thousand four hundred, according to their divisions. They&apso;ll set out first.</p>', '"All who were counted of the camp of Judah were one hundred eighty-six thousand four hundred, according to their divisions. They&apso;ll set out first.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,   9, '<p>\"All who were counted of the camp of Judah were one hundred eighty-six thousand four hundred, according to their divisions. They&apos;ll set out first.</p>', '"All who were counted of the camp of Judah were one hundred eighty-six thousand four hundred, according to their divisions. They\'ll set out first.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,  10, '<p>\"The standard of the camp of Reuben according to their divisions will be on the south side. The prince of the children of Reuben will be Elizur the son of Shedeur.', '"The standard of the camp of Reuben according to their divisions will be on the south side. The prince of the children of Reuben will be Elizur the son of Shedeur.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,  11, 'Forty-six thousand five hundred were counted of his division.</p>', 'Forty-six thousand five hundred were counted of his division.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',   2,  12, '<p>\"Those who camp next to him will be the tribe of Simeon. The prince of the children of Simeon will be Shelumiel the son of Zurishaddai.', '"Those who camp next to him will be the tribe of Simeon. The prince of the children of Simeon will be Shelumiel the son of Zurishaddai.');
