@@ -35,7 +35,13 @@ DEFAULT_BSM_ROOT = SCRIPT_DIR.parent
 DEFAULT_TCSB_ROOT = DEFAULT_BSM_ROOT.parent / "the-cleanslate-bible"
 
 
-def run(cmd: list[str], cwd: Path | None = None, input_text: str | None = None, check: bool = True) -> subprocess.CompletedProcess[str]:
+def run(
+    cmd: list[str],
+    cwd: Path | None = None,
+    input_text: str | None = None,
+    check: bool = True,
+    env: dict[str, str] | None = None,
+) -> subprocess.CompletedProcess[str]:
     result = subprocess.run(
         cmd,
         cwd=cwd,
@@ -43,6 +49,7 @@ def run(cmd: list[str], cwd: Path | None = None, input_text: str | None = None, 
         text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
+        env=env,
         check=False,
     )
     if check and result.returncode != 0:
@@ -244,6 +251,49 @@ def rebuild_bible_complete(bsm_root: Path) -> None:
     (bsm_root / "database" / "bibleComplete.sql").write_text(bible_complete_text(bsm_root), encoding="utf-8")
 
 
+def mariadb_client() -> str:
+    configured = os.environ.get("BSM_DB_CLIENT", "").strip()
+    if configured:
+        return configured
+    for name in ("mariadb", "mysql"):
+        found = shutil.which(name)
+        if found:
+            return found
+    raise SystemExit(
+        "Neither mariadb nor mysql client is available; cannot import BSM bibleComplete.sql. "
+        "Install a client, set BSM_DB_CLIENT, or run with --no-db-import."
+    )
+
+
+def mariadb_import_args() -> tuple[list[str], dict[str, str]]:
+    db_name = os.environ.get("BSM_DB_NAME", "bible")
+    db_user = os.environ.get("BSM_DB_USER", "root")
+    db_password = os.environ.get("BSM_DB_PASSWORD", "")
+    db_host = os.environ.get("BSM_DB_HOST", "")
+    db_port = os.environ.get("BSM_DB_PORT", "")
+    db_socket = os.environ.get("BSM_DB_SOCKET", "")
+    args = [f"-u{db_user}"]
+    if db_socket:
+        args.append(f"--socket={db_socket}")
+    elif db_host:
+        args.append(f"-h{db_host}")
+    if db_port:
+        args.append(f"--port={db_port}")
+    args.append(db_name)
+    env = os.environ.copy()
+    if db_password:
+        env["MYSQL_PWD"] = db_password
+    return args, env
+
+
+def import_bible_complete_to_mariadb(bsm_root: Path) -> None:
+    sql_path = bsm_root / "database" / "bibleComplete.sql"
+    require_file(sql_path)
+    client = mariadb_client()
+    args, env = mariadb_import_args()
+    run([client, *args], cwd=bsm_root, input_text=sql_path.read_text(encoding="utf-8"), env=env)
+
+
 def sync_completed_verses_from_tcsb(tcsb_root: Path, bsm_root: Path) -> bool:
     source = tcsb_root / "database-components" / "bibleCompletedVerses.sql"
     destination = bsm_root / "database" / "bibleCompletedVerses.sql"
@@ -268,6 +318,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--tcsb-root", type=Path)
     parser.add_argument("--no-push", action="store_true")
     parser.add_argument("--no-pull", action="store_true")
+    parser.add_argument("--no-db-import", action="store_true", help="Do not import rebuilt bibleComplete.sql into MariaDB")
     parser.add_argument("--revision")
     parser.add_argument("--revision-date")
     args = parser.parse_args(argv)
@@ -336,6 +387,9 @@ def main(argv: list[str] | None = None) -> int:
         and tcsb_glossary_commit == recorded_tcsb_glossary_commit
     ):
         if sync_completed_verses_from_tcsb(tcsb_root, bsm_root):
+            if not args.no_db_import:
+                import_bible_complete_to_mariadb(bsm_root)
+                print("Imported BSM bibleComplete.sql into MariaDB")
             bsm_commit_created = commit_if_changed(
                 bsm_root,
                 "Sync TCSB completed verses",
@@ -383,6 +437,10 @@ def main(argv: list[str] | None = None) -> int:
     complete = (bsm_root / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
     if f"('text_revision', '{revision}')" not in complete:
         raise SystemExit(f"Post-copy verification failed: bibleComplete.sql lacks text revision {revision}.")
+
+    if not args.no_db_import:
+        import_bible_complete_to_mariadb(bsm_root)
+        print("Imported BSM bibleComplete.sql into MariaDB")
 
     bsm_paths = [
         "database/bibleImportSettings.sql",

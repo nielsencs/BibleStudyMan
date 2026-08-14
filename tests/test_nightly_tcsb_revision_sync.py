@@ -121,13 +121,15 @@ output_sql.write_text('VERSES export placeholder;\\n', encoding='utf-8')
     def tearDown(self):
         shutil.rmtree(self.tmp)
 
-    def run_script(self, *extra, use_default_bl=False):
+    def run_script(self, *extra, use_default_bl=False, db_import=False, env=None):
         bl_args = [] if use_default_bl else ["--bl-root", str(self.bl)]
+        db_args = [] if db_import else ["--no-db-import"]
         return run([
             "python3",
             str(SCRIPT),
             "--no-push",
             "--no-pull",
+            *db_args,
             *bl_args,
             "--bsm-root",
             str(self.bsm),
@@ -138,7 +140,33 @@ output_sql.write_text('VERSES export placeholder;\\n', encoding='utf-8')
             "--revision-date",
             "2026-07-22",
             *extra,
-        ])
+        ], env=env)
+
+    def fake_mariadb_env(self):
+        bin_dir = self.tmp / "fake-bin"
+        bin_dir.mkdir()
+        capture_sql = self.tmp / "mariadb-import.sql"
+        capture_args = self.tmp / "mariadb-args.txt"
+        capture_pwd = self.tmp / "mariadb-pwd.txt"
+        fake_client = bin_dir / "mariadb"
+        fake_client.write_text(
+            "#!/usr/bin/env python3\n"
+            "import os, sys\n"
+            f"open({str(capture_args)!r}, 'w').write('\\n'.join(sys.argv[1:]))\n"
+            f"open({str(capture_sql)!r}, 'w').write(sys.stdin.read())\n"
+            f"open({str(capture_pwd)!r}, 'w').write(os.environ.get('MYSQL_PWD', ''))\n",
+            encoding="utf-8",
+        )
+        fake_client.chmod(0o755)
+        env = os.environ.copy()
+        env.update({
+            "PATH": f"{bin_dir}{os.pathsep}" + env.get("PATH", ""),
+            "BSM_DB_NAME": "bible_test",
+            "BSM_DB_USER": "bsm_user",
+            "BSM_DB_PASSWORD": "secret-for-test",
+            "BSM_DB_HOST": "127.0.0.1",
+        })
+        return env, capture_sql, capture_args, capture_pwd
 
     def test_rebuilds_bible_complete_with_metadata_between_start_and_verses(self):
         (self.bl / "database" / "bibleVerses.sql").write_text("INSERT verse changed;\n", encoding="utf-8")
@@ -210,6 +238,25 @@ output_sql.write_text('VERSES export placeholder;\\n', encoding='utf-8')
         self.assertIn("COMPLETED old;", complete)
         self.assertIn("('text_revision', '260722')", complete)
         self.assertIn("INSERT verse changed;", complete)
+
+    def test_imports_bible_complete_to_mariadb_after_text_revision_sync(self):
+        env, capture_sql, capture_args, capture_pwd = self.fake_mariadb_env()
+        (self.bl / "database" / "bibleVerses.sql").write_text("INSERT verse changed;\n", encoding="utf-8")
+        commit(self.bl, "change verses for database import")
+
+        result = self.run_script(db_import=True, env=env)
+
+        self.assertIn("Imported BSM bibleComplete.sql into MariaDB", result.stdout)
+        self.assertEqual(
+            (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"),
+            capture_sql.read_text(encoding="utf-8"),
+        )
+        args = capture_args.read_text(encoding="utf-8").splitlines()
+        self.assertIn("-ubsm_user", args)
+        self.assertIn("-h127.0.0.1", args)
+        self.assertIn("bible_test", args)
+        self.assertFalse(any("secret-for-test" in arg for arg in args))
+        self.assertEqual("secret-for-test", capture_pwd.read_text(encoding="utf-8"))
 
     def test_generates_verse_plain_when_bookish_lamp_verses_are_copied(self):
         (self.bl / "database" / "bibleVerses.sql").write_text(
@@ -294,6 +341,19 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
         self.assertIn("('text_revision', '260701')", metadata)
         self.assertNotIn("260722", metadata)
+
+    def test_imports_bible_complete_to_mariadb_after_completed_verses_sync(self):
+        env, capture_sql, _, _ = self.fake_mariadb_env()
+        (self.tcsb / "database-components" / "bibleCompletedVerses.sql").write_text("COMPLETED changed;\n", encoding="utf-8")
+        commit(self.tcsb, "change completed verses for database import")
+
+        result = self.run_script(db_import=True, env=env)
+
+        self.assertIn("Imported BSM bibleComplete.sql into MariaDB", result.stdout)
+        self.assertEqual(
+            (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8"),
+            capture_sql.read_text(encoding="utf-8"),
+        )
 
     def test_ignores_translation_todo_and_completed_verses_for_revision_gate(self):
         (self.bl / "database" / "translationToDo.txt").write_text("todo changed\n", encoding="utf-8")

@@ -13,14 +13,16 @@ Define the repeatable process for keeping BibleStudyMan's public Bible data alig
 
 ## 3. Scope
 
-This note covers syncing only:
+This note covers syncing:
 
 - From: `bookish-lamp/database/bibleVerses.sql`
 - To: `BibleStudyMan/database/bibleVerses.sql`
 
-It also rebuilds:
+It also rebuilds and imports:
 
 - `BibleStudyMan/database/bibleComplete.sql`
+
+and then applies that compiled SQL to the configured MariaDB database.
 
 from these logical components:
 
@@ -87,7 +89,23 @@ python3 scripts/nightly-tcsb-revision-sync.py --no-push --no-pull
 
 `bibleComplete.sql` must put import settings first, then the `tcsb_text_metadata` table/current `text_revision` rows near the top before the main schema/data tables.
 
-### R5. Commit and push the BSM update
+### R5. Import the rebuilt database into MariaDB
+
+After `bibleComplete.sql` is rebuilt, the nightly sync imports it into MariaDB so the running BSM database matches the generated files. Configuration is read from environment variables:
+
+```text
+BSM_DB_NAME      database name; default bible
+BSM_DB_USER      database user; default root
+BSM_DB_PASSWORD  database password; passed via MYSQL_PWD, not command-line args
+BSM_DB_HOST      host when using TCP
+BSM_DB_PORT      optional TCP port
+BSM_DB_SOCKET    socket path; takes precedence over host
+BSM_DB_CLIENT    optional explicit mariadb/mysql client path
+```
+
+Use `--no-db-import` only for tests/dry runs where MariaDB should not be touched.
+
+### R6. Commit and push the BSM update
 
 If BSM changed, commit the update on BSM `develop` and push it.
 
@@ -103,7 +121,7 @@ Assistant-authored commits must use:
 Ezra H <ezra-h@hermes.local>
 ```
 
-### R6. Build mobile SQLite distribution artefacts
+### R7. Build mobile SQLite distribution artefacts
 
 After a real TCSB text revision sync, build the mobile SQLite artefacts from BSM's synced database state. The mobile app may inspect/consume these artefacts, but BSM/TCSB owns producing them.
 
@@ -115,7 +133,7 @@ python3 scripts/build-tcsb-mobile-sqlite.py \
 
 The generated `latest.json` must identify the revision, source commits, SQLite filename, checksum, size, verse count, and sample-verse verification. The SQLite itself must include a `tcsb_metadata` table copied from BSM's `tcsbMetadata.sql` plus mobile SQLite generation metadata.
 
-### R7. Do nothing when already in sync
+### R8. Do nothing when already in sync
 
 If the files already match and regenerating `bibleComplete.sql` produces no change, no BSM commit should be made. The process should simply report that BSM is already synced with BL.
 
