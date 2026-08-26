@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-Define the repeatable process for keeping BibleStudyMan's public Bible data aligned with Bookish Lamp. When `bookish-lamp/database/bibleVerses.sql` changes, the same file should be copied directly to `BibleStudyMan/database/bibleVerses.sql` so the public BibleStudyMan site data stays aligned with the canonical CleanSlate Bible text. The script must also rebuild BSM's compiled database upload file.
+Define the repeatable process for keeping BibleStudyMan's public Bible data aligned with the current TCSB text source. Normally rows come from Bookish Lamp. Books listed in `the-cleanslate-bible/data/tcsb_promoted_usfm_books.txt` are generated from canonical TCSB USFM instead, then merged into the BSM `bibleVerses.sql` output. The script must also rebuild BSM's compiled database upload file.
 
 ## 2. Background
 
@@ -59,19 +59,13 @@ Before syncing, the process must check both repositories:
 
 The sync must stop if either repository has unexpected local changes, unresolved conflicts, or suspicious remote divergence.
 
-### R2. Treat BL as authoritative for this file
+### R2. Build `bibleVerses.sql` from the active source per book
 
-For `database/bibleVerses.sql`, BL is authoritative. BSM's copy should be replaced with BL's copy, not manually merged line-by-line, unless Carl explicitly asks for investigation.
+For ordinary books, Bookish Lamp remains the row source. For books listed in `the-cleanslate-bible/data/tcsb_promoted_usfm_books.txt`, canonical TCSB USFM is the row source: the sync generates SQL with `tools/plain_usfm_to_sql.py`, verifies the promoted book references match Bookish Lamp, and replaces only those book rows before generating BSM-only `versePlain` values.
 
-### R3. Preserve exact file content
+### R3. Preserve row references and generated `versePlain`
 
-After copying, the process must verify that the two files are byte-for-byte identical.
-
-Example check:
-
-```sh
-cmp -s ../bookish-lamp/database/bibleVerses.sql database/bibleVerses.sql
-```
+The hybrid file is not byte-identical to Bookish Lamp once any book is promoted. The required invariant is now: same promoted-book reference set on both sides, non-promoted rows copied from Bookish Lamp, promoted rows generated from canonical USFM, then `versePlain` generated for every BSM row.
 
 ### R4. Rebuild `bibleComplete.sql`
 
@@ -156,7 +150,7 @@ A sync is successful when:
 
 1. BL and BSM repository status have been checked.
 2. Relevant remotes have been fetched/pulled or inspected safely.
-3. `BibleStudyMan/database/bibleVerses.sql` has been copied from Bookish Lamp and processed for BSM-only generated fields such as `versePlain`.
+3. `BibleStudyMan/database/bibleVerses.sql` has been rebuilt from Bookish Lamp plus any promoted canonical-USFM books and processed for BSM-only generated fields such as `versePlain`.
 4. `BibleStudyMan/database/bibleStrongs.sql` has been copied from `the-cleanslate-bible/exports/bibleStrongs.sql`.
 5. `BibleStudyMan/database/bibleComplete.sql` has been regenerated with `tcsbMetadata.sql` immediately after `bibleImportSettings.sql` and before `bibleSchema.sql`/`bibleStrongs.sql`/`bibleVerses.sql`.
 6. The BSM change, if any, is committed and pushed to `origin/develop`.

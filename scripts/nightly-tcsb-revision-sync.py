@@ -8,6 +8,7 @@ changed since the last recorded metadata:
 - BibleStudyMan/database/bibleSchema.sql
 - the-cleanslate-bible/exports/bibleStrongs.sql
 - the-cleanslate-bible/source/.../*GLO*.usfm
+- the-cleanslate-bible/data/tcsb_promoted_usfm_books.txt and promoted book USFM files
 
 Deliberately ignored for text-revision purposes:
 
@@ -33,6 +34,13 @@ from zoneinfo import ZoneInfo
 SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_BSM_ROOT = SCRIPT_DIR.parent
 DEFAULT_TCSB_ROOT = DEFAULT_BSM_ROOT.parent / "the-cleanslate-bible"
+PROMOTED_USFM_BOOKS_PATH = Path("data/tcsb_promoted_usfm_books.txt")
+VERSE_INSERT_RE = re.compile(
+    r"^INSERT\s+INTO\s+`?verses`?\s*"
+    r"\(`?bookCode`?,\s*`?chapter`?,\s*`?verseNumber`?,\s*`?verseText`?\)\s*"
+    r"VALUES\s*\('([A-Z0-9]{3})',\s*(\d+),\s*(\d+),\s*'(.*)'\);\s*$",
+    re.IGNORECASE,
+)
 
 
 def run(
@@ -126,6 +134,104 @@ def tcsb_source_dir(tcsb_root: Path) -> Path:
     return candidates[-1]
 
 
+def load_promoted_usfm_books(tcsb_root: Path) -> list[str]:
+    path = tcsb_root / PROMOTED_USFM_BOOKS_PATH
+    if not path.exists():
+        return []
+    books = []
+    seen = set()
+    for line in path.read_text(encoding="utf-8").splitlines():
+        book = line.split("#", 1)[0].strip().upper()
+        if not book:
+            continue
+        if not re.fullmatch(r"[A-Z0-9]{3}", book):
+            raise SystemExit(f"Invalid promoted USFM book code in {path}: {book!r}")
+        if book in seen:
+            raise SystemExit(f"Duplicate promoted USFM book code in {path}: {book}")
+        seen.add(book)
+        books.append(book)
+    return books
+
+
+def tcsb_usfm_book_paths(tcsb_root: Path, books: list[str]) -> list[str]:
+    if not books:
+        return []
+    source_dir = tcsb_source_dir(tcsb_root)
+    wanted = set(books)
+    found: dict[str, str] = {}
+    for path in sorted(source_dir.glob("*.usfm")):
+        for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+            if line.startswith(r"\id "):
+                code = line.split(maxsplit=2)[1].strip().upper()
+                if code in wanted:
+                    found[code] = path.relative_to(tcsb_root).as_posix()
+                break
+    missing = [book for book in books if book not in found]
+    if missing:
+        raise SystemExit(f"Promoted USFM book(s) missing from {source_dir}: {', '.join(missing)}")
+    return [found[book] for book in books]
+
+
+def parse_verse_insert(line: str) -> tuple[str, str, str] | None:
+    match = VERSE_INSERT_RE.match(line)
+    if not match:
+        return None
+    book, chapter, verse, _ = match.groups()
+    return book, str(int(chapter)), str(int(verse))
+
+
+def merge_promoted_usfm_books(bl_sql: str, usfm_sql: str, promoted_books: list[str]) -> str:
+    if not promoted_books:
+        return bl_sql
+    promoted = set(promoted_books)
+    usfm_rows: dict[tuple[str, str, str], str] = {}
+    for line in usfm_sql.splitlines():
+        key = parse_verse_insert(line)
+        if key and key[0] in promoted:
+            usfm_rows[key] = line
+    bl_keys = [parse_verse_insert(line) for line in bl_sql.splitlines()]
+    promoted_bl_keys = [key for key in bl_keys if key and key[0] in promoted]
+    promoted_bl_key_set = set(promoted_bl_keys)
+    usfm_key_set = set(usfm_rows)
+    if promoted_bl_key_set != usfm_key_set:
+        missing = sorted(promoted_bl_key_set - usfm_key_set)[:10]
+        extra = sorted(usfm_key_set - promoted_bl_key_set)[:10]
+        raise SystemExit(
+            "Promoted USFM/Bookish Lamp reference mismatch: "
+            f"missing_from_usfm={missing} extra_from_usfm={extra}"
+        )
+    lines = []
+    replaced = 0
+    for line in bl_sql.splitlines():
+        key = parse_verse_insert(line)
+        if key and key[0] in promoted:
+            lines.append(usfm_rows[key])
+            replaced += 1
+        else:
+            lines.append(line)
+    if replaced != len(promoted_bl_keys):
+        raise SystemExit(f"Expected to replace {len(promoted_bl_keys)} promoted row(s), replaced {replaced}")
+    return "\n".join(lines) + ("\n" if bl_sql.endswith("\n") else "")
+
+
+def promoted_usfm_export_sql(tcsb_root: Path) -> str:
+    source_dir = tcsb_source_dir(tcsb_root)
+    exporter = tcsb_root / "tools" / "plain_usfm_to_sql.py"
+    require_file(exporter)
+    tmp = tcsb_root / "generated" / "promoted-usfm-nightly-preview.sql"
+    tmp.parent.mkdir(parents=True, exist_ok=True)
+    run([sys.executable, str(exporter), str(source_dir), str(tmp)], cwd=tcsb_root)
+    return tmp.read_text(encoding="utf-8")
+
+
+def write_hybrid_bible_verses(bl_root: Path, tcsb_root: Path, bsm_root: Path, promoted_books: list[str]) -> None:
+    bl_sql = (bl_root / "database" / "bibleVerses.sql").read_text(encoding="utf-8")
+    hybrid = bl_sql
+    if promoted_books:
+        hybrid = merge_promoted_usfm_books(bl_sql, promoted_usfm_export_sql(tcsb_root), promoted_books)
+    (bsm_root / "database" / "bibleVerses.sql").write_text(hybrid, encoding="utf-8")
+
+
 def regenerate_tcsb_exports_from_usfm(tcsb_root: Path, *, no_push: bool) -> bool:
     source_dir = tcsb_source_dir(tcsb_root)
     exporter = tcsb_root / "tools" / "plain_usfm_to_sql.py"
@@ -165,6 +271,8 @@ def write_metadata(
     bsm_commit: str,
     tcsb_strongs_commit: str,
     tcsb_glossary_commit: str,
+    tcsb_promoted_usfm_commit: str,
+    promoted_books: list[str],
     generated_at: str,
     disclaimer_html: str,
 ) -> None:
@@ -181,11 +289,13 @@ def write_metadata(
         sql_insert("text_revision_date", revision_date),
         sql_insert("text_source_repo", "bookish-lamp"),
         sql_insert("text_source_branch", current_branch(bl_root)),
-        sql_insert("text_source_file", "database/bibleVerses.sql"),
+        sql_insert("text_source_file", "database/bibleVerses.sql + promoted TCSB USFM books" if promoted_books else "database/bibleVerses.sql"),
         sql_insert("bl_bible_verses_commit", bl_commit),
         sql_insert("bsm_bible_schema_commit", bsm_commit),
         sql_insert("tcsb_bible_strongs_commit", tcsb_strongs_commit),
         sql_insert("tcsb_glossary_usfm_commit", tcsb_glossary_commit),
+        sql_insert("tcsb_promoted_usfm_books", ",".join(promoted_books)),
+        sql_insert("tcsb_promoted_usfm_commit", tcsb_promoted_usfm_commit),
         sql_insert("generated_at", generated_at),
         sql_insert("tcsb_disclaimer_html", disclaimer_html.strip()),
         sql_insert("tcsb_disclaimer_text", disclaimer_plain_text(disclaimer_html)),
@@ -369,11 +479,15 @@ def main(argv: list[str] | None = None) -> int:
     bsm_commit = latest_commit_for_file(bsm_root, "database/bibleSchema.sql")
     tcsb_strongs_commit = latest_commit_for_file(tcsb_root, "exports/bibleStrongs.sql")
     tcsb_glossary_paths = tcsb_glossary_usfm_paths(tcsb_root)
+    promoted_books = load_promoted_usfm_books(tcsb_root)
+    promoted_paths = [PROMOTED_USFM_BOOKS_PATH.as_posix(), *tcsb_usfm_book_paths(tcsb_root, promoted_books)] if promoted_books else []
     tcsb_glossary_commit = latest_commit_for_files(tcsb_root, tcsb_glossary_paths)
+    tcsb_promoted_usfm_commit = latest_commit_for_files(tcsb_root, promoted_paths) if promoted_paths else ""
     recorded_bl_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bl_bible_verses_commit")
     recorded_bsm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "bsm_bible_schema_commit")
     recorded_tcsb_strongs_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_bible_strongs_commit")
     recorded_tcsb_glossary_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_glossary_usfm_commit")
+    recorded_tcsb_promoted_usfm_commit = metadata_value(bsm_root / "database" / "tcsbMetadata.sql", "tcsb_promoted_usfm_commit")
 
     if tcsb_glossary_commit != recorded_tcsb_glossary_commit:
         if regenerate_tcsb_exports_from_usfm(tcsb_root, no_push=args.no_push):
@@ -385,6 +499,7 @@ def main(argv: list[str] | None = None) -> int:
         and bsm_commit == recorded_bsm_commit
         and tcsb_strongs_commit == recorded_tcsb_strongs_commit
         and tcsb_glossary_commit == recorded_tcsb_glossary_commit
+        and tcsb_promoted_usfm_commit == recorded_tcsb_promoted_usfm_commit
     ):
         if sync_completed_verses_from_tcsb(tcsb_root, bsm_root):
             if not args.no_db_import:
@@ -417,6 +532,8 @@ def main(argv: list[str] | None = None) -> int:
         bsm_commit=bsm_commit,
         tcsb_strongs_commit=tcsb_strongs_commit,
         tcsb_glossary_commit=tcsb_glossary_commit,
+        tcsb_promoted_usfm_commit=tcsb_promoted_usfm_commit,
+        promoted_books=promoted_books,
         generated_at=generated_at,
         disclaimer_html=disclaimer_html,
     )
@@ -428,7 +545,7 @@ def main(argv: list[str] | None = None) -> int:
     shutil.copyfile(bl_root / "database" / "tcsbMetadata.sql", bsm_root / "database" / "tcsbMetadata.sql")
     shutil.copyfile(tcsb_root / "exports" / "bibleStrongs.sql", bsm_root / "database" / "bibleStrongs.sql")
     shutil.copyfile(tcsb_root / "database-components" / "bibleCompletedVerses.sql", bsm_root / "database" / "bibleCompletedVerses.sql")
-    shutil.copyfile(bl_root / "database" / "bibleVerses.sql", bsm_root / "database" / "bibleVerses.sql")
+    write_hybrid_bible_verses(bl_root, tcsb_root, bsm_root, promoted_books)
     load_generate_verse_plain_module(bsm_root).rewrite_file(bsm_root / "database" / "bibleVerses.sql")
     rebuild_bible_complete(bsm_root)
 
@@ -464,6 +581,8 @@ def main(argv: list[str] | None = None) -> int:
     print(f"BSM bibleSchema commit: {bsm_commit}")
     print(f"TCSB bibleStrongs commit: {tcsb_strongs_commit}")
     print(f"TCSB glossary USFM commit: {tcsb_glossary_commit}")
+    print(f"TCSB promoted USFM books: {','.join(promoted_books) if promoted_books else 'none'}")
+    print(f"TCSB promoted USFM commit: {tcsb_promoted_usfm_commit or 'none'}")
     print(f"Bookish Lamp metadata commit created: {int(bl_commit_created)}")
     print(f"BibleStudyMan sync commit created: {int(bsm_commit_created)}")
     return 0
