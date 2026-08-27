@@ -246,6 +246,8 @@ output_sql.write_text(
             (self.bl / "database" / "bibleVerses.sql").read_text(encoding="utf-8"),
             (self.bsm / "database" / "bibleVerses.sql").read_text(encoding="utf-8"),
         )
+        latest_author = run(["git", "log", "-1", "--format=%an <%ae>"], cwd=self.bsm).stdout.strip()
+        self.assertEqual(latest_author, "TCSB Sync Bot <tcsb-sync@hermes.local>")
         complete = (self.bsm / "database" / "bibleComplete.sql").read_text(encoding="utf-8")
         self.assertIn("SETTINGS old;", complete)
         self.assertIn("SCHEMA old;", complete)

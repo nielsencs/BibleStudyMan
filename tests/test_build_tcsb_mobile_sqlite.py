@@ -191,7 +191,15 @@ class BuildTcsbMobileSqliteTests(unittest.TestCase):
                 stdout=subprocess.PIPE,
                 check=True,
             ).stdout.strip()
+            latest_author = subprocess.run(
+                ["git", "log", "-1", "--format=%an <%ae>"],
+                cwd=bsm,
+                text=True,
+                stdout=subprocess.PIPE,
+                check=True,
+            ).stdout.strip()
             self.assertEqual(latest_commit, "Publish TCSB mobile SQLite revision 260724")
+            self.assertEqual(latest_author, "TCSB Sync Bot <tcsb-sync@hermes.local>")
 
 
 if __name__ == "__main__":

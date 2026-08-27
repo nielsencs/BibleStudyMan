@@ -109,11 +109,13 @@ Suggested commit message:
 Sync Bible verses from Bookish Lamp
 ```
 
-Assistant-authored commits must use:
+Generated sync commits made by the nightly/file-generation scripts must use the automatic identity:
 
 ```text
-Joel <joel@hermes.local>
+TCSB Sync Bot <tcsb-sync@hermes.local>
 ```
+
+Deliberate assistant-authored commits remain separate and use `Joel <joel@hermes.local>`.
 
 ### R7. Build mobile SQLite distribution artefacts
 
