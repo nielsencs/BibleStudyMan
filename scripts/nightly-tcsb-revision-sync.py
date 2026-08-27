@@ -310,8 +310,8 @@ def commit_if_changed(repo: Path, message: str, paths: list[str]) -> bool:
     git(repo, "add", *existing_paths)
     if git(repo, "diff", "--cached", "--quiet", check=False).returncode == 0:
         return False
-    git(repo, "config", "user.name", "Ezra H")
-    git(repo, "config", "user.email", "ezra-h@hermes.local")
+    git(repo, "config", "user.name", "Joel")
+    git(repo, "config", "user.email", "joel@hermes.local")
     git(repo, "commit", "-m", message)
     return True
 

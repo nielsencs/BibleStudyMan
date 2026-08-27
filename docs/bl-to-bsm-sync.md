@@ -112,7 +112,7 @@ Sync Bible verses from Bookish Lamp
 Assistant-authored commits must use:
 
 ```text
-Ezra H <ezra-h@hermes.local>
+Joel <joel@hermes.local>
 ```
 
 ### R7. Build mobile SQLite distribution artefacts

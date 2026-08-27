@@ -269,8 +269,8 @@ def main(argv: list[str] | None = None) -> int:
         run(["git", "add", ".gitignore", *rel_paths], cwd=bsm_root)
         diff = subprocess.run(["git", "diff", "--cached", "--quiet"], cwd=bsm_root, check=False)
         if diff.returncode != 0:
-            run(["git", "config", "user.name", "Ezra H"], cwd=bsm_root)
-            run(["git", "config", "user.email", "ezra-h@hermes.local"], cwd=bsm_root)
+            run(["git", "config", "user.name", "Joel"], cwd=bsm_root)
+            run(["git", "config", "user.email", "joel@hermes.local"], cwd=bsm_root)
             run(["git", "commit", "-m", f"Publish TCSB mobile SQLite revision {manifest['revision']}"], cwd=bsm_root)
             if args.push:
                 branch = run(["git", "branch", "--show-current"], cwd=bsm_root).stdout.strip()
