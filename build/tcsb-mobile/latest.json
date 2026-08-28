@@ -1,22 +1,22 @@
 {
-  "generated_at": "2026-08-27T02:30:51+00:00",
+  "generated_at": "2026-08-28T02:30:45+00:00",
   "integrity_check": "ok",
   "latest_sqlite": "latest.sqlite",
-  "revision": "260826",
-  "revision_date": "2026-08-26",
+  "revision": "260827",
+  "revision_date": "2026-08-27",
   "sample_verses": {
     "GEN 1:1": "At the beginning, God created-from-nothing the sky and the ground.",
     "LUK 8:1": "Afterwards, he went through cities and villages, declaring and proclaiming-good-news [about] the kingdom of God. The twelve were with him,"
   },
-  "sha256": "ce05f5975361256067b7ad98f624c1418dd60207064ca96f0d3180aaf442740b",
-  "sha256_file": "tcsb-260826.sqlite.sha256",
-  "size_bytes": 18423808,
+  "sha256": "f1a1a20191ff88b9eeee6f0bf694dd989880ef8b56cb3dd70319943f8d801576",
+  "sha256_file": "tcsb-260827.sqlite.sha256",
+  "size_bytes": 18440192,
   "source": {
     "bookish_lamp_commit": "fc223fbed879bdb2c9d15eeea2321feab4407d9c",
     "bsm_bible_schema_commit": "ea7763fed0ad74c4055c39de1b4d8c43bfc917f2",
     "text_source_file": "database/bibleVerses.sql + promoted TCSB USFM books",
     "text_source_repo": "bookish-lamp"
   },
-  "sqlite": "tcsb-260826.sqlite",
+  "sqlite": "tcsb-260827.sqlite",
   "verse_count": 31223
 }
