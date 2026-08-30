@@ -110,7 +110,8 @@ output_sql.write_text(
     "  PRIMARY KEY (`verseID`),\n"
     "  UNIQUE KEY `book-chapter-verse` (`bookCode`,`chapter`,`verseNumber`)\n"
     ") ENGINE=MyISAM DEFAULT CHARSET=latin1;\n"
-    "INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('OBA', 1, 1, 'USFM Obadiah text{H5662}.');\n",
+    "INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('OBA', 1, 1, 'USFM Obadiah text{H5662}.');\n"
+    "INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('JOL', 1, 1, 'USFM Joel text{H3068}.');\n",
     encoding='utf-8',
 )
 (output_sql.parent / 'bibleStrongs.sql').write_text('GENERATED STRONGS FROM: ' + glossary, encoding='utf-8')
@@ -340,6 +341,42 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         metadata = (self.bsm / "database" / "tcsbMetadata.sql").read_text(encoding="utf-8")
         self.assertIn("('tcsb_promoted_usfm_books', 'OBA')", metadata)
         self.assertIn(f"('tcsb_promoted_usfm_commit', '{promoted_commit}')", metadata)
+
+    def test_promoted_usfm_book_code_alias_replaces_bookish_lamp_code(self):
+        (self.bl / "database" / "bibleVerses.sql").write_text(
+            """
+DROP TABLE IF EXISTS `verses`;
+CREATE TABLE `verses` (
+  `verseID` int(11) NOT NULL AUTO_INCREMENT,
+  `bookCode` varchar(3) NOT NULL,
+  `chapter` smallint(4) NOT NULL,
+  `verseNumber` smallint(4) NOT NULL,
+  `verseText` text NOT NULL,
+  PRIMARY KEY (`verseID`),
+  UNIQUE KEY `book-chapter-verse` (`bookCode`,`chapter`,`verseNumber`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('JOE', 1, 1, 'BL Joel text.');
+""".lstrip(),
+            encoding="utf-8",
+        )
+        commit(self.bl, "change verses with Joel")
+        (self.tcsb / "source" / "tcsb-usfm_2026-06-28" / "30-JOLengtcsbp.usfm").write_text(
+            "\\id JOL\nold Joel source\n",
+            encoding="utf-8",
+        )
+        promoted = self.tcsb / "data" / "tcsb_promoted_usfm_books.txt"
+        promoted.write_text("JOE\n", encoding="utf-8")
+        commit(self.tcsb, "promote Joel USFM")
+
+        result = self.run_script()
+
+        self.assertIn("Synced TCSB text revision 260722", result.stdout)
+        self.assertIn("TCSB promoted USFM books: JOE", result.stdout)
+        bsm_verses = (self.bsm / "database" / "bibleVerses.sql").read_text(encoding="utf-8")
+        self.assertIn("'JOE',   1,   1, 'USFM Joel text{H3068}.'", bsm_verses)
+        self.assertIn("'USFM Joel text.'", bsm_verses)
+        self.assertNotIn("'JOL'", bsm_verses)
+        self.assertNotIn("BL Joel text", bsm_verses)
 
     def test_copies_strongs_from_tcsb_and_bumps_revision_when_tcsb_bible_strongs_changed(self):
         (self.tcsb / "exports" / "bibleStrongs.sql").write_text("STRONGS source changed;\n", encoding="utf-8")
