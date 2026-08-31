@@ -342,7 +342,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
         self.assertIn("('tcsb_promoted_usfm_books', 'OBA')", metadata)
         self.assertIn(f"('tcsb_promoted_usfm_commit', '{promoted_commit}')", metadata)
 
-    def test_promoted_usfm_book_code_alias_replaces_bookish_lamp_code(self):
+    def test_promoted_usfm_book_uses_canonical_book_code(self):
         (self.bl / "database" / "bibleVerses.sql").write_text(
             """
 DROP TABLE IF EXISTS `verses`;
@@ -355,7 +355,7 @@ CREATE TABLE `verses` (
   PRIMARY KEY (`verseID`),
   UNIQUE KEY `book-chapter-verse` (`bookCode`,`chapter`,`verseNumber`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('JOE', 1, 1, 'BL Joel text.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES ('JOL', 1, 1, 'BL Joel text.');
 """.lstrip(),
             encoding="utf-8",
         )
@@ -365,17 +365,17 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`) VALUES 
             encoding="utf-8",
         )
         promoted = self.tcsb / "data" / "tcsb_promoted_usfm_books.txt"
-        promoted.write_text("JOE\n", encoding="utf-8")
+        promoted.write_text("JOL\n", encoding="utf-8")
         commit(self.tcsb, "promote Joel USFM")
 
         result = self.run_script()
 
         self.assertIn("Synced TCSB text revision 260722", result.stdout)
-        self.assertIn("TCSB promoted USFM books: JOE", result.stdout)
+        self.assertIn("TCSB promoted USFM books: JOL", result.stdout)
         bsm_verses = (self.bsm / "database" / "bibleVerses.sql").read_text(encoding="utf-8")
-        self.assertIn("'JOE',   1,   1, 'USFM Joel text{H3068}.'", bsm_verses)
+        self.assertIn("'JOL',   1,   1, 'USFM Joel text{H3068}.'", bsm_verses)
         self.assertIn("'USFM Joel text.'", bsm_verses)
-        self.assertNotIn("'JOL'", bsm_verses)
+        self.assertNotIn("'JOE'", bsm_verses)
         self.assertNotIn("BL Joel text", bsm_verses)
 
     def test_copies_strongs_from_tcsb_and_bumps_revision_when_tcsb_bible_strongs_changed(self):

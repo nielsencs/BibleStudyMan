@@ -35,10 +35,6 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 DEFAULT_BSM_ROOT = SCRIPT_DIR.parent
 DEFAULT_TCSB_ROOT = DEFAULT_BSM_ROOT.parent / "the-cleanslate-bible"
 PROMOTED_USFM_BOOKS_PATH = Path("data/tcsb_promoted_usfm_books.txt")
-PROMOTED_USFM_SOURCE_ALIASES = {
-    # Bookish Lamp / BSM uses JOE; the canonical TCSB USFM file/id is JOL.
-    "JOE": "JOL",
-}
 VERSE_INSERT_RE = re.compile(
     r"^INSERT\s+INTO\s+`?verses`?\s*"
     r"\(`?bookCode`?,\s*`?chapter`?,\s*`?verseNumber`?,\s*`?verseText`?\)\s*"
@@ -157,23 +153,18 @@ def load_promoted_usfm_books(tcsb_root: Path) -> list[str]:
     return books
 
 
-def usfm_source_book_code(book: str) -> str:
-    return PROMOTED_USFM_SOURCE_ALIASES.get(book, book)
-
-
 def tcsb_usfm_book_paths(tcsb_root: Path, books: list[str]) -> list[str]:
     if not books:
         return []
     source_dir = tcsb_source_dir(tcsb_root)
-    wanted = {usfm_source_book_code(book) for book in books}
-    source_to_promoted = {usfm_source_book_code(book): book for book in books}
+    wanted = set(books)
     found: dict[str, str] = {}
     for path in sorted(source_dir.glob("*.usfm")):
         for line in path.read_text(encoding="utf-8", errors="replace").splitlines():
             if line.startswith(r"\id "):
                 code = line.split(maxsplit=2)[1].strip().upper()
                 if code in wanted:
-                    found[source_to_promoted[code]] = path.relative_to(tcsb_root).as_posix()
+                    found[code] = path.relative_to(tcsb_root).as_posix()
                 break
     missing = [book for book in books if book not in found]
     if missing:
@@ -197,14 +188,11 @@ def merge_promoted_usfm_books(bl_sql: str, usfm_sql: str, promoted_books: list[s
     if not promoted_books:
         return bl_sql
     promoted = set(promoted_books)
-    source_to_promoted = {usfm_source_book_code(book): book for book in promoted_books}
     usfm_rows: dict[tuple[str, str, str], str] = {}
     for line in usfm_sql.splitlines():
         key = parse_verse_insert(line)
-        if key and key[0] in source_to_promoted:
-            promoted_book = source_to_promoted[key[0]]
-            promoted_key = (promoted_book, key[1], key[2])
-            usfm_rows[promoted_key] = rewrite_insert_book_code(line, promoted_book)
+        if key and key[0] in promoted:
+            usfm_rows[key] = line
     bl_keys = [parse_verse_insert(line) for line in bl_sql.splitlines()]
     promoted_bl_keys = [key for key in bl_keys if key and key[0] in promoted]
     promoted_bl_key_set = set(promoted_bl_keys)
