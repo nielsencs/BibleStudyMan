@@ -163,7 +163,7 @@ INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('EZE', 'Ezekiel',         48, 26, 14, 32, 26, 'O', '4NV2');
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('DAN', 'Daniel',          12, 27, 35, 33, 31, 'O', '4NV2');
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('HOS', 'Hosea',           14, 28, 15, 17, 20, 'O', '4NV2');
-INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('JOE', 'Joel',             3, 29, 16, 18, 17, 'O', '4NV2');
+INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('JOL', 'Joel',             3, 29, 16, 18, 17, 'O', '4NV2');
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('AMO', 'Amos',             9, 30, 17, 19, 19, 'O', '4NV2');
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('OBA', 'Obadiah',          1, 31, 18, 20, 16, 'O', '4NV2');
 INSERT INTO books (bookCode, bookName, bookChapters, orderChristian, orderJewish, orderChron1, orderChron2, testament, sectionCode) VALUES('JON', 'Jonah',            4, 32, 19, 21, 18, 'O', '4NV2');
@@ -549,9 +549,9 @@ INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JER', 'Jr');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOB', 'Jb');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOB', 'Job');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOE', 'Jl');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOE', 'Joe');
-INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOE', 'Joel');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOL', 'Jl');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOL', 'Joe');
+INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOL', 'Joel');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOH', 'Jhn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOH', 'Jn');
 INSERT INTO `book-abbreviations` (baBookCode, baBookAbbreviation) VALUES('JOH', 'Joh');
@@ -1375,9 +1375,9 @@ INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, st
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 694, 329, '2NV1', 'HOS', 8, 11, 10, 8);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 695, 330, '2NV1', 'HOS', 10, 9, 12, 8);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 696, 331, '2NV1', 'HOS', 12, 9, 14, 9);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 697, 332, '2NV1', 'JOE', 1, 0, 0, 0);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 698, 333, '2NV1', 'JOE', 2, 1, 2, 27);
-INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 699, 334, '2NV1', 'JOE', 2, 28, 3, 21);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 697, 332, '2NV1', 'JOL', 1, 0, 0, 0);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 698, 333, '2NV1', 'JOL', 2, 1, 2, 27);
+INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 699, 334, '2NV1', 'JOL', 2, 28, 3, 21);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 700, 335, '2NV1', 'AMO', 1, 1, 2, 5);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 701, 336, '2NV1', 'AMO', 2, 6, 3, 15);
 INSERT INTO `plan-new` (planID, planDay, sectionCode, bookCode, startChapter, startVerse, endChapter, endVerse) VALUES( 702, 337, '2NV1', 'AMO', 4, 1, 5, 13);
