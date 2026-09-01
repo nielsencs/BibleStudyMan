@@ -43,6 +43,10 @@ get fewer results as it treats the
 words to the left as a phrase if
 there are more than one or as the
 exact word.">Exact</abbr></label>
+                          <br>
+                          <input type="hidden" name="limitSearch" value="off">
+                          <input type="checkbox" name="limitSearch" id="limitSearch" value="on" <?php if($bLimitSearchResults){echo 'checked';}; ?>
+                                 onclick="doSubmit('words')"><label for="limitSearch"><abbr title="Keeps very common searches quick by showing the first 500 verses. Untick this if you want every result and do not mind waiting.">Limit large search results</abbr></label>
                         </td>
                       </tr>
                       <tr>

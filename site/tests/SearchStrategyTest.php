@@ -101,6 +101,14 @@ $looseSelfless = get_search_strategy('selflessly love', false);
 assertSame(['%selflessly%', '%love%'], $looseSelfless['sql_params'], 'loose search keeps simple literal word matching');
 assertContainsText(' AND ', $looseSelfless['sql_where'], 'loose search requires all words');
 
+assertSame(500, searchResultLimitForRequest(true), 'limited broad searches render the first 500 results');
+assertSame(null, searchResultLimitForRequest(false), 'all-results searches do not add a SQL row limit');
+assertSame(true, parseLimitSearchResults(null), 'search result limiting is on by default');
+assertSame(false, parseLimitSearchResults('off'), 'explicit all-results option disables search limiting');
+assertSame('SELECT * FROM verses LIMIT 500;', queryWithRowLimit('SELECT * FROM verses;', 500), 'limited searches append a SQL row limit');
+assertSame('SELECT * FROM verses;', queryWithRowLimit('SELECT * FROM verses;', null), 'all-results searches keep the SQL unlimited');
+assertContainsText('limitSearch=off', buildLink('Matthew', 5, 'the', false, true, true, true, false), 'book/chapter links preserve all-results option');
+
 if ($failures > 0) {
     echo "\n$failures failure(s)\n";
     exit(1);

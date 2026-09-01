@@ -21,6 +21,7 @@
     }
   }
   $bExact = filter_input(INPUT_GET, 'exact', FILTER_DEFAULT, FILTER_FLAG_NO_ENCODE_QUOTES) === 'on';
+  $bLimitSearchResults = parseLimitSearchResults(filter_input(INPUT_GET, 'limitSearch', FILTER_UNSAFE_RAW));
   $tMonth = filter_input(INPUT_GET, 'month', FILTER_UNSAFE_RAW);
   $tDay = filter_input(INPUT_GET, 'day', FILTER_UNSAFE_RAW);
   if(empty($tDay)){ // in case dropdown has too few days

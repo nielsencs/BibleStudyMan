@@ -7,7 +7,7 @@
             <div class="subMain sectGeneral">
 <?php if (! $bFloaty) { require_once 'controlPanel.php'; } ?>
 <?php
-  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty);
+  echo passage($tBook, $tChapter, $tVerses, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bFloaty, $bLimitSearchResults);
   echo bibleDisclaimer();
 ?>
             </div>

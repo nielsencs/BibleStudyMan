@@ -1,4 +1,29 @@
 <?php
+const SEARCH_RESULTS_LIMIT = 500;
+
+// ============================================================================
+function parseLimitSearchResults($tLimitSearch){
+// ============================================================================
+  return $tLimitSearch !== 'off';
+}
+
+// ============================================================================
+function searchResultLimitForRequest($bLimitSearchResults){
+// ============================================================================
+  return $bLimitSearchResults ? SEARCH_RESULTS_LIMIT : null;
+}
+
+// ============================================================================
+function queryWithRowLimit($tQuery, $iLimit){
+// ============================================================================
+  if ($iLimit === null) {
+    return $tQuery;
+  }
+  $tTrimmedQuery = rtrim($tQuery);
+  $tTrimmedQuery = rtrim($tTrimmedQuery, ';');
+  return $tTrimmedQuery . ' LIMIT ' . intval($iLimit) . ';';
+}
+
 // ============================================================================
 function doQuery($pdo, $tQuery, $params = []){
 // ============================================================================
@@ -48,7 +73,7 @@ function bibleDisclaimer(): string {
 }
 
 // ============================================================================
-function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN){
+function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults = true){
 // ============================================================================
   global $bTCSB, $bFloaty;
   $tActionPage = 'bible'; // we might be in /plan and we want to look up a bible passage!
@@ -74,6 +99,9 @@ function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bSho
   }
   if ($bShowTN){
     $tReturn .= '&showTN=on';
+  }
+  if (!$bLimitSearchResults){
+    $tReturn .= '&limitSearch=off';
   }
   $tReturn .= '">';
   return $tReturn;
@@ -276,7 +304,7 @@ function basicPassageQuery(){
 // ============================================================================
 function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bShowOW, $bShowTN, $bPluralChapter = false){
 // ============================================================================
-  global $tWords, $bExact;
+  global $tWords, $bExact, $bLimitSearchResults;
 
   $bPluralChapter = false; // always false for now
 
@@ -287,7 +315,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
   }
 
   if($bShowLinks){ // link to book only
-    $tOutput .= buildLink($tBookName, 0, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN);
+    $tOutput .= buildLink($tBookName, 0, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults);
   }
   if($tBookName === 'Psalms'){
     $tOutput .= 'Psalm';
@@ -300,7 +328,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
   if ($iBookChapters > 1){
     $tOutput .= ' ';
     if($bShowLinks){ // link to book and chapter
-      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN);
+      $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults);
     }
     if ($iChapter > -1){
     if($tBookName != 'Psalms'){
@@ -323,7 +351,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
 
 // ============================================================================
 function passage($tBook, $tChapter, $tVerses, $tWords, $bExact, 
-                  $bHighlightSW, $bShowOW, $bShowTN, $bFloaty){
+                  $bHighlightSW, $bShowOW, $bShowTN, $bFloaty, $bLimitSearchResults = true){
 // ============================================================================
   global $pdo;
   $bProcessRequest = (strlen($tBook . $tChapter . $tVerses . $tWords) > 0);
@@ -378,7 +406,8 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
         }
       }
     }
-    $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact);
+    $iSearchResultLimit = (!empty($tWords) && empty($tChapter)) ? searchResultLimitForRequest($bLimitSearchResults) : null;
+    $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact, $iSearchResultLimit);
   }else{
     $tQuery = $tBaseQuery . ' INNER JOIN (
     SELECT bookCode, chapter, verseStart, verseEnd 
@@ -405,7 +434,7 @@ AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.
 }
 
 // ============================================================================
-function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords = [], $highlightIsExact = false){
+function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords = [], $highlightIsExact = false, $iSearchResultLimit = null){
 // ============================================================================
   global $pdo;
 
@@ -413,7 +442,7 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
   $tLastBookName = '';
   $iLastChapter = 0;
   
-  $stmt = doQuery($pdo, $tQuery, $params);
+  $stmt = doQuery($pdo, queryWithRowLimit($tQuery, $iSearchResultLimit), $params);
   $rows = $stmt->fetchAll();
   $iRows = count($rows);
   $iBooks = countBooks($rows);
@@ -429,7 +458,11 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
   if ($iRows == 0) {
     $tOutput .=  'It could be me... but I can&apos;t seem to find that!';
   } else {
-    $tOutput .= $iRows . ' verses<br>' . PHP_EOL;
+    if ($iSearchResultLimit !== null && $iRows >= $iSearchResultLimit) {
+      $tOutput .= 'Showing first ' . $iRows . ' verses. Untick Limit large search results if you want the full search.<br>' . PHP_EOL;
+    } else {
+      $tOutput .= $iRows . ' verses<br>' . PHP_EOL;
+    }
     foreach($rows as $row) {
       // either chapter/book heading or just verse(s)
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
