@@ -240,3 +240,4 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('C
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('HEB', 1, 3);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('HEB', 9, 28);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('1JO', 5, 13);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('2JO', 1, 4);

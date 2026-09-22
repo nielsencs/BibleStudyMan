@@ -18,19 +18,19 @@ CREATE TABLE `tcsb_text_metadata` (
   PRIMARY KEY (`metadataKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '260910');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '260910');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-09-10');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '260921');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '260921');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-09-21');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_repo', 'bookish-lamp');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_branch', 'master');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_file', 'database/bibleVerses.sql + promoted TCSB USFM books');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', 'e491c3fbc4be7010dc374d00c21fc20fb39dee1e');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', 'ca6c8192f5a201faff43f7ad83555bed868ba38c');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '22e09c06e3a8aa1a8ec03d06c0e4e38db21692d7');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', '23e5f3c198db5e25324906453158b2a88696e6b7');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_glossary_usfm_commit', '0612fe63abcb9a0e4b31649434924345d09f88c7');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_books', 'PRO,JOL,OBA,HAB');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_commit', '7890830218eebcb459655f379edf99ddb137568c');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-09-11T03:30:34+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-09-22T03:30:12+01:00');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_disclaimer_html', '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a>
 to include nuanced meanings of particular ancient words for placenames, God and others of special interest.
 <br>In general square brackets:[] are used to indicate words not found in the original text.
@@ -2879,6 +2879,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('C
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('HEB', 1, 3);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('HEB', 9, 28);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('1JO', 5, 13);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('2JO', 1, 4);
 
 
 DROP TABLE IF EXISTS `verses`;
@@ -23001,7 +23002,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  12, 'I will grant you mercy, that he may have mercy on you, and cause you to return to your own land.</p>', 'I will grant you mercy, that he may have mercy on you, and cause you to return to your own land.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  13, '<p>But if you say, We will not dwell in this land; so that you don&apos;t obey the voice of ForeverOne{H3068} your God{H0430},', 'But if you say, We will not dwell in this land; so that you don\'t obey the voice of ForeverOne your God,');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  14, 'saying, No; but we will go into the land of Egypt, where we shall see no war, nor hear the sound of the trumpet, nor have hunger of bread; and there will we dwell:', 'saying, No; but we will go into the land of Egypt, where we shall see no war, nor hear the sound of the trumpet, nor have hunger of bread; and there will we dwell:');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  15, 'now therefore hear the word of ForeverOne{H3068}, O remnant of Judah: ForeverOne{H3068} says of Armies, the God{H0430} of Israel, If you indeed set your faces to enter into Egypt, and go to live there;', 'now therefore hear the word of ForeverOne, O remnant of Judah: ForeverOne says of Armies, the God of Israel, If you indeed set your faces to enter into Egypt, and go to live there;');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  15, 'now therefore hear ForeverOne{H3068}&apos;s word{H1697}, O remnant of Judah! ForeverOne{H3068} of Armies, the God{H0430} of Israel says, If you indeed set your faces to enter into Egypt, and go to live there;', 'now therefore hear ForeverOne\'s word, O remnant of Judah! ForeverOne of Armies, the God of Israel says, If you indeed set your faces to enter into Egypt, and go to live there;');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  16, 'then the sword, which you fear, shall overtake you there in the land of Egypt; and the famine, about which you are afraid, shall follow close behind you there in Egypt; and there you shall die.', 'then the sword, which you fear, shall overtake you there in the land of Egypt; and the famine, about which you are afraid, shall follow close behind you there in Egypt; and there you shall die.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  17, 'So shall it be with all the men who set their faces to go into Egypt to live there: they shall die by the sword, by the famine, and by the pestilence; and none of them shall remain or escape from the evil that I will bring on them.', 'So shall it be with all the men who set their faces to go into Egypt to live there: they shall die by the sword, by the famine, and by the pestilence; and none of them shall remain or escape from the evil that I will bring on them.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('JER',  42,  18, 'For ForeverOne{H3068} of Armies, the God{H0430} of Israel, says, \"As my anger and my wrath has been poured forth on the inhabitants of Jerusalem, so shall my wrath be poured forth on you, when you shall enter into Egypt; and you shall be an object of horror, and an astonishment, and a curse, and a reproach; and you shall see this place no more.</p>', 'For ForeverOne of Armies, the God of Israel, says, "As my anger and my wrath has been poured forth on the inhabitants of Jerusalem, so shall my wrath be poured forth on you, when you shall enter into Egypt; and you shall be an object of horror, and an astonishment, and a curse, and a reproach; and you shall see this place no more.');
