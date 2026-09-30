@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T02:31:05+00:00",
+  "generated_at": "2026-09-30T02:30:40+00:00",
   "integrity_check": "ok",
   "latest_sqlite": "latest.sqlite",
   "revision": "260923",
@@ -8,7 +8,7 @@
     "GEN 1:1": "At the beginning, God created-from-nothing the sky and the ground.",
     "LUK 8:1": "Afterwards, he went through cities and villages, declaring and proclaiming-good-news [about] the kingdom of God. The twelve were with him,"
   },
-  "sha256": "aab9fa09be726d4bac07d0e0ba9c58b43ec0aecaf7a3205fef756c585b20295f",
+  "sha256": "2057713306c3a399f7690220fa51b67ac895f3d25109d407de5945e95ba06520",
   "sha256_file": "tcsb-260923.sqlite.sha256",
   "size_bytes": 18440192,
   "source": {
