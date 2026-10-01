@@ -294,7 +294,7 @@ function buildPassageQuery2($tBookCode, $tPassageStart, $tPassageEnd){
   $tQuery = basicPassageQuery();
 
   if($tBookCode === '23J'){
-    $tQuery .=' WHERE (books.bookCode = "2JO" OR books.bookCode = "3JO")';
+    $tQuery .=' WHERE (books.bookCode = "2JN" OR books.bookCode = "3JN")';
   }else{
     $tQuery .=' WHERE books.bookCode = "' . $tBookCode . '"';
   }
@@ -352,8 +352,8 @@ function buildPassageQueryNew($tBookCode, $iStartChapter, $iStartVerse, $iEndCha
 
     if($tBookCode == '23J'){
         $tQuery .=' WHERE (books.bookCode = ? OR books.bookCode = ?)';
-        $params[] = "2JO";
-        $params[] = "3JO";
+        $params[] = "2JN";
+        $params[] = "3JN";
     }else{
         $tQuery .=' WHERE books.bookCode = ?';
         $params[] = $tBookCode;
