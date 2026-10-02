@@ -9,6 +9,7 @@
   --anchor: #000080;
   --anchorHover: #800080;
   --heading: #4F3F49;
+  --subheading: #4F3F49;
   --teaching: #9494ff;
   --teachingL: #ddddff;
   --readings: #94ffff;
@@ -30,6 +31,7 @@
     --anchor: #80a0ff;
     --anchorHover: #aa00aa;
     /* --heading: #dbcfdb; */
+    --subheading: #dbcfdb;
     /* --teaching: #291f41;
     --teachingL: #514769;
     --readings: #294141;
@@ -74,7 +76,7 @@ h2 {
   margin-bottom: 7px;
   font-size: 16pt;
   text-align: center;
-  color: var(--heading);
+  color: var(--subheading);
 }
 
 h3 {
