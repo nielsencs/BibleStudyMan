@@ -90,6 +90,8 @@ assertSameIssue(146, '<span class="highlightWord">Paul</span> stood up', highlig
 assertSameIssue(168, 'you are the light of the world', normalise_search_text_for_matching('<span class="highlightWord">You</span> are the light of the world'), 'search ignores generated HTML highlight spans');
 assertContainsIssue(170, 'highlightSW=on', buildLink('Matthew', 5, 'light', false, true, false, false), 'book/chapter links preserve interesting-word checkbox state');
 assertSameIssue(171, 'God said light', strip_tags(highlightWords([], 'God said light')), 'cleared search leaves page text unhighlighted');
+assertSameIssue(181, '<span class="psalm-heading-intro">For the Chief Musician. By David.</span>', psalmHeadingIntroFromRow(['bookName' => 'Psalms', 'chapter' => 11, 'verseNumber' => 0, 'vt' => '<p>For the Chief Musician. By David.</p>'], [], false), 'Psalm verse zero is appended inside the Psalm heading without a verse marker');
+assertSameIssue(181, '', psalmHeadingIntroFromRow(['bookName' => 'Psalms', 'chapter' => 11, 'verseNumber' => 1, 'vt' => 'In ForeverOne I take refuge.'], [], false), 'non-zero Psalm verses stay in the normal verse flow');
 
 // Formerly open search bugs that now have executable regression coverage.
 assertSameIssue(46, 'because foreverone your god', normalise_search_text_for_matching('Because ForeverOne{H3068} your God{H0430}'), 'exact searches can match interesting words carrying Strong tags');
@@ -107,7 +109,7 @@ foreach ([1, 2, 9, 12, 13, 16, 17, 36, 65, 66, 91, 134] as $issue) {
     echo "TODO: #$issue needs a browser, form-state, or DB-backed regression test\n";
 }
 
-$expectedSearchIssues = [1, 2, 3, 4, 8, 9, 12, 13, 16, 17, 27, 36, 46, 51, 56, 65, 66, 67, 68, 69, 91, 102, 121, 134, 146, 168, 170, 171, 178];
+$expectedSearchIssues = [1, 2, 3, 4, 8, 9, 12, 13, 16, 17, 27, 36, 46, 51, 56, 65, 66, 67, 68, 69, 91, 102, 121, 134, 146, 168, 170, 171, 178, 181];
 $missing = array_values(array_diff($expectedSearchIssues, array_keys($coveredIssues)));
 if ($missing !== []) {
     failLine('search issue coverage inventory is missing issue numbers', [], $missing);

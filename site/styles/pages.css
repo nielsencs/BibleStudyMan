@@ -124,6 +124,14 @@
   margin-top: 21pt;
 }
 
+.bibleText h3 .psalm-heading-intro {
+  display: block;
+  font-size: 1rem;
+  font-weight: normal;
+  line-height: 1.7;
+  margin-top: 0.35em;
+}
+
 .bibleText p {
   text-indent: 28pt;
   text-align: justify;

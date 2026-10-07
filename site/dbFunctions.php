@@ -468,7 +468,13 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
       if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bHighlightSW, $bShowOW, $bShowTN, $iChapters > 1);
+        $tOutput .=  psalmHeadingIntroFromRow($row, $highlightWords, $highlightIsExact);
         $tOutput .=  '</h3>' . PHP_EOL;
+      }
+      if (isPsalmVerseZero($row)) {
+        $tLastBookName = $row['bookName'];
+        $iLastChapter = $row['chapter'];
+        continue;
       }
       $tOutput .= showVerse($tVerses, $row, $highlightWords, $highlightIsExact);
       $tLastBookName = $row['bookName'];
@@ -478,6 +484,30 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
 
   $tOutput .=  '</div>' . PHP_EOL;
   return $tOutput;
+}
+
+// ============================================================================
+function isPsalmVerseZero($row){
+// ============================================================================
+  return ($row['bookName'] ?? '') === 'Psalms' && (int)($row['verseNumber'] ?? -1) === 0;
+}
+
+// ============================================================================
+function psalmHeadingIntroFromRow($row, $highlightWords = [], $highlightIsExact = false){
+// ============================================================================
+  global $bHighlightSW, $bShowOW, $bShowTN;
+  if (!isPsalmVerseZero($row)) {
+    return '';
+  }
+  $tThisVerseText = (string)($row['vt'] ?? '');
+  $tThisVerseText = preg_replace('/^\s*<p>/i', '', $tThisVerseText) ?? $tThisVerseText;
+  $tThisVerseText = preg_replace('/<\/p>\s*$/i', '', $tThisVerseText) ?? $tThisVerseText;
+  $tThisVerseText = preg_replace('/^\s*<br\s*\/?\s*>/i', '', $tThisVerseText) ?? $tThisVerseText;
+  $tThisVerseText = trim($tThisVerseText);
+  if ($tThisVerseText === '') {
+    return '';
+  }
+  return '<span class="psalm-heading-intro">' . highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . '</span>';
 }
 
 // ============================================================================
