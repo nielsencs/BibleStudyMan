@@ -112,6 +112,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('P
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 14, 16);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 15, 9);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 16, 4);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 17, 27);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 18, 19);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 20, 1);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 20, 9);
