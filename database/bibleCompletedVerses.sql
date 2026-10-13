@@ -132,6 +132,12 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('P
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 25, 11);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 25, 26);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 26, 9);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 30, 4);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 30, 8);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 30, 20);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 30, 32);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 31, 6);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 31, 30);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('ECC', 12, 1);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('SON', 4, 4);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('SON', 5, 10);
