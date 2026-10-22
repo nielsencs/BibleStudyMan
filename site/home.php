@@ -45,8 +45,8 @@
       <p>Have you ever tried to read <strong>The Bible from cover to cover</strong>?</p>
       <p>If not and you&apos;d like to, then this <strong>day-by-day plan</strong> will help you to read the entire Bible <strong>in one year</strong>.
         It takes less than half an hour a day, even if you&apos;re a slow reader like me!</p>
-      <p>The plan is based around <strong>four traditional sections</strong> - <em>The Law</em> (Torah or Pentateuch); <em>The Prophets</em> (Neviim);
-        <em>The Writings or Poetry</em> (Ktuviim) and <em>The New Testament</em>.</p>
+      <p>The plan follows <strong>the three sections of the Hebrew Bible</strong> - <em>Instruction</em> (Torah); <em>the Prophets</em> (Nevi&apos;im);
+        <em>the Writings</em> (Ketuvim) - plus <em>the New Testament</em> (B&apos;rit Hadashah).</p>
 <?php
   if ($pdo) {
     echo '<p>As a sample, today&apos;s readings: ' . daysReadingsAsSentence($iMonth, $iDay, true, true, true) . ' Enjoy!</p>';
