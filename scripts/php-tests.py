@@ -19,6 +19,8 @@ def main() -> int:
         [php, "site/tests/SearchStrategyTest.php"],
         [php, "site/tests/SearchIssueRegressionTest.php"],
         [php, "site/tests/ProcessStrongsTest.php"],
+        [php, "site/tests/BibleTextFormatTest.php"],
+        [php, "site/tests/BibleTextRenderTest.php"],
     ]
     for i, cmd in enumerate(tests):
         stdout = subprocess.DEVNULL if i == 2 else None

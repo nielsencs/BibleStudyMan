@@ -24,9 +24,9 @@
 <?php
   $emptyBibleSearch = empty($tBook) && empty($tChapter) && empty($tVerses) && empty($tWords);
   if($emptyBibleSearch || $tPriority === 'Plan'){ // no Bible search or month specified, show today's verses
-    echo "<h2>Readings for " . htmlspecialchars(monthName($iMonth) . ' ' . $iDay, ENT_QUOTES, 'UTF-8') . ":</h2>";
+    echo "<h2>" . htmlspecialchars(planDayTitle((int)$iYear, (int)$iMonth, (int)$iDay), ENT_QUOTES, 'UTF-8') . "</h2>";
     $tOutput = planTable($tSortOrder);
-    echo 'First, ' . daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
+    echo daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN);
 ?>
                 <!-- <p>You can read the passages below. If you're looking to read for
                   a different day or want to use your own Bible, then

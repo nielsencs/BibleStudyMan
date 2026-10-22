@@ -69,6 +69,15 @@ function getDayReadingQueryWhere($iMonth, $iDay, $iSection = 0){
 // ============================================================================
 
 // ============================================================================
+function daysReadingRefText($row){
+// ============================================================================
+    return formatRange($row['bookName'],
+        [(int)$row['startChapter'], (int)$row['startVerse']],
+        [(int)$row['endChapter'], (int)$row['endVerse']]);
+}
+// ============================================================================
+
+// ============================================================================
 function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
     global $pdo;
@@ -81,75 +90,21 @@ function daysReadingsAsSentence($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowT
         $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery ?? '', ENT_QUOTES, 'UTF-8') . '"';
     } else {
         if($iMonth === 2 && $iDay === 29){
-            $tOutput .= ' let me say Happy Leap-Year-Extra-Day.</p><p><strong>Today is a special day!</strong> ';
+            $tOutput .= 'Happy Leap-Year-Extra-Day.</p><p><strong>Today is a special day!</strong> ';
             $tOutput .= 'Because February 29th doesn&apos;t come round very often it ';
             $tOutput .= 'can&apos;t sensibly be included in the regular plan. However, ';
             $tOutput .= 'since you&apos;ve taken the trouble to look here today, I&apos;ve ';
             $tOutput .= 'prepared a little collection of shorter passages to reflect on.</p><p>';
         }
+        $atRefs = [];
         foreach($rows as $row) {
-            if($row['sectionCode'] === '1TOR'){
-                // $tOutput .= ' first, ';
-                $tOutput .= '';
-            }
-            //$tOutput .= "" . $row['sectionEnglish']  . ' (' . $row['sectionName'] . ') - ';
-            if($row['sectionCode'] === '2NV1' || $row['sectionCode']=== '4NV2'){
-                // $tOutput .= '; next it&apos;s ';
-                $tOutput .= '. Follow that by reading';
-            }
-            if($row['sectionCode'] === '3KTV'){
-                $tOutput .= '. The third part is';
-            }
-            if($row['sectionCode'] === '5NCV'){
-                $tOutput .= '; and lastly';
-            }
-            $tOutput .= ' <strong>';
-// -------------- if whole chapter no from... to ------------
-            if($row['endVerse'] > 0){
-                if($row['startChapter'] != $row['endChapter']){
-                    $tOutput .= 'from';
-                }
-            }
-            $bChaptersOnly = isChaptersOnly($row);
-            $bSameChapter = isSameChapter($row);
-
-            $tOutput .= ' ' . bookNameOrPsalm($row['bookName'], 0, false, $bChaptersOnly && ! $bSameChapter, $bHighlightSW, $bShowOW, $bShowTN);
-
-            $tOutput .= ' ' . $row['startChapter'];
-            if($row['startVerse'] > 0){
-                $tOutput .= ' verse';
-                if($row['startChapter'] === $row['endChapter']){
-                    $tOutput .= 's';
-                }
-                $tOutput .= ' ' . $row['startVerse'];
-            }
-            if($row['endVerse'] > 0||$row['endChapter'] > 0){
-                if($bChaptersOnly & $row['endChapter'] === $row['startChapter']+1){
-                    $tOutput .= ' and ';
-                } else {
-                    $tOutput .= ' to ';
-                }
-                if($row['startChapter'] === $row['endChapter']){
-                    $tOutput .= $row['endVerse'];
-                }else{
-                    if (! $bChaptersOnly){
-                        $tOutput .= ' Chapter ';
-                    }
-                    $tOutput .= $row['endChapter'];
-                    if (! $bChaptersOnly){
-                        $tOutput .= ' verse ' . $row['endVerse'];
-                    }
-                }
-            }
-// -------------- if whole chapter no from... to ------------
-            $tOutput .= '</strong>';
+            $atRefs[] = '<strong>' . htmlspecialchars(daysReadingRefText($row), ENT_QUOTES, 'UTF-8') . '</strong>';
         }
+        $tOutput .= readingsSentence($atRefs);
     }
 
     return $tOutput;
 }
-// ============================================================================
-
 // ============================================================================
 function daysSectionReading($iMonth, $iDay, $iSection, $bHighlightSW, $bShowOW, $bShowTN){
 // ============================================================================
@@ -163,42 +118,12 @@ function daysSectionReading($iMonth, $iDay, $iSection, $bHighlightSW, $bShowOW, 
         $tOutput .= 'Tell Carl something went wrong with the BibleStudyMan database - trying to do "' . htmlspecialchars($tQuery ?? '', ENT_QUOTES, 'UTF-8') . '"';
     } else {
         foreach($rows as $row) {
-            $bChaptersOnly = isChaptersOnly($row);
-            $bSameChapter = isSameChapter($row);
-
-            $tOutput .= bookNameOrPsalm($row['bookName'], -1, false, $bChaptersOnly && ! $bSameChapter, $bHighlightSW, $bShowOW, $bShowTN);
-
-            $tOutput .= $row['startChapter'];
-            if($row['startVerse'] > 0){
-                $tOutput .= ':' . $row['startVerse'];
-                if($row['startChapter'] === $row['endChapter']){
-                    $tOutput .= '-';
-                }
-            }else{
-                if($row['endChapter'] > 0 && $row['startChapter'] != $row['endChapter']){
-                    $tOutput .= '-';
-                }
-            }
-            if($row['endVerse'] > 0 || $row['endChapter'] > 0){
-                if($row['startChapter'] === $row['endChapter']){
-                    $tOutput .= $row['endVerse'];
-                }else{
-                    if (! $bChaptersOnly){
-                        $tOutput .= '-';
-                    }
-                    $tOutput .= $row['endChapter'];
-                    if (! $bChaptersOnly){
-                        $tOutput .= ':' . $row['endVerse'];;
-                    }
-                }
-            }
+            $tOutput .= htmlspecialchars(daysReadingRefText($row), ENT_QUOTES, 'UTF-8');
         }
     }
 
     return $tOutput;
 }
-// ============================================================================
-
 // ============================================================================
 function isChaptersOnly($row){
 // ============================================================================
@@ -231,7 +156,7 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
             $tOutput .=  '<section class="search-result">';
             $tOutput .=  '<form class="" action="" method="post" onsubmit="return false">';
             for ($i=0; $i < $readCount; $i++) {
-                $tOutput .=  '<h2 class="search-result__title">Section ' . ($i + 1) . '</h2>';
+                $tOutput .=  '<h2 class="search-result__title">Reading ' . ($i + 1) . '</h2>';
 
 //        $tOutput .=  '<p class="centerText">' . $readingList[$i]['bookName'];
 //        $tOutput .=  ' ' . $readingList[$i]['startChapter'] . ':' .  $readingList[$i]['startVerse'];
@@ -248,7 +173,7 @@ function daysReadingsAsVerses($iMonth, $iDay, $bHighlightSW, $bShowOW, $bShowTN)
                     $tOutput .=  '<audio id="aReading' . $i . '" name="aReading' . $i . '" src="' . htmlspecialchars($tAudio ?? '', ENT_QUOTES, 'UTF-8') . '"></audio>';
                 }
                 list($passageQuery, $passageParams) = buildPassageQueryNew($readingList[$i]['bookCode'], $readingList[$i]['startChapter'],  $readingList[$i]['startVerse'], $readingList[$i]['endChapter'], $readingList[$i]['endVerse']);
-                $tOutput .=  showVerses($passageQuery, $passageParams, '', $bHighlightSW, $bShowOW, $bShowTN);
+                $tOutput .=  showVerses($passageQuery, $passageParams, '', $bHighlightSW, $bShowOW, $bShowTN, [], false, null, true);
             }
             $tOutput .=  '</form>';
             $tOutput .=  '</section>';

@@ -1,0 +1,72 @@
+{
+  "bookLabel": [
+    ["Psalms", "Psalm"],
+    ["Psalm", "Psalm"],
+    ["John", "John"],
+    ["1 Kings", "1 Kings"]
+  ],
+  "headingText": [
+    {"book": "Psalms", "chapter": 46, "bookChapters": 150, "expected": "Psalm 46"},
+    {"book": "Deuteronomy", "chapter": 26, "bookChapters": 34, "expected": "Deuteronomy Chapter 26"},
+    {"book": "Jude", "chapter": 1, "bookChapters": 1, "expected": null},
+    {"book": "Genesis", "chapter": 1, "bookChapters": 0, "expected": null}
+  ],
+  "formatRange": [
+    {"book": "Numbers", "a": [33, 6], "b": [33, 30], "expected": "Numbers 33:6-30"},
+    {"book": "Genesis", "a": [1, 0], "b": [3, 0], "expected": "Genesis 1-3"},
+    {"book": "Deuteronomy", "a": [26, 12], "b": [27, 8], "expected": "Deuteronomy 26:12-27:8"},
+    {"book": "Psalms", "a": [8, 4], "b": [8, 5], "expected": "Psalm 8:4-5"},
+    {"book": "Psalms", "a": [23, 0], "b": [0, 0], "expected": "Psalm 23"},
+    {"book": "1 Kings", "a": [10, 0], "b": [0, 0], "expected": "1 Kings 10"},
+    {"book": "John", "a": [3, 16], "b": [0, 0], "expected": "John 3:16"},
+    {"book": "John", "a": [3, 16], "b": [3, 16], "expected": "John 3:16"},
+    {"book": "Exodus", "a": [20, 1], "b": [20, 17], "expected": "Exodus 20:1-17"},
+    {"book": "Luke", "a": [21, 25], "b": [22, 6], "expected": "Luke 21:25-22:6"},
+    {"book": "Genesis", "a": [5, 0], "b": [5, 0], "expected": "Genesis 5"}
+  ],
+  "plural": [
+    {"n": 1, "singular": "verse", "plural": "verses", "expected": "1 verse"},
+    {"n": 12, "singular": "verse", "plural": "verses", "expected": "12 verses"},
+    {"n": 0, "singular": "verse", "plural": "verses", "expected": "0 verses"}
+  ],
+  "readingsSentence": [
+    {"refs": ["Genesis 1-3"], "expected": "Read Genesis 1-3."},
+    {"refs": ["Genesis 1-3", "Psalm 1"], "expected": "First, Genesis 1-3. Then Psalm 1."},
+    {"refs": ["A 1", "B 2", "C 3"], "expected": "First, A 1. Then B 2. Lastly, C 3."},
+    {"refs": ["A 1", "B 2", "C 3", "D 4"], "expected": "First, A 1. Then B 2. Then C 3. Lastly, D 4."}
+  ],
+  "planDayTitle": [
+    {"year": 2026, "month": 10, "day": 22, "expected": "Day 295 · 22 Oct"},
+    {"year": 2026, "month": 1, "day": 1, "expected": "Day 1 · 1 Jan"}
+  ],
+  "sequences": [
+    {
+      "name": "Deuteronomy 26:12-27:8 starts part-way",
+      "bookChapters": 34,
+      "verses": [["Deuteronomy", 26, 12], ["Deuteronomy", 26, 13], ["Deuteronomy", 27, 1], ["Deuteronomy", 27, 2]],
+      "headings": ["Deuteronomy Chapter 26", null, null, null],
+      "markers": ["12", "13", "27:1", "2"]
+    },
+    {
+      "name": "Acts whole book",
+      "bookChapters": 28,
+      "verses": [["Acts", 1, 1], ["Acts", 1, 2], ["Acts", 2, 1]],
+      "headings": ["Acts Chapter 1", null, null],
+      "markers": ["1", "2", "2:1"]
+    },
+    {
+      "name": "Psalms always heading",
+      "bookChapters": 150,
+      "verses": [["Psalms", 1, 6], ["Psalms", 2, 1]],
+      "headings": ["Psalm 1", "Psalm 2"],
+      "markers": ["6", "1"]
+    },
+    {
+      "name": "Jude has no heading",
+      "bookChapters": 1,
+      "verses": [["Jude", 1, 1], ["Jude", 1, 2]],
+      "headings": [null, null],
+      "markers": ["1", "2"]
+    }
+  ]
+}

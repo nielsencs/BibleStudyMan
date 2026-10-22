@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/bibleFormat.php';
 const SEARCH_RESULTS_LIMIT = 500;
 
 // ============================================================================
@@ -309,19 +310,12 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
   $bPluralChapter = false; // always false for now
 
   $tOutput = '';
-  $iBookChapters = 2; // not important to get actual chapters in book unless only 1
-  if(in_array($tBookName, array('Obadiah', 'Philemon', '2 John', '3 John', 'Jude')) ) {
-    $iBookChapters = 1; // if only one chapter in book don't say 'chapter'!
-  }
+  $iBookChapters = bookChapterCountFor($tBookName); // only "is it 1?" matters
 
   if($bShowLinks){ // link to book only
     $tOutput .= buildLink($tBookName, 0, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults);
   }
-  if($tBookName === 'Psalms'){
-    $tOutput .= 'Psalm';
-  }else {
-    $tOutput .= htmlspecialchars($tBookName ?? '', ENT_QUOTES, 'UTF-8');
-  }
+  $tOutput .= htmlspecialchars(bookLabel($tBookName), ENT_QUOTES, 'UTF-8');
   if($bShowLinks){
     $tOutput .= '</a>';
   }
@@ -331,7 +325,7 @@ function bookNameOrPsalm($tBookName, $iChapter, $bShowLinks, $bHighlightSW, $bSh
       $tOutput .= buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults);
     }
     if ($iChapter > -1){
-    if($tBookName != 'Psalms'){
+    if(!isPsalmsBook($tBookName)){
       if($bPluralChapter){
         $tOutput .= 'Chapters ';
       }else{
@@ -407,7 +401,8 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
       }
     }
     $iSearchResultLimit = (!empty($tWords) && empty($tChapter)) ? searchResultLimitForRequest($bLimitSearchResults) : null;
-    $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact, $iSearchResultLimit);
+    $bContinuous = empty($tWords) || !empty($tChapter);
+    $tOutput .= showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords, $highlightIsExact, $iSearchResultLimit, $bContinuous);
   }else{
     $tQuery = $tBaseQuery . ' INNER JOIN (
     SELECT bookCode, chapter, verseStart, verseEnd 
@@ -428,13 +423,13 @@ function passage($tBook, $tChapter, $tVerses, $tWords, $bExact,
 WHERE verses.chapter = selected_passage.chapter 
 AND verses.verseNumber BETWEEN selected_passage.verseStart AND selected_passage.verseEnd;';
 
-      $tOutput = showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false);
+      $tOutput = showVerses($tQuery, [], $tVerses, $bHighlightSW, $bShowOW, $bShowTN, [], false, null, true);
   }
   return $tOutput;
 }
 
 // ============================================================================
-function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords = [], $highlightIsExact = false, $iSearchResultLimit = null){
+function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowTN, $highlightWords = [], $highlightIsExact = false, $iSearchResultLimit = null, $bContinuous = false){
 // ============================================================================
   global $pdo;
 
@@ -461,24 +456,37 @@ function showVerses($tQuery, $params, $tVerses, $bHighlightSW, $bShowOW, $bShowT
     if ($iSearchResultLimit !== null && $iRows >= $iSearchResultLimit) {
       $tOutput .= 'Showing first ' . $iRows . ' verses. Untick Limit large search results if you want the full search.<br>' . PHP_EOL;
     } else {
-      $tOutput .= $iRows . ' verses<br>' . PHP_EOL;
+      $tOutput .= pluralise($iRows, 'verse', 'verses') . '<br>' . PHP_EOL;
     }
-    foreach($rows as $row) {
-      // either chapter/book heading or just verse(s)
-      if($tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter']){
+    $aPrevious = null;
+    foreach($rows as $iIndex => $row) {
+      // heading rules: BSMT decision 0008
+      $bChanged = $tLastBookName != $row['bookName'] || $iLastChapter != $row['chapter'];
+      $iBookChapters = bookChapterCountFor($row['bookName']);
+      $tHeading = null;
+      if ($bContinuous) {
+        $tHeading = headingForVerse($row['bookName'], (int)$row['chapter'], $iBookChapters, $aPrevious, $iIndex === 0);
+      } elseif ($bChanged) {
+        $tHeading = chapterHeadingText($row['bookName'], (int)$row['chapter'], $iBookChapters);
+      }
+      if ($tHeading !== null && $bChanged) {
         $tOutput .=  PHP_EOL . '<h3>';
         $tOutput .=  bookNameOrPsalm($row['bookName'], $row['chapter'], true, $bHighlightSW, $bShowOW, $bShowTN, $iChapters > 1);
         $tOutput .=  psalmHeadingIntroFromRow($row, $highlightWords, $highlightIsExact);
         $tOutput .=  '</h3>' . PHP_EOL;
       }
+      $bHeadingHere = $tHeading !== null && $bChanged;
       if (isPsalmVerseZero($row)) {
         $tLastBookName = $row['bookName'];
         $iLastChapter = $row['chapter'];
+        $aPrevious = [$row['bookName'], (int)$row['chapter']];
         continue;
       }
-      $tOutput .= showVerse($tVerses, $row, $highlightWords, $highlightIsExact);
+      $tMarker = $bContinuous ? verseMarkerText($row['bookName'], (int)$row['chapter'], (int)$row['verseNumber'], $aPrevious, $bHeadingHere) : null;
+      $tOutput .= showVerse($tVerses, $row, $highlightWords, $highlightIsExact, $tMarker);
       $tLastBookName = $row['bookName'];
       $iLastChapter = $row['chapter'];
+      $aPrevious = [$row['bookName'], (int)$row['chapter']];
     }
   }
 
@@ -539,7 +547,7 @@ function countChapters($rows){
 }
 
 // ============================================================================
-function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = false){
+function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = false, $tMarker = null){
 // ============================================================================
   global $bHighlightSW, $bShowOW, $bShowTN;
   $tVersesExpanded = '@' . expandVerseList($tVerses);
@@ -573,7 +581,7 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
     $tOutput .= '<span id="' . $verseId . '" class="highlightVerse">';
   }
 
-  $tOutput .=  doVerseNumber($row['verseNumber']);
+  $tOutput .=  doVerseNumber($tMarker ?? $row['verseNumber'], $row['verseNumber']);
   $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . ' ';
 
   if ($bVerseSearched) {
@@ -631,11 +639,11 @@ function expandVerseList($tVerses){
 }
 
 // ============================================================================
-function doVerseNumber($iVerseNumber){
+function doVerseNumber($tMarker, $iVerseNumber = null){
 // ============================================================================
   $tOutput =  '';
-  if ($iVerseNumber > 0) {
-    $tOutput .= '<sup>' . $iVerseNumber . '</sup>';
+  if (($iVerseNumber ?? $tMarker) > 0) {
+    $tOutput .= '<sup>' . $tMarker . '</sup>';
   }
   return $tOutput;
 }
