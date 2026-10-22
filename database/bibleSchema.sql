@@ -6,10 +6,10 @@ CREATE TABLE sections (
   PRIMARY KEY (sectionCode)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('1TOR', 'Torah', 'Law');
+INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('1TOR', 'Torah', 'Instruction');
 INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('2NV1', 'Nevi\'im', 'Prophets');
-INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('3KTV', 'K\'Tuvim', 'Writings');
-INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('5NCV', 'New Covenant', 'New Testament');
+INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('3KTV', 'Ketuvim', 'Writings');
+INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('5NCV', 'B\'rit Hadashah', 'New Testament');
 
 DROP TABLE IF EXISTS media;
 CREATE TABLE media (
