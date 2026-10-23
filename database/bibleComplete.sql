@@ -18,19 +18,19 @@ CREATE TABLE `tcsb_text_metadata` (
   PRIMARY KEY (`metadataKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '261020');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '261020');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-10-20');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '261022');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '261022');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-10-22');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_repo', 'bookish-lamp');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_branch', 'master');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_file', 'database/bibleVerses.sql + promoted TCSB USFM books');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '4b13ec8f36d7383482038b1493f0bbc76a013b64');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '6b4e02aad60342fd327705289b49d630d2d629cf');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '40b70503ea9475a6217627c5c267baa3e93f0074');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', 'b3889ee172ac68a27ba2c029b87d243ef3169be4');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_glossary_usfm_commit', 'cfce8ed320712bd9a4eedb49e758c0f90094966b');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_books', 'PRO,JOL,OBA,JON,NAM,HAB,1JN,2JN,3JN');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_commit', '549f27aa21113648beab61d5dc08dd42133356b3');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-10-21T03:30:51+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_commit', '3a6d7537d992d4e3af96aff3c5dc76d7625b5433');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-10-23T03:30:53+01:00');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_disclaimer_html', '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a>
 to include nuanced meanings of particular ancient words for placenames, God and others of special interest.
 <br>In general square brackets:[] are used to indicate words not found in the original text.
@@ -50,10 +50,10 @@ CREATE TABLE sections (
   PRIMARY KEY (sectionCode)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('1TOR', 'Torah', 'Law');
+INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('1TOR', 'Torah', 'Instruction');
 INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('2NV1', 'Nevi\'im', 'Prophets');
-INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('3KTV', 'K\'Tuvim', 'Writings');
-INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('5NCV', 'New Covenant', 'New Testament');
+INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('3KTV', 'Ketuvim', 'Writings');
+INSERT INTO sections (sectionCode, sectionName, sectionEnglish) VALUES('5NCV', 'B\'rit Hadashah', 'New Testament');
 
 DROP TABLE IF EXISTS media;
 CREATE TABLE media (
@@ -2750,6 +2750,7 @@ INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('P
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 1, 17);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 2, 2);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 3, 28);
+INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 3, 34);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 12, 9);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 13, 10);
 INSERT INTO `completed-verses` (`bookCode`, `chapter`, `verseNumber`) VALUES ('PRO', 14, 16);
@@ -19538,13 +19539,13 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  25, 'Don&apos;t be afraid of sudden fear,<br>nor of the desolation of the wicked, when it comes;<br>', 'Don\'t be afraid of sudden fear, nor of the desolation of the wicked, when it comes;');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  26, 'for ForeverOne{H3068} will be your confidence,<br>and will keep your foot from being taken.<br><br>', 'for ForeverOne will be your confidence, and will keep your foot from being taken.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  27, 'Don&apos;t withhold good from its owners{H1167},<br>when it is in the power{H0410} of your hand to do it.<br>', 'Don\'t withhold good from its owners, when it is in the power of your hand to do it.');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  28, 'Don&apos;t say to your neighbor, \"Go [now] and return tomorrow.<br>I will give it to you [then]\"<br>when you have it [right there].<br>', 'Don\'t say to your neighbor, "Go [now] and return tomorrow. I will give it to you [then]" when you have it [right there].');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  29, 'Don&apos;t devise evil against your neighbor,<br>since he dwells securely by you.<br>', 'Don\'t devise evil against your neighbor, since he dwells securely by you.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  28, 'Don&apos;t say to your neighbor, \"Go [now] and return tomorrow.<br>I will give it to you [then]\"<br>[when you] have [it] with you.<br>', 'Don\'t say to your neighbor, "Go [now] and return tomorrow. I will give it to you [then]" [when you] have [it] with you.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  29, 'Don&apos;t devise evil against your neighbor,<br>since he dwells securely with you.<br>', 'Don\'t devise evil against your neighbor, since he dwells securely with you.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  30, 'Don&apos;t strive with a man without cause,<br>if he has done you no harm.<br>', 'Don\'t strive with a man without cause, if he has done you no harm.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  31, 'Don&apos;t envy the man of violence.<br>Choose none of his ways.<br>', 'Don\'t envy the man of violence. Choose none of his ways.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  32, 'For the perverse is an abomination to ForeverOne{H3068},<br>but his friendship is with the upright.<br>', 'For the perverse is an abomination to ForeverOne, but his friendship is with the upright.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  33, 'ForeverOne{H3068}&apos;s curse is in the house of the wicked,<br>but he blesses the habitation of the righteous.<br>', 'ForeverOne\'s curse is in the house of the wicked, but he blesses the habitation of the righteous.');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  34, 'Surely he mocks the mockers,<br>but he gives grace to the humble.<br>', 'Surely he mocks the mockers, but he gives grace to the humble.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  34, 'Though he mocks the mockers,<br>he gives grace to the humble.<br>', 'Though he mocks the mockers, he gives grace to the humble.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   3,  35, 'The wise will inherit glory,<br>but shame will be the promotion of fools.', 'The wise will inherit glory, but shame will be the promotion of fools.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   4,   1, 'Listen, sons, to a father&apos;s instruction.<br>Pay attention and know understanding;<br>', 'Listen, sons, to a father\'s instruction. Pay attention and know understanding;');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',   4,   2, 'for I give you sound learning.<br>Don&apos;t forsake my law.<br>', 'for I give you sound learning. Don\'t forsake my law.');
@@ -20156,7 +20157,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  19, 'Don&apos;t fret because of evildoers,<br>nor be envious of the wicked;<br>', 'Don\'t fret because of evildoers, nor be envious of the wicked;');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  20, 'for there will be no reward for the evil man;<br>the lamp of the wicked will be snuffed out.<br>', 'for there will be no reward for the evil man; the lamp of the wicked will be snuffed out.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  21, 'My son, fear ForeverOne{H3068} and the king.<br>Don&apos;t join those who are rebellious,<br></p>', 'My son, fear ForeverOne and the king. Don\'t join those who are rebellious,');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  22, '<p>for their calamity will rise suddenly;<br>who knows what destruction may come from them both?<br>', 'for their calamity will rise suddenly; who knows what destruction may come from them both?');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  22, '<p>for their calamity will rise suddenly;<br>who knows what destruction may come from them both?', 'for their calamity will rise suddenly; who knows what destruction may come from them both?');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  23, 'These also are sayings of the wise.<br><br>To show partiality in judgment is not good.<br>', 'These also are sayings of the wise. To show partiality in judgment is not good.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  24, 'He who says to the wicked, \"You are righteous\",<br>peoples will curse him, and nations will abhor him;<br>', 'He who says to the wicked, "You are righteous", peoples will curse him, and nations will abhor him;');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,  25, 'but it will go well with those who convict the guilty,<br>and a rich blessing will come on them.<br>', 'but it will go well with those who convict the guilty, and a rich blessing will come on them.');
@@ -33699,7 +33700,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  14, 'This is the boldness which we have toward him, that if we ask anything according to his will, he listens to us.</p>', 'This is the boldness which we have toward him, that if we ask anything according to his will, he listens to us.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  15, '<p>And if we know that he listens to us, whatever we ask, we know that we have the petitions which we have asked of him.', 'And if we know that he listens to us, whatever we ask, we know that we have the petitions which we have asked of him.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  16, 'If anyone sees his brother falling-short{G0264} with a shortcoming{G0266} not leading to death, he is to ask, and God{G2316} will give him life for those whose falling-short{G0264} won&apos;t lead to death. There is a shortcoming{G0266} leading to death. I don&apos;t say that he should make a request concerning that.</p>', 'If anyone sees his brother falling-short with a shortcoming not leading to death, he is to ask, and God will give him life for those whose falling-short won\'t lead to death. There is a shortcoming leading to death. I don\'t say that he should make a request concerning that.');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  17, '<p>All unrighteousness is shortcoming{G0266}, and there is shortcoming|strong=\"G0266\" not leading to death.', 'All unrighteousness is shortcoming, and there is shortcoming|strong="G0266" not leading to death.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  17, '<p>All unrighteousness is shortcoming{G0266}, and there is shortcoming{G0266} not leading to death.', 'All unrighteousness is shortcoming, and there is shortcoming not leading to death.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  18, 'We know that whoever is born of God{G2316} doesn&apos;t fall-short{G0264}, but he who was born of God{G2316} keeps himself, and the evil one doesn&apos;t touch him.', 'We know that whoever is born of God doesn\'t fall-short, but he who was born of God keeps himself, and the evil one doesn\'t touch him.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  19, 'We know that we are of God{G2316}, and the whole world lies [in the power of] the evil one.</p>', 'We know that we are of God, and the whole world lies [in the power of] the evil one.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('1JN',   5,  20, '<p>We know that the Son{G5207} of God{G2316} has come and has given us an understanding, that we know him who is true; and we are in him who is true, in his Son{G5207} Jesus AnointedOne{G5547}. This is the true God{G2316} and eternal life.', 'We know that the Son of God has come and has given us an understanding, that we know him who is true; and we are in him who is true, in his Son Jesus AnointedOne. This is the true God and eternal life.');
