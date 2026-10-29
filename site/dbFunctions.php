@@ -74,7 +74,78 @@ function bibleDisclaimer(): string {
 }
 
 // ============================================================================
-function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults = true){
+function pluralYouForms(){
+// ============================================================================
+  // Same list as the app (LUKE #193). Key = value in the URL and in the browser.
+  return [
+    'youall'   => 'you-all',
+    'yall'     => "y'all",
+    'yous'     => 'yous',
+    'youse'    => 'youse',
+    'youpl'    => 'you<sup>pl</sup>',
+    'youspace' => 'you all',
+    'you'      => 'you',
+  ];
+}
+
+// ============================================================================
+function parsePluralYou($tChoice){
+// ============================================================================
+  return (is_string($tChoice) && isset(pluralYouForms()[$tChoice])) ? $tChoice : 'youall';
+}
+
+// ============================================================================
+function normalisePluralYouQuery(string $tTerms): string {
+// ============================================================================
+  // Any typed plural-you spelling searches as the stored form (BSMT search.md).
+  $tTerms = str_replace(["\u{2018}", "\u{2019}"], "'", $tTerms);
+  $tPattern = '/(?<![A-Za-z0-9-])(?:y\'all|yous|youse|you<sup>pl<\/sup>)(?![A-Za-z0-9-])/i';
+  return preg_replace($tPattern, 'you-all', $tTerms) ?? $tTerms;
+}
+
+// ============================================================================
+function applyPluralYouDisplay(string $tHtml, string $tChoice): string {
+// ============================================================================
+  // Shows each you-all as the visitor's chosen form. Done after highlighting, so
+  // highlight spans may sit around or inside the word; other tags are untouched.
+  $tChoice = parsePluralYou($tChoice);
+  if ($tChoice === 'youall') {
+    return $tHtml;
+  }
+  $tShown = pluralYouForms()[$tChoice];
+  $tOpen = '<span class="highlightWord">';
+  $tPattern = '/(?<![A-Za-z0-9-])(you)(<\/span>)?-(' . preg_quote($tOpen, '/') . 'all<\/span>|all)(?![A-Za-z0-9-])/i';
+  $aParts = preg_split('/(<(?!\/span>|span class="highlightWord">)[^>]*>)/', $tHtml, -1, PREG_SPLIT_DELIM_CAPTURE);
+  foreach ($aParts as $i => $tPart) {
+    if (($tPart[0] ?? '') === '<' && !str_starts_with($tPart, '</span>') && !str_starts_with($tPart, $tOpen)) {
+      continue; // a real tag
+    }
+    $aParts[$i] = preg_replace_callback($tPattern, function ($m) use ($tShown, $tOpen) {
+      $tText = $tShown;
+      if (strtoupper($m[1]) === $m[1]) {
+        $tText = preg_replace_callback('/^[^<]*/', fn($x) => strtoupper($x[0]), $tText);
+      } elseif (ucfirst($m[1]) === $m[1]) {
+        $tText = ucfirst($tText);
+      }
+      $bHighlightAll = str_starts_with($m[3], $tOpen);
+      if ($m[2] !== '') {
+        return $tText . '</span>';
+      }
+      return $bHighlightAll ? $tOpen . $tText . '</span>' : $tText;
+    }, $tPart);
+  }
+  return implode('', $aParts);
+}
+
+// ============================================================================
+function pluralYouForRequest(){
+// ============================================================================
+  global $tPluralYou;
+  return parsePluralYou($tPluralYou ?? null);
+}
+
+// ============================================================================
+function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bShowOW, $bShowTN, $bLimitSearchResults = true, $tPluralYou = null){
 // ============================================================================
   global $bTCSB, $bFloaty;
   $tActionPage = 'bible'; // we might be in /plan and we want to look up a bible passage!
@@ -103,6 +174,10 @@ function buildLink($tBookName, $iChapter, $tWords, $bExact, $bHighlightSW, $bSho
   }
   if (!$bLimitSearchResults){
     $tReturn .= '&limitSearch=off';
+  }
+  $tChoice = parsePluralYou($tPluralYou ?? pluralYouForRequest());
+  if ($tChoice !== 'youall'){
+    $tReturn .= '&pluralYou=' . $tChoice;
   }
   $tReturn .= '">';
   return $tReturn;
@@ -515,7 +590,7 @@ function psalmHeadingIntroFromRow($row, $highlightWords = [], $highlightIsExact 
   if ($tThisVerseText === '') {
     return '';
   }
-  return '<span class="psalm-heading-intro">' . highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . '</span>';
+  return '<span class="psalm-heading-intro">' . applyPluralYouDisplay(highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact), pluralYouForRequest()) . '</span>';
 }
 
 // ============================================================================
@@ -582,7 +657,7 @@ function showVerse($tVerses, $row, $highlightWords = [], $highlightIsExact = fal
   }
 
   $tOutput .=  doVerseNumber($tMarker ?? $row['verseNumber'], $row['verseNumber']);
-  $tOutput .=  highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact) . ' ';
+  $tOutput .=  applyPluralYouDisplay(highlightSearch(processStrongs($tThisVerseText, $bHighlightSW, $bShowOW, $bShowTN), $highlightWords, $highlightIsExact), pluralYouForRequest()) . ' ';
 
   if ($bVerseSearched) {
     $tOutput .= '</span>';
@@ -854,6 +929,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
     // generated plain text (verses.versePlain, BSMT search.md), with only small explicit alternatives such as you/you-all.
     // Normalisation is used for highlighting/display matching, not to build a
     // separate normalised SQL search layer.
+    $searchTerms = normalisePluralYouQuery($searchTerms);
     $words = search_words_from_terms($searchTerms);
     $sqlWhereClause = '';
     $sqlParams = [];

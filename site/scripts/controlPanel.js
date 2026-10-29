@@ -46,3 +46,25 @@ document.addEventListener('DOMContentLoaded', function () {
         saveAndRefresh(wordsToggle, 'wordsVisible');
     });
 });
+
+// Plural you choice: remembered in this browser (LUKE #194). The page URL
+// carries it (pluralYou=...) so server-rendered links and searches follow it.
+function savePluralYou(tValue) {
+    localStorage.setItem('pluralYou', tValue);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const select = document.getElementById('pluralYou');
+    if (!select) {
+        return;
+    }
+    const url = new URL(window.location.href);
+    const saved = localStorage.getItem('pluralYou');
+    if (!url.searchParams.has('pluralYou') && saved && saved !== 'youall' && url.search.length > 1) {
+        const known = Array.prototype.some.call(select.options, function (o) { return o.value === saved; });
+        if (known) {
+            url.searchParams.set('pluralYou', saved);
+            window.location.replace(url.toString());
+        }
+    }
+});

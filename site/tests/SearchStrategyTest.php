@@ -109,6 +109,23 @@ assertSame('SELECT * FROM verses LIMIT 500;', queryWithRowLimit('SELECT * FROM v
 assertSame('SELECT * FROM verses;', queryWithRowLimit('SELECT * FROM verses;', null), 'all-results searches keep the SQL unlimited');
 assertContainsText('limitSearch=off', buildLink('Matthew', 5, 'the', false, true, true, true, false), 'book/chapter links preserve all-results option');
 
+// Plural-you choice (LUKE #194 option A)
+assertSame('youall', parsePluralYou('youall'), 'plural you choice accepts a known form');
+assertSame('youall', parsePluralYou('nonsense'), 'plural you choice falls back to you-all');
+assertSame('youall', parsePluralYou(null), 'plural you choice defaults to you-all');
+assertSame("Y'all are the light, y'all", applyPluralYouDisplay('You-all are the light, you-all', 'yall'), "display turns you-all into y'all keeping capital");
+assertSame('you<sup>pl</sup> see', applyPluralYouDisplay('you-all see', 'youpl'), 'display can use superscript pl');
+assertSame('YOU see', applyPluralYouDisplay('YOU-ALL see', 'you'), 'display keeps all-caps');
+assertSame('<span class="highlightWord">yous</span> <a title="you-all">x</a>', applyPluralYouDisplay('<span class="highlightWord">you-all</span> <a title="you-all">x</a>', 'yous'), 'display leaves tags and attributes alone');
+assertSame('you-all-ish you-allx', applyPluralYouDisplay('you-all-ish you-allx', 'yous'), 'display only changes whole you-all words');
+assertSame('you-all', normalisePluralYouQuery("y'all"), 'typed y\'all searches as you-all');
+assertSame('you-all are', normalisePluralYouQuery('youse are'), 'typed youse searches as you-all');
+assertSame('you-all', normalisePluralYouQuery('you<sup>pl</sup>'), 'typed superscript pl searches as you-all');
+assertSame('you are', normalisePluralYouQuery('you are'), 'plain you is left alone');
+$yallSearch = get_search_strategy("y'all", false);
+assertSame(['%you-all%'], $yallSearch['sql_params'], 'search for y\'all finds you-all verses');
+assertContainsText('pluralYou=yall', buildLink('Matthew', 5, 'the', false, true, true, true, true, 'yall'), 'links keep the chosen plural you');
+
 if ($failures > 0) {
     echo "\n$failures failure(s)\n";
     exit(1);
