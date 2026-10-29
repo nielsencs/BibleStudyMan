@@ -59,6 +59,9 @@ foreach ($examples as $ex) {
     foreach ($ex['contains'] ?? [] as $ref) {
         check(in_array($ref, $refs, true), "$label finds $ref");
     }
+    if (!empty($ex['noHits'])) {
+        check(count($rows) === 0, "$label finds nothing");
+    }
     foreach ($ex['notContains'] ?? [] as $ref) {
         check(!in_array($ref, $refs, true), "$label does not find $ref");
     }

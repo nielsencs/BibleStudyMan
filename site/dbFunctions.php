@@ -869,8 +869,10 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
                     $conditions[] = 'verses.versePlain REGEXP ?';
                     $sqlParams[] = '[[:<:]]' . $word . '[[:>:]]';
                 } else {
-                    $conditions[] = 'verses.versePlain LIKE ?';
-                    $sqlParams[] = '%' . $word . '%';
+                    // Hyphen/apostrophe words: word edges are any non-letter/digit
+                    // (or the verse start/end), so "you-al" cannot match "you-all".
+                    $conditions[] = 'verses.versePlain REGEXP ?';
+                    $sqlParams[] = '(^|[^A-Za-z0-9])' . preg_quote($word, '/') . '($|[^A-Za-z0-9])';
                 }
             }
             $sqlWhereClause = '(' . implode(' OR ', $conditions) . ')';
