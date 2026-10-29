@@ -47,13 +47,6 @@ exact word.">Exact</abbr></label>
                           <input type="hidden" name="limitSearch" value="off">
                           <input type="checkbox" name="limitSearch" id="limitSearch" value="on" <?php if($bLimitSearchResults){echo 'checked';}; ?>
                                  onclick="doSubmit('words')"><label for="limitSearch"><abbr title="Keeps very common searches quick by showing the first 500 verses. Untick this if you want every result and do not mind waiting.">Limit large search results</abbr></label>
-                          <br>
-                          <label for="pluralYou"><abbr title="How the plural &quot;you&quot; (you-all) is shown in verses. Searching follows this choice. Remembered in this browser.">Plural you:</abbr></label>
-                          <select name="pluralYou" id="pluralYou" onchange="savePluralYou(this.value); doSubmit('')">
-<?php foreach (pluralYouForms() as $tKey => $tShown) { ?>
-                            <option value="<?php echo $tKey; ?>"<?php if (($tPluralYou ?? 'youall') === $tKey) { echo ' selected'; } ?>><?php echo htmlspecialchars(strip_tags(str_replace('<sup>', '', $tShown)), ENT_QUOTES, 'UTF-8'); ?></option>
-<?php } ?>
-                          </select>
                         </td>
                       </tr>
                       <tr>

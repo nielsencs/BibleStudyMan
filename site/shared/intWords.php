@@ -23,5 +23,11 @@ can mean spirit or breath or breeze.">significant</abbr> words:</p>
                        onclick="doSubmit()"><label for="showOW">Show in both languages</label><br>
                   <input type="checkbox" name="showTN"      id="showTN"
                   <?php if($bShowTN){echo 'checked';} ?>
-                       onclick="doSubmit()"><label for="showTN">Prefer English</label><?php if (!$intWordsWrap) { ?><br><?php } ?>
+                       onclick="doSubmit()"><label for="showTN">Prefer English</label><br>
+                  <label for="pluralYou"><abbr title="How the plural &quot;you&quot; (you-all) is shown in verses. Searching follows this choice. Remembered in this browser.">Plural you:</abbr></label>
+                  <select name="pluralYou" id="pluralYou" onchange="savePluralYou(this.value); doSubmit('')">
+<?php foreach (pluralYouForms() as $tKey => $tShown) { ?>
+                    <option value="<?php echo $tKey; ?>"<?php if (($tPluralYou ?? 'youall') === $tKey) { echo ' selected'; } ?>><?php echo htmlspecialchars(strip_tags(str_replace('<sup>', '', $tShown)), ENT_QUOTES, 'UTF-8'); ?></option>
+<?php } ?>
+                  </select><?php if (!$intWordsWrap) { ?><br><?php } ?>
 <?php if ($intWordsWrap) { ?></div><?php } ?>
