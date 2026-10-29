@@ -18,12 +18,13 @@ def main() -> int:
     tests = [
         [php, "site/tests/SearchStrategyTest.php"],
         [php, "site/tests/SearchIssueRegressionTest.php"],
+        [php, "site/tests/SearchExamplesTest.php"],
         [php, "site/tests/ProcessStrongsTest.php"],
         [php, "site/tests/BibleTextFormatTest.php"],
         [php, "site/tests/BibleTextRenderTest.php"],
     ]
     for i, cmd in enumerate(tests):
-        stdout = subprocess.DEVNULL if i == 2 else None
+        stdout = subprocess.DEVNULL if "ProcessStrongsTest" in cmd[1] else None
         subprocess.run(cmd, cwd=ROOT, stdout=stdout, check=True)
     print("All PHP smoke tests passed")
     return 0

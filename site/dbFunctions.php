@@ -850,8 +850,8 @@ function highlightExactWordSequence(array $searchWords, string $haystack): strin
 // ============================================================================
 function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
-    // Search SQL deliberately stays simple and fast: raw LIKE/REGEXP against
-    // verses.verseText, with only small explicit alternatives such as you/you-all.
+    // Search SQL deliberately stays simple and fast: LIKE/REGEXP against the
+    // generated plain text (verses.versePlain, BSMT search.md), with only small explicit alternatives such as you/you-all.
     // Normalisation is used for highlighting/display matching, not to build a
     // separate normalised SQL search layer.
     $words = search_words_from_terms($searchTerms);
@@ -866,10 +866,10 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
             foreach (search_word_alternatives($words[0]) as $word) {
                 if (preg_match('/^[a-z0-9]+$/i', $word)) {
                     // Use MySQL's word boundary regex for a single exact word.
-                    $conditions[] = 'verses.verseText REGEXP ?';
+                    $conditions[] = 'verses.versePlain REGEXP ?';
                     $sqlParams[] = '[[:<:]]' . $word . '[[:>:]]';
                 } else {
-                    $conditions[] = 'verses.verseText LIKE ?';
+                    $conditions[] = 'verses.versePlain LIKE ?';
                     $sqlParams[] = '%' . $word . '%';
                 }
             }
@@ -877,7 +877,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
         } else {
             $conditions = [];
             foreach (search_phrase_alternatives($searchTerms) as $phrase) {
-                $conditions[] = 'verses.verseText LIKE ?';
+                $conditions[] = 'verses.versePlain LIKE ?';
                 $sqlParams[] = '%' . $phrase . '%';
             }
             $sqlWhereClause = '(' . implode(' OR ', $conditions) . ')';
@@ -891,7 +891,7 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
             foreach ($words as $word) {
                 $wordConditions = [];
                 foreach (search_word_alternatives($word) as $wordAlternative) {
-                    $wordConditions[] = 'verses.verseText LIKE ?';
+                    $wordConditions[] = 'verses.versePlain LIKE ?';
                     $sqlParams[] = '%' . $wordAlternative . '%';
                 }
                 $conditions[] = '(' . implode(' OR ', $wordConditions) . ')';
@@ -913,6 +913,8 @@ function get_search_strategy(string $searchTerms, bool $isExact): array {
 // ============================================================================
 function search_words_from_terms(string $searchTerms): array {
 // ============================================================================
+    // Curly quotes are typed as straight ones: versePlain keeps straight quotes.
+    $searchTerms = str_replace(["\u{2018}", "\u{2019}"], "'", $searchTerms);
     return array_values(array_filter(preg_split('/\s+/', trim($searchTerms)) ?: []));
 }
 

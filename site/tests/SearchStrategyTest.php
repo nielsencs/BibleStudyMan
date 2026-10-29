@@ -41,7 +41,7 @@ assertSame(
 
 $exactLight = get_search_strategy('god said light', true);
 assertSame(['%god said light%'], $exactLight['sql_params'], 'exact phrase search keeps simple literal LIKE matching');
-assertContainsText('verses.verseText LIKE ?', $exactLight['sql_where'], 'exact phrase search uses the verse text directly');
+assertContainsText('verses.versePlain LIKE ?', $exactLight['sql_where'], 'exact phrase search uses the generated plain text (BSMT search.md)');
 
 $exactYouPhrase = get_search_strategy('you are the light of the world', true);
 assertSame(
