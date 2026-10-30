@@ -18,19 +18,19 @@ CREATE TABLE `tcsb_text_metadata` (
   PRIMARY KEY (`metadataKey`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '261022');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '261022');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-10-22');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision', '261029');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_version', '261029');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_revision_date', '2026-10-29');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_repo', 'bookish-lamp');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_branch', 'master');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('text_source_file', 'database/bibleVerses.sql + promoted TCSB USFM books');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '4b13ec8f36d7383482038b1493f0bbc76a013b64');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bl_bible_verses_commit', '990e6fe3f89c3f98b781784ac201ec6a965a4eee');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('bsm_bible_schema_commit', '40b70503ea9475a6217627c5c267baa3e93f0074');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_bible_strongs_commit', 'b3889ee172ac68a27ba2c029b87d243ef3169be4');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_glossary_usfm_commit', 'cfce8ed320712bd9a4eedb49e758c0f90094966b');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_books', 'PRO,JOL,OBA,JON,NAM,HAB,1JN,2JN,3JN');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_commit', '3a6d7537d992d4e3af96aff3c5dc76d7625b5433');
-INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-10-23T03:30:53+01:00');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_promoted_usfm_commit', 'b05c7d4328b9b8ca00e4ff21b385a603d7368e83');
+INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('generated_at', '2026-10-30T02:30:53+00:00');
 INSERT INTO `tcsb_text_metadata` (`metadataKey`, `metadataValue`) VALUES ('tcsb_disclaimer_html', '<p class="bibleDisclaimer"><a href="https://hope.biblestudyman.co.uk/TCSB/">The CleanSlate Bible</a> is an adaptation of the <a href="https://worldenglish.bible" target="_blank">WEB</a>
 to include nuanced meanings of particular ancient words for placenames, God and others of special interest.
 <br>In general square brackets:[] are used to indicate words not found in the original text.
@@ -7736,7 +7736,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  35, 'They traveled from Abronah, and camped in Ezion Geber.', 'They traveled from Abronah, and camped in Ezion Geber.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  36, 'They traveled from Ezion Geber, and camped in the wilderness of Zin (also called Kadesh).', 'They traveled from Ezion Geber, and camped in the wilderness of Zin (also called Kadesh).');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  37, 'They traveled from Kadesh, and camped in Mount Hor, in the edge of the land of Edom.', 'They traveled from Kadesh, and camped in Mount Hor, in the edge of the land of Edom.');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  38, 'Aaron the priest went up into Mount Hor at the ForeverOne{H3068}&apos;s commandment and died there, in the fortieth year after the children of Israel had left the land of Egypt, in the fifth month, on the first day of the month.', 'Aaron the priest went up into Mount Hor at the ForeverOne\'s commandment and died there, in the fortieth year after the children of Israel had left the land of Egypt, in the fifth month, on the first day of the month.');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  38, 'Aaron the priest went up into Mount Hor at ForeverOne{H3068}&apos;s commandment and died there, in the fortieth year after the children of Israel had left the land of Egypt, in the fifth month, on the first day of the month.', 'Aaron the priest went up into Mount Hor at ForeverOne\'s commandment and died there, in the fortieth year after the children of Israel had left the land of Egypt, in the fifth month, on the first day of the month.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  39, 'Aaron was one hundred twenty-three years old when he died in Mount Hor.', 'Aaron was one hundred twenty-three years old when he died in Mount Hor.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  40, 'The Canaanite king of Arad, who lived in the South in the land of Canaan, heard of the arrival of the children of Israel.', 'The Canaanite king of Arad, who lived in the South in the land of Canaan, heard of the arrival of the children of Israel.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('NUM',  33,  41, 'They traveled from Mount Hor, and camped in Zalmonah.', 'They traveled from Mount Hor, and camped in Zalmonah.');
@@ -20134,7 +20134,7 @@ INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `verseP
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  23,  31, 'Don&apos;t look at the wine when it is red,<br>when it sparkles in the cup,<br>when it goes down smoothly.<br>', 'Don\'t look at the wine when it is red, when it sparkles in the cup, when it goes down smoothly.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  23,  32, 'In the end, it bites like a serpent,<br>and poisons like a viper.<br>', 'In the end, it bites like a serpent, and poisons like a viper.');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  23,  33, 'Your eyes will see strange things,<br>and your mind will imagine confusing things.<br>', 'Your eyes will see strange things, and your mind will imagine confusing things.');
-INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  23,  34, 'Yes, you will be as he who lies down in the heart of the sea,<br>or as he who lies on top of a mast, [saying]:<br>', 'Yes, you will be as he who lies down in the heart of the sea, or as he who lies on top of a mast, [saying]:');
+INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  23,  34, 'Yes, you will be as he who lies down in the heart of the sea,<br>or as he who lies on top of the rigging, [saying]:<br>', 'Yes, you will be as he who lies down in the heart of the sea, or as he who lies on top of the rigging, [saying]:');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  23,  35, '\"They hit me, and I was not hurt!<br>They beat me, and I don&apos;t feel it!<br>When will I wake up? I can do it again.<br>I will look for more.\"<br>', '"They hit me, and I was not hurt! They beat me, and I don\'t feel it! When will I wake up? I can do it again. I will look for more."');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,   1, 'Don&apos;t be envious of evil men,<br>nor desire to be with them;<br>', 'Don\'t be envious of evil men, nor desire to be with them;');
 INSERT INTO `verses` (`bookCode`, `chapter`, `verseNumber`, `verseText`, `versePlain`) VALUES ('PRO',  24,   2, 'for their hearts plot violence<br>and their lips talk about mischief.<br>', 'for their hearts plot violence and their lips talk about mischief.');
