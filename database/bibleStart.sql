@@ -41,7 +41,7 @@ INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaN
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'IArln55M04U', '', '', 'Introduction to Reading The Bible', '');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'KEgWZrdjX0Q', '', '', 'If There Were a God What Would They Be Like?', '');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'Hbd3qtGeYMY', '', '', 'Which Bible Translation Should I Read?', '');
-INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'VJcXsqQhAXg', '', '', 'Introduction to the Nielsen Creed', '');
+INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'VJcXsqQhAXg', '', '', 'Introduction to the Four Basic Truths', '');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'P_qblZptGgI', '', '', 'Praying The Lord\'s Prayer', '');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('T', 'BG3ulFMCIng', '', '', 'Bible Study Man\'s take on The Name of God', '');
 INSERT INTO `media` (`mediaClass`, `videoURL`, `audioTrack`, `audioURL`, `mediaName`, `mediaDescription`) VALUES('R', 'ju6HVq4etEU', '1711829340', 'ruth', 'Ruth', 'Dramatic Reading of Ruth');

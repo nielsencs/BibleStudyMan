@@ -74,7 +74,7 @@
       <a href="teaching"><h2>Online Teaching Sessions</h2></a>
       <p>Would you think I&apos;ve <strong>learnt anything</strong> by reading The Bible <strong>from-cover-to-cover</strong> many times over several years?
       I certainly hope I have! I also learnt from my time wrestling with clinical depression.</p>
-      <p>What I&apos;ve come to call <strong>The Nielsen Creed</strong> has it&apos;s roots in that time:</p>
+      <p>What I&apos;ve come to call <strong>the Four Basic Truths</strong> has it&apos;s roots in that time:</p>
       <p class="centerText"><strong>God is God</strong></p>
       <p class="centerText"><strong>God is Good</strong></p>
       <p class="centerText"><strong>I am His</strong></p>
